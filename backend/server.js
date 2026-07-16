@@ -14,6 +14,7 @@ const fs = require("fs");
 const path = require("path");
 const cron = require("node-cron");
 const { spawn } = require("child_process");
+const { calculateScore } = require("./scoring");
 
 const app = express();
 const PORT = process.env.PORT || 4001;
@@ -56,7 +57,7 @@ app.get("/api/facility-counts", (req, res) => {
     return res.status(404).json({ error: "この駅の集計データはまだ準備できていません" });
   }
 
-  res.json({ station, ...record });
+  res.json({ station, ...record, score: calculateScore(record.counts) });
 });
 
 // 集計バッチを定期実行する（デフォルト毎日3:00 JST）。バッチ本体はOverpass APIへの

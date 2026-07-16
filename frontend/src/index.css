@@ -1,10 +1,16 @@
 :root {
-  --text: #333;
-  --text-h: #111;
-  --bg: #f7f7f5;
-  --surface: #fff;
-  --border: #e0e0dc;
-  --accent: #2f6f4f;
+  --text: #52514e;
+  --text-h: #0b0b0b;
+  --bg: #f9f9f7;
+  --surface: #fcfcfb;
+  --border: #e1e0d9;
+  --accent: #008300;
+
+  /* カテゴリカラー(dataviz skillの検証済みパレット、固定順1-4を使用) */
+  --series-convenience: #2a78d6;
+  --series-supermarket: #008300;
+  --series-hospital: #e87ba4;
+  --series-restaurant: #eda100;
 
   font: 16px/1.6 system-ui, "Segoe UI", "Hiragino Sans", Meiryo, sans-serif;
   color-scheme: light dark;
@@ -14,12 +20,17 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #d5d5d0;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --surface: #1f2028;
-    --border: #2e303a;
-    --accent: #4fae7d;
+    --text: #c3c2b7;
+    --text-h: #ffffff;
+    --bg: #0d0d0d;
+    --surface: #1a1a19;
+    --border: #2c2c2a;
+    --accent: #0ca30c;
+
+    --series-convenience: #3987e5;
+    --series-supermarket: #008300;
+    --series-hospital: #d55181;
+    --series-restaurant: #c98500;
   }
 }
 
