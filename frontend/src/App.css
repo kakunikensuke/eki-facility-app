@@ -176,6 +176,69 @@
   background: var(--series-restaurant);
 }
 
+/* ---------- 追加カテゴリ(表示専用、スコア非対象) ---------- */
+
+.extra-card {
+  margin: 20px 16px 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.extra-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+  margin-bottom: 10px;
+}
+
+.extra-item + .extra-item {
+  margin-top: 10px;
+}
+
+.extra-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.extra-item-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-h);
+}
+
+.extra-item-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.extra-item-dot-drugstore {
+  background: var(--series-drugstore);
+}
+.extra-item-dot-park {
+  background: var(--series-park);
+}
+.extra-item-dot-nursery {
+  background: var(--series-nursery);
+}
+
+.extra-item-note {
+  color: var(--text);
+  font-weight: 400;
+  font-size: 11px;
+}
+
+.extra-item-value {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- 出典・免責カード ---------- */
 
 .info-card {

@@ -2,10 +2,13 @@
  * 駅周辺施設数の集計バッチ
  *
  * 対象駅ごとにOpenStreetMap Overpass APIへ問い合わせ、徒歩10分圏内（半径800m）にある
- * コンビニ・病院・スーパー・飲食店の件数を集計してfacility-counts.jsonに保存する。
- * ユーザーの検索リクエストは常にこの事前集計済みJSONを読むだけで、Overpass APIを
- * リアルタイムに叩くことはしない（レート制限対策、設計書「2. なぜ検索のたびに
- * 外部APIを呼ばないか」参照）。
+ * コンビニ・病院・スーパー・飲食店・ドラッグストア・公園・保育園の件数を集計して
+ * facility-counts.jsonに保存する。ユーザーの検索リクエストは常にこの事前集計済み
+ * JSONを読むだけで、Overpass APIをリアルタイムに叩くことはしない（レート制限対策、
+ * 設計書「2. なぜ検索のたびに外部APIを呼ばないか」参照）。
+ *
+ * ドラッグストア・公園・保育園は住みやすさスコア（scoring.js）には含めない表示専用
+ * カテゴリ（2026-07-16追加、要件定義書8.1参照）。
  *
  * 取得に失敗した駅は既存データを保持し、他の駅の処理は継続する。
  */
@@ -30,6 +33,7 @@ const MAX_RETRIES = 3;
 const RETRY_BASE_DELAY_MS = 15000;
 
 // カテゴリ→OSMタグの対応（要件定義書5章で確定: クリニックは病院に含む、カフェ・ファストフードは飲食店に含む）
+// drugstore/park/nurseryは2026-07-16追加。スコア非対象の表示専用カテゴリ（要件定義書8.1）。
 const CATEGORY_TAGS = {
   convenience_store: [["shop", "convenience"]],
   supermarket: [["shop", "supermarket"]],
@@ -42,6 +46,12 @@ const CATEGORY_TAGS = {
     ["amenity", "cafe"],
     ["amenity", "fast_food"],
   ],
+  drugstore: [["shop", "chemist"]],
+  park: [["leisure", "park"]],
+  // OSM上では保育園・幼稚園を区別するタグがなく、いずれもamenity=kindergartenで
+  // 登録されている(池袋駅周辺で実データ確認済み、2026-07-16)。区別できないため
+  // 「保育園・幼稚園」として統合表示する。
+  nursery: [["amenity", "kindergarten"]],
 };
 
 const CATEGORY_NAMES = Object.keys(CATEGORY_TAGS);

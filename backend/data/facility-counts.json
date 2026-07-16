@@ -6,9 +6,12 @@
       "convenience_store": 95,
       "supermarket": 15,
       "hospital": 8,
-      "restaurant": 435
+      "restaurant": 435,
+      "drugstore": 5,
+      "park": 17,
+      "nursery": 8
     },
-    "updated_at": "2026-07-16T14:43:23+09:00",
+    "updated_at": "2026-07-16T17:20:51+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shinjuku": {
@@ -18,9 +21,12 @@
       "convenience_store": 88,
       "supermarket": 6,
       "hospital": 18,
-      "restaurant": 789
+      "restaurant": 789,
+      "drugstore": 16,
+      "park": 8,
+      "nursery": 1
     },
-    "updated_at": "2026-07-16T14:43:59+09:00",
+    "updated_at": "2026-07-16T17:21:03+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shinagawa": {
@@ -30,9 +36,12 @@
       "convenience_store": 23,
       "supermarket": 2,
       "hospital": 6,
-      "restaurant": 94
+      "restaurant": 94,
+      "drugstore": 5,
+      "park": 14,
+      "nursery": 5
     },
-    "updated_at": "2026-07-16T14:42:05+09:00",
+    "updated_at": "2026-07-16T17:22:10+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yokohama": {
@@ -42,9 +51,12 @@
       "convenience_store": 53,
       "supermarket": 14,
       "hospital": 13,
-      "restaurant": 296
+      "restaurant": 296,
+      "drugstore": 6,
+      "park": 21,
+      "nursery": 3
     },
-    "updated_at": "2026-07-16T14:46:16+09:00",
+    "updated_at": "2026-07-16T17:23:33+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokyo": {
@@ -54,9 +66,12 @@
       "convenience_store": 51,
       "supermarket": 5,
       "hospital": 5,
-      "restaurant": 361
+      "restaurant": 361,
+      "drugstore": 5,
+      "park": 13,
+      "nursery": 1
     },
-    "updated_at": "2026-07-16T14:45:01+09:00",
+    "updated_at": "2026-07-16T17:21:58+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shibuya": {
@@ -66,9 +81,12 @@
       "convenience_store": 73,
       "supermarket": 9,
       "hospital": 12,
-      "restaurant": 715
+      "restaurant": 715,
+      "drugstore": 14,
+      "park": 19,
+      "nursery": 8
     },
-    "updated_at": "2026-07-16T14:44:39+09:00",
+    "updated_at": "2026-07-16T17:21:15+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ueno": {
@@ -78,9 +96,12 @@
       "convenience_store": 58,
       "supermarket": 18,
       "hospital": 20,
-      "restaurant": 545
+      "restaurant": 545,
+      "drugstore": 9,
+      "park": 6,
+      "nursery": 3
     },
-    "updated_at": "2026-07-16T14:46:03+09:00",
+    "updated_at": "2026-07-16T17:23:21+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   }
 }

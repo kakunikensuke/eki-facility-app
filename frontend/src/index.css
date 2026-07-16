@@ -12,6 +12,11 @@
   --series-hospital: #e87ba4;
   --series-restaurant: #eda100;
 
+  /* 追加カテゴリ(2026-07-16、表示専用)のカラー(同パレット固定順5-7を使用) */
+  --series-drugstore: #1baf7a;
+  --series-park: #eb6834;
+  --series-nursery: #4a3aa7;
+
   font: 16px/1.6 system-ui, "Segoe UI", "Hiragino Sans", Meiryo, sans-serif;
   color-scheme: light dark;
   color: var(--text);
@@ -31,6 +36,10 @@
     --series-supermarket: #008300;
     --series-hospital: #d55181;
     --series-restaurant: #c98500;
+
+    --series-drugstore: #199e70;
+    --series-park: #d95926;
+    --series-nursery: #9085e9;
   }
 }
 

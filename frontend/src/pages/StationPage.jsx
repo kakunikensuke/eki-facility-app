@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchFacilityCounts } from "../api";
-import { CATEGORIES } from "../categories";
+import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
 import AdSlot from "../components/AdSlot";
 import BottomNav from "../components/BottomNav";
 import NotFound from "./NotFound";
@@ -110,6 +110,25 @@ export default function StationPage({ stations }) {
                       className={`breakdown-bar-fill breakdown-bar-${cat.key}`}
                       style={{ width: `${widthPct}%` }}
                     />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="extra-card">
+            <div className="extra-card-title">その他の施設（スコア対象外）</div>
+            {EXTRA_CATEGORIES.map((cat) => {
+              const count = data.counts[cat.key] || 0;
+              return (
+                <div className="extra-item" key={cat.key}>
+                  <div className="extra-item-row">
+                    <span className="extra-item-label">
+                      <span className={`extra-item-dot extra-item-dot-${cat.key}`} />
+                      {cat.icon} {cat.label}
+                      {cat.note && <span className="extra-item-note">（{cat.note}）</span>}
+                    </span>
+                    <span className="extra-item-value">{count}軒</span>
                   </div>
                 </div>
               );
