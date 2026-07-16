@@ -1,0 +1,16 @@
+{
+  "name": "eki-facility-app-backend",
+  "version": "1.0.0",
+  "description": "住みやすさ駅前スコア（駅周辺施設検索アプリ）バックエンドAPI",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "update:facility-counts": "node batch/updateFacilityCounts.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "node-cron": "^3.0.3"
+  }
+}

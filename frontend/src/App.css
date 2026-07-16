@@ -1,0 +1,145 @@
+.app-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+.app-subtitle {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.station-select-label {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.station-select-label select {
+  display: block;
+  margin: 8px auto 0;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-h);
+  min-width: 200px;
+}
+
+.status-message {
+  text-align: center;
+  padding: 32px 0;
+}
+
+.status-error {
+  color: #c0392b;
+}
+
+.range-note {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.category-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.category-icon {
+  font-size: 28px;
+}
+
+.category-label {
+  font-size: 14px;
+  color: var(--text);
+  margin-top: 4px;
+}
+
+.category-count {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-top: 4px;
+}
+
+.category-count .unit {
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.category-note {
+  font-size: 12px;
+  color: var(--text);
+  opacity: 0.7;
+}
+
+.disclaimer {
+  font-size: 12px;
+  color: var(--text);
+  opacity: 0.8;
+  text-align: center;
+  margin: 16px 0 4px;
+  line-height: 1.6;
+}
+
+.attribution {
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.attribution a {
+  color: var(--accent);
+}
+
+.ad-slot {
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text);
+  opacity: 0.6;
+  font-size: 13px;
+}
+
+.not-found {
+  max-width: 480px;
+  margin: 80px auto;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.not-found a {
+  color: var(--accent);
+}

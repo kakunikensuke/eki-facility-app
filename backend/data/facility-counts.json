@@ -1,0 +1,86 @@
+{
+  "ikebukuro": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 95,
+      "supermarket": 15,
+      "hospital": 8,
+      "restaurant": 435
+    },
+    "updated_at": "2026-07-16T14:43:23+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "shinjuku": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 88,
+      "supermarket": 6,
+      "hospital": 18,
+      "restaurant": 789
+    },
+    "updated_at": "2026-07-16T14:43:59+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "shinagawa": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 23,
+      "supermarket": 2,
+      "hospital": 6,
+      "restaurant": 94
+    },
+    "updated_at": "2026-07-16T14:42:05+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "yokohama": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 53,
+      "supermarket": 14,
+      "hospital": 13,
+      "restaurant": 296
+    },
+    "updated_at": "2026-07-16T14:46:16+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "tokyo": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 51,
+      "supermarket": 5,
+      "hospital": 5,
+      "restaurant": 361
+    },
+    "updated_at": "2026-07-16T14:45:01+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "shibuya": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 73,
+      "supermarket": 9,
+      "hospital": 12,
+      "restaurant": 715
+    },
+    "updated_at": "2026-07-16T14:44:39+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "ueno": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 58,
+      "supermarket": 18,
+      "hospital": 20,
+      "restaurant": 545
+    },
+    "updated_at": "2026-07-16T14:46:03+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  }
+}
