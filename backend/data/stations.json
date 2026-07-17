@@ -1,9 +1,2096 @@
 [
-  { "slug": "ikebukuro", "name_ja": "池袋駅", "lat": 35.7295, "lon": 139.7109 },
-  { "slug": "shinjuku", "name_ja": "新宿駅", "lat": 35.6896, "lon": 139.7006 },
-  { "slug": "shibuya", "name_ja": "渋谷駅", "lat": 35.658, "lon": 139.7016 },
-  { "slug": "tokyo", "name_ja": "東京駅", "lat": 35.6812, "lon": 139.7671 },
-  { "slug": "shinagawa", "name_ja": "品川駅", "lat": 35.6284, "lon": 139.7387 },
-  { "slug": "ueno", "name_ja": "上野駅", "lat": 35.7141, "lon": 139.7774 },
-  { "slug": "yokohama", "name_ja": "横浜駅", "lat": 35.4657, "lon": 139.6222 }
+  {
+    "slug": "ikebukuro",
+    "name_ja": "池袋駅",
+    "lat": 35.7295,
+    "lon": 139.7109
+  },
+  {
+    "slug": "shinjuku",
+    "name_ja": "新宿駅",
+    "lat": 35.6896,
+    "lon": 139.7006
+  },
+  {
+    "slug": "shibuya",
+    "name_ja": "渋谷駅",
+    "lat": 35.658,
+    "lon": 139.7016
+  },
+  {
+    "slug": "tokyo",
+    "name_ja": "東京駅",
+    "lat": 35.6812,
+    "lon": 139.7671
+  },
+  {
+    "slug": "shinagawa",
+    "name_ja": "品川駅",
+    "lat": 35.6284,
+    "lon": 139.7387
+  },
+  {
+    "slug": "ueno",
+    "name_ja": "上野駅",
+    "lat": 35.7141,
+    "lon": 139.7774
+  },
+  {
+    "slug": "yokohama",
+    "name_ja": "横浜駅",
+    "lat": 35.4657,
+    "lon": 139.6222
+  },
+  {
+    "slug": "omiya",
+    "name_ja": "大宮駅",
+    "lat": 35.906499,
+    "lon": 139.624028
+  },
+  {
+    "slug": "shimbashi",
+    "name_ja": "新橋駅",
+    "lat": 35.666445,
+    "lon": 139.758429
+  },
+  {
+    "slug": "akihabara",
+    "name_ja": "秋葉原駅",
+    "lat": 35.698305,
+    "lon": 139.773722
+  },
+  {
+    "slug": "kita-senju",
+    "name_ja": "北千住駅",
+    "lat": 35.748976,
+    "lon": 139.804704
+  },
+  {
+    "slug": "kawasaki",
+    "name_ja": "川崎駅",
+    "lat": 35.531808,
+    "lon": 139.69711
+  },
+  {
+    "slug": "takadanobaba",
+    "name_ja": "高田馬場駅",
+    "lat": 35.71311,
+    "lon": 139.703925
+  },
+  {
+    "slug": "tachikawa",
+    "name_ja": "立川駅",
+    "lat": 35.697927,
+    "lon": 139.414032
+  },
+  {
+    "slug": "osaki",
+    "name_ja": "大崎駅",
+    "lat": 35.619669,
+    "lon": 139.728642
+  },
+  {
+    "slug": "hamamatsucho",
+    "name_ja": "浜松町駅",
+    "lat": 35.655557,
+    "lon": 139.757181
+  },
+  {
+    "slug": "nakano",
+    "name_ja": "中野駅",
+    "lat": 35.705692,
+    "lon": 139.666927
+  },
+  {
+    "slug": "kichijoji",
+    "name_ja": "吉祥寺駅",
+    "lat": 35.703158,
+    "lon": 139.580234
+  },
+  {
+    "slug": "yurakucho",
+    "name_ja": "有楽町駅",
+    "lat": 35.674655,
+    "lon": 139.762837
+  },
+  {
+    "slug": "ebisu",
+    "name_ja": "恵比寿駅",
+    "lat": 35.646733,
+    "lon": 139.710153
+  },
+  {
+    "slug": "tamachi",
+    "name_ja": "田町駅",
+    "lat": 35.64569,
+    "lon": 139.747583
+  },
+  {
+    "slug": "kamata",
+    "name_ja": "蒲田駅",
+    "lat": 35.562261,
+    "lon": 139.715768
+  },
+  {
+    "slug": "kashiwa",
+    "name_ja": "柏駅",
+    "lat": 35.861908,
+    "lon": 139.970781
+  },
+  {
+    "slug": "musashi-kosugi",
+    "name_ja": "武蔵小杉駅",
+    "lat": 35.575944,
+    "lon": 139.660799
+  },
+  {
+    "slug": "gotanda",
+    "name_ja": "五反田駅",
+    "lat": 35.62623,
+    "lon": 139.723632
+  },
+  {
+    "slug": "nippori",
+    "name_ja": "日暮里駅",
+    "lat": 35.728153,
+    "lon": 139.770553
+  },
+  {
+    "slug": "chiba",
+    "name_ja": "千葉駅",
+    "lat": 35.612936,
+    "lon": 140.113384
+  },
+  {
+    "slug": "fujisawa",
+    "name_ja": "藤沢駅",
+    "lat": 35.338688,
+    "lon": 139.487515
+  },
+  {
+    "slug": "kokubunji",
+    "name_ja": "国分寺駅",
+    "lat": 35.700071,
+    "lon": 139.48041
+  },
+  {
+    "slug": "totsuka",
+    "name_ja": "戸塚駅",
+    "lat": 35.400672,
+    "lon": 139.533951
+  },
+  {
+    "slug": "machida",
+    "name_ja": "町田駅",
+    "lat": 35.542074,
+    "lon": 139.445578
+  },
+  {
+    "slug": "akabane",
+    "name_ja": "赤羽駅",
+    "lat": 35.777658,
+    "lon": 139.721008
+  },
+  {
+    "slug": "meguro",
+    "name_ja": "目黒駅",
+    "lat": 35.634092,
+    "lon": 139.71579
+  },
+  {
+    "slug": "sendai",
+    "name_ja": "仙台駅",
+    "lat": 38.260516,
+    "lon": 140.882226
+  },
+  {
+    "slug": "ofuna",
+    "name_ja": "大船駅",
+    "lat": 35.35414,
+    "lon": 139.531221
+  },
+  {
+    "slug": "urawa",
+    "name_ja": "浦和駅",
+    "lat": 35.858858,
+    "lon": 139.657312
+  },
+  {
+    "slug": "kanda",
+    "name_ja": "神田駅",
+    "lat": 35.691832,
+    "lon": 139.770975
+  },
+  {
+    "slug": "matsudo",
+    "name_ja": "松戸駅",
+    "lat": 35.785237,
+    "lon": 139.901071
+  },
+  {
+    "slug": "nishi-nippori",
+    "name_ja": "西日暮里駅",
+    "lat": 35.732102,
+    "lon": 139.767054
+  },
+  {
+    "slug": "tsudanuma",
+    "name_ja": "津田沼駅",
+    "lat": 35.691034,
+    "lon": 140.020364
+  },
+  {
+    "slug": "yotsuya",
+    "name_ja": "四ツ谷駅",
+    "lat": 35.685907,
+    "lon": 139.730326
+  },
+  {
+    "slug": "ochanomizu",
+    "name_ja": "御茶ノ水駅",
+    "lat": 35.699616,
+    "lon": 139.76512
+  },
+  {
+    "slug": "oimachi",
+    "name_ja": "大井町駅",
+    "lat": 35.607556,
+    "lon": 139.73414
+  },
+  {
+    "slug": "mitaka",
+    "name_ja": "三鷹駅",
+    "lat": 35.702644,
+    "lon": 139.561
+  },
+  {
+    "slug": "omori",
+    "name_ja": "大森駅",
+    "lat": 35.588397,
+    "lon": 139.728063
+  },
+  {
+    "slug": "ogikubo",
+    "name_ja": "荻窪駅",
+    "lat": 35.704451,
+    "lon": 139.61981
+  },
+  {
+    "slug": "maihama",
+    "name_ja": "舞浜駅",
+    "lat": 35.636131,
+    "lon": 139.883832
+  },
+  {
+    "slug": "musashi-mizonokuchi",
+    "name_ja": "武蔵溝ノ口駅",
+    "lat": 35.598997,
+    "lon": 139.611155
+  },
+  {
+    "slug": "noborito",
+    "name_ja": "登戸駅",
+    "lat": 35.620664,
+    "lon": 139.570106
+  },
+  {
+    "slug": "hachioji",
+    "name_ja": "八王子駅",
+    "lat": 35.655308,
+    "lon": 139.338921
+  },
+  {
+    "slug": "kawaguchi",
+    "name_ja": "川口駅",
+    "lat": 35.801959,
+    "lon": 139.717574
+  },
+  {
+    "slug": "shin-koiwa",
+    "name_ja": "新小岩駅",
+    "lat": 35.716828,
+    "lon": 139.857821
+  },
+  {
+    "slug": "sakuragicho",
+    "name_ja": "桜木町駅",
+    "lat": 35.450924,
+    "lon": 139.63094
+  },
+  {
+    "slug": "tsurumi",
+    "name_ja": "鶴見駅",
+    "lat": 35.508368,
+    "lon": 139.676278
+  },
+  {
+    "slug": "suidobashi",
+    "name_ja": "水道橋駅",
+    "lat": 35.702051,
+    "lon": 139.753386
+  },
+  {
+    "slug": "iidabashi",
+    "name_ja": "飯田橋駅",
+    "lat": 35.700473,
+    "lon": 139.744014
+  },
+  {
+    "slug": "harajuku",
+    "name_ja": "原宿駅",
+    "lat": 35.670632,
+    "lon": 139.70258
+  },
+  {
+    "slug": "sugamo",
+    "name_ja": "巣鴨駅",
+    "lat": 35.733491,
+    "lon": 139.739674
+  },
+  {
+    "slug": "musashi-sakai",
+    "name_ja": "武蔵境駅",
+    "lat": 35.701931,
+    "lon": 139.543866
+  },
+  {
+    "slug": "okachimachi",
+    "name_ja": "御徒町駅",
+    "lat": 35.707371,
+    "lon": 139.774743
+  },
+  {
+    "slug": "hashimoto",
+    "name_ja": "橋本駅",
+    "lat": 35.594817,
+    "lon": 139.344868
+  },
+  {
+    "slug": "oji",
+    "name_ja": "王子駅",
+    "lat": 35.753294,
+    "lon": 139.737271
+  },
+  {
+    "slug": "kaihin-makuhari",
+    "name_ja": "海浜幕張駅",
+    "lat": 35.648083,
+    "lon": 140.042184
+  },
+  {
+    "slug": "musashi-koganei",
+    "name_ja": "武蔵小金井駅",
+    "lat": 35.701258,
+    "lon": 139.506627
+  },
+  {
+    "slug": "hiratsuka",
+    "name_ja": "平塚駅",
+    "lat": 35.327666,
+    "lon": 139.350511
+  },
+  {
+    "slug": "yoyogi",
+    "name_ja": "代々木駅",
+    "lat": 35.683007,
+    "lon": 139.702086
+  },
+  {
+    "slug": "ichikawa",
+    "name_ja": "市川駅",
+    "lat": 35.729107,
+    "lon": 139.907947
+  },
+  {
+    "slug": "tsujido",
+    "name_ja": "辻堂駅",
+    "lat": 35.336846,
+    "lon": 139.447198
+  },
+  {
+    "slug": "nagatsuta",
+    "name_ja": "長津田駅",
+    "lat": 35.531705,
+    "lon": 139.495186
+  },
+  {
+    "slug": "warabi",
+    "name_ja": "蕨駅",
+    "lat": 35.827716,
+    "lon": 139.690787
+  },
+  {
+    "slug": "minami-urawa",
+    "name_ja": "南浦和駅",
+    "lat": 35.847881,
+    "lon": 139.669206
+  },
+  {
+    "slug": "motoyawata",
+    "name_ja": "本八幡駅",
+    "lat": 35.720983,
+    "lon": 139.927267
+  },
+  {
+    "slug": "kameido",
+    "name_ja": "亀戸駅",
+    "lat": 35.697302,
+    "lon": 139.826749
+  },
+  {
+    "slug": "nishi-kawaguchi",
+    "name_ja": "西川口駅",
+    "lat": 35.815661,
+    "lon": 139.704536
+  },
+  {
+    "slug": "otsuka",
+    "name_ja": "大塚駅",
+    "lat": 35.731624,
+    "lon": 139.72877
+  },
+  {
+    "slug": "saitama-shintoshin",
+    "name_ja": "さいたま新都心駅",
+    "lat": 35.893528,
+    "lon": 139.633849
+  },
+  {
+    "slug": "kannai",
+    "name_ja": "関内駅",
+    "lat": 35.443893,
+    "lon": 139.636399
+  },
+  {
+    "slug": "chigasaki",
+    "name_ja": "茅ケ崎駅",
+    "lat": 35.330657,
+    "lon": 139.406554
+  },
+  {
+    "slug": "higashi-totsuka",
+    "name_ja": "東戸塚駅",
+    "lat": 35.430381,
+    "lon": 139.556676
+  },
+  {
+    "slug": "shin-urayasu",
+    "name_ja": "新浦安駅",
+    "lat": 35.649382,
+    "lon": 139.912333
+  },
+  {
+    "slug": "ichigaya",
+    "name_ja": "市ケ谷駅",
+    "lat": 35.691095,
+    "lon": 139.735542
+  },
+  {
+    "slug": "musashi-urawa",
+    "name_ja": "武蔵浦和駅",
+    "lat": 35.845325,
+    "lon": 139.647015
+  },
+  {
+    "slug": "asakusabashi",
+    "name_ja": "浅草橋駅",
+    "lat": 35.697488,
+    "lon": 139.785952
+  },
+  {
+    "slug": "kanamachi",
+    "name_ja": "金町駅",
+    "lat": 35.769753,
+    "lon": 139.870812
+  },
+  {
+    "slug": "kunitachi",
+    "name_ja": "国立駅",
+    "lat": 35.699234,
+    "lon": 139.446219
+  },
+  {
+    "slug": "kita-urawa",
+    "name_ja": "北浦和駅",
+    "lat": 35.872125,
+    "lon": 139.646397
+  },
+  {
+    "slug": "koenji",
+    "name_ja": "高円寺駅",
+    "lat": 35.705453,
+    "lon": 139.650098
+  },
+  {
+    "slug": "inage",
+    "name_ja": "稲毛駅",
+    "lat": 35.636869,
+    "lon": 140.092427
+  },
+  {
+    "slug": "komagome",
+    "name_ja": "駒込駅",
+    "lat": 35.737015,
+    "lon": 139.748195
+  },
+  {
+    "slug": "nishi-ogikubo",
+    "name_ja": "西荻窪駅",
+    "lat": 35.703832,
+    "lon": 139.599905
+  },
+  {
+    "slug": "takanawa-gateway",
+    "name_ja": "高輪ゲートウェイ駅",
+    "lat": 35.635598,
+    "lon": 139.74071
+  },
+  {
+    "slug": "shinanomachi",
+    "name_ja": "信濃町駅",
+    "lat": 35.680046,
+    "lon": 139.72032
+  },
+  {
+    "slug": "ryogoku",
+    "name_ja": "両国駅",
+    "lat": 35.696149,
+    "lon": 139.792738
+  },
+  {
+    "slug": "nishi-funabashi",
+    "name_ja": "西船橋駅",
+    "lat": 35.707415,
+    "lon": 139.958744
+  },
+  {
+    "slug": "uguisudani",
+    "name_ja": "鶯谷駅",
+    "lat": 35.721455,
+    "lon": 139.77805
+  },
+  {
+    "slug": "mejiro",
+    "name_ja": "目白駅",
+    "lat": 35.721171,
+    "lon": 139.706571
+  },
+  {
+    "slug": "tabata",
+    "name_ja": "田端駅",
+    "lat": 35.738112,
+    "lon": 139.760833
+  },
+  {
+    "slug": "sendagaya",
+    "name_ja": "千駄ヶ谷駅",
+    "lat": 35.681176,
+    "lon": 139.711272
+  },
+  {
+    "slug": "higashi-nakano",
+    "name_ja": "東中野駅",
+    "lat": 35.706227,
+    "lon": 139.683764
+  },
+  {
+    "slug": "itabashi",
+    "name_ja": "板橋駅",
+    "lat": 35.745593,
+    "lon": 139.720039
+  },
+  {
+    "slug": "kamakura",
+    "name_ja": "鎌倉駅",
+    "lat": 35.319021,
+    "lon": 139.55042
+  },
+  {
+    "slug": "atami",
+    "name_ja": "熱海駅",
+    "lat": 35.103707,
+    "lon": 139.077832
+  },
+  {
+    "slug": "hatchobori",
+    "name_ja": "八丁堀駅",
+    "lat": 35.674623,
+    "lon": 139.776869
+  },
+  {
+    "slug": "asagaya",
+    "name_ja": "阿佐ヶ谷駅",
+    "lat": 35.704918,
+    "lon": 139.636099
+  },
+  {
+    "slug": "etchujima",
+    "name_ja": "越中島駅",
+    "lat": 35.667932,
+    "lon": 139.792654
+  },
+  {
+    "slug": "utsunomiya",
+    "name_ja": "宇都宮駅",
+    "lat": 36.559016,
+    "lon": 139.898452
+  },
+  {
+    "slug": "hodogaya",
+    "name_ja": "保土ヶ谷駅",
+    "lat": 35.446762,
+    "lon": 139.599631
+  },
+  {
+    "slug": "hirai",
+    "name_ja": "平井駅",
+    "lat": 35.706562,
+    "lon": 139.842723
+  },
+  {
+    "slug": "makuhari",
+    "name_ja": "幕張駅",
+    "lat": 35.659373,
+    "lon": 140.057961
+  },
+  {
+    "slug": "kamoi",
+    "name_ja": "鴨居駅",
+    "lat": 35.51086,
+    "lon": 139.567165
+  },
+  {
+    "slug": "shin-kemigawa",
+    "name_ja": "新検見川駅",
+    "lat": 35.651828,
+    "lon": 140.07296
+  },
+  {
+    "slug": "oyama",
+    "name_ja": "小山駅",
+    "lat": 36.313119,
+    "lon": 139.806328
+  },
+  {
+    "slug": "otsuki",
+    "name_ja": "大月駅",
+    "lat": 35.613213,
+    "lon": 138.942723
+  },
+  {
+    "slug": "fuchu-hommachi",
+    "name_ja": "府中本町駅",
+    "lat": 35.666277,
+    "lon": 139.477079
+  },
+  {
+    "slug": "shin-kawasaki",
+    "name_ja": "新川崎駅",
+    "lat": 35.551561,
+    "lon": 139.671869
+  },
+  {
+    "slug": "haijima",
+    "name_ja": "拝島駅",
+    "lat": 35.721314,
+    "lon": 139.343795
+  },
+  {
+    "slug": "nishi-fuchu",
+    "name_ja": "西府駅",
+    "lat": 35.671063,
+    "lon": 139.457506
+  },
+  {
+    "slug": "kawabe",
+    "name_ja": "河辺駅",
+    "lat": 35.784585,
+    "lon": 139.284706
+  },
+  {
+    "slug": "kita-akabane",
+    "name_ja": "北赤羽駅",
+    "lat": 35.786676,
+    "lon": 139.706187
+  },
+  {
+    "slug": "nishi-tachikawa",
+    "name_ja": "西立川駅",
+    "lat": 35.703483,
+    "lon": 139.393627
+  },
+  {
+    "slug": "hino",
+    "name_ja": "日野駅",
+    "lat": 35.679297,
+    "lon": 139.39407
+  },
+  {
+    "slug": "higashi-koganei",
+    "name_ja": "東小金井駅",
+    "lat": 35.701555,
+    "lon": 139.523914
+  },
+  {
+    "slug": "toyoda",
+    "name_ja": "豊田駅",
+    "lat": 35.659505,
+    "lon": 139.381624
+  },
+  {
+    "slug": "odawara",
+    "name_ja": "小田原駅",
+    "lat": 35.256681,
+    "lon": 139.155145
+  },
+  {
+    "slug": "niiza",
+    "name_ja": "新座駅",
+    "lat": 35.803882,
+    "lon": 139.556479
+  },
+  {
+    "slug": "nishi-hachioji",
+    "name_ja": "西八王子駅",
+    "lat": 35.656487,
+    "lon": 139.312439
+  },
+  {
+    "slug": "ukima-funado",
+    "name_ja": "浮間舟渡駅",
+    "lat": 35.791186,
+    "lon": 139.691328
+  },
+  {
+    "slug": "shin-nihombashi",
+    "name_ja": "新日本橋駅",
+    "lat": 35.688997,
+    "lon": 139.77429
+  },
+  {
+    "slug": "isogo",
+    "name_ja": "磯子駅",
+    "lat": 35.399861,
+    "lon": 139.617916
+  },
+  {
+    "slug": "hasuda",
+    "name_ja": "蓮田駅",
+    "lat": 35.98135,
+    "lon": 139.652953
+  },
+  {
+    "slug": "mikawashima",
+    "name_ja": "三河島駅",
+    "lat": 35.733174,
+    "lon": 139.778484
+  },
+  {
+    "slug": "inagi-naganuma",
+    "name_ja": "稲城長沼駅",
+    "lat": 35.644365,
+    "lon": 139.50223
+  },
+  {
+    "slug": "higashi-jujo",
+    "name_ja": "東十条駅",
+    "lat": 35.763929,
+    "lon": 139.726907
+  },
+  {
+    "slug": "minami-tama",
+    "name_ja": "南多摩駅",
+    "lat": 35.649292,
+    "lon": 139.489913
+  },
+  {
+    "slug": "kita-toda",
+    "name_ja": "北戸田駅",
+    "lat": 35.82765,
+    "lon": 139.660097
+  },
+  {
+    "slug": "nishi-kokubunji",
+    "name_ja": "西国分寺駅",
+    "lat": 35.699756,
+    "lon": 139.465786
+  },
+  {
+    "slug": "kita-fuchu",
+    "name_ja": "北府中駅",
+    "lat": 35.68077,
+    "lon": 139.471828
+  },
+  {
+    "slug": "naka-urawa",
+    "name_ja": "中浦和駅",
+    "lat": 35.853808,
+    "lon": 139.637457
+  },
+  {
+    "slug": "shin-kodaira",
+    "name_ja": "新小平駅",
+    "lat": 35.730894,
+    "lon": 139.470594
+  },
+  {
+    "slug": "musashi-nakahara",
+    "name_ja": "武蔵中原駅",
+    "lat": 35.580682,
+    "lon": 139.642223
+  },
+  {
+    "slug": "konandai",
+    "name_ja": "港南台駅",
+    "lat": 35.375323,
+    "lon": 139.576673
+  },
+  {
+    "slug": "negishi",
+    "name_ja": "根岸駅",
+    "lat": 35.415724,
+    "lon": 139.635139
+  },
+  {
+    "slug": "yugawara",
+    "name_ja": "湯河原駅",
+    "lat": 35.145937,
+    "lon": 139.102141
+  },
+  {
+    "slug": "kikuna",
+    "name_ja": "菊名駅",
+    "lat": 35.509852,
+    "lon": 139.631176
+  },
+  {
+    "slug": "tokyo-monorail-haneda-airport-terminal-3",
+    "name_ja": "東京モノレール 羽田空港第3ターミナル駅",
+    "lat": 35.544185,
+    "lon": 139.768209
+  },
+  {
+    "slug": "tokyo-monorail-haneda-airport-terminal-1",
+    "name_ja": "東京モノレール 羽田空港第1ターミナル駅",
+    "lat": 35.54912,
+    "lon": 139.784719
+  },
+  {
+    "slug": "tokyo-monorail-haneda-airport-terminal-2",
+    "name_ja": "東京モノレール 羽田空港第2ターミナル駅",
+    "lat": 35.550742,
+    "lon": 139.788035
+  },
+  {
+    "slug": "kawagoe",
+    "name_ja": "川越駅",
+    "lat": 35.90705,
+    "lon": 139.482492
+  },
+  {
+    "slug": "nishi-chiba",
+    "name_ja": "西千葉駅",
+    "lat": 35.622648,
+    "lon": 140.103405
+  },
+  {
+    "slug": "musashi-itsukaichi",
+    "name_ja": "武蔵五日市駅",
+    "lat": 35.732062,
+    "lon": 139.22782
+  },
+  {
+    "slug": "yanokuchi",
+    "name_ja": "矢野口駅",
+    "lat": 35.641624,
+    "lon": 139.520595
+  },
+  {
+    "slug": "toda-koen",
+    "name_ja": "戸田公園駅",
+    "lat": 35.807926,
+    "lon": 139.678201
+  },
+  {
+    "slug": "yono",
+    "name_ja": "与野駅",
+    "lat": 35.884463,
+    "lon": 139.6391
+  },
+  {
+    "slug": "kofu",
+    "name_ja": "甲府駅",
+    "lat": 35.667449,
+    "lon": 138.569127
+  },
+  {
+    "slug": "yokodai",
+    "name_ja": "洋光台駅",
+    "lat": 35.378623,
+    "lon": 139.596545
+  },
+  {
+    "slug": "hongodai",
+    "name_ja": "本郷台駅",
+    "lat": 35.367637,
+    "lon": 139.550293
+  },
+  {
+    "slug": "shimosa-nakayama",
+    "name_ja": "下総中山駅",
+    "lat": 35.714382,
+    "lon": 139.94299
+  },
+  {
+    "slug": "kita-yono",
+    "name_ja": "北与野駅",
+    "lat": 35.890806,
+    "lon": 139.628726
+  },
+  {
+    "slug": "oiso",
+    "name_ja": "大磯駅",
+    "lat": 35.311143,
+    "lon": 139.313425
+  },
+  {
+    "slug": "ninomiya",
+    "name_ja": "二宮駅",
+    "lat": 35.299025,
+    "lon": 139.25763
+  },
+  {
+    "slug": "ishikawacho",
+    "name_ja": "石川町駅",
+    "lat": 35.439532,
+    "lon": 139.64262
+  },
+  {
+    "slug": "yono-hommachi",
+    "name_ja": "与野本町駅",
+    "lat": 35.881102,
+    "lon": 139.626049
+  },
+  {
+    "slug": "tokaichiba",
+    "name_ja": "十日市場駅",
+    "lat": 35.526165,
+    "lon": 139.516702
+  },
+  {
+    "slug": "kobuchi",
+    "name_ja": "古淵駅",
+    "lat": 35.555876,
+    "lon": 139.419335
+  },
+  {
+    "slug": "fuchinobe",
+    "name_ja": "淵野辺駅",
+    "lat": 35.568634,
+    "lon": 139.395119
+  },
+  {
+    "slug": "naruse",
+    "name_ja": "成瀬駅",
+    "lat": 35.535272,
+    "lon": 139.472863
+  },
+  {
+    "slug": "keio-seiseki-sakuragaoka",
+    "name_ja": "京王聖蹟桜ヶ丘駅",
+    "lat": 35.650846,
+    "lon": 139.447147
+  },
+  {
+    "slug": "keio-fuchu",
+    "name_ja": "京王府中駅",
+    "lat": 35.672201,
+    "lon": 139.480199
+  },
+  {
+    "slug": "keio-hachimanyama",
+    "name_ja": "京王八幡山駅",
+    "lat": 35.669815,
+    "lon": 139.616139
+  },
+  {
+    "slug": "keio-chofu",
+    "name_ja": "京王調布駅",
+    "lat": 35.651657,
+    "lon": 139.545416
+  },
+  {
+    "slug": "keio-shinjuku",
+    "name_ja": "京王新宿駅",
+    "lat": 35.691054,
+    "lon": 139.698788
+  },
+  {
+    "slug": "kameari",
+    "name_ja": "亀有駅",
+    "lat": 35.766575,
+    "lon": 139.847585
+  },
+  {
+    "slug": "minami-yono",
+    "name_ja": "南与野駅",
+    "lat": 35.867973,
+    "lon": 139.631052
+  },
+  {
+    "slug": "enzan",
+    "name_ja": "塩山駅",
+    "lat": 35.705413,
+    "lon": 138.734622
+  },
+  {
+    "slug": "minami-senju",
+    "name_ja": "南千住駅",
+    "lat": 35.733401,
+    "lon": 139.799152
+  },
+  {
+    "slug": "shin-matsudo",
+    "name_ja": "新松戸駅",
+    "lat": 35.825701,
+    "lon": 139.920814
+  },
+  {
+    "slug": "shin-koyasu",
+    "name_ja": "新子安駅",
+    "lat": 35.487065,
+    "lon": 139.65477
+  },
+  {
+    "slug": "kozu",
+    "name_ja": "国府津駅",
+    "lat": 35.280917,
+    "lon": 139.212869
+  },
+  {
+    "slug": "okubo",
+    "name_ja": "大久保駅",
+    "lat": 35.700677,
+    "lon": 139.697405
+  },
+  {
+    "slug": "kamakura-post-office",
+    "name_ja": "鎌倉郵便局駅",
+    "lat": 35.31812,
+    "lon": 139.552002
+  },
+  {
+    "slug": "eneos-platform-hitachino-ushiku-ss",
+    "name_ja": "ENEOSプラットフォームひたち野うしくSS駅",
+    "lat": 36.00273,
+    "lon": 140.162676
+  },
+  {
+    "slug": "yako",
+    "name_ja": "矢向駅",
+    "lat": 35.538927,
+    "lon": 139.68043
+  },
+  {
+    "slug": "higashi-omiya",
+    "name_ja": "東大宮駅",
+    "lat": 35.948746,
+    "lon": 139.640254
+  },
+  {
+    "slug": "kuki",
+    "name_ja": "久喜駅",
+    "lat": 36.065612,
+    "lon": 139.677375
+  },
+  {
+    "slug": "higashi-tokorozawa",
+    "name_ja": "東所沢駅",
+    "lat": 35.794608,
+    "lon": 139.513797
+  },
+  {
+    "slug": "kobuchizawa",
+    "name_ja": "小淵沢駅",
+    "lat": 35.863697,
+    "lon": 138.316109
+  },
+  {
+    "slug": "higashi-funabashi",
+    "name_ja": "東船橋駅",
+    "lat": 35.699812,
+    "lon": 140.004298
+  },
+  {
+    "slug": "yamanashi-shi",
+    "name_ja": "山梨市駅",
+    "lat": 35.684931,
+    "lon": 138.683436
+  },
+  {
+    "slug": "ito",
+    "name_ja": "伊東駅",
+    "lat": 34.974608,
+    "lon": 139.092215
+  },
+  {
+    "slug": "toro",
+    "name_ja": "土呂駅",
+    "lat": 35.93187,
+    "lon": 139.632156
+  },
+  {
+    "slug": "oguchi",
+    "name_ja": "大口駅",
+    "lat": 35.492159,
+    "lon": 139.646147
+  },
+  {
+    "slug": "nakayama",
+    "name_ja": "中山駅",
+    "lat": 35.51481,
+    "lon": 139.539346
+  },
+  {
+    "slug": "minami-funabashi",
+    "name_ja": "南船橋駅",
+    "lat": 35.681896,
+    "lon": 139.995584
+  },
+  {
+    "slug": "bakurocho",
+    "name_ja": "馬喰町駅",
+    "lat": 35.693743,
+    "lon": 139.782954
+  },
+  {
+    "slug": "mobara",
+    "name_ja": "茂原駅",
+    "lat": 35.426791,
+    "lon": 140.303933
+  },
+  {
+    "slug": "goi",
+    "name_ja": "五井駅",
+    "lat": 35.513304,
+    "lon": 140.089637
+  },
+  {
+    "slug": "narita",
+    "name_ja": "成田駅",
+    "lat": 35.777916,
+    "lon": 140.314081
+  },
+  {
+    "slug": "kita-kamakura",
+    "name_ja": "北鎌倉駅",
+    "lat": 35.337227,
+    "lon": 139.545194
+  },
+  {
+    "slug": "keihan-hirakata-shi",
+    "name_ja": "京阪 枚方市駅",
+    "lat": 34.816057,
+    "lon": 135.648578
+  },
+  {
+    "slug": "keihan-nakanoshima",
+    "name_ja": "京阪 中之島駅",
+    "lat": 34.691105,
+    "lon": 135.487034
+  },
+  {
+    "slug": "keihan-kyobashi",
+    "name_ja": "京阪 京橋駅",
+    "lat": 34.696689,
+    "lon": 135.533911
+  },
+  {
+    "slug": "keihan-kitahama",
+    "name_ja": "京阪 北浜駅",
+    "lat": 34.691696,
+    "lon": 135.506648
+  },
+  {
+    "slug": "keihan-temmabashi",
+    "name_ja": "京阪 天満橋駅",
+    "lat": 34.688993,
+    "lon": 135.517352
+  },
+  {
+    "slug": "mito",
+    "name_ja": "水戸駅",
+    "lat": 36.370732,
+    "lon": 140.476274
+  },
+  {
+    "slug": "kyoto",
+    "name_ja": "京都駅",
+    "lat": 34.985853,
+    "lon": 135.758753
+  },
+  {
+    "slug": "jujo",
+    "name_ja": "十条駅",
+    "lat": 35.760247,
+    "lon": 139.72224
+  },
+  {
+    "slug": "okutama",
+    "name_ja": "奥多摩駅",
+    "lat": 35.809204,
+    "lon": 139.096683
+  },
+  {
+    "slug": "kinomiya",
+    "name_ja": "来宮駅",
+    "lat": 35.098607,
+    "lon": 139.065853
+  },
+  {
+    "slug": "nasushiobara",
+    "name_ja": "那須塩原駅",
+    "lat": 36.931743,
+    "lon": 140.020691
+  },
+  {
+    "slug": "shin-narashino",
+    "name_ja": "新習志野駅",
+    "lat": 35.667322,
+    "lon": 140.012888
+  },
+  {
+    "slug": "nikko",
+    "name_ja": "日光駅",
+    "lat": 36.7474448,
+    "lon": 139.6220668
+  },
+  {
+    "slug": "toride",
+    "name_ja": "取手駅",
+    "lat": 35.8956987,
+    "lon": 140.0628709
+  },
+  {
+    "slug": "kuroiso",
+    "name_ja": "黒磯駅",
+    "lat": 36.9699003,
+    "lon": 140.059446
+  },
+  {
+    "slug": "takasaki",
+    "name_ja": "高崎駅",
+    "lat": 36.3228245,
+    "lon": 139.0126561
+  },
+  {
+    "slug": "kaminakazato",
+    "name_ja": "上中里駅",
+    "lat": 35.7465772,
+    "lon": 139.7469589
+  },
+  {
+    "slug": "katsuta",
+    "name_ja": "勝田駅",
+    "lat": 36.3944785,
+    "lon": 140.524228
+  },
+  {
+    "slug": "makuharihongo",
+    "name_ja": "幕張本郷駅",
+    "lat": 35.6727559,
+    "lon": 140.042282
+  },
+  {
+    "slug": "kozukue",
+    "name_ja": "小机駅",
+    "lat": 35.5085839,
+    "lon": 139.5998762
+  },
+  {
+    "slug": "koga",
+    "name_ja": "古河駅",
+    "lat": 36.1945964,
+    "lon": 139.7095558
+  },
+  {
+    "slug": "shin-yokohama",
+    "name_ja": "新横浜駅",
+    "lat": 35.5076588,
+    "lon": 139.617535
+  },
+  {
+    "slug": "manazuru",
+    "name_ja": "真鶴駅",
+    "lat": 35.1568492,
+    "lon": 139.1325164
+  },
+  {
+    "slug": "shin-aomori",
+    "name_ja": "新青森駅",
+    "lat": 40.828192,
+    "lon": 140.6934674
+  },
+  {
+    "slug": "koriyama",
+    "name_ja": "郡山駅",
+    "lat": 37.3985584,
+    "lon": 140.3883985
+  },
+  {
+    "slug": "fukushima",
+    "name_ja": "福島駅",
+    "lat": 37.7542107,
+    "lon": 140.4592087
+  },
+  {
+    "slug": "koshigaya-laketown",
+    "name_ja": "越谷レイクタウン駅",
+    "lat": 35.876216,
+    "lon": 139.8221844
+  },
+  {
+    "slug": "shin-osaka",
+    "name_ja": "新大阪駅",
+    "lat": 34.7334653,
+    "lon": 135.5002422
+  },
+  {
+    "slug": "nishi-oi",
+    "name_ja": "西大井駅",
+    "lat": 35.6017954,
+    "lon": 139.7218013
+  },
+  {
+    "slug": "tokyu-shibuya",
+    "name_ja": "東急 渋谷駅",
+    "lat": 35.6580367,
+    "lon": 139.7016406
+  },
+  {
+    "slug": "tokyu-musashi-kosugi",
+    "name_ja": "東急 武蔵小杉駅",
+    "lat": 35.5757907,
+    "lon": 139.659674
+  },
+  {
+    "slug": "kemigawahama",
+    "name_ja": "検見川浜駅",
+    "lat": 35.6372077,
+    "lon": 140.0592054
+  },
+  {
+    "slug": "inagekaigan",
+    "name_ja": "稲毛海岸駅",
+    "lat": 35.6295368,
+    "lon": 140.073693
+  },
+  {
+    "slug": "tokyu-komazawa-university",
+    "name_ja": "東急 駒沢大学駅",
+    "lat": 35.6332964,
+    "lon": 139.661389
+  },
+  {
+    "slug": "toda",
+    "name_ja": "戸田駅",
+    "lat": 35.8176695,
+    "lon": 139.6696213
+  },
+  {
+    "slug": "sawara",
+    "name_ja": "佐原駅",
+    "lat": 35.8945379,
+    "lon": 140.4940718
+  },
+  {
+    "slug": "takao",
+    "name_ja": "高尾駅",
+    "lat": 35.6422303,
+    "lon": 139.2818292
+  },
+  {
+    "slug": "hachioji-minamino",
+    "name_ja": "八王子みなみ野駅",
+    "lat": 35.6313213,
+    "lon": 139.3309752
+  },
+  {
+    "slug": "higashi-urawa",
+    "name_ja": "東浦和駅",
+    "lat": 35.8641372,
+    "lon": 139.7046535
+  },
+  {
+    "slug": "funabashi-hoten",
+    "name_ja": "船橋法典駅",
+    "lat": 35.7308786,
+    "lon": 139.9665948
+  },
+  {
+    "slug": "ushiku",
+    "name_ja": "牛久駅",
+    "lat": 35.9756277,
+    "lon": 140.1410387
+  },
+  {
+    "slug": "ryugasaki-shi",
+    "name_ja": "龍ケ崎市駅",
+    "lat": 35.9300707,
+    "lon": 140.1382264
+  },
+  {
+    "slug": "higashi-matsudo",
+    "name_ja": "東松戸駅",
+    "lat": 35.7704044,
+    "lon": 139.9438699
+  },
+  {
+    "slug": "tokyu-o-okayama",
+    "name_ja": "東急 大岡山駅",
+    "lat": 35.6074907,
+    "lon": 139.6856429
+  },
+  {
+    "slug": "minami-kashiwa",
+    "name_ja": "南柏駅",
+    "lat": 35.8446445,
+    "lon": 139.9541752
+  },
+  {
+    "slug": "ishibashi",
+    "name_ja": "石橋駅",
+    "lat": 36.4363283,
+    "lon": 139.8666157
+  },
+  {
+    "slug": "keihan-sanjo",
+    "name_ja": "京阪 三条駅",
+    "lat": 35.00944,
+    "lon": 135.7723062
+  },
+  {
+    "slug": "keihan-demachiyanagi",
+    "name_ja": "京阪 出町柳駅",
+    "lat": 35.0305136,
+    "lon": 135.7732303
+  },
+  {
+    "slug": "keihan-gion-shijo",
+    "name_ja": "京阪 祇園四条駅",
+    "lat": 35.0039902,
+    "lon": 135.7721196
+  },
+  {
+    "slug": "keihan-shichijo",
+    "name_ja": "京阪 七条駅",
+    "lat": 34.9898232,
+    "lon": 135.7678707
+  },
+  {
+    "slug": "nagano",
+    "name_ja": "長野駅",
+    "lat": 36.6431282,
+    "lon": 138.1886357
+  },
+  {
+    "slug": "misato",
+    "name_ja": "三郷駅",
+    "lat": 35.844839,
+    "lon": 139.8868321
+  },
+  {
+    "slug": "soga",
+    "name_ja": "蘇我駅",
+    "lat": 35.581422,
+    "lon": 140.131161
+  },
+  {
+    "slug": "okegawa",
+    "name_ja": "桶川駅",
+    "lat": 35.9987607,
+    "lon": 139.5640312
+  },
+  {
+    "slug": "kita-kashiwa",
+    "name_ja": "北柏駅",
+    "lat": 35.8755972,
+    "lon": 139.9880881
+  },
+  {
+    "slug": "hakata",
+    "name_ja": "博多駅",
+    "lat": 33.5897311,
+    "lon": 130.4207206
+  },
+  {
+    "slug": "kashimada",
+    "name_ja": "鹿島田駅",
+    "lat": 35.5512496,
+    "lon": 139.6751579
+  },
+  {
+    "slug": "ichikawa-shiohama",
+    "name_ja": "市川塩浜駅",
+    "lat": 35.6665812,
+    "lon": 139.9235226
+  },
+  {
+    "slug": "niigata",
+    "name_ja": "新潟駅",
+    "lat": 37.9120416,
+    "lon": 139.0617744
+  },
+  {
+    "slug": "sapporo",
+    "name_ja": "札幌駅",
+    "lat": 43.0686633,
+    "lon": 141.3507597
+  },
+  {
+    "slug": "sapporo-city-subway-odori",
+    "name_ja": "札幌市営 大通駅",
+    "lat": 43.0603509,
+    "lon": 141.3537224
+  },
+  {
+    "slug": "sapporo-city-subway-sapporo",
+    "name_ja": "札幌市営 さっぽろ駅",
+    "lat": 43.0657949,
+    "lon": 141.3523732
+  },
+  {
+    "slug": "shin-okubo",
+    "name_ja": "新大久保駅",
+    "lat": 35.7012498,
+    "lon": 139.7002234
+  },
+  {
+    "slug": "aeon-mall-sendai-uesugi",
+    "name_ja": "イオンモール仙台上杉駅",
+    "lat": 38.2759491,
+    "lon": 140.8724141
+  },
+  {
+    "slug": "fukaya",
+    "name_ja": "深谷駅",
+    "lat": 36.1914216,
+    "lon": 139.2813975
+  },
+  {
+    "slug": "shin-akitsu",
+    "name_ja": "新秋津駅",
+    "lat": 35.777858,
+    "lon": 139.4933665
+  },
+  {
+    "slug": "kitamoto",
+    "name_ja": "北本駅",
+    "lat": 36.0316098,
+    "lon": 139.5340028
+  },
+  {
+    "slug": "kumagaya",
+    "name_ja": "熊谷駅",
+    "lat": 36.1393937,
+    "lon": 139.3900297
+  },
+  {
+    "slug": "yokosuka",
+    "name_ja": "横須賀駅",
+    "lat": 35.284108,
+    "lon": 139.6559823
+  },
+  {
+    "slug": "yoshikawa",
+    "name_ja": "吉川駅",
+    "lat": 35.8765724,
+    "lon": 139.843537
+  },
+  {
+    "slug": "miyahara",
+    "name_ja": "宮原駅",
+    "lat": 35.9402952,
+    "lon": 139.6095693
+  },
+  {
+    "slug": "konosu",
+    "name_ja": "鴻巣駅",
+    "lat": 36.0592446,
+    "lon": 139.5096424
+  },
+  {
+    "slug": "anegasaki",
+    "name_ja": "姉ケ崎駅",
+    "lat": 35.4786046,
+    "lon": 140.0421294
+  },
+  {
+    "slug": "morioka",
+    "name_ja": "盛岡駅",
+    "lat": 39.7014456,
+    "lon": 141.1367399
+  },
+  {
+    "slug": "kamonomiya",
+    "name_ja": "鴨宮駅",
+    "lat": 35.2758567,
+    "lon": 139.1802202
+  },
+  {
+    "slug": "sakura",
+    "name_ja": "佐倉駅",
+    "lat": 35.7097147,
+    "lon": 140.2260833
+  },
+  {
+    "slug": "higashi-washinomiya",
+    "name_ja": "東鷲宮駅",
+    "lat": 36.0894734,
+    "lon": 139.6791585
+  },
+  {
+    "slug": "tsuga",
+    "name_ja": "都賀駅",
+    "lat": 35.6360985,
+    "lon": 140.149198
+  },
+  {
+    "slug": "yumoto",
+    "name_ja": "湯本駅",
+    "lat": 37.0069847,
+    "lon": 140.8497845
+  },
+  {
+    "slug": "musashi-shinjo",
+    "name_ja": "武蔵新城駅",
+    "lat": 35.5872993,
+    "lon": 139.6295268
+  },
+  {
+    "slug": "yonezawa",
+    "name_ja": "米沢駅",
+    "lat": 37.9096413,
+    "lon": 140.1281062
+  },
+  {
+    "slug": "kansai-international-airport",
+    "name_ja": "関西国際空港駅",
+    "lat": 34.4320042,
+    "lon": 135.2366026
+  },
+  {
+    "slug": "osaka-international-airport",
+    "name_ja": "大阪国際空港駅",
+    "lat": 34.7915145,
+    "lon": 135.4418616
+  },
+  {
+    "slug": "osaka-metro-esaka",
+    "name_ja": "Osaka Metro 江坂駅",
+    "lat": 34.7588139,
+    "lon": 135.497104
+  },
+  {
+    "slug": "osaka-metro-higashi-mikuni",
+    "name_ja": "Osaka Metro 東三国駅",
+    "lat": 34.7410994,
+    "lon": 135.4985091
+  },
+  {
+    "slug": "osaka-metro-umeda",
+    "name_ja": "Osaka Metro 梅田駅",
+    "lat": 34.7005588,
+    "lon": 135.4957339
+  },
+  {
+    "slug": "osaka-metro-tennoji",
+    "name_ja": "Osaka Metro 天王寺駅",
+    "lat": 34.6473194,
+    "lon": 135.5138781
+  },
+  {
+    "slug": "osaka-metro-shinsaibashi",
+    "name_ja": "Osaka Metro 心斎橋駅",
+    "lat": 34.6751404,
+    "lon": 135.5003686
+  },
+  {
+    "slug": "ichinoseki",
+    "name_ja": "一ノ関駅",
+    "lat": 38.9262608,
+    "lon": 141.1376696
+  },
+  {
+    "slug": "yamagata",
+    "name_ja": "山形駅",
+    "lat": 38.2485711,
+    "lon": 140.3274753
+  },
+  {
+    "slug": "echigoyuzawa",
+    "name_ja": "越後湯沢駅",
+    "lat": 36.9359875,
+    "lon": 138.8096368
+  },
+  {
+    "slug": "osaka-metro-higashiumeda",
+    "name_ja": "Osaka Metro 東梅田駅",
+    "lat": 34.7008235,
+    "lon": 135.4994872
+  },
+  {
+    "slug": "osaka-metro-takaita",
+    "name_ja": "Osaka Metro 高井田駅",
+    "lat": 34.6785024,
+    "lon": 135.5726372
+  },
+  {
+    "slug": "osaka-metrotenjimbashisuji-6-chome",
+    "name_ja": "Osaka Metro 天神橋筋六丁目駅",
+    "lat": 34.7107647,
+    "lon": 135.5108217
+  },
+  {
+    "slug": "osaka-metro-shin-osaka",
+    "name_ja": "Osaka Metro 新大阪駅",
+    "lat": 34.7334716,
+    "lon": 135.5002715
+  },
+  {
+    "slug": "osaka-metro-nagai",
+    "name_ja": "Osaka Metro 長居駅",
+    "lat": 34.6101143,
+    "lon": 135.5137601
+  },
+  {
+    "slug": "osaka-metro-deto",
+    "name_ja": "Osaka Metro 出戸駅",
+    "lat": 34.6088913,
+    "lon": 135.5656923
+  },
+  {
+    "slug": "osaka-metro-kireuriwari",
+    "name_ja": "Osaka Metro 喜連瓜破駅",
+    "lat": 34.6092449,
+    "lon": 135.5521356
+  },
+  {
+    "slug": "hankyu-osaka-umeda",
+    "name_ja": "阪急 大阪梅田駅",
+    "lat": 34.7050381,
+    "lon": 135.4984266
+  },
+  {
+    "slug": "railway-museum",
+    "name_ja": "鉄道博物館駅",
+    "lat": 35.9205084,
+    "lon": 139.6177035
+  },
+  {
+    "slug": "ishioka",
+    "name_ja": "石岡駅",
+    "lat": 36.190954,
+    "lon": 140.2802497
+  },
+  {
+    "slug": "tsuchiura",
+    "name_ja": "土浦駅",
+    "lat": 36.0792409,
+    "lon": 140.2070619
+  },
+  {
+    "slug": "yakushiji-temple",
+    "name_ja": "薬師寺駅",
+    "lat": 34.6703328,
+    "lon": 135.7833696
+  },
+  {
+    "slug": "maebashi",
+    "name_ja": "前橋駅",
+    "lat": 36.3833263,
+    "lon": 139.0731786
+  },
+  {
+    "slug": "zushi",
+    "name_ja": "逗子駅",
+    "lat": 35.2973975,
+    "lon": 139.5783808
+  },
+  {
+    "slug": "higashi-kanagawa",
+    "name_ja": "東神奈川駅",
+    "lat": 35.4779331,
+    "lon": 139.6333616
+  },
+  {
+    "slug": "higashi-kawaguchi",
+    "name_ja": "東川口駅",
+    "lat": 35.8752832,
+    "lon": 139.7443101
+  },
+  {
+    "slug": "yokohama-municipal-subway-kannai",
+    "name_ja": "横浜市営地下鉄 関内駅",
+    "lat": 35.4457565,
+    "lon": 139.6359471
+  },
+  {
+    "slug": "yokohama-municipal-subway-shin-yokohama",
+    "name_ja": "横浜市営地下鉄 新横浜駅",
+    "lat": 35.5076621,
+    "lon": 139.6175529
+  },
+  {
+    "slug": "tsuruoka",
+    "name_ja": "鶴岡駅",
+    "lat": 38.7401432,
+    "lon": 139.8354887
+  },
+  {
+    "slug": "sakata",
+    "name_ja": "酒田駅",
+    "lat": 38.9222349,
+    "lon": 139.8458943
+  },
+  {
+    "slug": "murakami",
+    "name_ja": "村上駅",
+    "lat": 38.2203245,
+    "lon": 139.4635718
+  },
+  {
+    "slug": "ajiro",
+    "name_ja": "網代駅",
+    "lat": 35.0435195,
+    "lon": 139.0815573
+  },
+  {
+    "slug": "katsunuma-budokyo",
+    "name_ja": "勝沼ぶどう郷駅",
+    "lat": 35.6724473,
+    "lon": 138.7430063
+  },
+  {
+    "slug": "sagamiko",
+    "name_ja": "相模湖駅",
+    "lat": 35.6170712,
+    "lon": 139.1889667
+  },
+  {
+    "slug": "osaka-metro-yao-minami",
+    "name_ja": "Osaka Metro 八尾南駅",
+    "lat": 34.5973937,
+    "lon": 135.5825448
+  },
+  {
+    "slug": "osaka-metro-nagahara",
+    "name_ja": "Osaka Metro 長原駅",
+    "lat": 34.6021486,
+    "lon": 135.5735595
+  },
+  {
+    "slug": "osaka-metro-osaka-business-park",
+    "name_ja": "Osaka Metro 大阪ビジネスパーク駅",
+    "lat": 34.6915861,
+    "lon": 135.529882
+  },
+  {
+    "slug": "osaka-metro-namba",
+    "name_ja": "Osaka Metro なんば駅",
+    "lat": 34.6671015,
+    "lon": 135.500343
+  },
+  {
+    "slug": "osaka-metro-nakazakicho",
+    "name_ja": "Osaka Metro 中崎町駅",
+    "lat": 34.7068055,
+    "lon": 135.5051151
+  },
+  {
+    "slug": "osaka-metro-ogimachi",
+    "name_ja": "Osaka Metro 扇町駅",
+    "lat": 34.7037171,
+    "lon": 135.5108918
+  },
+  {
+    "slug": "osaka-metro-nakatsu",
+    "name_ja": "Osaka Metro 中津駅",
+    "lat": 34.7111544,
+    "lon": 135.4969989
+  },
+  {
+    "slug": "chibaminato",
+    "name_ja": "千葉みなと駅",
+    "lat": 35.6070423,
+    "lon": 140.1026398
+  },
+  {
+    "slug": "akigawa",
+    "name_ja": "秋川駅",
+    "lat": 35.7280876,
+    "lon": 139.2866508
+  },
+  {
+    "slug": "yamadera",
+    "name_ja": "山寺駅",
+    "lat": 38.3096015,
+    "lon": 140.4347327
+  },
+  {
+    "slug": "aeon-laketown-mori",
+    "name_ja": "イオンレイクタウンmori駅",
+    "lat": 35.8797605,
+    "lon": 139.827657
+  },
+  {
+    "slug": "osaka-metro-gamoyonchome",
+    "name_ja": "Osaka Metro 蒲生四丁目駅",
+    "lat": 34.7003839,
+    "lon": 135.546256
+  },
+  {
+    "slug": "osakametroimafukutsurumieki",
+    "name_ja": "Osaka Metro 今福鶴見駅",
+    "lat": 34.7020258,
+    "lon": 135.560166
+  },
+  {
+    "slug": "osaka-metro-dobutsuen-mae",
+    "name_ja": "Osaka Metro 動物園前駅",
+    "lat": 34.6488422,
+    "lon": 135.5035073
+  },
+  {
+    "slug": "osaka-metro-hirano",
+    "name_ja": "Osaka Metro 平野駅",
+    "lat": 34.6209336,
+    "lon": 135.5488218
+  },
+  {
+    "slug": "osaka-metro-fuminosato",
+    "name_ja": "Osaka Metro 文の里駅",
+    "lat": 34.6359438,
+    "lon": 135.5181124
+  },
+  {
+    "slug": "osaka-metro-hommachi",
+    "name_ja": "Osaka Metro 本町駅",
+    "lat": 34.6820124,
+    "lon": 135.4988285
+  },
+  {
+    "slug": "osaka-metro-kyobashi",
+    "name_ja": "Osaka Metro 京橋駅",
+    "lat": 34.6969399,
+    "lon": 135.5300595
+  },
+  {
+    "slug": "ome",
+    "name_ja": "青梅駅",
+    "lat": 35.7903002,
+    "lon": 139.2583245
+  },
+  {
+    "slug": "tokyu-sangen-jaya",
+    "name_ja": "東急 三軒茶屋駅",
+    "lat": 35.6436488,
+    "lon": 139.6713276
+  },
+  {
+    "slug": "toke",
+    "name_ja": "土気駅",
+    "lat": 35.5307465,
+    "lon": 140.2698414
+  },
+  {
+    "slug": "tokyu-den-en-chofu",
+    "name_ja": "東急 田園調布駅",
+    "lat": 35.5968717,
+    "lon": 139.6673356
+  },
+  {
+    "slug": "takasaki-opa",
+    "name_ja": "高崎オーパ駅",
+    "lat": 36.3230837,
+    "lon": 139.0110944
+  },
+  {
+    "slug": "hanamaki",
+    "name_ja": "花巻駅",
+    "lat": 39.3931679,
+    "lon": 141.1107121
+  },
+  {
+    "slug": "same",
+    "name_ja": "鮫駅",
+    "lat": 40.5302967,
+    "lon": 141.5552638
+  },
+  {
+    "slug": "honhachinohe",
+    "name_ja": "本八戸駅",
+    "lat": 40.5162911,
+    "lon": 141.4889731
+  },
+  {
+    "slug": "hachinohe",
+    "name_ja": "八戸駅",
+    "lat": 40.5092797,
+    "lon": 141.4311629
+  },
+  {
+    "slug": "shinsugita",
+    "name_ja": "新杉田駅",
+    "lat": 35.3867289,
+    "lon": 139.6195451
+  },
+  {
+    "slug": "akita",
+    "name_ja": "秋田駅",
+    "lat": 39.7169162,
+    "lon": 140.1297397
+  },
+  {
+    "slug": "hiraizumi",
+    "name_ja": "平泉駅",
+    "lat": 38.9881257,
+    "lon": 141.1177794
+  },
+  {
+    "slug": "osaka-metro-yotsubashi",
+    "name_ja": "Osaka Metro 四ツ橋駅",
+    "lat": 34.6755528,
+    "lon": 135.4937485
+  },
+  {
+    "slug": "osaka-metro-nagahoribashi",
+    "name_ja": "Osaka Metro 長堀橋駅",
+    "lat": 34.6744638,
+    "lon": 135.5063304
+  },
+  {
+    "slug": "osaka-metro-abeno",
+    "name_ja": "Osaka Metro 阿倍野駅",
+    "lat": 34.6427239,
+    "lon": 135.5120627
+  },
+  {
+    "slug": "shinmisato",
+    "name_ja": "新三郷駅",
+    "lat": 35.8586883,
+    "lon": 139.8693417
+  },
+  {
+    "slug": "tokyu-tama-plaza",
+    "name_ja": "東急 たまプラーザ駅A",
+    "lat": 35.5774092,
+    "lon": 139.5585267
+  },
+  {
+    "slug": "sagamihara",
+    "name_ja": "相模原駅",
+    "lat": 35.5814987,
+    "lon": 139.3707137
+  }
 ]
