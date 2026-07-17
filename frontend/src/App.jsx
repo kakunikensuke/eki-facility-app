@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { fetchStations } from "./api";
 import StationPage from "./pages/StationPage";
+import ComparePage from "./pages/ComparePage";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 
@@ -27,6 +28,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to={`/${stations[0].slug}`} replace />} />
+        <Route path="/compare" element={<ComparePage stations={stations} />} />
         <Route path="/:stationSlug" element={<StationPage stations={stations} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
