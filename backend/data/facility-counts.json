@@ -5218,5 +5218,20 @@
     },
     "updated_at": "2026-07-18T11:36:48+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "yonezawa": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 8,
+      "supermarket": 2,
+      "hospital": 6,
+      "restaurant": 24,
+      "drugstore": 3,
+      "park": 2,
+      "nursery": 1
+    },
+    "updated_at": "2026-07-18T19:58:15+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
   }
 }
