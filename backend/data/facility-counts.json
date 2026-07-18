@@ -5113,5 +5113,110 @@
     },
     "updated_at": "2026-07-17T15:22:08+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "ochanomizu": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 69,
+      "supermarket": 15,
+      "hospital": 30,
+      "restaurant": 938,
+      "drugstore": 6,
+      "park": 12,
+      "nursery": 7
+    },
+    "updated_at": "2026-07-18T11:33:43+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "omori": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 28,
+      "supermarket": 14,
+      "hospital": 3,
+      "restaurant": 152,
+      "drugstore": 7,
+      "park": 21,
+      "nursery": 11
+    },
+    "updated_at": "2026-07-18T11:33:55+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "asakusabashi": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 51,
+      "supermarket": 13,
+      "hospital": 7,
+      "restaurant": 355,
+      "drugstore": 2,
+      "park": 17,
+      "nursery": 2
+    },
+    "updated_at": "2026-07-18T11:34:43+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "sendagaya": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 27,
+      "supermarket": 3,
+      "hospital": 3,
+      "restaurant": 81,
+      "drugstore": 0,
+      "park": 9,
+      "nursery": 6
+    },
+    "updated_at": "2026-07-18T11:34:59+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "mobara": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 4,
+      "supermarket": 1,
+      "hospital": 3,
+      "restaurant": 16,
+      "drugstore": 0,
+      "park": 9,
+      "nursery": 4
+    },
+    "updated_at": "2026-07-18T11:35:35+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "shin-okubo": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 61,
+      "supermarket": 18,
+      "hospital": 9,
+      "restaurant": 377,
+      "drugstore": 5,
+      "park": 26,
+      "nursery": 7
+    },
+    "updated_at": "2026-07-18T11:36:12+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
+  },
+  "chibaminato": {
+    "walk_minutes": 10,
+    "radius_m": 800,
+    "counts": {
+      "convenience_store": 5,
+      "supermarket": 3,
+      "hospital": 1,
+      "restaurant": 7,
+      "drugstore": 1,
+      "park": 18,
+      "nursery": 1
+    },
+    "updated_at": "2026-07-18T11:36:48+09:00",
+    "source": "OpenStreetMap contributors (ODbL)"
   }
 }

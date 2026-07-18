@@ -45,9 +45,9 @@ export default function ComparePage({ stations }) {
 
   return (
     <div className="app-container">
-      <header className="hero-header compare-header">
+      <header className="hero-header subpage-header">
         <div className="hero-top">
-          <div className="compare-title">駅を比較</div>
+          <div className="page-title">駅を比較</div>
         </div>
       </header>
 

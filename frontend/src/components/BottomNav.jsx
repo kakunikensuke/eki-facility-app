@@ -1,36 +1,39 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
-// お気に入り・地図表示は要件定義書8.2の将来拡張候補のまま未実装（準備中表示）。
-// 比較タブは2026-07-17実装（/compare へ遷移）。
+// 地図表示は要件定義書8.2で将来拡張候補として保留（アプリの核心的な利用シーン＝
+// 駅同士の店舗数比較から外れるため、タブごと未設置。2026-07-18判断）。
+// 比較タブは2026-07-17、お気に入りタブは2026-07-18実装。
 const ITEMS = [
   { key: "home", label: "ホーム", icon: "🏠", path: "/" },
   { key: "compare", label: "比較", icon: "📊", path: "/compare" },
-  { key: "favorite", label: "お気に入り", icon: "⭐", path: null },
-  { key: "map", label: "地図", icon: "🗺️", path: null },
+  { key: "favorite", label: "お気に入り", icon: "⭐", path: "/favorites" },
 ];
 
 export default function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
-  const isCompare = location.pathname === "/compare";
+  const activeKey =
+    location.pathname === "/compare"
+      ? "compare"
+      : location.pathname === "/favorites"
+        ? "favorite"
+        : "home";
 
   return (
     <nav className="bottom-nav" aria-label="アプリ内ナビゲーション">
       {ITEMS.map((item) => {
-        const enabled = item.path !== null;
-        const active = enabled && (item.key === "compare" ? isCompare : !isCompare);
+        const active = item.key === activeKey;
 
         return (
           <button
             key={item.key}
             type="button"
             className={`bottom-nav-item${active ? " active" : ""}`}
-            disabled={!enabled}
             onClick={() => {
-              if (!enabled || active) return;
+              if (active) return;
               navigate(item.path);
             }}
-            title={enabled ? item.label : `${item.label}（準備中）`}
+            title={item.label}
           >
             <span className="bottom-nav-icon" aria-hidden="true">
               {item.icon}

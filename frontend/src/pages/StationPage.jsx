@@ -4,6 +4,7 @@ import { fetchFacilityCounts } from "../api";
 import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
 import AdSlot from "../components/AdSlot";
 import BottomNav from "../components/BottomNav";
+import { toggleFavorite, useFavorites } from "../favorites";
 import NotFound from "./NotFound";
 
 export default function StationPage({ stations }) {
@@ -11,8 +12,10 @@ export default function StationPage({ stations }) {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [status, setStatus] = useState("loading"); // loading | ok | not-found | error
+  const favorites = useFavorites();
 
   const station = stations.find((s) => s.slug === stationSlug);
+  const favorited = favorites.includes(stationSlug);
 
   useEffect(() => {
     if (!station) {
@@ -43,6 +46,14 @@ export default function StationPage({ stations }) {
   return (
     <div className="app-container">
       <header className="hero-header">
+        <button
+          type="button"
+          className="favorite-toggle favorite-toggle-header"
+          aria-label={favorited ? "お気に入りから削除" : "お気に入りに追加"}
+          onClick={() => toggleFavorite(stationSlug)}
+        >
+          {favorited ? "★" : "☆"}
+        </button>
         <div className="hero-top">
           <div className="app-logo">住みやすさ駅前スコア</div>
         </div>

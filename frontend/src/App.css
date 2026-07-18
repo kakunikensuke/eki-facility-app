@@ -276,19 +276,39 @@
   font-size: 13px;
 }
 
-/* ---------- 駅比較ページ ---------- */
+/* ---------- お気に入り★ボタン ---------- */
 
-.compare-header {
+.favorite-toggle {
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.favorite-toggle-header {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #fff;
+}
+
+/* ---------- サブページ共通見出し（比較・お気に入り） ---------- */
+
+.subpage-header {
   padding-bottom: 20px;
 }
 
-.compare-title {
+.page-title {
   font-size: 26px;
   font-weight: 800;
   letter-spacing: 0.02em;
   color: #fff;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
 }
+
+/* ---------- 駅比較ページ ---------- */
 
 .compare-select-row {
   display: flex;
@@ -415,7 +435,35 @@
   font-weight: 700;
 }
 
-/* ---------- ボトムナビ(ホーム・比較は実装済み、お気に入り・地図はダミー) ---------- */
+/* ---------- お気に入り一覧ページ ---------- */
+
+.favorites-card {
+  margin: 20px 16px 0;
+  padding: 4px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.favorites-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+
+.favorites-row + .favorites-row {
+  border-top: 1px solid var(--border);
+}
+
+.favorites-link {
+  color: var(--text-h);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ---------- ボトムナビ(ホーム・比較・お気に入りを実装、地図は8.2で保留) ---------- */
 
 .bottom-nav {
   position: fixed;
