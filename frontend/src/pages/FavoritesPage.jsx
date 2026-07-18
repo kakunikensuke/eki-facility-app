@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
+import Footer from "../components/Footer";
 import { toggleFavorite, useFavorites } from "../favorites";
 
 export default function FavoritesPage({ stations }) {
@@ -42,6 +43,7 @@ export default function FavoritesPage({ stations }) {
         </div>
       )}
 
+      <Footer />
       <BottomNav />
     </div>
   );

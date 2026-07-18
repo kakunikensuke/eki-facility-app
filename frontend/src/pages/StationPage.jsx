@@ -4,6 +4,7 @@ import { fetchFacilityCounts } from "../api";
 import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
 import AdSlot from "../components/AdSlot";
 import BottomNav from "../components/BottomNav";
+import Footer from "../components/Footer";
 import { toggleFavorite, useFavorites } from "../favorites";
 import NotFound from "./NotFound";
 
@@ -168,6 +169,7 @@ export default function StationPage({ stations }) {
         </>
       )}
 
+      <Footer />
       <BottomNav />
     </div>
   );

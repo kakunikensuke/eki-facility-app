@@ -463,6 +463,93 @@
   text-decoration: none;
 }
 
+/* ---------- フッター(法務ページへのリンク) ---------- */
+
+.app-footer {
+  text-align: center;
+  padding: 16px 16px 8px;
+  font-size: 12px;
+}
+
+.app-footer a {
+  color: var(--accent);
+}
+
+/* ---------- プライバシーポリシー・利用規約ページ ---------- */
+
+.legal-card {
+  margin: 20px 16px 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.legal-updated {
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.legal-card h2 {
+  font-size: 14px;
+  color: var(--text-h);
+  margin: 16px 0 6px;
+}
+
+.legal-card h2:first-of-type {
+  margin-top: 0;
+}
+
+.legal-card ul {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.legal-card li + li {
+  margin-top: 6px;
+}
+
+.contact-form {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-h);
+}
+
+.contact-form-field input,
+.contact-form-field textarea {
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  resize: vertical;
+}
+
+.contact-form-submit {
+  align-self: flex-start;
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 1px dashed var(--border);
+  background: none;
+  color: var(--text);
+  opacity: 0.6;
+  cursor: not-allowed;
+  font: inherit;
+}
+
 /* ---------- ボトムナビ(ホーム・比較・お気に入りを実装、地図は8.2で保留) ---------- */
 
 .bottom-nav {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchFacilityCounts } from "../api";
 import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
 import BottomNav from "../components/BottomNav";
+import Footer from "../components/Footer";
 
 // 引越し検討者が「今の駅 or 候補駅同士」を比べる、というアプリの核心的な利用シーン
 // (project_eki_facility_app.md参照)を2駅固定・毎回選び直す方式で実現する。
@@ -161,6 +162,7 @@ export default function ComparePage({ stations }) {
         </>
       )}
 
+      <Footer />
       <BottomNav />
     </div>
   );
