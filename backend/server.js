@@ -6,21 +6,21 @@
  *
  * facility-counts.jsonはOverpass APIへのリアルタイム問い合わせではなく、
  * batch/updateFacilityCounts.jsによる事前集計結果を読むだけ（設計書2章参照）。
+ * 更新バッチのスケジューリングはGitHub Actionsの定期実行に委譲しており、
+ * このプロセス内では行わない（設計書13章参照。無料ホスティングのスリープ中は
+ * プロセス内cronが発火しないため）。
  */
 
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
-const cron = require("node-cron");
-const { spawn } = require("child_process");
 const { calculateScore } = require("./scoring");
 
 const app = express();
 const PORT = process.env.PORT || 4001;
 const STATIONS_PATH = path.join(__dirname, "data", "stations.json");
 const FACILITY_COUNTS_PATH = path.join(__dirname, "data", "facility-counts.json");
-const UPDATE_CRON = process.env.FACILITY_UPDATE_CRON || "0 3 * * *"; // 既定: 毎日3:00(JST)
 
 app.use(cors());
 app.use(express.json());
@@ -58,18 +58,6 @@ app.get("/api/facility-counts", (req, res) => {
   }
 
   res.json({ station, ...record, score: calculateScore(record.counts) });
-});
-
-// 集計バッチを定期実行する（デフォルト毎日3:00 JST）。バッチ本体はOverpass APIへの
-// アクセスを含むため、別プロセスとして起動しserver.jsの応答性に影響を与えないようにする。
-cron.schedule(UPDATE_CRON, () => {
-  console.log(`[cron] facility-counts更新バッチを起動 (${new Date().toISOString()})`);
-  const child = spawn("node", [path.join(__dirname, "batch", "updateFacilityCounts.js")], {
-    stdio: "inherit",
-  });
-  child.on("exit", (code) => {
-    console.log(`[cron] facility-counts更新バッチ終了 (code=${code})`);
-  });
 });
 
 app.listen(PORT, () => {
