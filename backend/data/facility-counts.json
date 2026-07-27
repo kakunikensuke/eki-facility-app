@@ -26,7 +26,7 @@
       "park": 8,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T11:40:56+09:00",
+    "updated_at": "2026-07-28T06:48:49+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shinagawa": {
@@ -41,7 +41,7 @@
       "park": 14,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T11:41:42+09:00",
+    "updated_at": "2026-07-28T06:49:43+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yokohama": {
@@ -101,7 +101,7 @@
       "park": 6,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T11:41:53+09:00",
+    "updated_at": "2026-07-28T06:49:54+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "omiya": {
@@ -131,7 +131,7 @@
       "park": 14,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T11:43:01+09:00",
+    "updated_at": "2026-07-28T06:51:00+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "akihabara": {
@@ -141,12 +141,12 @@
       "convenience_store": 81,
       "supermarket": 19,
       "hospital": 15,
-      "restaurant": 884,
+      "restaurant": 883,
       "drugstore": 3,
       "park": 17,
       "nursery": 5
     },
-    "updated_at": "2026-07-17T11:54:46+09:00",
+    "updated_at": "2026-07-28T06:51:12+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kawasaki": {
@@ -161,7 +161,7 @@
       "park": 21,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T11:44:11+09:00",
+    "updated_at": "2026-07-28T06:52:16+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "takadanobaba": {
@@ -191,7 +191,7 @@
       "park": 13,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T11:56:12+09:00",
+    "updated_at": "2026-07-28T06:53:08+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaki": {
@@ -206,7 +206,7 @@
       "park": 29,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T11:45:04+09:00",
+    "updated_at": "2026-07-28T06:53:19+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "hamamatsucho": {
@@ -221,7 +221,7 @@
       "park": 17,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T11:56:35+09:00",
+    "updated_at": "2026-07-28T06:53:33+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "nakano": {
@@ -236,7 +236,7 @@
       "park": 25,
       "nursery": 12
     },
-    "updated_at": "2026-07-27T11:45:40+09:00",
+    "updated_at": "2026-07-28T06:54:17+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yurakucho": {
@@ -246,12 +246,12 @@
       "convenience_store": 48,
       "supermarket": 2,
       "hospital": 4,
-      "restaurant": 540,
+      "restaurant": 541,
       "drugstore": 9,
       "park": 6,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T11:57:49+09:00",
+    "updated_at": "2026-07-28T06:54:42+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ebisu": {
@@ -266,7 +266,7 @@
       "park": 16,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T11:46:20+09:00",
+    "updated_at": "2026-07-28T06:54:53+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tamachi": {
@@ -281,7 +281,7 @@
       "park": 16,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T11:46:33+09:00",
+    "updated_at": "2026-07-28T06:55:29+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kamata": {
@@ -311,7 +311,7 @@
       "park": 20,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T11:47:35+09:00",
+    "updated_at": "2026-07-28T06:56:44+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "chiba": {
@@ -326,7 +326,7 @@
       "park": 23,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T11:48:03+09:00",
+    "updated_at": "2026-07-28T06:57:31+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kokubunji": {
@@ -341,7 +341,7 @@
       "park": 5,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T11:48:57+09:00",
+    "updated_at": "2026-07-28T06:59:05+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "machida": {
@@ -356,7 +356,7 @@
       "park": 10,
       "nursery": 13
     },
-    "updated_at": "2026-07-17T12:02:41+09:00",
+    "updated_at": "2026-07-28T06:59:52+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "akabane": {
@@ -401,7 +401,7 @@
       "park": 8,
       "nursery": 12
     },
-    "updated_at": "2026-07-27T11:50:50+09:00",
+    "updated_at": "2026-07-28T07:01:16+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kanda": {
@@ -411,12 +411,12 @@
       "convenience_store": 86,
       "supermarket": 13,
       "hospital": 8,
-      "restaurant": 629,
+      "restaurant": 631,
       "drugstore": 3,
       "park": 15,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T12:04:48+09:00",
+    "updated_at": "2026-07-28T07:01:30+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "nishi-nippori": {
@@ -431,7 +431,7 @@
       "park": 26,
       "nursery": 11
     },
-    "updated_at": "2026-07-27T11:51:31+09:00",
+    "updated_at": "2026-07-28T07:02:24+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tsudanuma": {
@@ -446,7 +446,7 @@
       "park": 20,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T11:51:41+09:00",
+    "updated_at": "2026-07-28T07:02:36+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yotsuya": {
@@ -461,7 +461,7 @@
       "park": 10,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T11:52:21+09:00",
+    "updated_at": "2026-07-28T07:02:47+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "oimachi": {
@@ -471,12 +471,12 @@
       "convenience_store": 25,
       "supermarket": 10,
       "hospital": 4,
-      "restaurant": 50,
+      "restaurant": 60,
       "drugstore": 2,
       "park": 21,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T12:06:57+09:00",
+    "updated_at": "2026-07-28T07:03:37+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "mitaka": {
@@ -491,7 +491,7 @@
       "park": 17,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T11:53:05+09:00",
+    "updated_at": "2026-07-28T07:03:50+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "maihama": {
@@ -521,7 +521,7 @@
       "park": 14,
       "nursery": 18
     },
-    "updated_at": "2026-07-17T12:08:12+09:00",
+    "updated_at": "2026-07-28T07:05:17+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "noborito": {
@@ -551,7 +551,7 @@
       "park": 11,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T11:54:53+09:00",
+    "updated_at": "2026-07-28T07:06:11+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-koiwa": {
@@ -566,7 +566,7 @@
       "park": 12,
       "nursery": 7
     },
-    "updated_at": "2026-07-27T11:56:15+09:00",
+    "updated_at": "2026-07-28T07:06:36+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "sakuragicho": {
@@ -596,7 +596,7 @@
       "park": 13,
       "nursery": 7
     },
-    "updated_at": "2026-07-27T11:58:26+09:00",
+    "updated_at": "2026-07-28T07:07:38+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "iidabashi": {
@@ -611,7 +611,7 @@
       "park": 11,
       "nursery": 8
     },
-    "updated_at": "2026-07-27T11:58:38+09:00",
+    "updated_at": "2026-07-28T07:07:49+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "harajuku": {
@@ -636,12 +636,12 @@
       "convenience_store": 15,
       "supermarket": 5,
       "hospital": 2,
-      "restaurant": 54,
+      "restaurant": 53,
       "drugstore": 3,
       "park": 15,
       "nursery": 5
     },
-    "updated_at": "2026-07-17T12:14:17+09:00",
+    "updated_at": "2026-07-28T07:08:55+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "okachimachi": {
@@ -716,7 +716,7 @@
       "park": 23,
       "nursery": 8
     },
-    "updated_at": "2026-07-17T12:17:25+09:00",
+    "updated_at": "2026-07-28T07:10:32+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yoyogi": {
@@ -746,7 +746,7 @@
       "park": 1,
       "nursery": 9
     },
-    "updated_at": "2026-07-17T12:18:28+09:00",
+    "updated_at": "2026-07-28T07:11:01+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tsujido": {
@@ -791,7 +791,7 @@
       "park": 23,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:03:09+09:00",
+    "updated_at": "2026-07-28T07:12:03+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kameido": {
@@ -821,7 +821,7 @@
       "park": 23,
       "nursery": 7
     },
-    "updated_at": "2026-07-27T12:04:30+09:00",
+    "updated_at": "2026-07-28T07:13:08+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "otsuka": {
@@ -851,7 +851,7 @@
       "park": 12,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T12:04:56+09:00",
+    "updated_at": "2026-07-28T07:13:35+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kannai": {
@@ -881,7 +881,7 @@
       "park": 7,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T12:05:49+09:00",
+    "updated_at": "2026-07-28T07:14:29+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-urayasu": {
@@ -896,7 +896,7 @@
       "park": 13,
       "nursery": 5
     },
-    "updated_at": "2026-07-17T12:25:56+09:00",
+    "updated_at": "2026-07-28T07:14:53+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "musashi-urawa": {
@@ -956,7 +956,7 @@
       "park": 16,
       "nursery": 9
     },
-    "updated_at": "2026-07-17T12:27:56+09:00",
+    "updated_at": "2026-07-28T07:17:13+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "inage": {
@@ -1001,7 +1001,7 @@
       "park": 11,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T12:09:39+09:00",
+    "updated_at": "2026-07-28T07:18:01+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "takanawa-gateway": {
@@ -1016,7 +1016,7 @@
       "park": 14,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T12:09:53+09:00",
+    "updated_at": "2026-07-28T07:18:12+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ryogoku": {
@@ -1031,7 +1031,7 @@
       "park": 17,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T12:30:27+09:00",
+    "updated_at": "2026-07-28T07:19:13+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "nishi-funabashi": {
@@ -1061,7 +1061,7 @@
       "park": 16,
       "nursery": 5
     },
-    "updated_at": "2026-07-17T12:31:58+09:00",
+    "updated_at": "2026-07-28T07:19:44+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-nakano": {
@@ -1099,14 +1099,14 @@
     "radius_m": 800,
     "counts": {
       "convenience_store": 53,
-      "supermarket": 11,
+      "supermarket": 10,
       "hospital": 5,
-      "restaurant": 263,
+      "restaurant": 265,
       "drugstore": 4,
       "park": 30,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T12:34:35+09:00",
+    "updated_at": "2026-07-28T07:22:39+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "asagaya": {
@@ -1121,7 +1121,7 @@
       "park": 14,
       "nursery": 9
     },
-    "updated_at": "2026-07-17T12:34:53+09:00",
+    "updated_at": "2026-07-28T07:22:50+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "etchujima": {
@@ -1136,7 +1136,7 @@
       "park": 21,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:13:54+09:00",
+    "updated_at": "2026-07-28T07:23:02+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "utsunomiya": {
@@ -1151,7 +1151,7 @@
       "park": 19,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T12:14:04+09:00",
+    "updated_at": "2026-07-28T07:23:13+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "hodogaya": {
@@ -1166,7 +1166,7 @@
       "park": 21,
       "nursery": 13
     },
-    "updated_at": "2026-07-17T12:36:38+09:00",
+    "updated_at": "2026-07-28T07:23:47+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "hirai": {
@@ -1178,10 +1178,10 @@
       "hospital": 3,
       "restaurant": 35,
       "drugstore": 0,
-      "park": 15,
+      "park": 16,
       "nursery": 9
     },
-    "updated_at": "2026-07-17T12:36:50+09:00",
+    "updated_at": "2026-07-28T07:23:59+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "makuhari": {
@@ -1226,7 +1226,7 @@
       "park": 8,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T12:16:14+09:00",
+    "updated_at": "2026-07-28T07:24:58+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "otsuki": {
@@ -1241,7 +1241,7 @@
       "park": 0,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:16:25+09:00",
+    "updated_at": "2026-07-28T07:25:13+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "fuchu-hommachi": {
@@ -1271,7 +1271,7 @@
       "park": 12,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:16:52+09:00",
+    "updated_at": "2026-07-28T07:25:46+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "nishi-fuchu": {
@@ -1286,7 +1286,7 @@
       "park": 9,
       "nursery": 6
     },
-    "updated_at": "2026-07-17T12:41:37+09:00",
+    "updated_at": "2026-07-28T07:26:50+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kawabe": {
@@ -1316,7 +1316,7 @@
       "park": 17,
       "nursery": 6
     },
-    "updated_at": "2026-07-17T12:41:58+09:00",
+    "updated_at": "2026-07-28T07:27:15+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "nishi-tachikawa": {
@@ -1331,7 +1331,7 @@
       "park": 7,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:18:56+09:00",
+    "updated_at": "2026-07-28T07:27:40+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "hino": {
@@ -1346,7 +1346,7 @@
       "park": 21,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T12:19:08+09:00",
+    "updated_at": "2026-07-28T07:27:53+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-koganei": {
@@ -1361,7 +1361,7 @@
       "park": 13,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T12:43:25+09:00",
+    "updated_at": "2026-07-28T07:28:31+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "toyoda": {
@@ -1391,7 +1391,7 @@
       "park": 19,
       "nursery": 6
     },
-    "updated_at": "2026-07-17T12:43:55+09:00",
+    "updated_at": "2026-07-28T07:29:07+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "niiza": {
@@ -1428,7 +1428,7 @@
     "walk_minutes": 10,
     "radius_m": 800,
     "counts": {
-      "convenience_store": 7,
+      "convenience_store": 6,
       "supermarket": 5,
       "hospital": 1,
       "restaurant": 37,
@@ -1436,7 +1436,7 @@
       "park": 11,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T12:46:07+09:00",
+    "updated_at": "2026-07-28T07:30:58+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "mikawashima": {
@@ -1451,7 +1451,7 @@
       "park": 33,
       "nursery": 10
     },
-    "updated_at": "2026-07-17T12:46:40+09:00",
+    "updated_at": "2026-07-28T07:32:11+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "inagi-naganuma": {
@@ -1466,7 +1466,7 @@
       "park": 12,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T12:22:10+09:00",
+    "updated_at": "2026-07-28T07:32:55+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-jujo": {
@@ -1481,7 +1481,7 @@
       "park": 21,
       "nursery": 11
     },
-    "updated_at": "2026-07-27T12:22:29+09:00",
+    "updated_at": "2026-07-28T07:33:28+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "minami-tama": {
@@ -1496,7 +1496,7 @@
       "park": 10,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T12:23:42+09:00",
+    "updated_at": "2026-07-28T07:33:38+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kita-toda": {
@@ -1526,7 +1526,7 @@
       "park": 29,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T12:49:40+09:00",
+    "updated_at": "2026-07-28T07:34:06+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kita-fuchu": {
@@ -1541,7 +1541,7 @@
       "park": 12,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T12:49:54+09:00",
+    "updated_at": "2026-07-28T07:34:41+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "naka-urawa": {
@@ -1556,7 +1556,7 @@
       "park": 14,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T12:24:41+09:00",
+    "updated_at": "2026-07-28T07:34:57+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "musashi-nakahara": {
@@ -1601,7 +1601,7 @@
       "park": 3,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T12:26:17+09:00",
+    "updated_at": "2026-07-28T07:36:13+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kikuna": {
@@ -1611,12 +1611,12 @@
       "convenience_store": 9,
       "supermarket": 3,
       "hospital": 4,
-      "restaurant": 35,
+      "restaurant": 36,
       "drugstore": 0,
       "park": 16,
       "nursery": 8
     },
-    "updated_at": "2026-07-27T12:26:54+09:00",
+    "updated_at": "2026-07-28T07:36:26+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokyo-monorail-haneda-airport-terminal-3": {
@@ -1631,7 +1631,7 @@
       "park": 1,
       "nursery": 0
     },
-    "updated_at": "2026-07-17T12:53:01+09:00",
+    "updated_at": "2026-07-28T07:36:37+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokyo-monorail-haneda-airport-terminal-2": {
@@ -1676,7 +1676,7 @@
       "park": 14,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T12:28:16+09:00",
+    "updated_at": "2026-07-28T07:38:05+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "toda-koen": {
@@ -1691,7 +1691,7 @@
       "park": 30,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T12:29:20+09:00",
+    "updated_at": "2026-07-28T07:39:05+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kofu": {
@@ -1706,7 +1706,7 @@
       "park": 9,
       "nursery": 2
     },
-    "updated_at": "2026-07-17T12:55:00+09:00",
+    "updated_at": "2026-07-28T07:39:27+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yokodai": {
@@ -1721,7 +1721,7 @@
       "park": 22,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T12:55:11+09:00",
+    "updated_at": "2026-07-28T07:40:02+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "hongodai": {
@@ -1736,7 +1736,7 @@
       "park": 21,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T12:30:55+09:00",
+    "updated_at": "2026-07-28T07:40:15+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shimosa-nakayama": {
@@ -1751,7 +1751,7 @@
       "park": 17,
       "nursery": 5
     },
-    "updated_at": "2026-07-17T12:56:34+09:00",
+    "updated_at": "2026-07-28T07:40:26+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kita-yono": {
@@ -1766,7 +1766,7 @@
       "park": 12,
       "nursery": 9
     },
-    "updated_at": "2026-07-17T12:56:51+09:00",
+    "updated_at": "2026-07-28T07:40:42+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "oiso": {
@@ -1806,12 +1806,12 @@
       "convenience_store": 28,
       "supermarket": 12,
       "hospital": 7,
-      "restaurant": 275,
+      "restaurant": 276,
       "drugstore": 1,
       "park": 19,
       "nursery": 11
     },
-    "updated_at": "2026-07-17T12:57:29+09:00",
+    "updated_at": "2026-07-28T07:42:31+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yono-hommachi": {
@@ -1841,7 +1841,7 @@
       "park": 14,
       "nursery": 10
     },
-    "updated_at": "2026-07-27T12:32:59+09:00",
+    "updated_at": "2026-07-28T07:43:25+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "fuchinobe": {
@@ -1871,7 +1871,7 @@
       "park": 20,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T12:33:25+09:00",
+    "updated_at": "2026-07-28T07:43:53+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keio-seiseki-sakuragaoka": {
@@ -1901,7 +1901,7 @@
       "park": 22,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:33:59+09:00",
+    "updated_at": "2026-07-28T07:44:32+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keio-chofu": {
@@ -1931,7 +1931,7 @@
       "park": 18,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T12:36:00+09:00",
+    "updated_at": "2026-07-28T07:46:23+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-matsudo": {
@@ -1946,7 +1946,7 @@
       "park": 23,
       "nursery": 10
     },
-    "updated_at": "2026-07-27T12:37:12+09:00",
+    "updated_at": "2026-07-28T07:46:36+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-koyasu": {
@@ -1961,7 +1961,7 @@
       "park": 14,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T12:37:29+09:00",
+    "updated_at": "2026-07-28T07:47:13+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kozu": {
@@ -1976,7 +1976,7 @@
       "park": 4,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T13:03:47+09:00",
+    "updated_at": "2026-07-28T07:47:23+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "okubo": {
@@ -1991,7 +1991,7 @@
       "park": 29,
       "nursery": 10
     },
-    "updated_at": "2026-07-17T13:04:27+09:00",
+    "updated_at": "2026-07-28T07:47:36+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kamakura-post-office": {
@@ -2021,7 +2021,7 @@
       "park": 8,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T12:38:33+09:00",
+    "updated_at": "2026-07-28T07:48:37+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-omiya": {
@@ -2036,7 +2036,7 @@
       "park": 13,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T13:05:50+09:00",
+    "updated_at": "2026-07-28T07:49:03+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kuki": {
@@ -2051,7 +2051,7 @@
       "park": 9,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T13:06:29+09:00",
+    "updated_at": "2026-07-28T07:49:50+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-tokorozawa": {
@@ -2066,7 +2066,7 @@
       "park": 12,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T12:39:57+09:00",
+    "updated_at": "2026-07-28T07:50:01+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-funabashi": {
@@ -2081,7 +2081,7 @@
       "park": 13,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T13:07:47+09:00",
+    "updated_at": "2026-07-28T07:50:34+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yamanashi-shi": {
@@ -2096,7 +2096,7 @@
       "park": 1,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T12:40:43+09:00",
+    "updated_at": "2026-07-28T07:51:15+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ito": {
@@ -2111,7 +2111,7 @@
       "park": 7,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:41:02+09:00",
+    "updated_at": "2026-07-28T07:51:35+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "toro": {
@@ -2141,7 +2141,7 @@
       "park": 30,
       "nursery": 7
     },
-    "updated_at": "2026-07-27T12:41:25+09:00",
+    "updated_at": "2026-07-28T07:52:02+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "minami-funabashi": {
@@ -2156,7 +2156,7 @@
       "park": 9,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T12:42:24+09:00",
+    "updated_at": "2026-07-28T07:52:37+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "goi": {
@@ -2186,7 +2186,7 @@
       "park": 5,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T12:44:54+09:00",
+    "updated_at": "2026-07-28T07:53:59+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kita-kamakura": {
@@ -2201,7 +2201,7 @@
       "park": 9,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T12:45:12+09:00",
+    "updated_at": "2026-07-28T07:54:10+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keihan-nakanoshima": {
@@ -2216,7 +2216,7 @@
       "park": 15,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:45:55+09:00",
+    "updated_at": "2026-07-28T07:55:38+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keihan-kyobashi": {
@@ -2246,14 +2246,14 @@
       "park": 14,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T12:46:49+09:00",
+    "updated_at": "2026-07-28T07:56:38+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keihan-temmabashi": {
     "walk_minutes": 10,
     "radius_m": 800,
     "counts": {
-      "convenience_store": 32,
+      "convenience_store": 33,
       "supermarket": 3,
       "hospital": 9,
       "restaurant": 240,
@@ -2261,7 +2261,7 @@
       "park": 12,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T13:14:34+09:00",
+    "updated_at": "2026-07-28T07:56:49+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "mito": {
@@ -2291,7 +2291,7 @@
       "park": 25,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T13:15:37+09:00",
+    "updated_at": "2026-07-28T07:58:03+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "okutama": {
@@ -2306,7 +2306,7 @@
       "park": 0,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T13:16:15+09:00",
+    "updated_at": "2026-07-28T07:58:27+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kinomiya": {
@@ -2321,7 +2321,7 @@
       "park": 1,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T12:48:18+09:00",
+    "updated_at": "2026-07-28T07:58:37+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "nasushiobara": {
@@ -2351,7 +2351,7 @@
       "park": 6,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T13:17:12+09:00",
+    "updated_at": "2026-07-28T07:59:06+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "toride": {
@@ -2366,7 +2366,7 @@
       "park": 4,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T13:17:41+09:00",
+    "updated_at": "2026-07-28T07:59:34+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kuroiso": {
@@ -2381,7 +2381,7 @@
       "park": 5,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T13:18:14+09:00",
+    "updated_at": "2026-07-28T08:00:14+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "takasaki": {
@@ -2396,7 +2396,7 @@
       "park": 8,
       "nursery": 7
     },
-    "updated_at": "2026-07-27T12:49:54+09:00",
+    "updated_at": "2026-07-28T08:00:24+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kaminakazato": {
@@ -2441,7 +2441,7 @@
       "park": 11,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T12:50:42+09:00",
+    "updated_at": "2026-07-28T08:01:07+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kozukue": {
@@ -2456,7 +2456,7 @@
       "park": 7,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:51:08+09:00",
+    "updated_at": "2026-07-28T08:01:21+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-yokohama": {
@@ -2501,7 +2501,7 @@
       "park": 5,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T13:24:17+09:00",
+    "updated_at": "2026-07-28T08:02:20+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "koriyama": {
@@ -2516,7 +2516,7 @@
       "park": 6,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T12:52:44+09:00",
+    "updated_at": "2026-07-28T08:02:45+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "fukushima": {
@@ -2531,7 +2531,7 @@
       "park": 2,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T12:52:55+09:00",
+    "updated_at": "2026-07-28T08:03:00+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "koshigaya-laketown": {
@@ -2546,7 +2546,7 @@
       "park": 22,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:53:10+09:00",
+    "updated_at": "2026-07-28T08:03:36+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-osaka": {
@@ -2556,12 +2556,12 @@
       "convenience_store": 53,
       "supermarket": 8,
       "hospital": 11,
-      "restaurant": 257,
+      "restaurant": 259,
       "drugstore": 5,
       "park": 14,
       "nursery": 5
     },
-    "updated_at": "2026-07-17T13:26:16+09:00",
+    "updated_at": "2026-07-28T08:03:48+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokyu-shibuya": {
@@ -2576,7 +2576,7 @@
       "park": 19,
       "nursery": 8
     },
-    "updated_at": "2026-07-27T12:54:13+09:00",
+    "updated_at": "2026-07-28T08:04:15+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokyu-musashi-kosugi": {
@@ -2591,7 +2591,7 @@
       "park": 25,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T12:55:27+09:00",
+    "updated_at": "2026-07-28T08:04:39+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kemigawahama": {
@@ -2606,7 +2606,7 @@
       "park": 26,
       "nursery": 7
     },
-    "updated_at": "2026-07-27T12:55:38+09:00",
+    "updated_at": "2026-07-28T08:04:50+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "toda": {
@@ -2621,7 +2621,7 @@
       "park": 9,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:57:33+09:00",
+    "updated_at": "2026-07-28T08:05:54+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "sawara": {
@@ -2636,7 +2636,7 @@
       "park": 1,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:57:44+09:00",
+    "updated_at": "2026-07-28T08:06:35+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "takao": {
@@ -2666,7 +2666,7 @@
       "park": 8,
       "nursery": 2
     },
-    "updated_at": "2026-07-17T13:30:42+09:00",
+    "updated_at": "2026-07-28T08:06:58+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-urawa": {
@@ -2696,7 +2696,7 @@
       "park": 21,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T12:59:36+09:00",
+    "updated_at": "2026-07-28T08:07:37+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ushiku": {
@@ -2726,7 +2726,7 @@
       "park": 17,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T13:00:24+09:00",
+    "updated_at": "2026-07-28T08:08:02+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-matsudo": {
@@ -2756,7 +2756,7 @@
       "park": 9,
       "nursery": 6
     },
-    "updated_at": "2026-07-17T13:35:19+09:00",
+    "updated_at": "2026-07-28T08:08:53+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ishibashi": {
@@ -2786,7 +2786,7 @@
       "park": 11,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T13:36:32+09:00",
+    "updated_at": "2026-07-28T08:09:45+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keihan-gion-shijo": {
@@ -2801,7 +2801,7 @@
       "park": 9,
       "nursery": 8
     },
-    "updated_at": "2026-07-27T13:02:34+09:00",
+    "updated_at": "2026-07-28T08:10:13+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keihan-shichijo": {
@@ -2831,7 +2831,7 @@
       "park": 19,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T13:02:58+09:00",
+    "updated_at": "2026-07-28T08:11:10+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "soga": {
@@ -2861,7 +2861,7 @@
       "park": 7,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T13:40:30+09:00",
+    "updated_at": "2026-07-28T08:12:09+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "hakata": {
@@ -2876,7 +2876,7 @@
       "park": 8,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T13:05:39+09:00",
+    "updated_at": "2026-07-28T08:12:20+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kashimada": {
@@ -2891,7 +2891,7 @@
       "park": 16,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T13:41:23+09:00",
+    "updated_at": "2026-07-28T08:12:31+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ichikawa-shiohama": {
@@ -2906,7 +2906,7 @@
       "park": 1,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T13:06:09+09:00",
+    "updated_at": "2026-07-28T08:12:41+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "niigata": {
@@ -2921,7 +2921,7 @@
       "park": 10,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T13:41:44+09:00",
+    "updated_at": "2026-07-28T08:13:25+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "sapporo": {
@@ -2936,7 +2936,7 @@
       "park": 7,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T13:07:01+09:00",
+    "updated_at": "2026-07-28T08:13:57+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "sapporo-city-subway-odori": {
@@ -2981,7 +2981,7 @@
       "park": 5,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T13:43:39+09:00",
+    "updated_at": "2026-07-28T08:15:16+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-akitsu": {
@@ -2996,7 +2996,7 @@
       "park": 11,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T13:08:53+09:00",
+    "updated_at": "2026-07-28T08:15:30+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kitamoto": {
@@ -3011,7 +3011,7 @@
       "park": 5,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T13:44:41+09:00",
+    "updated_at": "2026-07-28T08:15:51+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kumagaya": {
@@ -3026,7 +3026,7 @@
       "park": 10,
       "nursery": 2
     },
-    "updated_at": "2026-07-17T13:45:27+09:00",
+    "updated_at": "2026-07-28T08:16:08+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yokosuka": {
@@ -3071,7 +3071,7 @@
       "park": 4,
       "nursery": 6
     },
-    "updated_at": "2026-07-17T13:46:27+09:00",
+    "updated_at": "2026-07-28T08:17:33+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "anegasaki": {
@@ -3101,7 +3101,7 @@
       "park": 9,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T13:11:04+09:00",
+    "updated_at": "2026-07-28T08:18:08+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-washinomiya": {
@@ -3116,7 +3116,7 @@
       "park": 8,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T13:12:50+09:00",
+    "updated_at": "2026-07-28T08:18:54+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tsuga": {
@@ -3131,7 +3131,7 @@
       "park": 22,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T13:48:48+09:00",
+    "updated_at": "2026-07-28T08:19:28+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yumoto": {
@@ -3146,7 +3146,7 @@
       "park": 3,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T13:48:59+09:00",
+    "updated_at": "2026-07-28T08:19:39+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kansai-international-airport": {
@@ -3161,7 +3161,7 @@
       "park": 1,
       "nursery": 0
     },
-    "updated_at": "2026-07-17T13:50:46+09:00",
+    "updated_at": "2026-07-28T08:21:31+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-international-airport": {
@@ -3176,7 +3176,7 @@
       "park": 9,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T13:14:28+09:00",
+    "updated_at": "2026-07-28T08:21:52+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-higashi-mikuni": {
@@ -3191,22 +3191,22 @@
       "park": 10,
       "nursery": 8
     },
-    "updated_at": "2026-07-27T13:14:56+09:00",
+    "updated_at": "2026-07-28T08:22:39+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-umeda": {
     "walk_minutes": 10,
     "radius_m": 800,
     "counts": {
-      "convenience_store": 80,
-      "supermarket": 8,
+      "convenience_store": 81,
+      "supermarket": 9,
       "hospital": 6,
-      "restaurant": 700,
-      "drugstore": 5,
+      "restaurant": 714,
+      "drugstore": 11,
       "park": 11,
       "nursery": 0
     },
-    "updated_at": "2026-07-17T13:52:17+09:00",
+    "updated_at": "2026-07-28T08:22:52+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-tennoji": {
@@ -3221,7 +3221,7 @@
       "park": 15,
       "nursery": 7
     },
-    "updated_at": "2026-07-27T13:15:49+09:00",
+    "updated_at": "2026-07-28T08:23:26+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-shinsaibashi": {
@@ -3273,15 +3273,15 @@
     "walk_minutes": 10,
     "radius_m": 800,
     "counts": {
-      "convenience_store": 89,
-      "supermarket": 11,
+      "convenience_store": 90,
+      "supermarket": 12,
       "hospital": 11,
-      "restaurant": 753,
-      "drugstore": 5,
+      "restaurant": 766,
+      "drugstore": 11,
       "park": 10,
       "nursery": 2
     },
-    "updated_at": "2026-07-17T13:54:39+09:00",
+    "updated_at": "2026-07-28T08:24:44+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-takaita": {
@@ -3321,12 +3321,12 @@
       "convenience_store": 53,
       "supermarket": 8,
       "hospital": 11,
-      "restaurant": 256,
+      "restaurant": 258,
       "drugstore": 5,
       "park": 14,
       "nursery": 5
     },
-    "updated_at": "2026-07-17T13:56:03+09:00",
+    "updated_at": "2026-07-28T08:25:30+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-nagai": {
@@ -3341,7 +3341,7 @@
       "park": 12,
       "nursery": 4
     },
-    "updated_at": "2026-07-17T13:57:20+09:00",
+    "updated_at": "2026-07-28T08:25:44+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-deto": {
@@ -3371,7 +3371,7 @@
       "park": 9,
       "nursery": 6
     },
-    "updated_at": "2026-07-17T13:58:09+09:00",
+    "updated_at": "2026-07-28T08:26:12+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "railway-museum": {
@@ -3386,7 +3386,7 @@
       "park": 20,
       "nursery": 7
     },
-    "updated_at": "2026-07-27T13:19:57+09:00",
+    "updated_at": "2026-07-28T08:26:47+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ishioka": {
@@ -3401,7 +3401,7 @@
       "park": 7,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T13:20:11+09:00",
+    "updated_at": "2026-07-28T08:27:30+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tsuchiura": {
@@ -3416,7 +3416,7 @@
       "park": 11,
       "nursery": 0
     },
-    "updated_at": "2026-07-17T13:59:22+09:00",
+    "updated_at": "2026-07-28T08:27:40+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yakushiji-temple": {
@@ -3431,7 +3431,7 @@
       "park": 4,
       "nursery": 2
     },
-    "updated_at": "2026-07-17T13:59:58+09:00",
+    "updated_at": "2026-07-28T08:27:54+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "maebashi": {
@@ -3446,22 +3446,22 @@
       "park": 10,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T13:20:56+09:00",
+    "updated_at": "2026-07-28T08:28:06+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-kanagawa": {
     "walk_minutes": 10,
     "radius_m": 800,
     "counts": {
-      "convenience_store": 16,
+      "convenience_store": 15,
       "supermarket": 6,
       "hospital": 3,
-      "restaurant": 24,
+      "restaurant": 25,
       "drugstore": 0,
       "park": 16,
       "nursery": 9
     },
-    "updated_at": "2026-07-17T14:01:35+09:00",
+    "updated_at": "2026-07-28T08:29:13+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-kawaguchi": {
@@ -3476,7 +3476,7 @@
       "park": 10,
       "nursery": 5
     },
-    "updated_at": "2026-07-17T14:01:47+09:00",
+    "updated_at": "2026-07-28T08:29:23+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yokohama-municipal-subway-kannai": {
@@ -3486,12 +3486,12 @@
       "convenience_store": 51,
       "supermarket": 17,
       "hospital": 3,
-      "restaurant": 367,
+      "restaurant": 368,
       "drugstore": 2,
       "park": 16,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T14:03:00+09:00",
+    "updated_at": "2026-07-28T08:29:34+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yokohama-municipal-subway-shin-yokohama": {
@@ -3506,7 +3506,7 @@
       "park": 11,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T13:22:12+09:00",
+    "updated_at": "2026-07-28T08:29:45+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tsuruoka": {
@@ -3536,7 +3536,7 @@
       "park": 14,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T14:04:04+09:00",
+    "updated_at": "2026-07-28T08:30:50+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "murakami": {
@@ -3551,7 +3551,7 @@
       "park": 0,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T13:23:56+09:00",
+    "updated_at": "2026-07-28T08:31:15+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ajiro": {
@@ -3581,7 +3581,7 @@
       "park": 14,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T14:06:22+09:00",
+    "updated_at": "2026-07-28T08:32:22+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-namba": {
@@ -3626,7 +3626,7 @@
       "park": 14,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T13:26:46+09:00",
+    "updated_at": "2026-07-28T08:34:41+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "aeon-laketown-mori": {
@@ -3641,7 +3641,7 @@
       "park": 10,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T13:27:58+09:00",
+    "updated_at": "2026-07-28T08:36:10+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osakametroimafukutsurumieki": {
@@ -3671,7 +3671,7 @@
       "park": 17,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T13:28:57+09:00",
+    "updated_at": "2026-07-28T08:36:48+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-fuminosato": {
@@ -3686,7 +3686,7 @@
       "park": 16,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T13:30:00+09:00",
+    "updated_at": "2026-07-28T08:37:48+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-kyobashi": {
@@ -3701,7 +3701,7 @@
       "park": 9,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T13:30:33+09:00",
+    "updated_at": "2026-07-28T08:38:17+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ome": {
@@ -3731,7 +3731,7 @@
       "park": 24,
       "nursery": 11
     },
-    "updated_at": "2026-07-27T13:31:01+09:00",
+    "updated_at": "2026-07-28T08:38:44+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "toke": {
@@ -3746,7 +3746,7 @@
       "park": 19,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T14:14:06+09:00",
+    "updated_at": "2026-07-28T08:38:59+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokyu-den-en-chofu": {
@@ -3761,7 +3761,7 @@
       "park": 7,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T13:31:56+09:00",
+    "updated_at": "2026-07-28T08:39:10+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "takasaki-opa": {
@@ -3776,7 +3776,7 @@
       "park": 10,
       "nursery": 7
     },
-    "updated_at": "2026-07-27T13:32:07+09:00",
+    "updated_at": "2026-07-28T08:39:19+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "hanamaki": {
@@ -3806,7 +3806,7 @@
       "park": 2,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T13:32:59+09:00",
+    "updated_at": "2026-07-28T08:40:53+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "honhachinohe": {
@@ -3836,7 +3836,7 @@
       "park": 12,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T14:15:57+09:00",
+    "updated_at": "2026-07-28T08:41:25+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shinsugita": {
@@ -3851,7 +3851,7 @@
       "park": 11,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T13:34:10+09:00",
+    "updated_at": "2026-07-28T08:41:35+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "akita": {
@@ -3881,7 +3881,7 @@
       "park": 4,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T13:34:46+09:00",
+    "updated_at": "2026-07-28T08:42:29+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-yotsubashi": {
@@ -3896,7 +3896,7 @@
       "park": 17,
       "nursery": 6
     },
-    "updated_at": "2026-07-27T13:35:01+09:00",
+    "updated_at": "2026-07-28T08:42:41+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-nagahoribashi": {
@@ -3906,12 +3906,12 @@
       "convenience_store": 68,
       "supermarket": 11,
       "hospital": 9,
-      "restaurant": 632,
+      "restaurant": 634,
       "drugstore": 10,
       "park": 3,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T14:19:31+09:00",
+    "updated_at": "2026-07-28T08:42:52+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-abeno": {
@@ -3926,7 +3926,7 @@
       "park": 17,
       "nursery": 12
     },
-    "updated_at": "2026-07-27T13:35:28+09:00",
+    "updated_at": "2026-07-28T08:43:06+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokyu-tama-plaza": {
@@ -3935,13 +3935,13 @@
     "counts": {
       "convenience_store": 8,
       "supermarket": 6,
-      "hospital": 3,
+      "hospital": 5,
       "restaurant": 50,
       "drugstore": 3,
       "park": 15,
       "nursery": 11
     },
-    "updated_at": "2026-07-17T14:20:13+09:00",
+    "updated_at": "2026-07-28T08:44:09+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "sagamihara": {
@@ -3971,7 +3971,7 @@
       "park": 22,
       "nursery": 8
     },
-    "updated_at": "2026-07-27T11:43:30+09:00",
+    "updated_at": "2026-07-28T06:51:44+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kichijoji": {
@@ -3986,7 +3986,7 @@
       "park": 9,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T11:45:51+09:00",
+    "updated_at": "2026-07-28T06:54:31+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kashiwa": {
@@ -4001,14 +4001,14 @@
       "park": 9,
       "nursery": 6
     },
-    "updated_at": "2026-07-17T14:33:11+09:00",
+    "updated_at": "2026-07-28T06:56:19+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "musashi-kosugi": {
     "walk_minutes": 10,
     "radius_m": 800,
     "counts": {
-      "convenience_store": 28,
+      "convenience_store": 27,
       "supermarket": 19,
       "hospital": 17,
       "restaurant": 173,
@@ -4016,7 +4016,7 @@
       "park": 21,
       "nursery": 5
     },
-    "updated_at": "2026-07-17T14:33:23+09:00",
+    "updated_at": "2026-07-28T06:56:30+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "nippori": {
@@ -4031,7 +4031,7 @@
       "park": 26,
       "nursery": 10
     },
-    "updated_at": "2026-07-27T11:47:46+09:00",
+    "updated_at": "2026-07-28T06:57:21+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "fujisawa": {
@@ -4046,7 +4046,7 @@
       "park": 10,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T11:48:12+09:00",
+    "updated_at": "2026-07-28T06:58:45+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "meguro": {
@@ -4076,7 +4076,7 @@
       "park": 21,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T14:35:37+09:00",
+    "updated_at": "2026-07-28T07:00:56+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kawaguchi": {
@@ -4091,7 +4091,7 @@
       "park": 14,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T11:56:05+09:00",
+    "updated_at": "2026-07-28T07:06:25+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tsurumi": {
@@ -4136,7 +4136,7 @@
       "park": 29,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T12:00:52+09:00",
+    "updated_at": "2026-07-28T07:09:39+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "warabi": {
@@ -4151,7 +4151,7 @@
       "park": 19,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T12:02:58+09:00",
+    "updated_at": "2026-07-28T07:11:48+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "motoyawata": {
@@ -4166,7 +4166,7 @@
       "park": 3,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:03:41+09:00",
+    "updated_at": "2026-07-28T07:12:39+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "higashi-totsuka": {
@@ -4181,7 +4181,7 @@
       "park": 25,
       "nursery": 13
     },
-    "updated_at": "2026-07-27T12:06:16+09:00",
+    "updated_at": "2026-07-28T07:14:40+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ichigaya": {
@@ -4196,7 +4196,7 @@
       "park": 5,
       "nursery": 10
     },
-    "updated_at": "2026-07-27T12:06:48+09:00",
+    "updated_at": "2026-07-28T07:15:04+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kita-urawa": {
@@ -4241,7 +4241,7 @@
       "park": 12,
       "nursery": 11
     },
-    "updated_at": "2026-07-17T14:44:03+09:00",
+    "updated_at": "2026-07-28T07:20:23+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tabata": {
@@ -4256,7 +4256,7 @@
       "park": 23,
       "nursery": 10
     },
-    "updated_at": "2026-07-17T14:44:14+09:00",
+    "updated_at": "2026-07-28T07:20:33+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-kemigawa": {
@@ -4271,7 +4271,7 @@
       "park": 6,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T14:45:48+09:00",
+    "updated_at": "2026-07-28T07:24:46+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "haijima": {
@@ -4301,7 +4301,7 @@
       "park": 10,
       "nursery": 3
     },
-    "updated_at": "2026-07-17T14:47:13+09:00",
+    "updated_at": "2026-07-28T07:29:58+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "hasuda": {
@@ -4316,7 +4316,7 @@
       "park": 7,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:21:39+09:00",
+    "updated_at": "2026-07-28T07:31:33+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-kodaira": {
@@ -4331,7 +4331,7 @@
       "park": 16,
       "nursery": 0
     },
-    "updated_at": "2026-07-27T12:24:55+09:00",
+    "updated_at": "2026-07-28T07:35:14+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "negishi": {
@@ -4346,7 +4346,7 @@
       "park": 10,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T12:26:04+09:00",
+    "updated_at": "2026-07-28T07:36:03+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokyo-monorail-haneda-airport-terminal-1": {
@@ -4376,7 +4376,7 @@
       "park": 8,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:29:04+09:00",
+    "updated_at": "2026-07-28T07:38:55+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yono": {
@@ -4391,7 +4391,7 @@
       "park": 6,
       "nursery": 8
     },
-    "updated_at": "2026-07-17T14:50:28+09:00",
+    "updated_at": "2026-07-28T07:39:16+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokaichiba": {
@@ -4416,12 +4416,12 @@
       "convenience_store": 83,
       "supermarket": 6,
       "hospital": 19,
-      "restaurant": 790,
+      "restaurant": 791,
       "drugstore": 14,
       "park": 6,
       "nursery": 2
     },
-    "updated_at": "2026-07-17T14:51:28+09:00",
+    "updated_at": "2026-07-28T07:45:24+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "minami-yono": {
@@ -4436,7 +4436,7 @@
       "park": 6,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:35:40+09:00",
+    "updated_at": "2026-07-28T07:45:57+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "enzan": {
@@ -4451,7 +4451,7 @@
       "park": 7,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:35:50+09:00",
+    "updated_at": "2026-07-28T07:46:07+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yako": {
@@ -4481,7 +4481,7 @@
       "park": 0,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T12:40:14+09:00",
+    "updated_at": "2026-07-28T07:50:11+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "bakurocho": {
@@ -4496,7 +4496,7 @@
       "park": 21,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T12:43:38+09:00",
+    "updated_at": "2026-07-28T07:52:50+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keihan-hirakata-shi": {
@@ -4511,7 +4511,7 @@
       "park": 26,
       "nursery": 4
     },
-    "updated_at": "2026-07-27T12:45:44+09:00",
+    "updated_at": "2026-07-28T07:55:22+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "kyoto": {
@@ -4526,7 +4526,7 @@
       "park": 12,
       "nursery": 8
     },
-    "updated_at": "2026-07-17T14:56:56+09:00",
+    "updated_at": "2026-07-28T07:57:27+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "koga": {
@@ -4556,7 +4556,7 @@
       "park": 30,
       "nursery": 11
     },
-    "updated_at": "2026-07-27T12:54:02+09:00",
+    "updated_at": "2026-07-28T08:04:04+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "inagekaigan": {
@@ -4571,7 +4571,7 @@
       "park": 24,
       "nursery": 11
     },
-    "updated_at": "2026-07-27T12:57:12+09:00",
+    "updated_at": "2026-07-28T08:05:24+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "tokyu-komazawa-university": {
@@ -4586,7 +4586,7 @@
       "park": 14,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:57:22+09:00",
+    "updated_at": "2026-07-28T08:05:44+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keihan-demachiyanagi": {
@@ -4646,7 +4646,7 @@
       "park": 6,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T13:09:49+09:00",
+    "updated_at": "2026-07-28T08:17:04+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "sakura": {
@@ -4661,7 +4661,7 @@
       "park": 12,
       "nursery": 1
     },
-    "updated_at": "2026-07-17T15:01:24+09:00",
+    "updated_at": "2026-07-28T08:18:35+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "musashi-shinjo": {
@@ -4686,12 +4686,12 @@
       "convenience_store": 26,
       "supermarket": 6,
       "hospital": 5,
-      "restaurant": 102,
-      "drugstore": 1,
+      "restaurant": 103,
+      "drugstore": 2,
       "park": 8,
       "nursery": 8
     },
-    "updated_at": "2026-07-17T15:03:03+09:00",
+    "updated_at": "2026-07-28T08:22:26+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ichinoseki": {
@@ -4736,7 +4736,7 @@
       "park": 0,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T13:24:44+09:00",
+    "updated_at": "2026-07-28T08:31:47+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "sagamiko": {
@@ -4751,7 +4751,7 @@
       "park": 3,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T13:24:58+09:00",
+    "updated_at": "2026-07-28T08:31:59+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-yao-minami": {
@@ -4766,7 +4766,7 @@
       "park": 18,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T13:25:09+09:00",
+    "updated_at": "2026-07-28T08:32:10+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-osaka-business-park": {
@@ -4776,12 +4776,12 @@
       "convenience_store": 25,
       "supermarket": 2,
       "hospital": 3,
-      "restaurant": 113,
+      "restaurant": 115,
       "drugstore": 0,
       "park": 6,
       "nursery": 2
     },
-    "updated_at": "2026-07-17T15:06:15+09:00",
+    "updated_at": "2026-07-28T08:33:38+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-nakazakicho": {
@@ -4796,7 +4796,7 @@
       "park": 13,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T13:26:07+09:00",
+    "updated_at": "2026-07-28T08:34:07+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yamadera": {
@@ -4826,7 +4826,7 @@
       "park": 26,
       "nursery": 8
     },
-    "updated_at": "2026-07-27T13:28:34+09:00",
+    "updated_at": "2026-07-28T08:36:21+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "osaka-metro-hommachi": {
@@ -4856,7 +4856,7 @@
       "park": 5,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T13:35:53+09:00",
+    "updated_at": "2026-07-28T08:43:54+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "totsuka": {
@@ -4871,7 +4871,7 @@
       "park": 21,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T11:49:10+09:00",
+    "updated_at": "2026-07-28T06:59:39+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "matsudo": {
@@ -4901,7 +4901,7 @@
       "park": 15,
       "nursery": 9
     },
-    "updated_at": "2026-07-27T11:53:51+09:00",
+    "updated_at": "2026-07-28T07:04:43+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "itabashi": {
@@ -4946,7 +4946,7 @@
       "park": 16,
       "nursery": 3
     },
-    "updated_at": "2026-07-27T12:20:50+09:00",
+    "updated_at": "2026-07-28T07:30:26+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "musashi-itsukaichi": {
@@ -4961,7 +4961,7 @@
       "park": 3,
       "nursery": 2
     },
-    "updated_at": "2026-07-27T12:28:51+09:00",
+    "updated_at": "2026-07-28T07:38:22+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "keio-hachimanyama": {
@@ -5021,7 +5021,7 @@
       "park": 4,
       "nursery": 0
     },
-    "updated_at": "2026-07-17T15:17:32+09:00",
+    "updated_at": "2026-07-28T07:59:19+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "minami-kashiwa": {
@@ -5081,7 +5081,7 @@
       "park": 11,
       "nursery": 5
     },
-    "updated_at": "2026-07-27T13:19:47+09:00",
+    "updated_at": "2026-07-28T08:26:28+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "akigawa": {
@@ -5111,7 +5111,7 @@
       "park": 4,
       "nursery": 7
     },
-    "updated_at": "2026-07-17T15:22:08+09:00",
+    "updated_at": "2026-07-28T08:37:15+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "ochanomizu": {
@@ -5141,7 +5141,7 @@
       "park": 21,
       "nursery": 11
     },
-    "updated_at": "2026-07-27T11:53:17+09:00",
+    "updated_at": "2026-07-28T07:04:33+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "asakusabashi": {
@@ -5171,7 +5171,7 @@
       "park": 9,
       "nursery": 6
     },
-    "updated_at": "2026-07-18T11:34:59+09:00",
+    "updated_at": "2026-07-28T07:20:45+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "mobara": {
@@ -5186,7 +5186,7 @@
       "park": 9,
       "nursery": 4
     },
-    "updated_at": "2026-07-18T11:35:35+09:00",
+    "updated_at": "2026-07-28T07:53:01+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "shin-okubo": {
@@ -5216,7 +5216,7 @@
       "park": 18,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T13:26:55+09:00",
+    "updated_at": "2026-07-28T08:35:26+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   },
   "yonezawa": {
@@ -5231,7 +5231,7 @@
       "park": 2,
       "nursery": 1
     },
-    "updated_at": "2026-07-27T13:13:54+09:00",
+    "updated_at": "2026-07-28T08:21:21+09:00",
     "source": "OpenStreetMap contributors (ODbL)"
   }
 }
