@@ -6,6 +6,7 @@ import AdSlot from "../components/AdSlot";
 import BottomNav from "../components/BottomNav";
 import Footer from "../components/Footer";
 import { toggleFavorite, useFavorites } from "../favorites";
+import { buildStationComment } from "../stationComment";
 import NotFound from "./NotFound";
 
 export default function StationPage({ stations }) {
@@ -102,6 +103,8 @@ export default function StationPage({ stations }) {
 
       {status === "ok" && data && (
         <>
+          <p className="station-comment">{buildStationComment(station.name_ja, data)}</p>
+
           <div className="breakdown-card">
             {CATEGORIES.map((cat) => {
               const count = data.counts[cat.key] || 0;

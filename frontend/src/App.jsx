@@ -5,6 +5,7 @@ import StationPage from "./pages/StationPage";
 import ComparePage from "./pages/ComparePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import GuidePage from "./pages/GuidePage";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/compare" element={<ComparePage stations={stations} />} />
         <Route path="/favorites" element={<FavoritesPage stations={stations} />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/guide" element={<GuidePage />} />
         <Route path="/:stationSlug" element={<StationPage stations={stations} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

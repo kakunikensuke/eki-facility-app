@@ -112,6 +112,19 @@
   color: #e34948;
 }
 
+/* ---------- 駅ごとの一言コメント ---------- */
+
+.station-comment {
+  margin: 16px 16px 0;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-h);
+}
+
 /* ---------- 内訳バー(dataviz skillのcategoricalカラーを使用) ---------- */
 
 .breakdown-card {
@@ -469,6 +482,14 @@
   text-align: center;
   padding: 16px 16px 8px;
   font-size: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.app-footer a + a {
+  border-left: 1px solid var(--border);
+  padding-left: 8px;
 }
 
 .app-footer a {
