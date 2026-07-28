@@ -7,6 +7,7 @@ import BottomNav from "../components/BottomNav";
 import Footer from "../components/Footer";
 import { toggleFavorite, useFavorites } from "../favorites";
 import { buildStationComment } from "../stationComment";
+import { getStationTags } from "../stationTags";
 import NotFound from "./NotFound";
 
 export default function StationPage({ stations }) {
@@ -44,6 +45,7 @@ export default function StationPage({ stations }) {
   const totalCount = data
     ? CATEGORIES.reduce((sum, cat) => sum + (data.counts[cat.key] || 0), 0)
     : 0;
+  const stationTags = data ? getStationTags(data.counts) : [];
 
   return (
     <div className="app-container">
@@ -104,6 +106,16 @@ export default function StationPage({ stations }) {
       {status === "ok" && data && (
         <>
           <p className="station-comment">{buildStationComment(station.name_ja, data)}</p>
+
+          {stationTags.length > 0 && (
+            <div className="station-tags">
+              {stationTags.map((tag) => (
+                <span className="station-tag" key={tag.key}>
+                  {tag.label}
+                </span>
+              ))}
+            </div>
+          )}
 
           <div className="breakdown-card">
             {CATEGORIES.map((cat) => {
