@@ -8,6 +8,8 @@ import Footer from "../components/Footer";
 import { toggleFavorite, useFavorites } from "../favorites";
 import { buildStationComment } from "../stationComment";
 import { getStationTags } from "../stationTags";
+import { stationTitle, stationDescription } from "../pageMeta";
+import { useDocumentMeta } from "../useDocumentTitle";
 import NotFound from "./NotFound";
 
 export default function StationPage({ stations }) {
@@ -37,6 +39,14 @@ export default function StationPage({ stations }) {
       })
       .catch(() => setStatus("error"));
   }, [stationSlug, station]);
+
+  // アプリ内で駅を切り替えたときにtitle/descriptionを追随させる。
+  // 初期表示分はビルド時のプリレンダが埋めているので、ここは遷移時のための処理。
+  // hookは条件分岐より前に呼ぶ必要があるため、NotFoundの判定より上に置いている。
+  useDocumentMeta(
+    station ? stationTitle(station.name_ja) : undefined,
+    station && data ? stationDescription(station.name_ja, data) : undefined
+  );
 
   if (!station) {
     return <NotFound />;

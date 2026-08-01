@@ -1,4 +1,5 @@
-import { CATEGORIES } from "./categories";
+// ビルド時のプリレンダ（scripts/prerender.js）がNodeから直接importするため、拡張子まで明示する
+import { CATEGORIES } from "./categories.js";
 
 // スコア算出時のtarget値(backend/scoring.jsのSCORE_TARGETSと一致させる規約)。
 // フロント/バックエンドでビルドルートが分かれているため値を複製している。
