@@ -3,9 +3,19 @@ import { fetchFacilityCounts } from "../api";
 import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
 import BottomNav from "../components/BottomNav";
 import Footer from "../components/Footer";
+import { DEFAULT_WALK_MINUTES } from "../walkTiers";
 
 // 引越し検討者が「今の駅 or 候補駅同士」を比べる、というアプリの核心的な利用シーン
 // (project_eki_facility_app.md参照)を2駅固定・毎回選び直す方式で実現する。
+//
+// 比較は徒歩10分圏に固定している。駅ページ側は4段階を切り替えられる(2026-08-07追加)が、
+// ここで段階も可変にすると「どの範囲で比べているか」が分かりにくくなるため、
+// 既定の段階だけを扱う。
+
+// 集計途中の駅は既定の段階を持たないことがあるため、無ければ利用可能な最小の段階で代替する
+function pickTier(data) {
+  return data?.tiers?.[DEFAULT_WALK_MINUTES] ?? data?.tiers?.[data?.available_walk_minutes?.[0]];
+}
 
 function useStationData(slug) {
   const [data, setData] = useState(null);
@@ -42,7 +52,9 @@ export default function ComparePage({ stations }) {
 
   const nameOf = (slug) => stations.find((s) => s.slug === slug)?.name_ja ?? "";
   const sameStation = Boolean(slugA) && slugA === slugB;
-  const bothReady = !sameStation && statusA === "ok" && statusB === "ok" && dataA && dataB;
+  const tierA = pickTier(dataA);
+  const tierB = pickTier(dataB);
+  const bothReady = !sameStation && statusA === "ok" && statusB === "ok" && tierA && tierB;
 
   return (
     <div className="app-container">
@@ -100,30 +112,32 @@ export default function ComparePage({ stations }) {
           <div className="compare-score-card">
             <div
               className={`compare-score-item${
-                dataA.score.total >= dataB.score.total ? " compare-score-winner" : ""
+                tierA.score.total >= tierB.score.total ? " compare-score-winner" : ""
               }`}
             >
               <div className="compare-score-name">{nameOf(slugA)}</div>
-              <div className="compare-score-value">{dataA.score.total}</div>
+              <div className="compare-score-value">{tierA.score.total}</div>
               <div className="compare-score-label">SCORE</div>
             </div>
             <div className="compare-score-divider" />
             <div
               className={`compare-score-item${
-                dataB.score.total >= dataA.score.total ? " compare-score-winner" : ""
+                tierB.score.total >= tierA.score.total ? " compare-score-winner" : ""
               }`}
             >
               <div className="compare-score-name">{nameOf(slugB)}</div>
-              <div className="compare-score-value">{dataB.score.total}</div>
+              <div className="compare-score-value">{tierB.score.total}</div>
               <div className="compare-score-label">SCORE</div>
             </div>
           </div>
 
           <div className="compare-card">
-            <div className="compare-card-title">カテゴリ別 軒数比較</div>
+            <div className="compare-card-title">
+              カテゴリ別 軒数比較（徒歩{tierA.walk_minutes}分圏内）
+            </div>
             {[...CATEGORIES, ...EXTRA_CATEGORIES].map((cat) => {
-              const countA = dataA.counts[cat.key] || 0;
-              const countB = dataB.counts[cat.key] || 0;
+              const countA = tierA.counts[cat.key] || 0;
+              const countB = tierB.counts[cat.key] || 0;
               return (
                 <div className="compare-row" key={cat.key}>
                   <span

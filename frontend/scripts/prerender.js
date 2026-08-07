@@ -38,8 +38,14 @@ import {
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// スコア計算はバックエンドの実装をそのまま使う（値を三重に複製しないため）
-const { calculateScore } = require("../../backend/scoring.js");
+// スコア計算・タグ判定・レコード正規化はバックエンドの実装をそのまま使う
+// （target値やしきい値を三重に複製しないため）
+const { calculateScore, SCORE_TARGETS_BY_WALK_MINUTES } = require("../../backend/scoring.js");
+const {
+  getStationTagKeys,
+  TAG_THRESHOLDS_BY_WALK_MINUTES,
+} = require("../../backend/stationTags.js");
+const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("../../backend/facilityRecord.js");
 
 // デプロイ先が1つしかないので既定値を本番URLにしている（Cloudflare Pages側の
 // 環境変数設定を増やさずに済ませるため）。別ドメインで使う場合のみ環境変数で上書きする。
@@ -131,20 +137,50 @@ function topPage() {
   };
 }
 
+// APIが返すのと同じ形の1段階ぶんのデータを組み立てる（stationComment等が同じ形を期待するため）
+function buildTier(record, walkMinutes) {
+  const raw = record.tiers[walkMinutes];
+  if (!raw) return null;
+  return {
+    walk_minutes: Number(walkMinutes),
+    radius_m: raw.radius_m,
+    counts: raw.counts,
+    score: calculateScore(raw.counts, Number(walkMinutes)),
+    targets: SCORE_TARGETS_BY_WALK_MINUTES[walkMinutes],
+    tag_keys: getStationTagKeys(raw.counts, Number(walkMinutes)),
+    tag_thresholds: TAG_THRESHOLDS_BY_WALK_MINUTES[walkMinutes],
+  };
+}
+
 function stationPage(station) {
   const raw = facilityCounts[station.slug];
   if (!raw) return null;
 
-  const data = { ...raw, score: calculateScore(raw.counts) };
-  const comment = buildStationComment(station.name_ja, data);
-  const tags = getStationTags(data.counts);
-  const totalCount = CATEGORIES.reduce((sum, cat) => sum + (data.counts[cat.key] || 0), 0);
+  const record = normalizeRecord(raw);
+  const availableMinutes = Object.keys(record.tiers)
+    .map(Number)
+    .sort((a, b) => a - b);
+  const tiers = availableMinutes.map((m) => buildTier(record, m)).filter(Boolean);
+  if (tiers.length === 0) return null;
 
-  const description = stationDescription(station.name_ja, data);
+  // 見出し・description・一言コメントは既定の段階を基準にする（無ければ最小の段階）
+  const mainTier = tiers.find((t) => t.walk_minutes === DEFAULT_WALK_MINUTES) ?? tiers[0];
+  const comment = buildStationComment(station.name_ja, mainTier);
+  const tags = getStationTags(mainTier.tag_keys);
+  const totalCount = CATEGORIES.reduce((sum, cat) => sum + (mainTier.counts[cat.key] || 0), 0);
 
+  const description = stationDescription(station.name_ja, mainTier);
+
+  // 4段階すべての軒数を1つの表に出す。段階の切り替えはJS側のタブだが、
+  // クローラにも全段階の数字が見えるようにしておく（1ページの情報量を増やす狙いもある）
+  const headerCells = tiers.map((t) => `<th>徒歩${esc(t.walk_minutes)}分</th>`).join("");
   const rows = [...CATEGORIES, ...EXTRA_CATEGORIES]
-    .map((cat) => `<tr><td>${esc(cat.label)}</td><td>${esc(data.counts[cat.key] || 0)}軒</td></tr>`)
+    .map((cat) => {
+      const cells = tiers.map((t) => `<td>${esc(t.counts[cat.key] || 0)}軒</td>`).join("");
+      return `<tr><td>${esc(cat.label)}</td>${cells}</tr>`;
+    })
     .join("");
+  const scoreRow = tiers.map((t) => `<td>${esc(t.score.total)}点</td>`).join("");
 
   const tagHtml = tags.length > 0
     ? `<p>${tags.map((t) => esc(t.label)).join(" / ")}</p>`
@@ -163,12 +199,15 @@ function stationPage(station) {
     },
     body: `<main>
       <h1>${esc(station.name_ja)}の住みやすさ駅前スコア</h1>
-      <p>スコア ${data.score.total} 点／徒歩${esc(data.walk_minutes)}分圏内の合計 ${totalCount} 軒</p>
+      <p>スコア ${mainTier.score.total} 点／徒歩${esc(mainTier.walk_minutes)}分圏内の合計 ${totalCount} 軒</p>
       <p>${esc(comment)}</p>
       ${tagHtml}
-      <h2>徒歩${esc(data.walk_minutes)}分圏内の施設数</h2>
-      <table><tbody>${rows}</tbody></table>
-      <p>店舗数はOpenStreetMapのデータに基づく目安です（更新: ${esc(data.updated_at)}）。</p>
+      <h2>徒歩分数別の施設数</h2>
+      <table>
+        <thead><tr><th>カテゴリ</th>${headerCells}</tr></thead>
+        <tbody><tr><td>住みやすさスコア</td>${scoreRow}</tr>${rows}</tbody>
+      </table>
+      <p>店舗数はOpenStreetMapのデータに基づく目安です（更新: ${esc(record.updated_at)}）。</p>
       <p>${link("/", `全${stations.length}駅の一覧を見る`)} ／ ${link("/compare", "他の駅と比較する")}</p>
     </main>`,
   };

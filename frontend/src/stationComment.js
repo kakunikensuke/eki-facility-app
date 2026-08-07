@@ -1,15 +1,6 @@
 // ビルド時のプリレンダ（scripts/prerender.js）がNodeから直接importするため、拡張子まで明示する
 import { CATEGORIES } from "./categories.js";
 
-// スコア算出時のtarget値(backend/scoring.jsのSCORE_TARGETSと一致させる規約)。
-// フロント/バックエンドでビルドルートが分かれているため値を複製している。
-const SCORE_TARGETS = {
-  convenience_store: 27,
-  supermarket: 8,
-  hospital: 7,
-  restaurant: 140,
-};
-
 // 文言バリエーションの選択に使う簡易ハッシュ。駅名(+salt)から常に同じ値を返すため、
 // 同じ駅は再訪しても同じ文言になる(SEO上のコンテンツ安定性のため)一方、
 // 別の駅同士では異なるバリエーションが選ばれやすくなる。
@@ -70,28 +61,35 @@ const EXTRA_TEMPLATES = [
 
 // 駅ごとの実データから一言コメントを生成する(要件定義書10章の収益化準備の一環、
 // AdSense審査対策として各駅ページの記述内容に差をつけるための機能)。
-export function buildStationComment(stationName, data) {
+//
+// tierはAPIが返す1段階ぶんのデータ（counts / score / targets / walk_minutes）。
+// 「充実している/少なめ」の判定に使うtargetsは、徒歩分数の段階ごとに値が変わるため
+// フロントで複製せずAPIの値をそのまま使う（backend/scoring.js参照）。
+export function buildStationComment(stationName, tier) {
   const ratios = CATEGORIES.map((cat) => ({
     key: cat.key,
     label: cat.label,
-    count: data.counts[cat.key] || 0,
-    ratio: (data.counts[cat.key] || 0) / SCORE_TARGETS[cat.key],
+    count: tier.counts[cat.key] || 0,
+    ratio: (tier.counts[cat.key] || 0) / tier.targets[cat.key],
   }));
   const strongest = [...ratios].sort((a, b) => b.ratio - a.ratio)[0];
   const weakest = [...ratios].sort((a, b) => a.ratio - b.ratio)[0];
 
-  const tier = SCORE_TIERS.find((t) => data.score.total >= t.min);
-  const scoreTemplate = pickVariant(stationName, "score", tier.templates);
-  const scoreSentence = scoreTemplate(stationName, data.walk_minutes);
+  const scoreTier = SCORE_TIERS.find((t) => tier.score.total >= t.min);
+  const scoreTemplate = pickVariant(stationName, "score", scoreTier.templates);
+  const scoreSentence = scoreTemplate(stationName, tier.walk_minutes);
 
   const detailSentence =
     strongest.key === weakest.key
       ? ""
       : pickVariant(stationName, "detail", DETAIL_TEMPLATES)(strongest, weakest);
 
+  // 「多い」の基準は各段階の75パーセンタイル値（＝上位25%の駅に入る水準）。
+  // 段階によって集計面積が変わるため、固定の軒数ではなくAPIが返すしきい値で判定する。
   const extras = [];
-  if ((data.counts.park || 0) >= 10) extras.push("公園も多く");
-  if ((data.counts.nursery || 0) >= 5) extras.push("保育園・幼稚園も複数あり");
+  if ((tier.counts.park || 0) >= tier.tag_thresholds.park) extras.push("公園も多く");
+  if ((tier.counts.nursery || 0) >= tier.tag_thresholds.nursery)
+    extras.push("保育園・幼稚園も複数あり");
   const extraSentence =
     extras.length > 0 ? pickVariant(stationName, "extra", EXTRA_TEMPLATES)(extras) : "";
 

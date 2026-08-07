@@ -12,7 +12,9 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    # 4段階化(2026-08-07)でクエリが重くなり、349駅の所要が約2時間に伸びたため延長。
+    # タイムアウトするとその回の更新が丸ごと失われる（コミット前にジョブが落ちる）ため余裕を持たせる。
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
 

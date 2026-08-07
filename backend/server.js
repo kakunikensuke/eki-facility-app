@@ -2,7 +2,8 @@
  * 住みやすさ駅前スコア バックエンドAPI
  *
  * GET /api/stations         -> 対象駅一覧
- * GET /api/facility-counts?station=<slug> -> 指定駅の集計済みカテゴリ別店舗数
+ * GET /api/facility-counts?station=<slug> -> 指定駅の徒歩5/10/15/20分圏それぞれの
+ *                                            カテゴリ別店舗数とスコア
  *
  * facility-counts.jsonはOverpass APIへのリアルタイム問い合わせではなく、
  * batch/updateFacilityCounts.jsによる事前集計結果を読むだけ（設計書2章参照）。
@@ -15,7 +16,9 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
-const { calculateScore } = require("./scoring");
+const { calculateScore, SCORE_TARGETS_BY_WALK_MINUTES } = require("./scoring");
+const { getStationTagKeys, TAG_THRESHOLDS_BY_WALK_MINUTES } = require("./stationTags");
+const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("./facilityRecord");
 
 const app = express();
 const PORT = process.env.PORT || 4001;
@@ -57,7 +60,32 @@ app.get("/api/facility-counts", (req, res) => {
     return res.status(404).json({ error: "この駅の集計データはまだ準備できていません" });
   }
 
-  res.json({ station, ...record, score: calculateScore(record.counts) });
+  const normalized = normalizeRecord(record);
+  const tiers = {};
+  for (const [key, tier] of Object.entries(normalized.tiers)) {
+    const walkMinutes = Number(key);
+    tiers[key] = {
+      walk_minutes: walkMinutes,
+      radius_m: tier.radius_m,
+      counts: tier.counts,
+      score: calculateScore(tier.counts, walkMinutes),
+      // 一言コメントの「充実している/少なめ」判定に使う。フロント側で同じ値を持たずに済むよう返す
+      targets: SCORE_TARGETS_BY_WALK_MINUTES[walkMinutes],
+      tag_keys: getStationTagKeys(tier.counts, walkMinutes),
+      // スコア対象外カテゴリ（公園・保育園等）の「多い」基準。一言コメントの補足文で使う
+      tag_thresholds: TAG_THRESHOLDS_BY_WALK_MINUTES[walkMinutes],
+    };
+  }
+
+  res.json({
+    station,
+    tiers,
+    // 集計途中の駅は一部の段階しか持たないことがあるため、実際に返せる段階も明示する
+    available_walk_minutes: Object.keys(tiers).map(Number).sort((a, b) => a - b),
+    default_walk_minutes: DEFAULT_WALK_MINUTES,
+    updated_at: normalized.updated_at,
+    source: normalized.source,
+  });
 });
 
 app.listen(PORT, () => {

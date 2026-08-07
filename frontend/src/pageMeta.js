@@ -9,19 +9,22 @@ export function topTitle() {
 }
 
 export function topDescription(stationCount) {
-  return `全国${stationCount}駅の駅前の住みやすさをスコア化。駅名を選ぶと徒歩10分圏内のコンビニ・スーパー・病院・飲食店の軒数がわかります。`;
+  return `全国${stationCount}駅の駅前の住みやすさをスコア化。駅名を選ぶと徒歩5〜20分圏内のコンビニ・スーパー・病院・飲食店の軒数がわかります。`;
 }
 
 export function stationTitle(stationName) {
   return `${stationName}の住みやすさ駅前スコア｜コンビニ・スーパー・病院・飲食店の軒数`;
 }
 
-export function stationDescription(stationName, data) {
-  const c = data.counts;
+// descriptionは既定の段階（徒歩10分）を基準にする。4段階すべてを詰め込むと
+// 検索結果に出る文言が冗長になり、かつ表示上切り捨てられるため。
+export function stationDescription(stationName, tier) {
+  const c = tier.counts;
   return (
-    `${stationName}の住みやすさ駅前スコアは${data.score.total}点。` +
-    `徒歩${data.walk_minutes}分圏内にコンビニ${c.convenience_store || 0}軒、` +
-    `スーパー${c.supermarket || 0}軒、病院${c.hospital || 0}軒、飲食店${c.restaurant || 0}軒。`
+    `${stationName}の住みやすさ駅前スコアは${tier.score.total}点。` +
+    `徒歩${tier.walk_minutes}分圏内にコンビニ${c.convenience_store || 0}軒、` +
+    `スーパー${c.supermarket || 0}軒、病院${c.hospital || 0}軒、飲食店${c.restaurant || 0}軒。` +
+    `徒歩5分・15分・20分圏内の軒数も確認できます。`
   );
 }
 

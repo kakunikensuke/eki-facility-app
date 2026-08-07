@@ -10,6 +10,7 @@ import { buildStationComment } from "../stationComment";
 import { getStationTags } from "../stationTags";
 import { stationTitle, stationDescription } from "../pageMeta";
 import { useDocumentMeta } from "../useDocumentTitle";
+import { DEFAULT_WALK_MINUTES } from "../walkTiers";
 import NotFound from "./NotFound";
 
 export default function StationPage({ stations }) {
@@ -17,6 +18,7 @@ export default function StationPage({ stations }) {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [status, setStatus] = useState("loading"); // loading | ok | not-found | error
+  const [walkMinutes, setWalkMinutes] = useState(DEFAULT_WALK_MINUTES);
   const favorites = useFavorites();
 
   const station = stations.find((s) => s.slug === stationSlug);
@@ -35,6 +37,12 @@ export default function StationPage({ stations }) {
           return;
         }
         setData(result);
+        // 集計途中の駅は既定の段階を持たないことがあるため、実際に返ってきた段階に寄せる
+        if (!result.tiers[DEFAULT_WALK_MINUTES]) {
+          setWalkMinutes(result.available_walk_minutes[0]);
+        } else {
+          setWalkMinutes(DEFAULT_WALK_MINUTES);
+        }
         setStatus("ok");
       })
       .catch(() => setStatus("error"));
@@ -43,19 +51,22 @@ export default function StationPage({ stations }) {
   // アプリ内で駅を切り替えたときにtitle/descriptionを追随させる。
   // 初期表示分はビルド時のプリレンダが埋めているので、ここは遷移時のための処理。
   // hookは条件分岐より前に呼ぶ必要があるため、NotFoundの判定より上に置いている。
+  // descriptionは既定の段階を基準にするため、タブ切り替えでは変えない（プリレンダの文言と揃える）。
+  const metaTier = data?.tiers?.[data?.default_walk_minutes] ?? data?.tiers?.[walkMinutes];
   useDocumentMeta(
     station ? stationTitle(station.name_ja) : undefined,
-    station && data ? stationDescription(station.name_ja, data) : undefined
+    station && metaTier ? stationDescription(station.name_ja, metaTier) : undefined
   );
 
   if (!station) {
     return <NotFound />;
   }
 
-  const totalCount = data
-    ? CATEGORIES.reduce((sum, cat) => sum + (data.counts[cat.key] || 0), 0)
+  const tier = data?.tiers?.[walkMinutes] ?? null;
+  const totalCount = tier
+    ? CATEGORIES.reduce((sum, cat) => sum + (tier.counts[cat.key] || 0), 0)
     : 0;
-  const stationTags = data ? getStationTags(data.counts) : [];
+  const stationTags = tier ? getStationTags(tier.tag_keys) : [];
 
   return (
     <div className="app-container">
@@ -72,23 +83,21 @@ export default function StationPage({ stations }) {
           <div className="app-logo">住みやすさ駅前スコア</div>
         </div>
 
-        {status === "ok" && data && (
-          <>
-            <div className="score-ring-row">
-              <div className="side-stat">
-                <div className="side-stat-value">{totalCount}</div>
-                <div className="side-stat-label">合計軒数</div>
-              </div>
-              <div className="score-ring">
-                <div className="score-ring-value">{data.score.total}</div>
-                <div className="score-ring-label">SCORE</div>
-              </div>
-              <div className="side-stat">
-                <div className="side-stat-value">徒歩{data.walk_minutes}分</div>
-                <div className="side-stat-label">集計範囲</div>
-              </div>
+        {status === "ok" && tier && (
+          <div className="score-ring-row">
+            <div className="side-stat">
+              <div className="side-stat-value">{totalCount}</div>
+              <div className="side-stat-label">合計軒数</div>
             </div>
-          </>
+            <div className="score-ring">
+              <div className="score-ring-value">{tier.score.total}</div>
+              <div className="score-ring-label">SCORE</div>
+            </div>
+            <div className="side-stat">
+              <div className="side-stat-value">徒歩{tier.walk_minutes}分</div>
+              <div className="side-stat-label">集計範囲</div>
+            </div>
+          </div>
         )}
       </header>
 
@@ -113,9 +122,27 @@ export default function StationPage({ stations }) {
         <p className="status-message">この駅の集計データはまだ準備できていません。</p>
       )}
 
-      {status === "ok" && data && (
+      {status === "ok" && tier && (
         <>
-          <p className="station-comment">{buildStationComment(station.name_ja, data)}</p>
+          <div className="walk-tabs" role="tablist" aria-label="集計範囲（徒歩分数）">
+            {data.available_walk_minutes.map((minutes) => (
+              <button
+                key={minutes}
+                type="button"
+                role="tab"
+                aria-selected={minutes === walkMinutes}
+                className={`walk-tab${minutes === walkMinutes ? " walk-tab-active" : ""}`}
+                onClick={() => setWalkMinutes(minutes)}
+              >
+                徒歩{minutes}分
+              </button>
+            ))}
+          </div>
+          <p className="walk-tabs-note">
+            駅から半径{tier.radius_m}m以内が集計対象です（徒歩1分=80mで換算）。
+          </p>
+
+          <p className="station-comment">{buildStationComment(station.name_ja, tier)}</p>
 
           {stationTags.length > 0 && (
             <div className="station-tags">
@@ -129,8 +156,8 @@ export default function StationPage({ stations }) {
 
           <div className="breakdown-card">
             {CATEGORIES.map((cat) => {
-              const count = data.counts[cat.key] || 0;
-              const points = data.score.breakdown[cat.key];
+              const count = tier.counts[cat.key] || 0;
+              const points = tier.score.breakdown[cat.key];
               const maxPoints = 100 / CATEGORIES.length;
               const widthPct = Math.max((points / maxPoints) * 100, 4);
               return (
@@ -156,7 +183,7 @@ export default function StationPage({ stations }) {
           <div className="extra-card">
             <div className="extra-card-title">その他の施設（スコア対象外）</div>
             {EXTRA_CATEGORIES.map((cat) => {
-              const count = data.counts[cat.key] || 0;
+              const count = tier.counts[cat.key] || 0;
               return (
                 <div className="extra-item" key={cat.key}>
                   <div className="extra-item-row">

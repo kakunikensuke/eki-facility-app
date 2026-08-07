@@ -125,6 +125,41 @@
   color: var(--text-h);
 }
 
+/* ---------- 集計範囲（徒歩分数）の切り替えタブ ---------- */
+
+.walk-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 16px 16px 0;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.walk-tab {
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.walk-tab-active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.walk-tabs-note {
+  margin: 8px 16px 0;
+  font-size: 11px;
+  color: var(--text);
+}
+
 /* ---------- こんな人におすすめタグ ---------- */
 
 .station-tags {
