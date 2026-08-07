@@ -37,8 +37,15 @@ function loadFacilityCounts() {
   return JSON.parse(fs.readFileSync(FACILITY_COUNTS_PATH, "utf-8"));
 }
 
+// lat/lonも返すのは、駅ページの「近くの駅」リンク（frontend/src/nearbyStations.js）を
+// フロント側だけで組み立てられるようにするため。349駅ぶんでも増加は数KB程度。
 app.get("/api/stations", (req, res) => {
-  const stations = loadStations().map(({ slug, name_ja }) => ({ slug, name_ja }));
+  const stations = loadStations().map(({ slug, name_ja, lat, lon }) => ({
+    slug,
+    name_ja,
+    lat,
+    lon,
+  }));
   res.json(stations);
 });
 

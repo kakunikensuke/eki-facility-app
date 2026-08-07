@@ -101,6 +101,9 @@
   background: var(--surface);
   color: var(--text-h);
   min-width: 200px;
+  /* selectは最長の駅名に合わせて広がるため、上限を切らないと375px幅で
+     ページ全体に横スクロールが出る（モバイルの表示崩れは検索評価にも響く） */
+  max-width: 100%;
 }
 
 .status-message {
@@ -307,6 +310,45 @@
 }
 
 /* ---------- 出典・免責カード ---------- */
+
+/* 近くの駅への内部リンク（回遊とクロール経路の確保。frontend/src/nearbyStations.js参照） */
+.nearby-card {
+  margin: 20px 16px 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.nearby-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+  margin-bottom: 10px;
+}
+
+.nearby-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nearby-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.nearby-link-distance {
+  font-size: 11px;
+  color: var(--text);
+}
 
 .info-card {
   margin: 16px 16px 0;

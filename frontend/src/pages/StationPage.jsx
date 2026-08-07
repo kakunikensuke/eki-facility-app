@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchFacilityCounts } from "../api";
 import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
 import AdSlot from "../components/AdSlot";
@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import { toggleFavorite, useFavorites } from "../favorites";
 import { buildStationComment } from "../stationComment";
 import { getStationTags } from "../stationTags";
+import { findNearbyStations, formatDistance } from "../nearbyStations";
 import { stationTitle, stationDescription } from "../pageMeta";
 import { useDocumentMeta } from "../useDocumentTitle";
 import { DEFAULT_WALK_MINUTES } from "../walkTiers";
@@ -67,6 +68,7 @@ export default function StationPage({ stations }) {
     ? CATEGORIES.reduce((sum, cat) => sum + (tier.counts[cat.key] || 0), 0)
     : 0;
   const stationTags = tier ? getStationTags(tier.tag_keys) : [];
+  const nearby = findNearbyStations(station, stations);
 
   return (
     <div className="app-container">
@@ -198,6 +200,20 @@ export default function StationPage({ stations }) {
               );
             })}
           </div>
+
+          {nearby.length > 0 && (
+            <div className="nearby-card">
+              <div className="nearby-card-title">{station.name_ja}の近くの駅</div>
+              <div className="nearby-list">
+                {nearby.map(({ station: s, km }) => (
+                  <Link className="nearby-link" key={s.slug} to={`/${s.slug}`}>
+                    {s.name_ja}
+                    <span className="nearby-link-distance">約{formatDistance(km)}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="info-card">
             <p className="disclaimer">

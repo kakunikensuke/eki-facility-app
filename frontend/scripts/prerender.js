@@ -27,7 +27,9 @@ import { createRequire } from "module";
 import { CATEGORIES, EXTRA_CATEGORIES } from "../src/categories.js";
 import { buildStationComment } from "../src/stationComment.js";
 import { getStationTags } from "../src/stationTags.js";
+import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
 import {
+  SITE_NAME,
   topTitle,
   topDescription,
   stationTitle,
@@ -88,7 +90,10 @@ function metaTags({ title, description, canonicalPath, jsonLd }) {
     `<meta property="og:url" content="${esc(url)}" />`,
     `<link rel="canonical" href="${esc(url)}" />`,
   ];
-  if (jsonLd) tags.push(`<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`);
+  // jsonLdは単体でも配列でも受ける（駅ページはPlaceとBreadcrumbListの2つを出す）
+  for (const item of [].concat(jsonLd ?? [])) {
+    tags.push(`<script type="application/ld+json">${JSON.stringify(item)}</script>`);
+  }
   return tags.map((tag) => `    ${tag}`).join("\n");
 }
 
@@ -127,6 +132,13 @@ function topPage() {
     title: topTitle(),
     description,
     canonicalPath: "/",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: SITE_NAME,
+      description,
+      url: `${SITE_URL}/`,
+    },
     body: `<main>
       <h1>住みやすさ駅前スコア</h1>
       <p>${esc(description)}</p>
@@ -186,17 +198,41 @@ function stationPage(station) {
     ? `<p>${tags.map((t) => esc(t.label)).join(" / ")}</p>`
     : "";
 
+  // 駅同士を結ぶ内部リンク。トップの一覧しか経路が無い平たい構造を崩す狙い（nearbyStations.js参照）
+  const nearby = findNearbyStations(station, stations);
+  const nearbyHtml =
+    nearby.length > 0
+      ? `<h2>${esc(station.name_ja)}の近くの駅</h2>
+      <ul>${nearby
+        .map(
+          ({ station: s, km }) =>
+            `<li>${link(`/${s.slug}`, s.name_ja)}（約${esc(formatDistance(km))}）</li>`
+        )
+        .join("")}</ul>`
+      : "";
+
   return {
     title: stationTitle(station.name_ja),
     description,
     canonicalPath: `/${station.slug}`,
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": "Place",
-      name: station.name_ja,
-      geo: { "@type": "GeoCoordinates", latitude: station.lat, longitude: station.lon },
-      url: `${SITE_URL}/${station.slug}`,
-    },
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Place",
+        name: station.name_ja,
+        geo: { "@type": "GeoCoordinates", latitude: station.lat, longitude: station.lon },
+        url: `${SITE_URL}/${station.slug}`,
+      },
+      // 検索結果に「住みやすさ駅前スコア > 池袋駅」の形で階層が出るようにする
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: SITE_NAME, item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: station.name_ja },
+        ],
+      },
+    ],
     body: `<main>
       <h1>${esc(station.name_ja)}の住みやすさ駅前スコア</h1>
       <p>スコア ${mainTier.score.total} 点／徒歩${esc(mainTier.walk_minutes)}分圏内の合計 ${totalCount} 軒</p>
@@ -208,6 +244,7 @@ function stationPage(station) {
         <tbody><tr><td>住みやすさスコア</td>${scoreRow}</tr>${rows}</tbody>
       </table>
       <p>店舗数はOpenStreetMapのデータに基づく目安です（更新: ${esc(record.updated_at)}）。</p>
+      ${nearbyHtml}
       <p>${link("/", `全${stations.length}駅の一覧を見る`)} ／ ${link("/compare", "他の駅と比較する")}</p>
     </main>`,
   };
