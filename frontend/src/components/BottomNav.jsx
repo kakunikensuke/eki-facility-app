@@ -30,7 +30,9 @@ export default function BottomNav() {
             type="button"
             className={`bottom-nav-item${active ? " active" : ""}`}
             onClick={() => {
-              if (active) return;
+              // 判定にactiveを使わないこと。駅ページもホームを選択中として扱う（＝その駅は
+              // ホームの配下という見え方にする）が、実際には別URLなので遷移させる必要がある。
+              if (location.pathname === item.path) return;
               navigate(item.path);
             }}
             title={item.label}

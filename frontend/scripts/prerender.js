@@ -48,6 +48,7 @@ const {
   TAG_THRESHOLDS_BY_WALK_MINUTES,
 } = require("../../backend/stationTags.js");
 const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("../../backend/facilityRecord.js");
+const { buildStationScores } = require("../../backend/stationScores.js");
 
 // デプロイ先が1つしかないので既定値を本番URLにしている（Cloudflare Pages側の
 // 環境変数設定を増やさずに済ませるため）。別ドメインで使う場合のみ環境変数で上書きする。
@@ -126,8 +127,23 @@ function stationIndexList() {
     .join("");
 }
 
+// トップのランキング。件数はTopPage.jsxのRANKING_LIMITと揃える規約
+const RANKING_LIMIT = 20;
+
 function topPage() {
   const description = topDescription(stations.length);
+  const ranking = buildStationScores(stations, facilityCounts).slice(0, RANKING_LIMIT);
+  const rankingHtml =
+    ranking.length > 0
+      ? `<h2>駅前スコアの高い駅 TOP${ranking.length}（徒歩${DEFAULT_WALK_MINUTES}分圏内）</h2>
+      <ol>${ranking
+        .map(
+          (s) =>
+            `<li>${link(`/${s.slug}`, s.name_ja)}（${esc(s.score)}点・合計${esc(s.total_count)}軒）</li>`
+        )
+        .join("")}</ol>`
+      : "";
+
   return {
     title: topTitle(),
     description,
@@ -142,6 +158,7 @@ function topPage() {
     body: `<main>
       <h1>住みやすさ駅前スコア</h1>
       <p>${esc(description)}</p>
+      ${rankingHtml}
       <h2>対応駅一覧（${stations.length}駅）</h2>
       <ul>${stationIndexList()}</ul>
       <p>${link("/compare", "駅を比較する")} ／ ${link("/guide", "スコアの見方")}</p>

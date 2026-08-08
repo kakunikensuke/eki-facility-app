@@ -2,6 +2,7 @@
  * 住みやすさ駅前スコア バックエンドAPI
  *
  * GET /api/stations         -> 対象駅一覧
+ * GET /api/station-scores   -> 全駅の既定段階（徒歩10分）のスコア一覧（トップページ用）
  * GET /api/facility-counts?station=<slug> -> 指定駅の徒歩5/10/15/20分圏それぞれの
  *                                            カテゴリ別店舗数とスコア
  *
@@ -19,6 +20,7 @@ const path = require("path");
 const { calculateScore, SCORE_TARGETS_BY_WALK_MINUTES } = require("./scoring");
 const { getStationTagKeys, TAG_THRESHOLDS_BY_WALK_MINUTES } = require("./stationTags");
 const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("./facilityRecord");
+const { buildStationScores } = require("./stationScores");
 
 const app = express();
 const PORT = process.env.PORT || 4001;
@@ -47,6 +49,14 @@ app.get("/api/stations", (req, res) => {
     lon,
   }));
   res.json(stations);
+});
+
+// トップページのランキング用。スコア降順で全駅ぶん返す（349件で20KB程度）
+app.get("/api/station-scores", (req, res) => {
+  res.json({
+    walk_minutes: DEFAULT_WALK_MINUTES,
+    stations: buildStationScores(loadStations(), loadFacilityCounts()),
+  });
 });
 
 app.get("/api/facility-counts", (req, res) => {

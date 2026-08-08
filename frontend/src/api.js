@@ -6,6 +6,13 @@ export async function fetchStations() {
   return res.json();
 }
 
+// トップページのランキング用。全駅の既定段階（徒歩10分）のスコアがスコア降順で返る
+export async function fetchStationScores() {
+  const res = await fetch(`${API_BASE}/api/station-scores`);
+  if (!res.ok) throw new Error("スコア一覧の取得に失敗しました");
+  return res.json();
+}
+
 export async function fetchFacilityCounts(stationSlug) {
   const res = await fetch(
     `${API_BASE}/api/facility-counts?station=${encodeURIComponent(stationSlug)}`

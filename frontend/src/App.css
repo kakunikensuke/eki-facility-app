@@ -311,6 +311,116 @@
 
 /* ---------- 出典・免責カード ---------- */
 
+/* ---------- トップページ（pages/TopPage.jsx） ---------- */
+
+.top-lead {
+  margin: 10px 4px 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text);
+  text-align: center;
+}
+
+.top-search {
+  margin: 16px 16px 0;
+}
+
+.top-search-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.top-search-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  /* 16px未満だとiOS Safariが入力時にページを拡大するので下げないこと */
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-h);
+}
+
+.top-section {
+  margin: 24px 16px 0;
+}
+
+.top-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0 0 10px;
+}
+
+.ranking-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.ranking-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+}
+
+.ranking-row + .ranking-row {
+  border-top: 1px solid var(--border);
+}
+
+.ranking-rank {
+  flex: 0 0 24px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+
+.ranking-link {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.ranking-score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.ranking-count {
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.station-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.station-index-link {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 13px;
+  color: var(--text-h);
+  text-decoration: none;
+}
+
 /* 近くの駅への内部リンク（回遊とクロール経路の確保。frontend/src/nearbyStations.js参照） */
 .nearby-card {
   margin: 20px 16px 0;
