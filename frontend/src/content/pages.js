@@ -21,7 +21,11 @@
 // お問い合わせ用Googleフォームのフルパス。
 // ここが空文字の間はお問い合わせ欄そのものを出さない（動かないフォームを置くと
 // 連絡手段が無いのと同じ扱いになるため、「準備中」の枠は出さない方針）。
-export const CONTACT_FORM_URL = "";
+// 末尾の ?usp=publish-editor 等は編集者向けの付随パラメータなので付けないこと。
+// 短縮URL（forms.gle/...）ではなくこの形式を使っているのは、リダイレクトを挟まず
+// ドメインがそのまま見えるため（連絡先の信頼性が問われる場面で有利）。
+export const CONTACT_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSetahrVFYNfl0WBCeZhbpyJV4wj8hXt7Uoq-JsGzfNfQCFC9A/viewform";
 
 // お問い合わせ欄。運営者情報とプライバシーポリシーの末尾に同じものを出す。
 // URLが未設定の間は空配列を返し、欄ごと出さない。
