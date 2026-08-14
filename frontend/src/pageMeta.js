@@ -58,6 +58,15 @@ export const STATIC_PAGES = [
       "住みやすさ駅前スコアの運営者、サービスを作った理由、スコアの作り方とその限界、収益についての方針を記載しています。",
   },
   {
+    // お問い合わせフォームの送信後の戻り先（content/pages.js の CONTACT_RECEIVED_PATH）。
+    // このページが無いと送信後に404になる
+    path: "/contact-received",
+    heading: "お問い合わせを受け付けました",
+    title: `お問い合わせを受け付けました｜${SITE_NAME}`,
+    description:
+      "お問い合わせの送信後のご案内です。いただいた内容をこの後どう扱うか、返信の目安、データの誤りのご指摘への対応方針を記載しています。",
+  },
+  {
     path: "/privacy",
     heading: "プライバシーポリシー",
     title: `プライバシーポリシー｜${SITE_NAME}`,

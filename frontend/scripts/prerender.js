@@ -34,6 +34,10 @@ import {
   ABOUT_BLOCKS,
   PRIVACY_BLOCKS,
   COMPARE_BLOCKS,
+  CONTACT_RECEIVED_BLOCKS,
+  CONTACT_FORM_ENDPOINT,
+  CONTACT_FORM_FIELDS,
+  CONTACT_FORM_HIDDEN,
   contactBlocks,
 } from "../src/content/pages.js";
 import {
@@ -330,9 +334,46 @@ for (const station of stations) {
 const STATIC_PAGE_BLOCKS = {
   "/guide": () => GUIDE_BLOCKS,
   "/compare": () => COMPARE_BLOCKS,
+  "/contact-received": () => CONTACT_RECEIVED_BLOCKS,
   "/about": () => [...ABOUT_BLOCKS, ...contactBlocks()],
   "/privacy": () => [...PRIVACY_BLOCKS, ...contactBlocks()],
 };
+
+// お問い合わせフォーム。項目の定義は content/pages.js が持ち、
+// components/ContentBlocks.jsx の ContactForm と同じ内容を文字列で組む。
+function contactFormHtml() {
+  const hidden = CONTACT_FORM_HIDDEN.map(
+    (h) => `<input type="hidden" name="${esc(h.name)}" value="${esc(h.value)}" />`
+  ).join("");
+
+  const fields = CONTACT_FORM_FIELDS.map((field) => {
+    const required = field.required ? " required" : "";
+    const placeholder = field.placeholder ? ` placeholder="${esc(field.placeholder)}"` : "";
+    let control;
+    if (field.kind === "select") {
+      const options = field.options
+        .map((o) => `<option value="${esc(o)}">${esc(o)}</option>`)
+        .join("");
+      control = `<select name="${esc(field.name)}"${required}>${options}</select>`;
+    } else if (field.kind === "textarea") {
+      control = `<textarea name="${esc(field.name)}" rows="${esc(field.rows)}"${required}${placeholder}></textarea>`;
+    } else {
+      control = `<input type="${esc(field.kind)}" name="${esc(field.name)}"${required}${placeholder} />`;
+    }
+    const hint = field.hint ? `<em>${esc(field.hint)}</em>` : "";
+    return `<label><span>${esc(field.label)}${hint}</span>${control}</label>`;
+  }).join("");
+
+  return (
+    `<form class="contact-form" action="${esc(CONTACT_FORM_ENDPOINT)}" method="POST">` +
+    hidden +
+    // ボット除け。人間には見えない欄で、埋まっていたら送信を捨てる
+    `<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />` +
+    fields +
+    `<button type="submit">送信する</button>` +
+    `</form>`
+  );
+}
 
 // content/pages.js のブロックをHTMLにする。
 // components/ContentBlocks.jsx と同じ型を扱うこと（片方だけ足すと中身がズレる）
@@ -350,6 +391,8 @@ function blocksToHtml(blocks) {
           return `<p><strong>${esc(block.q)}</strong><br />${esc(block.a)}</p>`;
         case "link":
           return `<p>${block.note ? `${esc(block.note)} ` : ""}<a href="${esc(block.href)}" target="_blank" rel="noreferrer">${esc(block.text)}</a></p>`;
+        case "contactForm":
+          return contactFormHtml();
         default:
           return "";
       }

@@ -765,42 +765,61 @@
   margin-top: 6px;
 }
 
+/* お問い合わせフォーム（送信先はFormSubmit。このサイトにサーバーは無い）。
+   項目の定義は frontend/src/content/pages.js の CONTACT_FORM_FIELDS */
 .contact-form {
-  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
+  margin: 14px 0 10px;
 }
 
-.contact-form-field {
+.contact-form label {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 12px;
+  gap: 5px;
+  font-size: 13px;
   color: var(--text-h);
 }
 
-.contact-form-field input,
-.contact-form-field textarea {
+/* 「（任意）」などの補足。強調ではなく添え書きとして見せる */
+.contact-form label span em {
+  font-style: normal;
+  font-weight: normal;
+  color: var(--text);
+  opacity: 0.75;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
   font: inherit;
-  padding: 8px 10px;
+  /* 16px未満だとiOS Safariが入力時にページを拡大するので下げないこと */
+  font-size: 16px;
+  padding: 9px 10px;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--surface);
-  color: var(--text);
+  color: var(--text-h);
+  /* 親のpaddingを超えて横に膨らませない（375px幅で横スクロールが出るため） */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contact-form textarea {
   resize: vertical;
 }
 
-.contact-form-submit {
+.contact-form button {
   align-self: flex-start;
-  padding: 8px 18px;
-  border-radius: 10px;
-  border: 1px dashed var(--border);
-  background: none;
-  color: var(--text);
-  opacity: 0.6;
-  cursor: not-allowed;
   font: inherit;
+  font-weight: 600;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
 }
 
 /* ---------- ボトムナビ(ホーム・比較・お気に入りを実装、地図は8.2で保留) ---------- */

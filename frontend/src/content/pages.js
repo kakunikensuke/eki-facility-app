@@ -17,27 +17,101 @@
 //   { type: "ul",   items: [] }
 //   { type: "qa",   q, a }            よくある質問の1問1答
 //   { type: "link", href, text, note } 外部リンク（noteは前置きの文）
+//   { type: "contactForm" }           お問い合わせフォーム本体（下記参照）
 
-// お問い合わせ用Googleフォームのフルパス。
-// ここが空文字の間はお問い合わせ欄そのものを出さない（動かないフォームを置くと
-// 連絡手段が無いのと同じ扱いになるため、「準備中」の枠は出さない方針）。
-// 末尾の ?usp=publish-editor 等は編集者向けの付随パラメータなので付けないこと。
-// 短縮URL（forms.gle/...）ではなくこの形式を使っているのは、リダイレクトを挟まず
-// ドメインがそのまま見えるため（連絡先の信頼性が問われる場面で有利）。
-export const CONTACT_FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSetahrVFYNfl0WBCeZhbpyJV4wj8hXt7Uoq-JsGzfNfQCFC9A/viewform";
+// サイトの本番URL。フォーム送信後の戻り先（_next）を絶対URLで指定する必要があるため持つ。
+export const SITE_URL = "https://eki.kakuni-lab.com";
+
+// お問い合わせフォームの送信先（FormSubmit）。
+//
+// 以前は外部のGoogleフォームへのリンクだったが、押した時点でサイトを離れるため
+// 「サイト内に連絡手段が無い」と見られる余地が残る。サイト内の実物の<form>に変えた。
+// バックエンドを持たない方針は維持し、送信の中継はFormSubmitに任せる。
+//
+// この文字列はメールアドレスのエイリアス（ハッシュ）で、**生のアドレスはHTMLに出ない**。
+// japan-proxy-cost・ロッカーアプリと同じ送信先を共用し、件名（_subject）で発信元アプリを
+// 見分ける。**_subject をアプリ間で同じにしないこと。**
+//
+// ⚠ FormSubmitの有効化リクエスト（アドレス宛への送信）を新たに出してはいけない。
+// 新しい有効化を行うと前のトークンが無効になり、japan-proxy-cost側のフォームが止まる。
+//
+// ここを空文字にするとお問い合わせ欄ごと出さない（動かないフォームは置かない方針）。
+export const CONTACT_FORM_ENDPOINT = "https://formsubmit.co/21c6f56659051072bab367d0af9fb0bc";
+
+// 送信後の戻り先。このパスのページが無いと送信後に404になる（CONTACT_RECEIVED_BLOCKS参照）
+export const CONTACT_RECEIVED_PATH = "/contact-received";
+
+// メールの件名。3アプリの問い合わせが同じ受信箱に届くので、これが発信元を見分ける唯一の手がかり
+export const CONTACT_SUBJECT = "住みやすさ駅前スコア — お問い合わせ";
+
+// フォームの入力欄。React側（ContentBlocks.jsx）とプリレンダ側（prerender.jsのblocksToHtml）が
+// この定義から同じ<form>を組む。片方にHTMLを直書きすると必ずズレるので、ここを唯一の定義とする。
+//
+// name属性が日本語なのは意図的。FormSubmitはname属性をそのまま項目名としてメールに出すため、
+// 日本語にしておくと届いたメールがそのまま読める。
+export const CONTACT_FORM_FIELDS = [
+  {
+    kind: "select",
+    name: "種類",
+    label: "お問い合わせの種類",
+    required: true,
+    options: ["データの誤りの指摘", "駅の追加リクエスト", "掲載内容について", "その他"],
+  },
+  {
+    kind: "url",
+    name: "該当ページ",
+    label: "該当ページ",
+    hint: "（特定の駅の話なら、そのページのURL）",
+    placeholder: `${SITE_URL}/...`,
+  },
+  {
+    kind: "textarea",
+    name: "内容",
+    label: "内容",
+    required: true,
+    rows: 6,
+    placeholder: "何がどう違っていたか、正しくはどうあるべきかを書いてください",
+  },
+  {
+    kind: "url",
+    name: "参照元",
+    label: "参照元",
+    hint: "（任意。公式ページのURL等があると確認が早く済みます）",
+    placeholder: "https://...",
+  },
+  {
+    kind: "email",
+    name: "email",
+    label: "メールアドレス",
+    hint: "（任意。返信が必要な場合のみ）",
+    placeholder: "you@example.com",
+  },
+];
+
+// FormSubmitへの制御用の隠しフィールド。
+// _honey はボット除け（人間には見えない欄で、埋まっていたら送信を捨てる）。
+export const CONTACT_FORM_HIDDEN = [
+  { name: "_subject", value: CONTACT_SUBJECT },
+  { name: "_captcha", value: "false" },
+  { name: "_template", value: "table" },
+  { name: "_next", value: `${SITE_URL}${CONTACT_RECEIVED_PATH}` },
+];
 
 // お問い合わせ欄。運営者情報とプライバシーポリシーの末尾に同じものを出す。
-// URLが未設定の間は空配列を返し、欄ごと出さない。
+// 送信先が未設定の間は空配列を返し、欄ごと出さない。
 export function contactBlocks() {
-  if (!CONTACT_FORM_URL) return [];
+  if (!CONTACT_FORM_ENDPOINT) return [];
   return [
     { type: "h2", text: "お問い合わせ" },
     {
       type: "p",
-      text: "ご意見・ご要望、データの誤りのご指摘、掲載内容に関するお問い合わせは、以下のフォームからお願いします。内容を確認のうえ、必要に応じて対応します。",
+      text: "ご意見・ご要望、データの誤りのご指摘、掲載内容に関するお問い合わせは、以下のフォームからお願いします。個人で運営しているため、返信までに数日いただくことがあります。",
     },
-    { type: "link", href: CONTACT_FORM_URL, text: "お問い合わせフォームを開く" },
+    { type: "contactForm" },
+    {
+      type: "p",
+      text: "送信内容はFormSubmit（外部の中継サービス）を経由して運営者のメールに届きます。このサイトのサーバーには保存されません。",
+    },
   ];
 }
 
@@ -130,6 +204,57 @@ export const GUIDE_BLOCKS = [
     type: "qa",
     q: "Q. 徒歩1分=80mという換算の根拠は？",
     a: "A. 不動産広告で用いられる表示基準（不動産の表示に関する公正競争規約）に合わせています。物件情報サイトの「駅徒歩◯分」と同じ尺度で比較できるようにするためです。",
+  },
+];
+
+// 送信後の戻り先ページ（CONTACT_RECEIVED_PATH）。
+// 「送信されました」の1行だけにしないこと。2026-08-08にAdSenseから指摘された
+// 「有用性の低いコンテンツ」を自分から増やすことになる。
+// 送った人が次に知りたいこと（この後どうなるか、返信は来るのか）を書く。
+export const CONTACT_RECEIVED_BLOCKS = [
+  { type: "h2", text: "送信を受け付けました" },
+  {
+    type: "p",
+    text: "お問い合わせありがとうございます。内容は運営者のメールに直接届いています。このサイトのサーバーには保存していません。",
+  },
+
+  { type: "h2", text: "この後どうなるか" },
+  {
+    type: "p",
+    text: "いただいた内容はすべて読みます。ただし個人で運営しているため、返信までに数日いただくことがあります。メールアドレスを記入されなかった場合は返信できませんが、内容は同じように確認しています。",
+  },
+  {
+    type: "p",
+    text: "返信が必要な内容で、1週間経っても届かない場合は、迷惑メールフォルダをご確認のうえ、お手数ですがもう一度送信してください。",
+  },
+
+  { type: "h2", text: "データの誤りをご指摘いただいた場合" },
+  {
+    type: "p",
+    text: "店舗数のデータはOpenStreetMapから取得しているため、このサイト側だけを直しても次回の自動更新で元に戻ります。そのため、ご指摘の内容は公式サイトなどの一次情報で確認したうえで対応します。確認が取れた場合の対応は次の2通りです。",
+  },
+  {
+    type: "ul",
+    items: [
+      "OpenStreetMap側のデータが実態と違っている場合: 地図データそのものの修正が必要になるため、すぐには反映されません。",
+      "こちらの集計方法や表示に問題がある場合: 修正して次回のデータ更新時に反映します。",
+    ],
+  },
+  {
+    type: "p",
+    text: "参照元のURLを添えていただいた場合は確認が早く済みます。ご協力ありがとうございます。",
+  },
+
+  { type: "h2", text: "駅の追加リクエストについて" },
+  {
+    type: "p",
+    text: "対応駅は順次拡大しています。リクエストいただいた駅は追加の検討対象に入れますが、1駅ずつ地図データの取得が必要なため、すぐに追加できるとは限りません。追加された場合の個別のご連絡は行っていないため、お手数ですがサイトでご確認ください。",
+  },
+
+  { type: "h2", text: "お答えできないこと" },
+  {
+    type: "p",
+    text: "特定の物件や地域について「住むべきか」といったご相談にはお答えできません。本サービスは不動産の仲介・斡旋を行っておらず、スコアは店舗数という一面を数値化したものにすぎないためです。物件そのものについては、取り扱いのある不動産会社にご相談ください。",
   },
 ];
 

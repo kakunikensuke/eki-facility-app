@@ -8,6 +8,7 @@ import FavoritesPage from "./pages/FavoritesPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import GuidePage from "./pages/GuidePage";
 import AboutPage from "./pages/AboutPage";
+import ContactReceivedPage from "./pages/ContactReceivedPage";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/guide" element={<GuidePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact-received" element={<ContactReceivedPage />} />
         <Route path="/:stationSlug" element={<StationPage stations={stations} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
