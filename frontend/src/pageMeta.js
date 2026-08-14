@@ -28,6 +28,13 @@ export function stationDescription(stationName, tier) {
   );
 }
 
+// お気に入りページはブラウザのlocalStorage次第で中身が変わるため、
+// プリレンダ対象（STATIC_PAGES）には入れずtitleだけ用意する
+export const FAVORITES_META = {
+  title: `お気に入り駅｜${SITE_NAME}`,
+  description: "お気に入りに登録した駅の住みやすさ駅前スコアをまとめて確認できます。",
+};
+
 // 固定ページ（駅データに依存しないページ）
 export const STATIC_PAGES = [
   {
@@ -38,9 +45,17 @@ export const STATIC_PAGES = [
   },
   {
     path: "/guide",
-    heading: "スコアの見方",
-    title: `スコアの見方｜${SITE_NAME}`,
-    description: "住みやすさ駅前スコアの算出方法と、各カテゴリの基準値について説明します。",
+    heading: "使い方・スコアの見方",
+    title: `使い方・スコアの見方｜${SITE_NAME}`,
+    description:
+      "住みやすさ駅前スコアの算出方法、target値の根拠、集計範囲の取り方、データの限界について説明します。",
+  },
+  {
+    path: "/about",
+    heading: "運営者情報",
+    title: `運営者情報｜${SITE_NAME}`,
+    description:
+      "住みやすさ駅前スコアの運営者、サービスを作った理由、スコアの作り方とその限界、収益についての方針を記載しています。",
   },
   {
     path: "/privacy",

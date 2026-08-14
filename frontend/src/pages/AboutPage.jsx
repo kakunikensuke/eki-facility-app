@@ -1,27 +1,27 @@
 import BottomNav from "../components/BottomNav";
 import ContentBlocks from "../components/ContentBlocks";
 import Footer from "../components/Footer";
-import { GUIDE_BLOCKS } from "../content/pages";
+import { ABOUT_BLOCKS, contactBlocks } from "../content/pages";
 import { STATIC_PAGES } from "../pageMeta";
 import { useDocumentMeta } from "../useDocumentTitle";
 
-const META = STATIC_PAGES.find((p) => p.path === "/guide");
+const META = STATIC_PAGES.find((p) => p.path === "/about");
 
-// 本文は content/pages.js のデータ。プリレンダ（scripts/prerender.js）が
-// 同じデータから静的HTMLを組むため、ここに直書きしないこと。
-export default function GuidePage() {
+// 運営者情報。誰が何のために作り、スコアに何ができて何ができないかを明示する。
+// 本文は content/pages.js のデータ（プリレンダと共有）。
+export default function AboutPage() {
   useDocumentMeta(META.title, META.description);
 
   return (
     <div className="app-container">
       <header className="hero-header subpage-header">
         <div className="hero-top">
-          <div className="page-title">使い方・スコアの見方</div>
+          <div className="page-title">運営者情報</div>
         </div>
       </header>
 
       <div className="legal-card">
-        <ContentBlocks blocks={GUIDE_BLOCKS} />
+        <ContentBlocks blocks={[...ABOUT_BLOCKS, ...contactBlocks()]} />
       </div>
 
       <Footer />

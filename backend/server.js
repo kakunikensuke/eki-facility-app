@@ -21,6 +21,7 @@ const { calculateScore, SCORE_TARGETS_BY_WALK_MINUTES } = require("./scoring");
 const { getStationTagKeys, TAG_THRESHOLDS_BY_WALK_MINUTES } = require("./stationTags");
 const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("./facilityRecord");
 const { buildStationScores } = require("./stationScores");
+const { getConcentration, getStationRank } = require("./stationProfile");
 
 const app = express();
 const PORT = process.env.PORT || 4001;
@@ -100,6 +101,10 @@ app.get("/api/facility-counts", (req, res) => {
     // 集計途中の駅は一部の段階しか持たないことがあるため、実際に返せる段階も明示する
     available_walk_minutes: Object.keys(tiers).map(Number).sort((a, b) => a - b),
     default_walk_minutes: DEFAULT_WALK_MINUTES,
+    // その駅にしか当てはまらない情報（stationProfile.js参照）。
+    // 判定できない駅ではnullになるのでフロント側で出し分けること
+    rank: getStationRank(station, stations, counts),
+    concentration: getConcentration(normalized.tiers),
     updated_at: normalized.updated_at,
     source: normalized.source,
   });

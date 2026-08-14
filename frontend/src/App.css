@@ -421,6 +421,32 @@
   text-decoration: none;
 }
 
+/* 順位・施設の広がり方（backend/stationProfile.js が算出、その駅固有の情報） */
+.profile-card {
+  margin: 20px 16px 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.profile-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+  margin-bottom: 10px;
+}
+
+.profile-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.profile-text + .profile-text {
+  margin-top: 10px;
+}
+
 /* 近くの駅への内部リンク（回遊とクロール経路の確保。frontend/src/nearbyStations.js参照） */
 .nearby-card {
   margin: 20px 16px 0;

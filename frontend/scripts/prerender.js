@@ -28,6 +28,14 @@ import { CATEGORIES, EXTRA_CATEGORIES } from "../src/categories.js";
 import { buildStationComment } from "../src/stationComment.js";
 import { getStationTags } from "../src/stationTags.js";
 import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
+import { concentrationText, rankText } from "../src/stationProfileText.js";
+import {
+  GUIDE_BLOCKS,
+  ABOUT_BLOCKS,
+  PRIVACY_BLOCKS,
+  COMPARE_BLOCKS,
+  contactBlocks,
+} from "../src/content/pages.js";
 import {
   SITE_NAME,
   topTitle,
@@ -49,6 +57,7 @@ const {
 } = require("../../backend/stationTags.js");
 const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("../../backend/facilityRecord.js");
 const { buildStationScores } = require("../../backend/stationScores.js");
+const { getConcentration, buildRankMap } = require("../../backend/stationProfile.js");
 
 // デプロイ先が1つしかないので既定値を本番URLにしている（Cloudflare Pages側の
 // 環境変数設定を増やさずに済ませるため）。別ドメインで使う場合のみ環境変数で上書きする。
@@ -129,6 +138,9 @@ function stationIndexList() {
 
 // トップのランキング。件数はTopPage.jsxのRANKING_LIMITと揃える規約
 const RANKING_LIMIT = 20;
+
+// 順位表は1度だけ作る（駅ごとに引き直すと全駅の再計算を349回繰り返すことになる）
+const RANK_BY_SLUG = buildRankMap(stations, facilityCounts);
 
 function topPage() {
   const description = topDescription(stations.length);
@@ -215,6 +227,17 @@ function stationPage(station) {
     ? `<p>${tags.map((t) => esc(t.label)).join(" / ")}</p>`
     : "";
 
+  // その駅にしか当てはまらない情報（順位・施設の広がり方）。画面側と同じ文言を使う
+  const profileSentences = [
+    rankText(RANK_BY_SLUG.get(station.slug), DEFAULT_WALK_MINUTES),
+    concentrationText(getConcentration(record.tiers)),
+  ].filter(Boolean);
+  const profileHtml =
+    profileSentences.length > 0
+      ? `<h2>${esc(station.name_ja)}のデータの読み方</h2>
+      ${profileSentences.map((s) => `<p>${esc(s)}</p>`).join("")}`
+      : "";
+
   // 駅同士を結ぶ内部リンク。トップの一覧しか経路が無い平たい構造を崩す狙い（nearbyStations.js参照）
   const nearby = findNearbyStations(station, stations);
   const nearbyHtml =
@@ -261,6 +284,7 @@ function stationPage(station) {
         <tbody><tr><td>住みやすさスコア</td>${scoreRow}</tr>${rows}</tbody>
       </table>
       <p>店舗数はOpenStreetMapのデータに基づく目安です（更新: ${esc(record.updated_at)}）。</p>
+      ${profileHtml}
       ${nearbyHtml}
       <p>${link("/", `全${stations.length}駅の一覧を見る`)} ／ ${link("/compare", "他の駅と比較する")}</p>
     </main>`,
@@ -297,13 +321,58 @@ for (const station of stations) {
   stationCount++;
 }
 
-// 固定ページ。中身はJS側で描画されるが、少なくとも固有のtitle/canonicalは持たせておく
+// 固定ページ。
+//
+// 以前はtitle/canonicalと説明文1行しか出しておらず、GuidePage.jsx等に書いた本文が
+// 静的HTMLに1文字も含まれていなかった（/guideの本文は48文字）。JSを実行しない
+// クローラや審査ボットからは読み物が皆無のサイトに見えるため、
+// content/pages.js のブロックからReact側と同じ本文を組む。
+const STATIC_PAGE_BLOCKS = {
+  "/guide": () => GUIDE_BLOCKS,
+  "/compare": () => COMPARE_BLOCKS,
+  "/about": () => [...ABOUT_BLOCKS, ...contactBlocks()],
+  "/privacy": () => [...PRIVACY_BLOCKS, ...contactBlocks()],
+};
+
+// content/pages.js のブロックをHTMLにする。
+// components/ContentBlocks.jsx と同じ型を扱うこと（片方だけ足すと中身がズレる）
+function blocksToHtml(blocks) {
+  return blocks
+    .map((block) => {
+      switch (block.type) {
+        case "h2":
+          return `<h2>${esc(block.text)}</h2>`;
+        case "p":
+          return `<p>${esc(block.text)}</p>`;
+        case "ul":
+          return `<ul>${block.items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`;
+        case "qa":
+          return `<p><strong>${esc(block.q)}</strong><br />${esc(block.a)}</p>`;
+        case "link":
+          return `<p>${block.note ? `${esc(block.note)} ` : ""}<a href="${esc(block.href)}" target="_blank" rel="noreferrer">${esc(block.text)}</a></p>`;
+        default:
+          return "";
+      }
+    })
+    .join("");
+}
+
+// 固定ページ同士も相互にリンクしておく（クロール経路と、行き止まりにしないため）
+function staticPageFooterLinks(currentPath) {
+  const others = STATIC_PAGES.filter((p) => p.path !== currentPath).map((p) =>
+    link(p.path, p.heading)
+  );
+  return `<p>${[link("/", "駅一覧に戻る"), ...others].join(" ／ ")}</p>`;
+}
+
 for (const p of STATIC_PAGES) {
+  const blocks = STATIC_PAGE_BLOCKS[p.path]?.() ?? [];
+  const bodyHtml = blocks.length > 0 ? blocksToHtml(blocks) : `<p>${esc(p.description)}</p>`;
   writePage({
     title: p.title,
     description: p.description,
     canonicalPath: p.path,
-    body: `<main><h1>${esc(p.heading)}</h1><p>${esc(p.description)}</p><p>${link("/", "駅一覧に戻る")}</p></main>`,
+    body: `<main><h1>${esc(p.heading)}</h1>${bodyHtml}${staticPageFooterLinks(p.path)}</main>`,
   });
   sitemapPaths.push(p.path);
 }

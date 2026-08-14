@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
 import Footer from "../components/Footer";
 import { toggleFavorite, useFavorites } from "../favorites";
+import { FAVORITES_META } from "../pageMeta";
+import { useDocumentMeta } from "../useDocumentTitle";
 
 export default function FavoritesPage({ stations }) {
+  useDocumentMeta(FAVORITES_META.title, FAVORITES_META.description);
   const favoriteSlugs = useFavorites();
   const favoriteStations = favoriteSlugs
     .map((slug) => stations.find((s) => s.slug === slug))

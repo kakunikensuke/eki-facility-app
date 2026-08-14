@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import { fetchFacilityCounts } from "../api";
 import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
 import BottomNav from "../components/BottomNav";
+import ContentBlocks from "../components/ContentBlocks";
 import Footer from "../components/Footer";
+import { COMPARE_BLOCKS } from "../content/pages";
+import { STATIC_PAGES } from "../pageMeta";
+import { useDocumentMeta } from "../useDocumentTitle";
 import { DEFAULT_WALK_MINUTES } from "../walkTiers";
+
+const META = STATIC_PAGES.find((p) => p.path === "/compare");
 
 // 引越し検討者が「今の駅 or 候補駅同士」を比べる、というアプリの核心的な利用シーン
 // (project_eki_facility_app.md参照)を2駅固定・毎回選び直す方式で実現する。
@@ -15,6 +21,11 @@ import { DEFAULT_WALK_MINUTES } from "../walkTiers";
 // 集計途中の駅は既定の段階を持たないことがあるため、無ければ利用可能な最小の段階で代替する
 function pickTier(data) {
   return data?.tiers?.[DEFAULT_WALK_MINUTES] ?? data?.tiers?.[data?.available_walk_minutes?.[0]];
+}
+
+function useCompareMeta() {
+  // これが無いと、他ページから遷移してきたときにtitleが前のページのまま残る
+  useDocumentMeta(META.title, META.description);
 }
 
 function useStationData(slug) {
@@ -44,6 +55,7 @@ function useStationData(slug) {
 }
 
 export default function ComparePage({ stations }) {
+  useCompareMeta();
   const [slugA, setSlugA] = useState(stations[0]?.slug ?? "");
   const [slugB, setSlugB] = useState(stations[1]?.slug ?? "");
 
@@ -175,6 +187,12 @@ export default function ComparePage({ stations }) {
           </div>
         </>
       )}
+
+      {/* 本文は content/pages.js（プリレンダと共有）。ツール部分は動的なので
+          静的HTMLに出せるのはこの解説だけになる */}
+      <div className="legal-card">
+        <ContentBlocks blocks={COMPARE_BLOCKS} />
+      </div>
 
       <Footer />
       <BottomNav />

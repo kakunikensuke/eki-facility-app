@@ -7,6 +7,7 @@ import ComparePage from "./pages/ComparePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import GuidePage from "./pages/GuidePage";
+import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="/favorites" element={<FavoritesPage stations={stations} />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/guide" element={<GuidePage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/:stationSlug" element={<StationPage stations={stations} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

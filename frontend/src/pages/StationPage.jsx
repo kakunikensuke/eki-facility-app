@@ -9,6 +9,7 @@ import { toggleFavorite, useFavorites } from "../favorites";
 import { buildStationComment } from "../stationComment";
 import { getStationTags } from "../stationTags";
 import { findNearbyStations, formatDistance } from "../nearbyStations";
+import { concentrationText, rankText } from "../stationProfileText";
 import { stationTitle, stationDescription } from "../pageMeta";
 import { useDocumentMeta } from "../useDocumentTitle";
 import { DEFAULT_WALK_MINUTES } from "../walkTiers";
@@ -200,6 +201,20 @@ export default function StationPage({ stations }) {
               );
             })}
           </div>
+
+          {/* 順位と施設の広がり方は徒歩分数のタブに連動しない（順位は既定段階、
+              広がり方は5分と20分の比）ため、タブの外側の話として別カードにする */}
+          {(data.rank || data.concentration) && (
+            <div className="profile-card">
+              <div className="profile-card-title">{station.name_ja}のデータの読み方</div>
+              {data.rank && (
+                <p className="profile-text">{rankText(data.rank, data.default_walk_minutes)}</p>
+              )}
+              {data.concentration && (
+                <p className="profile-text">{concentrationText(data.concentration)}</p>
+              )}
+            </div>
+          )}
 
           {nearby.length > 0 && (
             <div className="nearby-card">
