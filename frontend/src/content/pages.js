@@ -38,7 +38,20 @@ export const SITE_URL = "https://eki.kakuni-lab.com";
 // ここを空文字にするとお問い合わせ欄ごと出さない（動かないフォームは置かない方針）。
 export const CONTACT_FORM_ENDPOINT = "https://formsubmit.co/21c6f56659051072bab367d0af9fb0bc";
 
-// 送信後の戻り先。このパスのページが無いと送信後に404になる（CONTACT_RECEIVED_BLOCKS参照）
+// JSから送るとき用のエンドポイント。JSON応答を返し、CORSも許可されている。
+//
+// 素のPOSTでは送信後の戻り先を指定する _next が効かず（2026-08-15に本番で確認）、
+// FormSubmitの英語の完了ページに飛ばされてサイトを離れてしまう。公式ドキュメントに
+// 制約の記載がなく原因を特定できなかったため、_next に依存せずJSでサイト内遷移させる。
+// 素のPOSTのフォールバックは残してあるので、JSが失敗しても送信手段は失われない
+// （components/ContentBlocks.jsx の ContactForm 参照）。
+export const CONTACT_FORM_AJAX_ENDPOINT = CONTACT_FORM_ENDPOINT.replace(
+  "formsubmit.co/",
+  "formsubmit.co/ajax/"
+);
+
+// 送信後の戻り先。このパスのページが無いと送信後に404になる（CONTACT_RECEIVED_BLOCKS参照）。
+// JSが効いている通常時はここへサイト内遷移する。_next はフォールバック時の保険として残す。
 export const CONTACT_RECEIVED_PATH = "/contact-received";
 
 // メールの件名。3アプリの問い合わせが同じ受信箱に届くので、これが発信元を見分ける唯一の手がかり
