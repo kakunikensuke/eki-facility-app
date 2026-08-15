@@ -27,20 +27,31 @@ function ContactForm() {
     event.preventDefault();
     const form = event.currentTarget;
     setState("sending");
+
+    let response;
     try {
-      const response = await fetch(CONTACT_FORM_AJAX_ENDPOINT, {
+      response = await fetch(CONTACT_FORM_AJAX_ENDPOINT, {
         method: "POST",
         headers: { Accept: "application/json" },
         body: new FormData(form),
       });
-      if (!response.ok) throw new Error(`FormSubmit responded ${response.status}`);
-      navigate(CONTACT_RECEIVED_PATH);
     } catch {
-      // 送信手段を失わせないため、JS経由で失敗したら素のPOSTに切り替える。
-      // 完了ページはFormSubmitのものになるが、送信自体は成立する。
-      setState("error");
+      // fetch自体が届かなかった場合のみ素のPOSTに切り替える（拡張機能によるCORS遮断など）。
+      // ここでページ遷移するので、この後の処理は走らない。
       form.submit();
+      return;
     }
+
+    // ステータスだけ見てはいけない。FormSubmitは未有効化のドメインからの送信に対しても
+    // HTTP 200を返し、本文で「有効化が必要」と伝えてくる。2026-08-15にこれで
+    // 「メールは届いていないのに完了ページを表示する」状態になっていた。
+    const payload = await response.json().catch(() => null);
+    const accepted = response.ok && String(payload?.success) === "true";
+    if (!accepted) {
+      setState("error");
+      return;
+    }
+    navigate(CONTACT_RECEIVED_PATH);
   }
 
   return (
@@ -93,6 +104,14 @@ function ContactForm() {
       <button type="submit" disabled={state === "sending"}>
         {state === "sending" ? "送信中..." : "送信する"}
       </button>
+
+      {/* 失敗を黙って飲み込まないこと。「送れたつもりで届いていない」のが最悪なので、
+          完了ページには進ませず、送信できなかったことをはっきり伝える */}
+      {state === "error" && (
+        <p className="contact-form-error" role="alert">
+          送信できませんでした。時間をおいて、もう一度お試しください。
+        </p>
+      )}
     </form>
   );
 }

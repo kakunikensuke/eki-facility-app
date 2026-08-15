@@ -810,6 +810,12 @@
   resize: vertical;
 }
 
+.contact-form-error {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #e34948;
+}
+
 .contact-form button {
   align-self: flex-start;
   font: inherit;

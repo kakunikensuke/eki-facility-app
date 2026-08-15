@@ -32,8 +32,14 @@ export const SITE_URL = "https://eki.kakuni-lab.com";
 // japan-proxy-cost・ロッカーアプリと同じ送信先を共用し、件名（_subject）で発信元アプリを
 // 見分ける。**_subject をアプリ間で同じにしないこと。**
 //
-// ⚠ FormSubmitの有効化リクエスト（アドレス宛への送信）を新たに出してはいけない。
-// 新しい有効化を行うと前のトークンが無効になり、japan-proxy-cost側のフォームが止まる。
+// ⚠ FormSubmitの有効化は**ドメイン単位**。同じエイリアスでも、新しいドメインからの
+// 初回送信は配信されず「Action Required: Activate FormSubmit on <ドメイン>」という
+// メールが運営者に届く。そのリンクを踏むまで、そのドメインからの送信は届かない
+// （2026-08-15にeki.kakuni-lab.comで発生）。本番ドメインを変えたときは必ず有効化すること。
+//
+// ⚠ ただし**メールアドレス宛の有効化リクエスト**（formsubmit.co/<アドレス> への送信）は
+// 出してはいけない。エイリアスが再発行され、同じエイリアスを使っている
+// japan-proxy-cost・ロッカーアプリのフォームが一斉に止まる。
 //
 // ここを空文字にするとお問い合わせ欄ごと出さない（動かないフォームは置かない方針）。
 export const CONTACT_FORM_ENDPOINT = "https://formsubmit.co/21c6f56659051072bab367d0af9fb0bc";
