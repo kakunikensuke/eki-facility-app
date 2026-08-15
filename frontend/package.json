@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && node scripts/prerender.js",
+    "dev": "node scripts/generateApiData.js && vite",
+    "build": "node scripts/generateApiData.js && vite build && node scripts/prerender.js",
+    "generate:api": "node scripts/generateApiData.js",
     "prerender": "node scripts/prerender.js",
     "lint": "oxlint",
     "preview": "vite preview"

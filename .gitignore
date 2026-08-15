@@ -1,5 +1,9 @@
 node_modules/
 dist/
+
+# APIの静的JSON。backend/data/ から毎回生成されるので追跡しない
+# （frontend/scripts/generateApiData.js が dev/build の先頭で作る）
+frontend/public/api/
 .env
 .env.local
 *.log
