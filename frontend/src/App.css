@@ -708,24 +708,41 @@
   text-decoration: none;
 }
 
-/* ---------- フッター(法務ページへのリンク) ---------- */
+/* ---------- フッター(サイト内リンク・出典表示) ---------- */
 
 .app-footer {
   text-align: center;
-  padding: 16px 16px 8px;
+  padding: 16px 16px 12px;
   font-size: 12px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* リンクは6本あるので、狭い画面では折り返させる */
+.app-footer-links {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
 }
 
-.app-footer a + a {
+.app-footer-links a + a {
   border-left: 1px solid var(--border);
   padding-left: 8px;
 }
 
 .app-footer a {
   color: var(--accent);
+}
+
+/* 出典表示と運営者名。ODbLの要求で全ページに出す必要がある（CLAUDE.md参照） */
+.app-footer-note {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 /* ---------- プライバシーポリシー・利用規約ページ ---------- */

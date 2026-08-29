@@ -28,12 +28,19 @@ import { CATEGORIES, EXTRA_CATEGORIES } from "../src/categories.js";
 import { buildStationComment } from "../src/stationComment.js";
 import { getStationTags } from "../src/stationTags.js";
 import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
-import { concentrationText, rankText } from "../src/stationProfileText.js";
+import {
+  concentrationText,
+  rankText,
+  categoryRankText,
+  categoryReachText,
+  nearestComparisonText,
+} from "../src/stationProfileText.js";
 import {
   GUIDE_BLOCKS,
   ABOUT_BLOCKS,
   PRIVACY_BLOCKS,
   COMPARE_BLOCKS,
+  CONTACT_BLOCKS,
   CONTACT_RECEIVED_BLOCKS,
   CONTACT_FORM_ENDPOINT,
   CONTACT_FORM_FIELDS,
@@ -61,7 +68,12 @@ const {
 } = require("../../backend/stationTags.js");
 const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("../../backend/facilityRecord.js");
 const { buildStationScores } = require("../../backend/stationScores.js");
-const { getConcentration, buildRankMap } = require("../../backend/stationProfile.js");
+const {
+  getConcentration,
+  buildRankMap,
+  buildCategoryRankMap,
+  getCategoryReach,
+} = require("../../backend/stationProfile.js");
 
 // デプロイ先が1つしかないので既定値を本番URLにしている（Cloudflare Pages側の
 // 環境変数設定を増やさずに済ませるため）。別ドメインで使う場合のみ環境変数で上書きする。
@@ -93,22 +105,66 @@ function link(href, text) {
   return `<a href="${esc(href)}">${esc(text)}</a>`;
 }
 
-function metaTags({ title, description, canonicalPath, jsonLd }) {
+function metaTags({ title, description, canonicalPath, jsonLd, noindex }) {
   const url = `${SITE_URL}${canonicalPath}`;
   const tags = [
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${esc(description)}" />`,
+  ];
+  // 検索に出しても意味がないページ（送信完了ページ、集計データが極端に乏しい駅）は
+  // インデックスさせない。中身の薄いページを検索対象に差し出すと、サイト全体が
+  // 「有用性の低いコンテンツ」と判定される要因になる。リンクは通常どおり辿らせるので
+  // nofollow は付けない。
+  if (noindex) {
+    tags.push(`<meta name="robots" content="noindex,follow" />`);
+  }
+  tags.push(...[
     `<meta property="og:title" content="${esc(title)}" />`,
     `<meta property="og:description" content="${esc(description)}" />`,
     `<meta property="og:type" content="website" />`,
     `<meta property="og:url" content="${esc(url)}" />`,
     `<link rel="canonical" href="${esc(url)}" />`,
-  ];
+  ]);
   // jsonLdは単体でも配列でも受ける（駅ページはPlaceとBreadcrumbListの2つを出す）
   for (const item of [].concat(jsonLd ?? [])) {
     tags.push(`<script type="application/ld+json">${JSON.stringify(item)}</script>`);
   }
   return tags.map((tag) => `    ${tag}`).join("\n");
+}
+
+// 全ページ共通のフッター。
+//
+// これが無かったことが、AdSenseで2回続けて「有用性の低いコンテンツ」と判定された
+// 最大の原因と見ている（2026-08-29）。React側は components/Footer.jsx を全ページに
+// 置いているが、それはJSを実行して初めて現れるもので、プリレンダした静的HTMLには
+// 1本も入っていなかった。サイトの98%を占める駅ページの静的HTMLには
+// 「駅一覧」と「駅を比較する」しかリンクが無く、JSを実行しないクローラや審査ボットからは
+// 運営者情報・プライバシーポリシー・お問い合わせのどれにも到達できない状態だった。
+// 2026-08-15の対策でそれらのページの本文は充実させたが、そこへの経路を作らなかったため
+// 審査で読まれていなかった可能性が高い。
+//
+// components/Footer.jsx と同じリンク構成を保つこと（片方だけ足すとズレる）。
+function siteFooterHtml(currentPath) {
+  const items = [
+    { path: "/", label: "駅一覧" },
+    ...STATIC_PAGES.filter((p) => !p.hideFromNav).map((p) => ({
+      path: p.path,
+      label: p.heading,
+    })),
+  ];
+  const links = items
+    .filter((item) => item.path !== currentPath)
+    .map((item) => link(item.path, item.label))
+    .join(" ／ ");
+
+  return (
+    `<footer>` +
+    `<nav aria-label="サイト内リンク"><p>${links}</p></nav>` +
+    // ODbLライセンスの要求により全ページに出典表示が必要（CLAUDE.md参照）
+    `<p>店舗数の集計には <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> のデータを利用しています（地図データ: © OpenStreetMap contributors／ODbLライセンス）。</p>` +
+    `<p>${esc(SITE_NAME)} — 運営: kakuni-lab</p>` +
+    `</footer>`
+  );
 }
 
 function renderPage(page) {
@@ -145,6 +201,8 @@ const RANKING_LIMIT = 20;
 
 // 順位表は1度だけ作る（駅ごとに引き直すと全駅の再計算を349回繰り返すことになる）
 const RANK_BY_SLUG = buildRankMap(stations, facilityCounts);
+// カテゴリ別の順位表も同じ理由で1度だけ作る（カテゴリ数×駅数ぶんの並べ替えになるため）
+const CATEGORY_RANK_BY_SLUG = buildCategoryRankMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
 
 function topPage() {
   const description = topDescription(stations.length);
@@ -178,7 +236,8 @@ function topPage() {
       <h2>対応駅一覧（${stations.length}駅）</h2>
       <ul>${stationIndexList()}</ul>
       <p>${link("/compare", "駅を比較する")} ／ ${link("/guide", "スコアの見方")}</p>
-    </main>`,
+    </main>
+    ${siteFooterHtml("/")}`,
   };
 }
 
@@ -232,9 +291,32 @@ function stationPage(station) {
     : "";
 
   // その駅にしか当てはまらない情報（順位・施設の広がり方）。画面側と同じ文言を使う
+  // 最も近い駅の合計軒数。「隣と比べてどうか」は駅単体の数字からは出てこない情報で、
+  // 住む場所を選ぶときの実際の比べ方でもある。自駅と同じ4カテゴリ・同じ段階で数える。
+  const nearestInfo = (() => {
+    const first = findNearbyStations(station, stations, 1)[0];
+    if (!first) return null;
+    const nearestRaw = facilityCounts[first.station.slug];
+    if (!nearestRaw) return null;
+    const nearestTier = normalizeRecord(nearestRaw).tiers[mainTier.walk_minutes];
+    if (!nearestTier) return null;
+    return {
+      name: first.station.name_ja,
+      distance: formatDistance(first.km),
+      total: CATEGORIES.reduce((sum, cat) => sum + (nearestTier.counts[cat.key] || 0), 0),
+    };
+  })();
+
   const profileSentences = [
     rankText(RANK_BY_SLUG.get(station.slug), DEFAULT_WALK_MINUTES),
+    categoryRankText(CATEGORY_RANK_BY_SLUG.get(station.slug), CATEGORIES, DEFAULT_WALK_MINUTES),
+    categoryReachText(
+      getCategoryReach(record.tiers, DEFAULT_WALK_MINUTES),
+      CATEGORIES,
+      DEFAULT_WALK_MINUTES
+    ),
     concentrationText(getConcentration(record.tiers)),
+    nearestComparisonText(station.name_ja, nearestInfo, totalCount, mainTier.walk_minutes),
   ].filter(Boolean);
   const profileHtml =
     profileSentences.length > 0
@@ -291,7 +373,8 @@ function stationPage(station) {
       ${profileHtml}
       ${nearbyHtml}
       <p>${link("/", `全${stations.length}駅の一覧を見る`)} ／ ${link("/compare", "他の駅と比較する")}</p>
-    </main>`,
+    </main>
+    ${siteFooterHtml(`/${station.slug}`)}`,
   };
 }
 
@@ -334,6 +417,7 @@ for (const station of stations) {
 const STATIC_PAGE_BLOCKS = {
   "/guide": () => GUIDE_BLOCKS,
   "/compare": () => COMPARE_BLOCKS,
+  "/contact": () => CONTACT_BLOCKS,
   "/contact-received": () => CONTACT_RECEIVED_BLOCKS,
   "/about": () => [...ABOUT_BLOCKS, ...contactBlocks()],
   "/privacy": () => [...PRIVACY_BLOCKS, ...contactBlocks()],
@@ -391,6 +475,9 @@ function blocksToHtml(blocks) {
           return `<p><strong>${esc(block.q)}</strong><br />${esc(block.a)}</p>`;
         case "link":
           return `<p>${block.note ? `${esc(block.note)} ` : ""}<a href="${esc(block.href)}" target="_blank" rel="noreferrer">${esc(block.text)}</a></p>`;
+        // サイト内リンク。target="_blank" を付けないこと（同じタブで遷移させる）
+        case "internalLink":
+          return `<p>${link(block.href, block.text)}</p>`;
         case "contactForm":
           return contactFormHtml();
         default:
@@ -400,14 +487,6 @@ function blocksToHtml(blocks) {
     .join("");
 }
 
-// 固定ページ同士も相互にリンクしておく（クロール経路と、行き止まりにしないため）
-function staticPageFooterLinks(currentPath) {
-  const others = STATIC_PAGES.filter((p) => p.path !== currentPath).map((p) =>
-    link(p.path, p.heading)
-  );
-  return `<p>${[link("/", "駅一覧に戻る"), ...others].join(" ／ ")}</p>`;
-}
-
 for (const p of STATIC_PAGES) {
   const blocks = STATIC_PAGE_BLOCKS[p.path]?.() ?? [];
   const bodyHtml = blocks.length > 0 ? blocksToHtml(blocks) : `<p>${esc(p.description)}</p>`;
@@ -415,12 +494,79 @@ for (const p of STATIC_PAGES) {
     title: p.title,
     description: p.description,
     canonicalPath: p.path,
-    body: `<main><h1>${esc(p.heading)}</h1>${bodyHtml}${staticPageFooterLinks(p.path)}</main>`,
+    noindex: p.noindex,
+    body: `<main><h1>${esc(p.heading)}</h1>${bodyHtml}</main>
+    ${siteFooterHtml(p.path)}`,
   });
-  sitemapPaths.push(p.path);
+  // noindex のページは sitemap にも載せない（載せておいて検索避けするのは矛盾している）
+  if (!p.noindex) sitemapPaths.push(p.path);
 }
 
 writeSitemap(sitemapPaths);
+
+// --- 生成物の自己点検 -------------------------------------------------------
+//
+// このアプリはAdSenseの「有用性の低いコンテンツ」で2回不承認になっている。
+// どちらも原因は同じ形だった: React側には書いてあるのに、プリレンダした静的HTMLには
+// 出ていない。JSを実行しないクローラや審査ボットからは存在しないのと同じになる。
+//
+//   1回目（2026-08-08）: /guide・/privacy の本文がJSXに直書きで、静的HTMLの本文が48文字
+//   2回目（2026-08-22）: components/Footer.jsx のリンクが静的HTMLに1本も出ておらず、
+//                        駅ページ349枚から運営者情報・プライバシーポリシーへ到達できなかった
+//
+// 人が毎回目視するのは続かないので、ビルドを落とす形で機械に見張らせる。
+// チェックを外さないこと。
+function verifyOutput() {
+  const errors = [];
+  const files = fs.readdirSync(DIST).filter((f) => f.endsWith(".html"));
+
+  // 審査でもクロールでも、この3つへ到達できることが要件になる
+  const REQUIRED_LINKS = ["/about", "/privacy", "/contact"];
+
+  for (const file of files) {
+    const html = fs.readFileSync(path.join(DIST, file), "utf-8");
+    // dist/index.html はViteが吐いた素のテンプレートではなくトップページに差し替え済み
+    const isPrerendered = html.includes("<main>");
+    if (!isPrerendered) continue;
+
+    const currentPath = file === "index.html" ? "/" : `/${file.replace(/.html$/, "")}`;
+
+    if (!html.includes("<footer>")) {
+      errors.push(`${file}: 共通フッターが出力されていない`);
+      continue;
+    }
+    for (const required of REQUIRED_LINKS) {
+      // 自分自身へのリンクはフッターから外しているので、そのページだけは免除する
+      if (currentPath === required) continue;
+      if (!html.includes(`href="${required}"`)) {
+        errors.push(`${file}: ${required} へのリンクが無い`);
+      }
+    }
+    // ODbLライセンスが全ページでの出典表示を要求している（CLAUDE.md参照）
+    if (!html.includes("OpenStreetMap contributors")) {
+      errors.push(`${file}: OpenStreetMapの出典表示が無い`);
+    }
+  }
+
+  // お問い合わせフォームは1ページに集約している。無くなっていたら問い合わせ手段が消える
+  const contactHtml = path.join(DIST, "contact.html");
+  if (!fs.existsSync(contactHtml)) {
+    errors.push("contact.html が生成されていない");
+  } else if (!fs.readFileSync(contactHtml, "utf-8").includes("<form")) {
+    errors.push("contact.html にフォームが出力されていない");
+  }
+
+  if (errors.length > 0) {
+    console.error(`
+生成物の点検で ${errors.length} 件の問題が見つかりました:`);
+    for (const e of errors.slice(0, 20)) console.error(`  - ${e}`);
+    if (errors.length > 20) console.error(`  ... 他 ${errors.length - 20} 件`);
+    process.exit(1);
+  }
+  console.log(`生成物を点検しました（${files.length}ファイル、問題なし）`);
+}
+
+verifyOutput();
 
 console.log(
   `静的HTMLを生成しました（駅${stationCount}ページ + 固定${STATIC_PAGES.length + 1}ページ / データ未整備でスキップ ${skipped}駅、SITE_URL=${SITE_URL}）`

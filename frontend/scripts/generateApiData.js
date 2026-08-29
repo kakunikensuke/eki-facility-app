@@ -18,6 +18,8 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
+import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
+import { CATEGORIES } from "../src/categories.js";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,7 +31,12 @@ const {
 } = require("../../backend/stationTags.js");
 const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("../../backend/facilityRecord.js");
 const { buildStationScores } = require("../../backend/stationScores.js");
-const { getConcentration, buildRankMap } = require("../../backend/stationProfile.js");
+const {
+  getConcentration,
+  buildRankMap,
+  buildCategoryRankMap,
+  getCategoryReach,
+} = require("../../backend/stationProfile.js");
 
 const DATA_DIR = path.join(__dirname, "..", "..", "backend", "data");
 const OUT_DIR = path.join(__dirname, "..", "public", "api");
@@ -65,6 +72,35 @@ writeJson("station-scores.json", {
 // --- GET /api/facility-counts?station=<slug> 相当 ------------------------------
 // 順位表は1度だけ作る（駅ごとに引き直すと全駅の再計算を349回繰り返すことになる）
 const rankBySlug = buildRankMap(stations, facilityCounts);
+// カテゴリ別順位も同じ理由で1度だけ作る（カテゴリ数×駅数ぶんの並べ替えになるため）
+const categoryRankBySlug = buildCategoryRankMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
+
+/**
+ * 最も近い駅との合計軒数の比較。
+ * 「隣の駅と比べてどうか」は駅単体の数字からは出てこない情報だが、フロントは自駅ぶんの
+ * 集計しか読まないので、比較相手の軒数はここで数えて応答に含める。
+ * 自駅と同じ4カテゴリ・同じ段階（既定＝徒歩10分）で数えないと比較にならない。
+ */
+function buildNearestComparison(station, normalizedSelf) {
+  const nearest = findNearbyStations(station, stations, 1)[0];
+  if (!nearest) return null;
+
+  const raw = facilityCounts[nearest.station.slug];
+  if (!raw) return null;
+
+  const tier = normalizeRecord(raw).tiers[DEFAULT_WALK_MINUTES];
+  const selfTier = normalizedSelf.tiers[DEFAULT_WALK_MINUTES];
+  if (!tier || !selfTier) return null;
+
+  const sum = (counts) => CATEGORIES.reduce((acc, cat) => acc + (counts[cat.key] || 0), 0);
+  return {
+    name: nearest.station.name_ja,
+    slug: nearest.station.slug,
+    distance: formatDistance(nearest.km),
+    total: sum(tier.counts),
+    own_total: sum(selfTier.counts),
+  };
+}
 
 let written = 0;
 let skipped = 0;
@@ -100,6 +136,9 @@ for (const station of stations) {
     default_walk_minutes: DEFAULT_WALK_MINUTES,
     rank: rankBySlug.get(station.slug) ?? null,
     concentration: getConcentration(normalized.tiers),
+    category_ranks: categoryRankBySlug.get(station.slug) ?? null,
+    category_reach: getCategoryReach(normalized.tiers, DEFAULT_WALK_MINUTES),
+    nearest_comparison: buildNearestComparison(station, normalized),
     updated_at: normalized.updated_at,
     source: normalized.source,
   });

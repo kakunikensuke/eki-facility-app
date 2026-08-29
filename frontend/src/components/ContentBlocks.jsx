@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   CONTACT_FORM_ENDPOINT,
   CONTACT_FORM_AJAX_ENDPOINT,
@@ -149,6 +149,14 @@ export default function ContentBlocks({ blocks }) {
             <a href={block.href} target="_blank" rel="noreferrer">
               {block.text}
             </a>
+          </p>
+        );
+      // サイト内リンク。<a>ではなく<Link>を使う（リロードを挟まず遷移させる）。
+      // プリレンダ側（prerender.jsのblocksToHtml）にも同じcaseが必要
+      case "internalLink":
+        return (
+          <p key={i}>
+            <Link to={block.href}>{block.text}</Link>
           </p>
         );
       case "contactForm":

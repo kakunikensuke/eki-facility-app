@@ -7,3 +7,6 @@ frontend/public/api/
 .env
 .env.local
 *.log
+
+# 削除予定のファイル置き場（ルートCLAUDE.mdのルールで、消さずにここへ移動する）
+削除用フォルダ/

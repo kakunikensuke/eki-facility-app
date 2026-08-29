@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchFacilityCounts } from "../api";
 import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
-import AdSlot from "../components/AdSlot";
 import BottomNav from "../components/BottomNav";
 import Footer from "../components/Footer";
 import { toggleFavorite, useFavorites } from "../favorites";
 import { buildStationComment } from "../stationComment";
 import { getStationTags } from "../stationTags";
 import { findNearbyStations, formatDistance } from "../nearbyStations";
-import { concentrationText, rankText } from "../stationProfileText";
+import {
+  concentrationText,
+  rankText,
+  categoryRankText,
+  categoryReachText,
+  nearestComparisonText,
+} from "../stationProfileText";
 import { stationTitle, stationDescription } from "../pageMeta";
 import { useDocumentMeta } from "../useDocumentTitle";
 import { DEFAULT_WALK_MINUTES } from "../walkTiers";
@@ -70,6 +75,24 @@ export default function StationPage({ stations }) {
     : 0;
   const stationTags = tier ? getStationTags(tier.tag_keys) : [];
   const nearby = findNearbyStations(station, stations);
+
+  // 「データの読み方」に出す文章。順位・カテゴリ別順位・不足カテゴリ・広がり方・隣駅との比較の順。
+  // 徒歩分数のタブには連動しない（順位と比較は既定段階、広がり方は5分と20分の比）ため、
+  // walkMinutes ではなく data.default_walk_minutes を基準にする。
+  const profileTexts = data
+    ? [
+        rankText(data.rank, data.default_walk_minutes),
+        categoryRankText(data.category_ranks, CATEGORIES, data.default_walk_minutes),
+        categoryReachText(data.category_reach, CATEGORIES, data.default_walk_minutes),
+        concentrationText(data.concentration),
+        nearestComparisonText(
+          station?.name_ja,
+          data.nearest_comparison,
+          data.nearest_comparison?.own_total,
+          data.default_walk_minutes
+        ),
+      ].filter(Boolean)
+    : [];
 
   return (
     <div className="app-container">
@@ -204,15 +227,14 @@ export default function StationPage({ stations }) {
 
           {/* 順位と施設の広がり方は徒歩分数のタブに連動しない（順位は既定段階、
               広がり方は5分と20分の比）ため、タブの外側の話として別カードにする */}
-          {(data.rank || data.concentration) && (
+          {profileTexts.length > 0 && (
             <div className="profile-card">
               <div className="profile-card-title">{station.name_ja}のデータの読み方</div>
-              {data.rank && (
-                <p className="profile-text">{rankText(data.rank, data.default_walk_minutes)}</p>
-              )}
-              {data.concentration && (
-                <p className="profile-text">{concentrationText(data.concentration)}</p>
-              )}
+              {profileTexts.map((text, i) => (
+                <p className="profile-text" key={i}>
+                  {text}
+                </p>
+              ))}
             </div>
           )}
 
@@ -248,7 +270,11 @@ export default function StationPage({ stations }) {
             </p>
           </div>
 
-          <AdSlot />
+        {/* AdSlotは審査が終わるまで置かない。現状は「広告枠（準備中）」と出るだけの
+            ダミーで、駅ページはサイトの98%（349枚）を占めるため、審査ボットが見る
+            ページのほとんどに空の枠が並ぶことになる。トップページからは同じ理由で
+            すでに外してあった（TopPage.jsx参照）のに、こちらに残っていた。
+            AdSense承認後に components/AdSlot.jsx を実タグに差し替えて復活させる */}
         </>
       )}
 
