@@ -159,3 +159,101 @@ export function similarLead(walkMinutes, minDistanceKm = 1.6) {
 export function photoCredit(photo) {
   return `撮影: ${photo.artist} / ${photo.license}`;
 }
+
+/**
+ * 県内での総合点の順位（2026-09-30追加）。pr は scripts/stationBundle.js の pref_rank。
+ * 全国順位だけだと、地方の駅は「全国の下の方」としか分からないので、同じ県の中での位置を言う
+ */
+export function prefRankText(stationName, pr, walkMinutes) {
+  if (!pr || pr.of < 2) return "";
+  const head = `${stationName}の総合点（徒歩${walkMinutes}分圏内）は、${pr.prefecture}で掲載している${pr.of}駅の中で${pr.rank}位です。`;
+  const gap = (a, b) => Math.round(Math.abs(a - b) * 10) / 10;
+  const parts = [];
+  if (pr.second) parts.push(`2位の${pr.second.name}（${pr.second.total}点）とは${gap(pr.second.total, pr.own)}点差です。`);
+  if (pr.first) parts.push(`1位は${pr.first.name}の${pr.first.total}点です。`);
+  if (pr.above) parts.push(`1つ上の${pr.above.name}は${pr.above.total}点`);
+  if (pr.below) parts.push(`${pr.above ? "、" : ""}1つ下の${pr.below.name}は${pr.below.total}点`);
+  if (pr.above || pr.below) parts.push("です。");
+  return head + parts.join("");
+}
+
+/** 路線ごとの順位を1文にまとめる。ranks は stationBundle.js の line_ranks */
+export function lineRankText(stationName, ranks) {
+  if (!ranks || ranks.length === 0) return "";
+  const list = ranks
+    .slice(0, 4)
+    .map((r) => `${r.name}の掲載${r.of}駅中${r.rank}位`)
+    .join("、");
+  const tops = ranks.filter((r) => r.rank === 1).map((r) => r.name);
+  const tail = tops.length > 0 ? `${tops.join("・")}では掲載駅の中で最も点の高い駅です。` : "";
+  return `同じ路線の駅と比べると、${stationName}は${list}です。${tail}`;
+}
+
+// 「駅から近い施設」で、暮らしの用事に使う順に見る種類（buildNearbyFacilities.js の LISTED の一部）
+const DAILY_KEYS = ["supermarket", "convenience_store", "drugstore", "hospital", "post_office"];
+// 徒歩5分・10分の目安（徒歩1分=80m）
+const NEAR_M = 400;
+const MID_M = 800;
+
+export function formatMeters(m) {
+  return m >= 1000 ? `${(m / 1000).toFixed(1)}km` : `${m}m`;
+}
+
+/** 駅から近い施設の前置き（画面と静的HTMLで共通）。radiusM は buildNearbyFacilities.js の MAX_RADIUS_M */
+export function nearbyFacilitiesLead(radiusM = 1600) {
+  return `OpenStreetMapに名前が登録されている施設を、駅に近い順に最大3件載せています。距離は駅からの直線距離で、実際の道のりはこれより長くなります。徒歩${radiusM / 80}分圏（${formatMeters(radiusM)}）より遠い施設は載せていません。`;
+}
+
+/**
+ * 日々の用事に使う施設がどこまで行けばあるか、を1段落で言う。
+ * nearby は stationBundle.js の nearby_facilities（種類 → { nearest_m, named }）
+ */
+export function nearbySummaryText(stationName, nearby) {
+  if (!nearby) return "";
+  const near = [];
+  const mid = [];
+  const far = [];
+  const none = [];
+  for (const key of DAILY_KEYS) {
+    const e = nearby[key];
+    if (!e) none.push(labelOfItem(key));
+    else if (e.nearest_m <= NEAR_M) near.push(labelOfItem(key));
+    else if (e.nearest_m <= MID_M) mid.push(`${labelOfItem(key)}（約${formatMeters(e.nearest_m)}）`);
+    else far.push(`${labelOfItem(key)}（約${formatMeters(e.nearest_m)}）`);
+  }
+  const s = [];
+  if (near.length === DAILY_KEYS.length) {
+    s.push(`${stationName}から直線${NEAR_M}m（徒歩5分の目安）以内に、${near.join("・")}がすべてそろっています。`);
+  } else if (near.length > 0) {
+    s.push(`${stationName}から直線${NEAR_M}m（徒歩5分の目安）以内にあるのは${near.join("・")}です。`);
+  } else {
+    s.push(`${stationName}から直線${NEAR_M}m（徒歩5分の目安）以内には、スーパー・コンビニ・ドラッグストア・病院・郵便局のどれもありません。`);
+  }
+  if (mid.length > 0) s.push(`徒歩10分の目安（${MID_M}m）までに${mid.join("・")}があります。`);
+  if (far.length > 0) s.push(`${far.join("・")}は徒歩10分より先です。`);
+  if (none.length > 0) s.push(`${none.join("・")}は徒歩20分圏内に見つかりませんでした。`);
+  return s.join("");
+}
+
+/** 1種類ぶんの一覧。名前の無い施設のほうが近いときは、その距離も書く */
+export function nearbyItemText(entry) {
+  const names = entry.named.map(([name, m]) => `${name}（約${formatMeters(m)}）`).join("、");
+  const closer =
+    entry.named.length === 0
+      ? `名前の登録がない施設が約${formatMeters(entry.nearest_m)}にあります`
+      : entry.nearest_m + 50 < entry.named[0][1]
+        ? `。名前の登録がない施設が約${formatMeters(entry.nearest_m)}にあります`
+        : "";
+  return names + closer;
+}
+
+/** 駅から近い施設の一覧に出す種類と順番（ITEMS の順） */
+export function nearbyFacilityRows(nearby) {
+  if (!nearby) return [];
+  return ITEMS.filter((i) => nearby[i.key]).map((i) => ({ key: i.key, label: i.label, text: nearbyItemText(nearby[i.key]) }));
+}
+
+/** 「県内・路線内の位置」欄の見出し。路線の比較が無い駅（路線ページの無い路線だけの駅）は県だけにする */
+export function localRankHeading(prefecture, lineRanks) {
+  return lineRanks && lineRanks.length > 0 ? `${prefecture}・同じ路線の駅の中での位置` : `${prefecture}の駅の中での位置`;
+}

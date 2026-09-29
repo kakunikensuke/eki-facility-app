@@ -28,8 +28,14 @@ import {
   categoryReachText,
   concentrationText,
   landText,
+  lineRankText,
+  localRankHeading,
+  nearbyFacilitiesLead,
+  nearbyFacilityRows,
+  nearbySummaryText,
   nearestComparisonText,
   photoCredit,
+  prefRankText,
   ridershipText,
   similarLead,
   similarStationText,
@@ -360,6 +366,26 @@ function stationPage(station) {
       <ul>${b.lines.map((l) => `<li>${link(`/line/${l.slug}`, l.name)}</li>`).join("")}</ul>`
       : "";
 
+  // 駅から近い施設（名前つき）と、県内・路線内の順位（StationPage.jsx と同じ文言関数。2026-09-30追加）
+  const nearbyRows = nearbyFacilityRows(b.nearby_facilities);
+  const nearbyFacilitiesHtml =
+    nearbyRows.length > 0
+      ? `<h2>${esc(station.name_ja)}から近い施設</h2>
+      <p>${esc(nearbySummaryText(station.name_ja, b.nearby_facilities))}</p>
+      <dl>${nearbyRows.map((r) => `<dt>${esc(r.label)}</dt><dd>${esc(r.text)}</dd>`).join("")}</dl>
+      <p>${esc(nearbyFacilitiesLead())}</p>`
+      : "";
+  const localTexts = [
+    prefRankText(station.name_ja, b.pref_rank, b.default_walk_minutes),
+    lineRankText(station.name_ja, b.line_ranks),
+  ].filter(Boolean);
+  const localHtml =
+    localTexts.length > 0
+      ? `<h2>${esc(localRankHeading(station.prefecture, b.line_ranks))}</h2>
+      ${localTexts.map((t) => `<p>${esc(t)}</p>`).join("")}
+      <p>${link(prefecturePath(station.prefecture, stations), `${station.prefecture}の駅をすべて見る`)}</p>`
+      : "";
+
   const readTexts = [
     categoryReachText(b.category_reach, b.default_walk_minutes),
     concentrationText(b.concentration),
@@ -458,6 +484,8 @@ function stationPage(station) {
         <thead><tr><th></th>${head}</tr></thead>
         <tbody>${itemRows}</tbody>
       </table>
+      ${nearbyFacilitiesHtml}
+      ${localHtml}
       ${publicHtml}
       ${hazardHtml}
       ${linesHtml}

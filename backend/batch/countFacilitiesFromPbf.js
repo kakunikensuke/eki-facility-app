@@ -14,6 +14,7 @@
  * 実行:
  *   node backend/batch/countFacilitiesFromPbf.js <japan-latest.osm.pbf> --out <file> [--only slug1,slug2]
  * 読み取った施設は <pbfと同じフォルダ>/eki-elements-<pbfの名前>.json に保存し、2回目からはPBFを読まない。
+ * 施設の名前（name・brand）も一緒に保存し、scripts/buildNearbyFacilities.js が駅ごとの最寄りの施設に使う。
  * 結果は --out に書くので、確かめてから scripts/mergeFacilityCounts.js で本体にまとめる。
  * データの入手先: https://download.geofabrik.de/asia/japan.html（ODbL。出典表示は今までと同じ）
  */
@@ -90,6 +91,11 @@ for (const tags of Object.values(CATEGORY_TAGS)) {
     WANTED.get(key).add(value);
   }
 }
+
+// 対象の施設について一緒に持っておくタグ（数えるときには使わない）
+const LABEL_KEYS = ["name", "brand"];
+// 施設の一時保存の形式。名前を持たない古い保存は読み直す
+const CACHE_VERSION = 2;
 
 // ファイルを Blob ごとに読み、OSMData の PrimitiveBlock を渡す
 function* primitiveBlocks(file) {
@@ -173,9 +179,12 @@ function readBlock(buf, handlers) {
   const keyIdx = new Map();
   const valIdx = new Set();
   const allValues = new Set([...WANTED.values()].flatMap((s) => [...s]));
+  // 名前（駅ページの「最寄りの施設」に使う。2026-09-30追加）
+  const labelIdx = new Map();
   strings.forEach((str, i) => {
     if (WANTED.has(str)) keyIdx.set(i, str);
     if (allValues.has(str)) valIdx.add(i);
+    if (LABEL_KEYS.includes(str)) labelIdx.set(i, str);
   });
   const tagsOf = (keys, vals) => {
     let tags = null;
@@ -183,6 +192,12 @@ function readBlock(buf, handlers) {
       const k = keyIdx.get(keys[i]);
       if (k && valIdx.has(vals[i]) && WANTED.get(k).has(strings[vals[i]])) {
         (tags ??= {})[k] = strings[vals[i]];
+      }
+    }
+    if (tags) {
+      for (let i = 0; i < keys.length; i++) {
+        const k = labelIdx.get(keys[i]);
+        if (k) tags[k] = strings[vals[i]];
       }
     }
     return tags;
@@ -414,11 +429,11 @@ function main() {
   if (fs.existsSync(cachePath)) {
     const cache = JSON.parse(fs.readFileSync(cachePath, "utf-8"));
     const covered = new Set(cache.stations);
-    if (stations.every((s) => covered.has(s.slug))) elements = cache.elements;
+    if (cache.version === CACHE_VERSION && stations.every((s) => covered.has(s.slug))) elements = cache.elements;
   }
   if (!elements) {
     elements = extractElements(pbf, allStations);
-    fs.writeFileSync(cachePath, JSON.stringify({ stations: allStations.map((s) => s.slug), elements }));
+    fs.writeFileSync(cachePath, JSON.stringify({ version: CACHE_VERSION, stations: allStations.map((s) => s.slug), elements }));
   }
 
   // 駅ごとに、近くの施設だけを countByTier に渡す

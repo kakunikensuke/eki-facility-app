@@ -1419,3 +1419,36 @@ body {
   line-height: 1.75;
   color: var(--muted);
 }
+
+/* 駅から近い施設（名前つき。2026-09-30追加） */
+.nearby-list {
+  margin: 14px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.nearby-list > div {
+  display: grid;
+  grid-template-columns: 8.5em 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.nearby-list dt {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.nearby-list dd {
+  margin: 0;
+  color: var(--ink-2);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  .nearby-list > div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}

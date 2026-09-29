@@ -14,8 +14,14 @@ import {
   categoryReachText,
   concentrationText,
   landText,
+  lineRankText,
+  localRankHeading,
+  nearbyFacilitiesLead,
+  nearbyFacilityRows,
+  nearbySummaryText,
   nearestComparisonText,
   photoCredit,
+  prefRankText,
   ridershipText,
   similarLead,
   similarStationText,
@@ -87,6 +93,13 @@ export default function StationPage({ stations }) {
         nearestComparisonText(station.name_ja, data.nearest, data.default_walk_minutes),
       ].filter(Boolean)
     : [];
+  const localTexts = ready
+    ? [
+        prefRankText(station.name_ja, data.pref_rank, data.default_walk_minutes),
+        lineRankText(station.name_ja, data.line_ranks),
+      ].filter(Boolean)
+    : [];
+  const nearbyRows = ready ? nearbyFacilityRows(data.nearby_facilities) : [];
 
   return (
     <div className="page">
@@ -193,6 +206,36 @@ export default function StationPage({ stations }) {
                 })}
               </div>
             </section>
+
+            {nearbyRows.length > 0 && (
+              <section className="block">
+                <h2 className="block-title">{station.name_ja}から近い施設</h2>
+                <p className="lead-text">{nearbySummaryText(station.name_ja, data.nearby_facilities)}</p>
+                <dl className="nearby-list">
+                  {nearbyRows.map((row) => (
+                    <div key={row.key}>
+                      <dt>{row.label}</dt>
+                      <dd>{row.text}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="note-text">{nearbyFacilitiesLead()}</p>
+              </section>
+            )}
+
+            {localTexts.length > 0 && (
+              <section className="block">
+                <h2 className="block-title">{localRankHeading(station.prefecture, data.line_ranks)}</h2>
+                {localTexts.map((text, i) => (
+                  <p className="body-text" key={i}>
+                    {text}
+                  </p>
+                ))}
+                <Link className="purpose-more" to={prefecturePath(station.prefecture, stations)}>
+                  {station.prefecture}の駅をすべて見る →
+                </Link>
+              </section>
+            )}
 
             {(data.public.land || data.public.ridership) && (
               <section className="block">

@@ -41,6 +41,8 @@ export function loadData() {
     // 災害リスク（fetchHazard.js）と路線（importLines.js）。どちらも手元で不定期に更新する
     stationHazard: readJson("station-hazard.json", { stations: {} }),
     stationLines: readJson("station-lines.json", { lines: [], station_lines: {} }),
+    // 駅から近い施設の名前（backend/scripts/buildNearbyFacilities.js。2026-09-30追加）
+    stationNearby: readJson("station-nearby.json", { stations: {} }),
   };
 }
 
@@ -60,8 +62,19 @@ export function assertDefsInSync() {
 
 // 「徒歩10分圏内に0軒だったら、どこまで広げると見つかるか」を見る主要4施設
 const REACH_KEYS = ["convenience_store", "supermarket", "hospital", "restaurant"];
+// 「最も近い駅との比較」を出す距離の上限。地方では最も近い掲載駅が40km先の別の県になることがあり、
+// 住む場所を選ぶときの比べ方として不自然なので、その場合は県内・路線内の順位だけにする（2026-09-30）
+const NEAREST_MAX_KM = 5;
 
-export function buildAll({ stations, facilityCounts, stationPublic, stationPhotos, stationHazard, stationLines }) {
+export function buildAll({
+  stations,
+  facilityCounts,
+  stationPublic,
+  stationPhotos,
+  stationHazard,
+  stationLines,
+  stationNearby,
+}) {
   assertDefsInSync();
 
   const scoredByTier = livability.scoreAllTiers(stations, facilityCounts);
@@ -94,7 +107,8 @@ export function buildAll({ stations, facilityCounts, stationPublic, stationPhoto
 
     // 最も近い駅との総合点の比較（同じ既定段階どうし）
     const nearestStation = findNearbyStations(station, stations, 1)[0];
-    const nearestScore = nearestStation && defaultScores.get(nearestStation.station.slug);
+    const nearestScore =
+      nearestStation && nearestStation.km <= NEAREST_MAX_KM && defaultScores.get(nearestStation.station.slug);
     const ownScore = defaultScores.get(station.slug);
     const nearest =
       nearestScore && ownScore
@@ -130,10 +144,13 @@ export function buildAll({ stations, facilityCounts, stationPublic, stationPhoto
         name: stationLines.lines.find((l) => l.slug === lineSlug).name,
       })),
       similar_stations: similarBySlug.get(station.slug) ?? [],
+      nearby_facilities: stationNearby?.stations?.[station.slug] ?? null,
       updated_at: record.updated_at,
       source: record.source,
     });
   }
+
+  addLocalRanks(bundles, stationLines);
 
   // 条件検索・トップの目的別ランキング用の全駅表（/api/station-matrix.json）。
   // 容量を抑えるため、施設の軒数（c）と分野の点（d）は ITEMS / DOMAINS の順の配列で持つ
@@ -183,4 +200,41 @@ export function buildAll({ stations, facilityCounts, stationPublic, stationPhoto
     scores: buildStationScores(stations, facilityCounts),
     publicSource: stationPublic.source,
   };
+}
+
+// 県内・路線内での総合点の順位（既定の徒歩段階）。2026-09-30追加。
+// 全国順位だけだと「同じ県・同じ路線で比べてどうか」という実際の選び方に答えられないため
+function addLocalRanks(bundles, stationLines) {
+  const totalOf = (b) => b.tiers[b.default_walk_minutes].total;
+  const brief = (b) => ({ slug: b.slug, name: b.name_ja, total: totalOf(b) });
+  const rankIn = (list, b) => {
+    const sorted = [...list].sort((x, y) => totalOf(y) - totalOf(x));
+    const i = sorted.indexOf(b);
+    return {
+      rank: i + 1,
+      of: sorted.length,
+      own: totalOf(b),
+      first: i > 0 ? brief(sorted[0]) : null,
+      second: i === 0 && sorted.length > 1 ? brief(sorted[1]) : null,
+      above: i > 1 ? brief(sorted[i - 1]) : null,
+      below: i > 0 && i < sorted.length - 1 ? brief(sorted[i + 1]) : null,
+    };
+  };
+  const byPref = new Map();
+  for (const b of bundles.values()) {
+    if (!byPref.has(b.prefecture)) byPref.set(b.prefecture, []);
+    byPref.get(b.prefecture).push(b);
+  }
+  const lineMembers = new Map(
+    (stationLines?.lines ?? []).map((l) => [l.slug, l.stations.map((slug) => bundles.get(slug)).filter(Boolean)])
+  );
+  for (const b of bundles.values()) {
+    b.pref_rank = { prefecture: b.prefecture, ...rankIn(byPref.get(b.prefecture), b) };
+    b.line_ranks = b.lines
+      .map((l) => {
+        const members = lineMembers.get(l.slug) ?? [];
+        return members.length >= 3 && members.includes(b) ? { slug: l.slug, name: l.name, ...rankIn(members, b) } : null;
+      })
+      .filter(Boolean);
+  }
 }
