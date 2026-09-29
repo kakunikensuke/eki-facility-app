@@ -11,7 +11,10 @@ import NotFound from "./NotFound";
 // /api/docs/<kind>/<slug>.json で受け取って差し込む。画面側で文章を組み立てないこと
 // （組み立てを2か所に持つと、画面とクローラの見る中身がずれる。CLAUDE.md参照）。
 //
-// kind: "line" | "article" | "index"。index のときは slug を props で受ける（/lines・/articles）
+// kind: "line" | "article" | "pref" | "index"。index のときは slug を props で受ける（/lines・/articles・/prefectures）
+// 種類ごとの一覧ページ（見出しの上の小見出しから戻る先。prerender.js のパンくずも同じ）
+const DOC_PARENTS = { line: "/lines", article: "/articles", pref: "/prefectures" };
+
 export default function DocPage({ kind, slug: fixedSlug }) {
   const params = useParams();
   const slug = fixedSlug ?? params.slug;
@@ -67,7 +70,7 @@ export default function DocPage({ kind, slug: fixedSlug }) {
               {kind === "index" ? (
                 "特集"
               ) : (
-                <Link to={kind === "line" ? "/lines" : "/articles"}>{doc.kicker}</Link>
+                <Link to={DOC_PARENTS[kind]}>{doc.kicker}</Link>
               )}
             </p>
             <h1 className="page-head-title doc-title">{doc.heading}</h1>

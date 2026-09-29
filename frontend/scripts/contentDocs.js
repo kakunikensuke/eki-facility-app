@@ -9,6 +9,7 @@
 // - 同じ場所の別事業者の駅（「新大阪駅」と「Osaka Metro 新大阪駅」）は一覧で1つにまとめる
 import { DOMAINS, formatPeople, formatYenPerM2 } from "../src/livabilityDefs.js";
 import { DEPTH_LABELS, HAZARD_KINDS, HAZARD_NOTES, HAZARD_SOURCE } from "../src/hazardText.js";
+import { PREF_PAGE_MIN, groupByPrefecture, prefectureSlug } from "../src/stationSearch.js";
 
 const WALK = 10; // サイトの既定の段階（徒歩10分）
 const PUBLIC_SOURCE =
@@ -137,31 +138,12 @@ function weakestDomain(tier) {
   return DOMAINS.map((d) => ({ key: d.key, score: tier.domains[d.key].score })).sort((x, y) => x.score - y.score)[0];
 }
 
-// --- 路線ページ ---------------------------------------------------------------
+// --- 路線ページ・都道府県ページの共通部品 -------------------------------------------
+// どちらも「ある駅の集まり」を同じ物差しで並べる。文章はすべて rows の数字から導く
 
-function linePage(line, ctx) {
-  const { bundles, national, allLines } = ctx;
-  const rows = line.stations
-    .map((slug) => bundles.get(slug))
-    .filter(Boolean)
-    .sort((x, y) => T(y).total - T(x).total);
-  const n = rows.length;
-  const top = rows[0];
-  const bottom = rows[n - 1];
-  const lineMedian = median(rows.map((b) => T(b).total));
-  const blocks = [];
-
-  blocks.push(
-    p(
-      `${line.name}のうち、このサイトで扱っている${n}駅を、徒歩${WALK}分圏内の住みやすさ駅前スコア（100点満点）の順に並べました。` +
-        `路線の全駅ではなく、全国${national.count}駅の対象に入っている駅だけです。`
-    )
-  );
-  if (line.note) blocks.push(note(line.note));
-
-  // ランキング表
-  blocks.push(h2(`${line.name}の駅ランキング（徒歩${WALK}分圏内）`));
-  blocks.push(
+function rankingSection(name, rows) {
+  return [
+    h2(`${name}の駅ランキング（徒歩${WALK}分圏内）`),
     table(
       ["順位", "駅", "総合点", "全国順位", "いちばん高い分野", "住宅地の地価", "1日の乗降客数"],
       rows.map((b, i) => {
@@ -177,18 +159,23 @@ function linePage(line, ctx) {
           riderOf(b) ? { text: formatPeople(riderOf(b)), num: true } : null,
         ];
       })
-    )
-  );
-  blocks.push(note("地価は駅から徒歩20分以内にある住宅地の地価公示の中央値、乗降客数は同じ場所の全事業者の合計です。"));
+    ),
+    note("地価は駅から徒歩20分以内にある住宅地の地価公示の中央値、乗降客数は同じ場所の全事業者の合計です。"),
+  ];
+}
 
-  // 傾向
-  blocks.push(h2(`${line.name}の傾向`));
+// scope は「路線内」「県内」など、文中で範囲を指す言葉
+function trendSection(name, rows, ctx, { scope, byPrefecture }) {
+  const { national } = ctx;
+  const top = rows[0];
+  const bottom = rows[rows.length - 1];
+  const blocks = [h2(`${name}の傾向`)];
   const spread = round1(T(top).total - T(bottom).total);
   const spreadWords =
     spread >= 40
-      ? "同じ路線でも、駅によって周りの施設の揃い方が大きく違います。"
+      ? `同じ${scope.replace(/内$/, "")}でも、駅によって周りの施設の揃い方が大きく違います。`
       : spread <= 15
-        ? "駅ごとの差は比較的小さい路線です。"
+        ? "駅ごとの差は比較的小さいです。"
         : "";
   blocks.push(
     p(
@@ -196,14 +183,15 @@ function linePage(line, ctx) {
       { html: stationLink(top) },
       `の${fmt1(T(top).total)}点（全国${T(top).rank}位）、最も低いのは`,
       { html: stationLink(bottom) },
-      `の${fmt1(T(bottom).total)}点で、路線内の差は${fmt1(spread)}点です。${spreadWords}`
+      `の${fmt1(T(bottom).total)}点で、${scope}の差は${fmt1(spread)}点です。${spreadWords}`
     )
   );
-  const medDiff = lineMedian - national.medianTotal;
+  const groupMedian = median(rows.map((b) => T(b).total));
+  const medDiff = groupMedian - national.medianTotal;
   blocks.push(
     p(
-      `路線の中央値は${fmt1(lineMedian)}点で、全国${national.count}駅の中央値（${fmt1(national.medianTotal)}点）より` +
-        (medDiff >= 3 ? `${fmt1(medDiff)}点高めです。` : medDiff <= -3 ? `${fmt1(-medDiff)}点低めです。` : "ほぼ同じです。")
+      `${scope}の中央値は${fmt1(groupMedian)}点で、全国${national.count}駅の中央値（${fmt1(national.medianTotal)}点）` +
+        (medDiff >= 3 ? `より${fmt1(medDiff)}点高めです。` : medDiff <= -3 ? `より${fmt1(-medDiff)}点低めです。` : "とほぼ同じです。")
     )
   );
 
@@ -252,24 +240,26 @@ function linePage(line, ctx) {
         `で${formatYenPerM2(landOf(cheap))}/m²、最も高い`,
         { html: stationLink(dear) },
         `で${formatYenPerM2(landOf(dear))}/m²と、${fmt1(landOf(dear) / landOf(cheap))}倍の開きがあります。` +
-          "路線内で地価が中央値以下の駅のうち、総合点が最も高いのは",
+          `${scope}で地価が中央値以下の駅のうち、総合点が最も高いのは`,
         { html: stationLink(value) },
         `（${fmt1(T(value).total)}点・${formatYenPerM2(landOf(value))}/m²）です。`
       )
     );
   }
 
-  const prefs = new Map();
-  for (const b of rows) prefs.set(b.prefecture, [...(prefs.get(b.prefecture) ?? []), b]);
-  const prefList = [...prefs].filter(([, list]) => list.length >= 2);
-  if (prefList.length >= 2) {
-    blocks.push(
-      p(
-        `都道府県ごとの平均点は、${prefList
-          .map(([pref, list]) => `${pref}（${list.length}駅）${fmt1(mean(list.map((b) => T(b).total)))}点`)
-          .join("、")}です。`
-      )
-    );
+  if (byPrefecture) {
+    const prefs = new Map();
+    for (const b of rows) prefs.set(b.prefecture, [...(prefs.get(b.prefecture) ?? []), b]);
+    const prefList = [...prefs].filter(([, list]) => list.length >= 2);
+    if (prefList.length >= 2) {
+      blocks.push(
+        p(
+          `都道府県ごとの平均点は、${prefList
+            .map(([pref, list]) => `${pref}（${list.length}駅）${fmt1(mean(list.map((b) => T(b).total)))}点`)
+            .join("、")}です。`
+        )
+      );
+    }
   }
 
   const withRider = rows.filter(riderOf).sort((x, y) => riderOf(y) - riderOf(x));
@@ -279,7 +269,7 @@ function linePage(line, ctx) {
       p(
         "乗降客数が最も多い",
         { html: stationLink(biggest) },
-        `（1日${formatPeople(riderOf(biggest))}）は、路線内で${rows.indexOf(biggest) + 1}位です。` +
+        `（1日${formatPeople(riderOf(biggest))}）は、${scope}で${rows.indexOf(biggest) + 1}位です。` +
           `乗降客数と総合点の順位相関は${fmtR(
             spearman(
               withRider.map(riderOf),
@@ -289,28 +279,50 @@ function linePage(line, ctx) {
       )
     );
   }
+  return blocks;
+}
 
-  // 災害リスク
+// 表に出す駅の上限。都道府県ページは東京都だけで500駅を超えるので、区域にかかる駅を多い順に絞る
+const HAZARD_TABLE_LIMIT = 40;
+
+function hazardSection(name, rows) {
   const withHazard = rows.filter((b) => b.hazard);
-  if (withHazard.length > 0) {
-    blocks.push(h2(`${line.name}の災害リスク（ハザードマップの想定）`));
-    const floodAt = withHazard.filter((b) => b.hazard.flood.at_station);
-    const deep = withHazard.filter((b) => b.hazard.flood.deep_share_pct >= 50);
-    const texts = [
-      `${withHazard.length}駅のうち、駅の地点が洪水浸水想定区域（想定最大規模）に入っているのは${floodAt.length}駅です。`,
-    ];
-    if (deep.length > 0) {
-      texts.push(`徒歩${WALK}分圏の半分以上で3m以上の浸水が想定されているのは${deep.map((b) => b.name_ja).join("・")}です。`);
-    }
-    for (const kind of HAZARD_KINDS.filter((k) => k.key !== "flood")) {
-      const count = withHazard.filter((b) => b.hazard[kind.key].share_pct > 0).length;
-      if (count > 0) texts.push(`徒歩${WALK}分圏に${kind.area}がかかる駅は${count}駅です。`);
-    }
-    blocks.push(p(texts.join("")));
+  if (withHazard.length === 0) return [];
+  const blocks = [h2(`${name}の災害リスク（ハザードマップの想定）`)];
+  const floodAt = withHazard.filter((b) => b.hazard.flood.at_station);
+  const deep = withHazard.filter((b) => b.hazard.flood.deep_share_pct >= 50);
+  const texts = [
+    `${withHazard.length}駅のうち、駅の地点が洪水浸水想定区域（想定最大規模）に入っているのは${floodAt.length}駅です。`,
+  ];
+  if (deep.length > 0) {
+    const names = deep.map((b) => b.name_ja);
+    texts.push(
+      `徒歩${WALK}分圏の半分以上で3m以上の浸水が想定されているのは${
+        names.length > 15 ? `${names.slice(0, 15).join("・")}など${names.length}駅` : names.join("・")
+      }です。`
+    );
+  }
+  for (const kind of HAZARD_KINDS.filter((k) => k.key !== "flood")) {
+    const count = withHazard.filter((b) => b.hazard[kind.key].share_pct > 0).length;
+    if (count > 0) texts.push(`徒歩${WALK}分圏に${kind.area}がかかる駅は${count}駅です。`);
+  }
+  blocks.push(p(texts.join("")));
+
+  const coverage = (b) => Math.max(...HAZARD_KINDS.map((k) => b.hazard[k.key].share_pct));
+  let listed = withHazard;
+  let limited = false;
+  if (withHazard.length > HAZARD_TABLE_LIMIT) {
+    listed = withHazard
+      .filter((b) => coverage(b) > 0)
+      .sort((x, y) => coverage(y) - coverage(x))
+      .slice(0, HAZARD_TABLE_LIMIT);
+    limited = true;
+  }
+  if (listed.length > 0) {
     blocks.push(
       table(
         ["駅", ...HAZARD_KINDS.map((k) => k.label), "駅の地点"],
-        withHazard.map((b) => [
+        listed.map((b) => [
           { href: `/${b.slug}`, text: b.name_ja },
           ...HAZARD_KINDS.map((k) =>
             b.hazard[k.key].share_pct > 0 ? { text: `${fmt1(b.hazard[k.key].share_pct)}%`, num: true } : { text: "なし", num: true }
@@ -321,25 +333,76 @@ function linePage(line, ctx) {
         ])
       )
     );
-    blocks.push(note(`数字は徒歩${WALK}分圏（半径800m）のうち区域がかかっている割合です。${HAZARD_NOTES.join("")}`));
-    blocks.push(note(HAZARD_SOURCE));
   }
-
-  // 分野ごとの1位
-  blocks.push(h2("分野ごとの路線内1位"));
   blocks.push(
+    note(
+      (limited
+        ? `表は区域のかかる割合が大きい${listed.length}駅だけを載せています。ほかの駅は各駅のページをご覧ください。`
+        : "") + `数字は徒歩${WALK}分圏（半径800m）のうち区域がかかっている割合です。${HAZARD_NOTES.join("")}`
+    )
+  );
+  blocks.push(note(HAZARD_SOURCE));
+  return blocks;
+}
+
+function domainTopSection(scope, rows) {
+  return [
+    h2(`分野ごとの${scope}1位`),
     ul(
       DOMAINS.map((d) => {
         const b = [...rows].sort((x, y) => T(y).domains[d.key].score - T(x).domains[d.key].score)[0];
         return { html: `${esc(d.label)}: ${stationLink(b)}（${esc(fmt1(T(b).domains[d.key].score))}点）` };
       })
+    ),
+  ];
+}
+
+const lineChip = (l) => ({ href: `/line/${l.slug}`, text: l.name, sub: `${l.stations.length}駅` });
+
+// --- 路線ページ ---------------------------------------------------------------
+
+function linePage(line, ctx) {
+  const { bundles, national, allLines } = ctx;
+  const rows = line.stations
+    .map((slug) => bundles.get(slug))
+    .filter(Boolean)
+    .sort((x, y) => T(y).total - T(x).total);
+  const n = rows.length;
+  const top = rows[0];
+  const blocks = [];
+
+  blocks.push(
+    p(
+      `${line.name}のうち、このサイトで扱っている${n}駅を、徒歩${WALK}分圏内の住みやすさ駅前スコア（100点満点）の順に並べました。` +
+        `路線の全駅ではなく、全国${national.count}駅の対象に入っている駅だけです。`
     )
   );
+  if (line.note) blocks.push(note(line.note));
+  blocks.push(...rankingSection(line.name, rows));
+  blocks.push(...trendSection(line.name, rows, ctx, { scope: "路線内", byPrefecture: true }));
+  blocks.push(...hazardSection(line.name, rows));
+  blocks.push(...domainTopSection("路線内", rows));
 
-  blocks.push(h2("ほかの路線"));
-  blocks.push(
-    chips(allLines.filter((l) => l.slug !== line.slug).map((l) => ({ href: `/line/${l.slug}`, text: l.name, sub: `${l.stations.length}駅` })))
+  // 乗り換えできる路線（同じ駅に乗っている路線）を先に、次に同じ都道府県を通る路線を並べる。
+  // 全路線を並べると139本になり、どのページも同じリンクの束になるため絞る
+  const mine = new Set(line.stations);
+  const prefs = new Set(rows.map((b) => b.prefecture));
+  const transfer = allLines.filter((l) => l.slug !== line.slug && l.stations.some((s) => mine.has(s)));
+  const sameArea = allLines.filter(
+    (l) =>
+      l.slug !== line.slug &&
+      !transfer.includes(l) &&
+      l.stations.some((s) => prefs.has(bundles.get(s)?.prefecture))
   );
+  if (transfer.length > 0) {
+    blocks.push(h2("乗り換えできる路線"));
+    blocks.push(chips(transfer.map(lineChip)));
+  }
+  if (sameArea.length > 0) {
+    blocks.push(h2(`${[...prefs].join("・")}を通るほかの路線`));
+    blocks.push(chips(sameArea.slice(0, 30).map(lineChip)));
+  }
+  blocks.push(p({ html: a("/lines", `すべての路線（${allLines.length}路線）`) }));
 
   blocks.push(h2("データについて"));
   blocks.push(
@@ -363,6 +426,117 @@ function linePage(line, ctx) {
     html: blocks.join(""),
   };
 }
+
+// --- 都道府県ページ（2026-09-30追加。掲載駅を1,856駅に増やしたときに、トップページから
+// 全駅へ直接リンクする代わりの入口として作った） ------------------------------------
+
+function prefPage(pref, rows, ctx) {
+  const { national, allLines } = ctx;
+  const n = rows.length;
+  const top = rows[0];
+  const blocks = [
+    p(
+      `${pref}で、このサイトが扱っている${n}駅を、徒歩${WALK}分圏内の住みやすさ駅前スコア（100点満点）の順に並べました。` +
+        `対象は乗降客数の多い駅（おおむね1日1万人以上）と県庁所在地の駅が中心で、${pref}のすべての駅ではありません。`
+    ),
+  ];
+  blocks.push(...rankingSection(pref, rows));
+  blocks.push(...trendSection(pref, rows, ctx, { scope: `${pref}内`, byPrefecture: false }));
+
+  // 全国の中での位置（上位4分の1に入る駅の数）
+  const inTopQuarter = rows.filter((b) => T(b).total >= national.q75).length;
+  blocks.push(
+    p(
+      `全国${national.count}駅の上位4分の1（${fmt1(national.q75)}点以上）に入るのは${n}駅中${inTopQuarter}駅` +
+        `（${fmt1((inTopQuarter / n) * 100)}%）です。`
+    )
+  );
+
+  blocks.push(...hazardSection(pref, rows));
+  blocks.push(...domainTopSection(`${pref}内`, rows));
+
+  const here = new Set(rows.map((b) => b.slug));
+  const lines = allLines
+    .map((l) => ({ l, count: l.stations.filter((s) => here.has(s)).length }))
+    .filter((x) => x.count > 0)
+    .sort((x, y) => y.count - x.count);
+  if (lines.length > 0) {
+    blocks.push(h2(`${pref}を通る路線`));
+    blocks.push(chips(lines.map(({ l, count }) => ({ href: `/line/${l.slug}`, text: l.name, sub: `${pref}内${count}駅` }))));
+  }
+
+  blocks.push(h2("データについて"));
+  blocks.push(
+    p("点数の出し方は", { html: a("/guide", "使い方・スコアの見方") }, "をご覧ください。")
+  );
+  blocks.push(note(PUBLIC_SOURCE));
+
+  return {
+    path: `/pref/${prefectureSlug(pref)}`,
+    title: `${pref}の住みやすい駅ランキング（${n}駅）｜地価・災害リスクも比較`,
+    description: `${pref}の${n}駅を、徒歩10分圏内の施設から出した住みやすさ駅前スコア（100点満点）で比較。1位は${top.name_ja}の${fmt1(
+      T(top).total
+    )}点。住宅地の地価・乗降客数・浸水想定区域も並べています。`,
+    heading: `${pref}の住みやすい駅`,
+    kicker: "都道府県から探す",
+    lead: `掲載${n}駅・1位は${top.name_ja}（${fmt1(T(top).total)}点）`,
+    html: blocks.join(""),
+  };
+}
+
+function prefsIndex(groups, ctx) {
+  const { national } = ctx;
+  const withPage = groups.filter((g) => g.rows.length >= PREF_PAGE_MIN);
+  const small = groups.filter((g) => g.rows.length < PREF_PAGE_MIN);
+  const byMedian = [...withPage].map((g) => ({ ...g, med: median(g.rows.map((b) => T(b).total)) })).sort((x, y) => y.med - x.med);
+  const blocks = [
+    p(
+      `全国${national.count}駅を都道府県ごとに分けました。${PREF_PAGE_MIN}駅以上ある${withPage.length}都道府県は、` +
+        "駅を住みやすさ駅前スコアの順に並べたページがあります。"
+    ),
+    table(
+      ["都道府県", "掲載駅数", "中央値", "1位の駅"],
+      withPage.map((g) => {
+        const med = median(g.rows.map((b) => T(b).total));
+        return [
+          { href: `/pref/${prefectureSlug(g.prefecture)}`, text: g.prefecture },
+          { text: `${g.rows.length}駅`, num: true },
+          { text: `${fmt1(med)}点`, num: true },
+          { html: `${stationLink(g.rows[0])}（${esc(fmt1(T(g.rows[0]).total))}点）` },
+        ];
+      })
+    ),
+  ];
+  if (byMedian.length >= 2) {
+    blocks.push(
+      p(
+        `掲載駅の中央値が最も高いのは${byMedian[0].prefecture}（${fmt1(byMedian[0].med)}点）、最も低いのは` +
+          `${byMedian[byMedian.length - 1].prefecture}（${fmt1(byMedian[byMedian.length - 1].med)}点）です。` +
+          "駅の選び方（乗降客数の多い駅が中心）が都道府県によって違うので、都道府県そのものの住みやすさの比較ではありません。"
+      )
+    );
+  }
+  if (small.length > 0) {
+    blocks.push(h2(`掲載駅が${PREF_PAGE_MIN}駅未満の都道府県`));
+    blocks.push(
+      ul(
+        small.map((g) => ({
+          html: `${esc(g.prefecture)}: ${g.rows.map((b) => `${stationLink(b)}（${esc(fmt1(T(b).total))}点）`).join("、")}`,
+        }))
+      )
+    );
+  }
+  return {
+    path: "/prefectures",
+    title: `都道府県から住みやすい駅を探す（${groups.length}都道府県・${national.count}駅）｜住みやすさ駅前スコア`,
+    description: `全国${national.count}駅を都道府県ごとに、住みやすさ駅前スコア（100点満点）の順に並べています。住宅地の地価・乗降客数・災害リスクも比較できます。`,
+    heading: "都道府県から探す",
+    kicker: "都道府県から探す",
+    lead: `${groups.length}都道府県・${national.count}駅`,
+    html: blocks.join(""),
+  };
+}
+
 
 function linesIndex(ctx) {
   const { bundles, allLines } = ctx;
@@ -707,7 +881,7 @@ function articlePrefectures(ctx) {
   const blocks = [
     p(
       `このサイトで扱っている全国${national.count}駅を都道府県ごとにまとめ、住みやすさ駅前スコア（徒歩${WALK}分圏内）の中央値、住宅地の地価、全国平均と比べて強い分野・弱い分野を並べました。` +
-        `駅が5駅以上ある${groups.length}都府県が対象です。`
+        `駅が5駅以上ある${groups.length}都道府県が対象です。`
     ),
     h2("都道府県ごとの一覧"),
     table(
@@ -738,10 +912,10 @@ function articlePrefectures(ctx) {
     );
     blocks.push(
       p(
-        `都府県ごとの地価の中央値と総合点の中央値の順位相関は${fmtR(r)}です。` +
+        `都道府県ごとの地価の中央値と総合点の中央値の順位相関は${fmtR(r)}です。` +
           (r >= 0.4
-            ? "地価の高い都府県ほど、駅の周りの施設もそろっている傾向があります。"
-            : "都府県単位では、地価と総合点の並びはあまり一致しません。")
+            ? "地価の高い都道府県ほど、駅の周りの施設もそろっている傾向があります。"
+            : "都道府県単位では、地価と総合点の並びはあまり一致しません。")
       )
     );
   }
@@ -750,23 +924,23 @@ function articlePrefectures(ctx) {
     p(
       `全国平均との差が最も小さい（または最も下回る）分野として多く挙がったのは${weakTally
         .slice(0, 2)
-        .map(([k, c]) => `${domainLabel(k)}（${c}都府県）`)
+        .map(([k, c]) => `${domainLabel(k)}（${c}都道府県）`)
         .join("と")}です。`
     )
   );
   if (small.length > 0) {
     blocks.push(
       p(
-        `駅が4駅以下の${small.length}道県（${small.map(([pref, c]) => `${pref}${c}駅`).join("、")}）は、中央値が数駅の値で決まってしまうため表から外しました。各駅の点数は`,
-        { html: a("/", "トップページの都道府県一覧") },
+        `駅が4駅以下の${small.length}都道府県（${small.map(([pref, c]) => `${pref}${c}駅`).join("、")}）は、中央値が数駅の値で決まってしまうため表から外しました。各駅の点数は`,
+        { html: a("/prefectures", "都道府県から探す") },
         "から見られます。"
       )
     );
   }
   blocks.push(
     readingNotes([
-      "対象の駅は、各都道府県の駅をまんべんなく選んだものではありません。主要駅や観光地の駅が多く、都道府県全体の住みやすさを表すものではない点に注意してください。",
-      "分野の差は、その都府県の駅の分野別の平均点から、全国の対象駅の平均点を引いたものです。駅数の少ない都府県ほど、1駅の値に左右されます。",
+      "対象の駅は、乗降客数の多い駅（おおむね1日1万人以上）と県庁所在地の駅が中心で、各都道府県の駅をまんべんなく選んだものではありません。都市部の駅が多く、都道府県全体の住みやすさを表すものではない点に注意してください。",
+      "分野の差は、その都道府県の駅の分野別の平均点から、全国の対象駅の平均点を引いたものです。駅数の少ない都道府県ほど、1駅の値に左右されます。",
       ...COMMON_NOTES,
     ]),
     note(PUBLIC_SOURCE)
@@ -776,7 +950,7 @@ function articlePrefectures(ctx) {
     slug: "prefecture-trends",
     heading: "都道府県ごとの傾向",
     title: "都道府県ごとの駅の住みやすさの傾向｜総合点・地価・強い分野を比較",
-    description: `全国${national.count}駅を都道府県ごとにまとめ、住みやすさ駅前スコアの中央値、住宅地の地価、全国平均と比べて強い分野・弱い分野を${groups.length}都府県で比較しました。`,
+    description: `全国${national.count}駅を都道府県ごとにまとめ、住みやすさ駅前スコアの中央値、住宅地の地価、全国平均と比べて強い分野・弱い分野を${groups.length}都道府県で比較しました。`,
     summary: `中央値が最も高いのは${first.pref}（${first.list.length}駅・${fmt1(first.med)}点）、最も低いのは${last.pref}（${last.list.length}駅・${fmt1(last.med)}点）。`,
     html: blocks.join(""),
   };
@@ -938,6 +1112,9 @@ function articleDomainBalance(ctx) {
   };
 }
 
+// 地価が下がった駅の表に出す上限（1,856駅に増やしたら地方の駅で数百駅になるため）
+const FALLING_LIMIT = 30;
+
 function articleLandChange(ctx) {
   const L = ctx.B.filter((b) => b.public.land && typeof b.public.land.change_pct === "number");
   const change = (b) => b.public.land.change_pct;
@@ -983,13 +1160,17 @@ function articleLandChange(ctx) {
     blocks.push(
       h2("地価が下がった駅"),
       p(
-        `前年より下がった${falling.length}駅です。総合点の中央値は${fmt1(fallMed)}点で、全駅の中央値（${fmt1(
+        `前年より下がったのは${falling.length}駅で、総合点の中央値は${fmt1(fallMed)}点と、全駅の中央値（${fmt1(
           ctx.national.medianTotal
-        )}点）より${fallMed < ctx.national.medianTotal ? "低め" : "高め"}です。`
+        )}点）より${fallMed < ctx.national.medianTotal ? "低め" : "高め"}です。` +
+          (falling.length > FALLING_LIMIT ? `下がり方の大きい${FALLING_LIMIT}駅を並べます。` : "")
       ),
       table(
         ["駅", "都道府県", "総合点", "前年比"],
-        [...falling].sort((x, y) => change(x) - change(y)).map((b) => stationRow(b, [{ text: `${signed(change(b))}%`, num: true }]))
+        [...falling]
+          .sort((x, y) => change(x) - change(y))
+          .slice(0, FALLING_LIMIT)
+          .map((b) => stationRow(b, [{ text: `${signed(change(b))}%`, num: true }]))
       )
     );
   }
@@ -1056,10 +1237,20 @@ export function buildDocs(bundles, stationLines) {
     q75: totals[Math.floor(totals.length * 0.75)],
     domainMeans: Object.fromEntries(DOMAINS.map((d) => [d.key, mean(all.map((b) => T(b).domains[d.key].score))])),
   };
-  const allLines = stationLines.lines;
+  // 施設数のデータがまだ無い駅（取得に失敗した駅など）は路線から外し、5駅未満になった路線はページを作らない
+  const allLines = stationLines.lines
+    .map((l) => ({ ...l, stations: l.stations.filter((s) => bundles.has(s)) }))
+    .filter((l) => l.stations.length >= 5);
   const ctx = { bundles, B, national, allLines };
 
   const lines = allLines.map((line) => ({ ...linePage(line, ctx), kind: "line", slug: line.slug }));
+  const prefGroups = groupByPrefecture(all).map((g) => ({
+    prefecture: g.prefecture,
+    rows: [...g.stations].sort((x, y) => T(y).total - T(x).total),
+  }));
+  const prefs = prefGroups
+    .filter((g) => g.rows.length >= PREF_PAGE_MIN)
+    .map((g) => ({ ...prefPage(g.prefecture, g.rows, ctx), kind: "pref", slug: prefectureSlug(g.prefecture) }));
   const articles = ARTICLES.map((build) => {
     const doc = build(ctx);
     return { ...doc, kind: "article", path: `/article/${doc.slug}`, kicker: ARTICLE_KICKER, lead: doc.summary };
@@ -1067,12 +1258,20 @@ export function buildDocs(bundles, stationLines) {
   const indexes = [
     { ...linesIndex(ctx), kind: "index", slug: "lines" },
     { ...articlesIndex(articles), kind: "index", slug: "articles" },
+    { ...prefsIndex(prefGroups, ctx), kind: "index", slug: "prefectures" },
   ];
 
-  // トップページ・駅ページから張るリンク用の目次
+  // トップページ・駅ページから張るリンク用の目次。
+  // ページの無い（駅の少ない）都道府県は slug を null にし、駅を直接並べる
   const nav = {
     lines: allLines.map((l) => ({ slug: l.slug, name: l.name, count: l.stations.length })),
     articles: articles.map((x) => ({ slug: x.slug, heading: x.heading, summary: x.summary })),
+    prefectures: prefGroups.map((g) => ({
+      name: g.prefecture,
+      slug: g.rows.length >= PREF_PAGE_MIN ? prefectureSlug(g.prefecture) : null,
+      count: g.rows.length,
+      stations: g.rows.length >= PREF_PAGE_MIN ? [] : g.rows.map((b) => ({ slug: b.slug, name_ja: b.name_ja })),
+    })),
   };
-  return { docs: [...indexes, ...lines, ...articles], nav };
+  return { docs: [...indexes, ...prefs, ...lines, ...articles], nav };
 }

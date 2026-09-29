@@ -15,7 +15,7 @@
  * 注意: 洪水は国・都道府県が指定した河川のものだけで、下水があふれる内水氾濫は含まない。
  * 区域外でも安全という意味ではないので、画面では必ず自治体のハザードマップへ誘導する。
  *
- * 実行: node backend/scripts/fetchHazard.js [--only slug1,slug2]
+ * 実行: node backend/scripts/fetchHazard.js [--only slug1,slug2] [--missing] [--cache <フォルダ>]
  * タイルは --cache のフォルダ（既定: OSの一時フォルダ）に保存し、2回目以降は読み直さない。
  */
 
@@ -261,7 +261,27 @@ async function main() {
   const only = onlyIdx === -1 ? null : process.argv[onlyIdx + 1].split(",");
   const existing = fs.existsSync(OUTPUT_PATH) ? JSON.parse(fs.readFileSync(OUTPUT_PATH, "utf-8")).stations : {};
   const out = { ...existing };
-  const targets = stations.filter((s) => !only || only.includes(s.slug));
+  // --missing: まだ調べていない駅だけ。50駅ごとに書き出すので、止まっても同じコマンドで続きから再開できる
+  const missing = process.argv.includes("--missing");
+  const targets = stations.filter((s) => (!only || only.includes(s.slug)) && (!missing || !existing[s.slug]));
+  console.log(`${targets.length}駅を調べます`);
+  const today = new Date().toISOString().slice(0, 10);
+  const save = () =>
+    fs.writeFileSync(
+      OUTPUT_PATH,
+      JSON.stringify(
+        {
+          source: "ハザードマップポータルサイト（国土交通省）のオープンデータを加工して作成",
+          source_url: "https://disaportal.gsi.go.jp/",
+          fetched_at: today,
+          radius_m: RADIUS_M,
+          depth_bands: DEPTH_BANDS.map(({ key, label }) => ({ key, label })),
+          stations: Object.fromEntries(stations.filter((s) => out[s.slug]).map((s) => [s.slug, out[s.slug]])),
+        },
+        null,
+        2
+      ) + "\n"
+    );
 
   let done = 0;
   const queue = [...targets];
@@ -275,26 +295,12 @@ async function main() {
       }
       done++;
       if (done % 20 === 0) console.log(`${done}/${targets.length}`);
+      if (done % 50 === 0) save();
     }
   }
   await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 
-  const today = new Date().toISOString().slice(0, 10);
-  fs.writeFileSync(
-    OUTPUT_PATH,
-    JSON.stringify(
-      {
-        source: "ハザードマップポータルサイト（国土交通省）のオープンデータを加工して作成",
-        source_url: "https://disaportal.gsi.go.jp/",
-        fetched_at: today,
-        radius_m: RADIUS_M,
-        depth_bands: DEPTH_BANDS.map(({ key, label }) => ({ key, label })),
-        stations: Object.fromEntries(stations.filter((s) => out[s.slug]).map((s) => [s.slug, out[s.slug]])),
-      },
-      null,
-      2
-    ) + "\n"
-  );
+  save();
   console.log(`station-hazard.json を書き出しました（${Object.keys(out).length}駅）`);
 }
 

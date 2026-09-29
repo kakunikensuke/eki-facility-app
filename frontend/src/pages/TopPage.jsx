@@ -10,7 +10,6 @@ import { topTitle, topDescription } from "../pageMeta";
 import {
   PRESETS,
   buildTierTable,
-  groupByPrefecture,
   matchStationName,
   presetWeights,
   resultReasons,
@@ -23,6 +22,8 @@ const PURPOSE_LIMIT = 5;
 const RANKING_LIMIT = 10;
 // 駅名で絞り込んだときに出す上限
 const NAME_MATCH_LIMIT = 8;
+// トップページに出す路線の数（駅の多い順）。残りは /lines から
+const TOP_LINES_LIMIT = 24;
 // 何も入力していないときの背景に回す駅の数（乗降客数の多い、写真のある駅から）
 const FEATURED_COUNT = 8;
 
@@ -84,7 +85,6 @@ export default function TopPage({ stations }) {
     () => (table ? [...table.rows].sort((a, b) => b.total - a.total).slice(0, RANKING_LIMIT) : []),
     [table]
   );
-  const groups = useMemo(() => groupByPrefecture(stations), [stations]);
 
   return (
     <div className="page">
@@ -232,36 +232,48 @@ export default function TopPage({ stations }) {
             <h2 className="block-title">路線から探す</h2>
             <p className="note-text">路線ごとに、このサイトで扱っている駅を住みやすさの順に並べています。</p>
             <div className="chips">
-              {docNav.lines.map((l) => (
-                <Link className="chip" key={l.slug} to={`/line/${l.slug}`}>
-                  {l.name}
-                  <small>{l.count}駅</small>
-                </Link>
-              ))}
+              {[...docNav.lines]
+                .sort((x, y) => y.count - x.count)
+                .slice(0, TOP_LINES_LIMIT)
+                .map((l) => (
+                  <Link className="chip" key={l.slug} to={`/line/${l.slug}`}>
+                    {l.name}
+                    <small>{l.count}駅</small>
+                  </Link>
+                ))}
             </div>
+            <Link className="purpose-more" to="/lines">
+              すべての路線（{docNav.lines.length}路線） →
+            </Link>
           </section>
         )}
 
-        <section className="block">
-          <h2 className="block-title">都道府県から探す（{stations.length}駅）</h2>
-          <div className="pref-groups">
-            {groups.map((g) => (
-              <details className="pref-group" key={g.prefecture}>
-                <summary>
-                  {g.prefecture}
-                  <span className="pref-group-count">{g.stations.length}駅</span>
-                </summary>
-                <div className="chips">
-                  {g.stations.map((s) => (
+        {/* 2026-09-30、1,856駅に増やしたので全駅を並べるのをやめ、都道府県ページへの入口にした（prerender.js と同じ形） */}
+        {docNav && (
+          <section className="block">
+            <h2 className="block-title">都道府県から探す（{stations.length}駅）</h2>
+            <div className="chips">
+              {docNav.prefectures.map((g) =>
+                g.slug ? (
+                  <Link className="chip" key={g.name} to={`/pref/${g.slug}`}>
+                    {g.name}
+                    <small>{g.count}駅</small>
+                  </Link>
+                ) : (
+                  g.stations.map((s) => (
                     <Link className="chip" key={s.slug} to={`/${s.slug}`}>
                       {s.name_ja}
+                      <small>{g.name}</small>
                     </Link>
-                  ))}
-                </div>
-              </details>
-            ))}
-          </div>
-        </section>
+                  ))
+                )
+              )}
+            </div>
+            <Link className="purpose-more" to="/prefectures">
+              都道府県ごとの一覧と比較 →
+            </Link>
+          </section>
+        )}
       </main>
 
       <Footer />

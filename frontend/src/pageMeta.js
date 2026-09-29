@@ -31,6 +31,7 @@ export function stationDescription(stationName, tier) {
 // 路線ページ・記事の入口。フッター（components/Footer.jsx と prerender.js の siteFooterHtml）に
 // 駅一覧の次に並べる。STATIC_PAGES と違い本文は scripts/contentDocs.js がデータから作る
 export const CONTENT_SECTIONS = [
+  { path: "/prefectures", label: "都道府県から探す" },
   { path: "/lines", label: "路線から探す" },
   { path: "/articles", label: "データで見る駅選び" },
 ];

@@ -71,7 +71,7 @@ import {
   PRESETS,
   DEFAULT_PRESET,
   buildTierTable,
-  groupByPrefecture,
+  prefecturePath,
   presetWeights,
   resultReasons,
   searchStations,
@@ -203,6 +203,8 @@ const DEFAULT_TABLE = buildTierTable(matrix, DEFAULT_WALK_MINUTES);
 // 件数は TopPage.jsx / SearchPage.jsx と揃える規約
 const PURPOSE_LIMIT = 5;
 const RANKING_LIMIT = 10;
+// トップページに出す路線の数（駅の多い順）。残りは /lines から。TopPage.jsx と揃える規約
+const TOP_LINES_LIMIT = 24;
 const SEARCH_PAGE_SIZE = 30;
 
 // 検索結果1行ぶん。画面（SearchPage.jsx / TopPage.jsx）と同じ根拠を文字で出す
@@ -251,13 +253,17 @@ function topPage() {
     })
     .join("");
 
-  // 全駅への内部リンク。クローラが349駅を発見できる主な経路なので必ず全駅を出す
-  const prefectureHtml = groupByPrefecture(stations)
-    .map(
-      (g) => `<h3>${esc(g.prefecture)}（${g.stations.length}駅）</h3>
-      <ul>${g.stations.map((s) => `<li>${link(`/${s.slug}`, s.name_ja)}</li>`).join("")}</ul>`
+  // 全駅への入口。2026-09-30に1,856駅へ増やしたので、全駅を直接並べるのをやめ、都道府県ページを経由させる。
+  // ページの無い（駅の少ない）都道府県だけは駅を直接並べる。全駅にたどり着けるかは verifyOutput が点検する
+  const prefectureHtml = `<ul>${DOC_NAV.prefectures
+    .map((g) =>
+      g.slug
+        ? `<li>${link(`/pref/${g.slug}`, g.name)}（${esc(g.count)}駅）</li>`
+        : `<li>${esc(g.name)}: ${g.stations.map((s) => link(`/${s.slug}`, s.name_ja)).join("、")}</li>`
     )
-    .join("");
+    .join("")}</ul>
+      <p>${link("/prefectures", "都道府県ごとの一覧と比較")}</p>`;
+  const topLines = [...DOC_NAV.lines].sort((x, y) => y.count - x.count).slice(0, TOP_LINES_LIMIT);
 
   return {
     title: topTitle(),
@@ -287,7 +293,8 @@ function topPage() {
         .join("")}</ul>
       <h2>路線から探す</h2>
       <p>路線ごとに、このサイトで扱っている駅を住みやすさの順に並べています。</p>
-      <ul>${DOC_NAV.lines.map((l) => `<li>${link(`/line/${l.slug}`, l.name)}（${esc(l.count)}駅）</li>`).join("")}</ul>
+      <ul>${topLines.map((l) => `<li>${link(`/line/${l.slug}`, l.name)}（${esc(l.count)}駅）</li>`).join("")}</ul>
+      <p>${link("/lines", `すべての路線（${DOC_NAV.lines.length}路線）`)}</p>
       <h2>都道府県から探す（${stations.length}駅）</h2>
       ${prefectureHtml}
     </main>
@@ -430,12 +437,13 @@ function stationPage(station) {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: SITE_NAME, item: `${SITE_URL}/` },
-          { "@type": "ListItem", position: 2, name: station.name_ja },
+          { "@type": "ListItem", position: 2, name: station.prefecture, item: `${SITE_URL}${prefecturePath(station.prefecture, stations)}` },
+          { "@type": "ListItem", position: 3, name: station.name_ja },
         ],
       },
     ],
     body: `<main>
-      <p>${esc(station.prefecture)}・${esc(station.kana ?? "")}</p>
+      <p>${link(prefecturePath(station.prefecture, stations), station.prefecture)}・${esc(station.kana ?? "")}</p>
       <h1>${esc(station.name_ja)}の住みやすさ駅前スコア</h1>
       ${photoHtml}
       <p>${esc(summaryText(station.name_ja, main))}</p>
@@ -607,7 +615,7 @@ for (const p of STATIC_PAGES) {
 for (const doc of DOCS) {
   const breadcrumb = [{ "@type": "ListItem", position: 1, name: SITE_NAME, item: `${SITE_URL}/` }];
   if (doc.kind !== "index") {
-    const parent = doc.kind === "line" ? "/lines" : "/articles";
+    const parent = { line: "/lines", article: "/articles", pref: "/prefectures" }[doc.kind];
     breadcrumb.push({ "@type": "ListItem", position: 2, name: doc.kicker, item: `${SITE_URL}${parent}` });
   }
   breadcrumb.push({ "@type": "ListItem", position: breadcrumb.length + 1, name: doc.heading });
@@ -686,8 +694,19 @@ function verifyOutput() {
   }
 
   // 路線ページ・記事の一覧が無ければ、データ（station-lines.json）の読み込みに失敗している
-  for (const required of ["lines.html", "articles.html"]) {
+  for (const required of ["lines.html", "articles.html", "prefectures.html"]) {
     if (!files.includes(required)) errors.push(`${required} が生成されていない`);
+  }
+
+  // 全駅のページに、トップ → 都道府県の一覧 → 都道府県ページ の順でたどり着けること（2026-09-30追加）。
+  // 1,856駅に増やしたときにトップから全駅へ直接張るのをやめたので、道が途切れていないかを見張る
+  const hubHtml = files
+    .filter((f) => f === "index.html" || f === "prefectures.html" || f.startsWith("pref/"))
+    .map((f) => fs.readFileSync(path.join(DIST, f), "utf-8"))
+    .join("");
+  const unreachable = [...bundles.keys()].filter((slug) => !hubHtml.includes(`href="/${slug}"`));
+  if (unreachable.length > 0) {
+    errors.push(`都道府県ページからたどれない駅が${unreachable.length}駅ある: ${unreachable.slice(0, 10).join(", ")}`);
   }
 
   if (errors.length > 0) {

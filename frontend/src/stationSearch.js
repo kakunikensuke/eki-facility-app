@@ -266,6 +266,31 @@ const PREFECTURE_ORDER = [
   "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
 ];
 
+// 都道府県ページのURL（/pref/<slug>。2026-09-30追加）。PREFECTURE_ORDER と同じ並び
+const PREFECTURE_SLUGS = [
+  "hokkaido", "aomori", "iwate", "miyagi", "akita", "yamagata", "fukushima",
+  "ibaraki", "tochigi", "gunma", "saitama", "chiba", "tokyo", "kanagawa",
+  "niigata", "toyama", "ishikawa", "fukui", "yamanashi", "nagano", "gifu", "shizuoka", "aichi",
+  "mie", "shiga", "kyoto", "osaka", "hyogo", "nara", "wakayama",
+  "tottori", "shimane", "okayama", "hiroshima", "yamaguchi", "tokushima", "kagawa", "ehime", "kochi",
+  "fukuoka", "saga", "nagasaki", "kumamoto", "oita", "miyazaki", "kagoshima", "okinawa",
+];
+
+export function prefectureSlug(prefecture) {
+  return PREFECTURE_SLUGS[PREFECTURE_ORDER.indexOf(prefecture)] ?? null;
+}
+
+// これより駅の少ない都道府県はページを作らず、一覧（/prefectures）に駅を直接並べる。
+// 1〜2駅のページは中身がほぼ駅ページの繰り返しになるため（scripts/contentDocs.js）
+export const PREF_PAGE_MIN = 3;
+
+/** 駅ページから都道府県へ戻るリンク先。ページの無い都道府県は一覧へ */
+export function prefecturePath(prefecture, stations) {
+  const count = stations.filter((s) => s.prefecture === prefecture).length;
+  const slug = prefectureSlug(prefecture);
+  return count >= PREF_PAGE_MIN && slug ? `/pref/${slug}` : "/prefectures";
+}
+
 /** [{ prefecture, stations: [...] }]。各都道府県の中は読みの五十音順 */
 export function groupByPrefecture(stations) {
   const map = new Map();

@@ -54,6 +54,9 @@ function App() {
         <Route path="/line/:slug" element={<DocPage kind="line" />} />
         <Route path="/articles" element={<DocPage kind="index" slug="articles" />} />
         <Route path="/article/:slug" element={<DocPage kind="article" />} />
+        {/* 都道府県ページ（2026-09-30追加） */}
+        <Route path="/prefectures" element={<DocPage kind="index" slug="prefectures" />} />
+        <Route path="/pref/:slug" element={<DocPage kind="pref" />} />
         <Route path="/:stationSlug" element={<StationPage stations={stations} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

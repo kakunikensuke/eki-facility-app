@@ -269,8 +269,17 @@ async function main() {
   const outPath = outIdx === -1 ? OUTPUT_PATH : path.resolve(process.argv[outIdx + 1]);
 
   let existing = {};
-  if (outPath === OUTPUT_PATH && fs.existsSync(OUTPUT_PATH)) {
-    existing = JSON.parse(fs.readFileSync(OUTPUT_PATH, "utf-8"));
+  if (fs.existsSync(outPath)) {
+    existing = JSON.parse(fs.readFileSync(outPath, "utf-8"));
+  }
+
+  // --missing: まだ数えていない駅だけを処理する（2026-09-30、駅を1,856駅に増やしたときに追加）。
+  // --out のファイルに取れた駅も飛ばすので、途中で止まっても同じコマンドで続きから再開できる
+  if (process.argv.includes("--missing")) {
+    const done = fs.existsSync(OUTPUT_PATH) ? JSON.parse(fs.readFileSync(OUTPUT_PATH, "utf-8")) : {};
+    const before = stations.length;
+    stations = stations.filter((s) => !done[s.slug] && !existing[s.slug]);
+    console.log(`--missing: ${before}駅のうち未取得の${stations.length}駅を処理します\n`);
   }
 
   const results = { ...existing };

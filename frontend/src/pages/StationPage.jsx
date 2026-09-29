@@ -8,6 +8,7 @@ import SiteHeader from "../components/SiteHeader";
 import { toggleFavorite, useFavorites } from "../favorites";
 import { DOMAINS, MAX_TOTAL, formatPeople, formatYenPerM2, itemsOfDomain } from "../livabilityDefs";
 import { findNearbyStations, formatDistance } from "../nearbyStations";
+import { prefecturePath } from "../stationSearch";
 import { stationTitle, stationDescription } from "../pageMeta";
 import {
   categoryReachText,
@@ -93,7 +94,7 @@ export default function StationPage({ stations }) {
         <SiteHeader />
         <div className="hero-station-body">
           <p className="hero-eyebrow">
-            {station.prefecture}
+            <Link to={prefecturePath(station.prefecture, stations)}>{station.prefecture}</Link>
             {station.kana && <span className="hero-kana">{station.kana}</span>}
           </p>
           <h1 className="hero-title">{station.name_ja}</h1>

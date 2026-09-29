@@ -54,10 +54,11 @@ function median(values) {
 // 「ケ」と「ヶ」は表記揺れ（茅ケ崎/茅ヶ崎）なので揃えて比べる
 const OPERATOR_PREFIXES = ["京王", "京阪", "阪急", "阪神", "東急", "西武", "東武", "小田急", "京急", "京成", "南海", "近鉄"];
 function normalize(name) {
-  return name.replace(/ヶ/g, "ケ").replace(/ヵ/g, "カ");
+  return name.normalize("NFKC").replace(/ヶ/g, "ケ").replace(/ヵ/g, "カ");
 }
 function nameCandidates(nameJa) {
-  const base = nameJa.replace(/^.*\s/, "").replace(/駅$/, "");
+  // 同名の駅を区別する括弧書き（「尼崎駅（阪神）」「今里駅（Osaka Metro）」）は比べる前に外す
+  const base = nameJa.replace(/（[^）]*）$/, "").replace(/^.*\s/, "").replace(/駅$/, "");
   const names = [base];
   for (const prefix of OPERATOR_PREFIXES) {
     if (base.startsWith(prefix) && base.length > prefix.length) names.push(base.slice(prefix.length));

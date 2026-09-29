@@ -162,11 +162,12 @@ export function buildAll({ stations, facilityCounts, stationPublic, stationPhoto
     })),
   };
 
-  // トップページの背景用。全駅ぶんの写真の最初の数枚と、表示に必須の帰属表示だけ
+  // トップページの背景用。全駅ぶんの写真の最初の2枚と、表示に必須の帰属表示だけ。
+  // 2026-09-30、1,856駅に増やしたら4枚では圧縮後でも265KBになったので2枚に減らした（駅ページは別のJSONで6枚まで出す）
   const photosLite = {};
   for (const b of bundles.values()) {
     if (b.photos.length === 0) continue;
-    photosLite[b.slug] = b.photos.slice(0, 4).map((p) => ({
+    photosLite[b.slug] = b.photos.slice(0, 2).map((p) => ({
       src: p.src,
       caption: p.caption,
       artist: p.artist,

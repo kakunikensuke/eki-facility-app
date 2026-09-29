@@ -16,7 +16,7 @@
  * ライセンスを出す必要がある（CC BYの条件）ので、その情報も一緒に保存する。
  * 画像そのものはリポジトリに入れず、Wikimediaのサムネイルを直接読み込む。
  *
- * 実行: node backend/scripts/fetchStationPhotos.js [--only slug1,slug2]
+ * 実行: node backend/scripts/fetchStationPhotos.js [--only slug1,slug2] [--missing]
  * （349駅で15分ほど。Wikipedia側の記事が更新されたら実行し直す）
  */
 
@@ -89,7 +89,8 @@ function stripHtml(html) {
 // 「東急 渋谷駅」「京王府中駅」→ 記事の題名と照らし合わせる候補（渋谷 / 府中）
 const OPERATOR_PREFIXES = ["京王", "京阪", "阪急", "阪神", "東急", "西武", "東武", "小田急", "京急", "京成", "南海", "近鉄"];
 function nameCandidates(nameJa) {
-  const base = nameJa.replace(/^.*\s/, "").replace(/駅$/, "");
+  // 同名の駅を区別する括弧書き（「尼崎駅（阪神）」「今里駅（Osaka Metro）」）は比べる前に外す
+  const base = nameJa.replace(/（[^）]*）$/, "").replace(/^.*\s/, "").replace(/駅$/, "");
   const names = [base];
   for (const prefix of OPERATOR_PREFIXES) {
     if (base.startsWith(prefix) && base.length > prefix.length) names.push(base.slice(prefix.length));
@@ -182,11 +183,28 @@ async function main() {
   const existing = fs.existsSync(OUTPUT_PATH) ? JSON.parse(fs.readFileSync(OUTPUT_PATH, "utf-8")) : {};
   const result = { ...existing };
 
+  // --missing: まだ調べていない駅だけ。25駅ごとに書き出すので、止まっても同じコマンドで続きから再開できる
+  const missing = process.argv.includes("--missing");
+  const save = () => fs.writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2) + "\n");
+  const targets = stations.filter((s) => (!only || only.includes(s.slug)) && (!missing || !existing[s.slug]));
+  console.log(`${targets.length}駅を調べます`);
   let withPhotos = 0;
-  for (const station of stations.filter((s) => !only || only.includes(s.slug))) {
+  let done = 0;
+  // --articles <json>: 駅（slug）→ 記事名 の対応が分かっているときは、Wikidataで探す問い合わせを省く
+  // （addStations.js の候補一覧 station-candidates.json の _article。2026-09-30、1,515駅を足したときに追加）
+  const articlesIdx = process.argv.indexOf("--articles");
+  const knownArticles = new Map();
+  if (articlesIdx !== -1) {
+    const list = JSON.parse(fs.readFileSync(process.argv[articlesIdx + 1], "utf-8"));
+    for (const s of list.stations ?? []) if (s._article) knownArticles.set(s.slug, s._article);
+  }
+  for (const station of targets) {
     try {
-      const article = await findArticle(station);
-      await sleep(REQUEST_INTERVAL_MS);
+      let article = knownArticles.get(station.slug);
+      if (!article) {
+        article = await findArticle(station);
+        await sleep(REQUEST_INTERVAL_MS);
+      }
       const photos = article ? await photosOf(article) : [];
       result[station.slug] = { article, photos };
       if (photos.length > 0) withPhotos++;
@@ -195,9 +213,10 @@ async function main() {
       console.error(`[${station.slug}] 失敗（既存データを保持）: ${err.message}`);
     }
     await sleep(REQUEST_INTERVAL_MS);
+    if (++done % 25 === 0) save();
   }
 
-  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2) + "\n");
+  save();
   console.log(`\n写真のある駅: ${withPhotos}駅 -> ${OUTPUT_PATH}`);
 }
 
