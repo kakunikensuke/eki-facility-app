@@ -295,7 +295,11 @@ function stationPage(station) {
   const itemRows = ITEMS.map(
     (item) =>
       `<tr><th>${esc(item.label)}</th>${tiers
-        .map((t) => `<td>${esc(t.items[item.key].count)}軒（上位${esc(topShare(t.items[item.key].pct))}%）</td>`)
+        .map((t) => {
+          const it = t.items[item.key];
+          // 0軒に「上位◯%」を付けても意味をなさないので出さない（StationPage.jsx と同じ）
+          return `<td>${esc(it.count)}軒${it.count > 0 ? `（上位${esc(topShare(it.pct))}%）` : ""}</td>`;
+        })
         .join("")}</tr>`
   ).join("");
 

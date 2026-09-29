@@ -90,7 +90,8 @@ export default function TopPage({ stations }) {
         <SiteHeader />
         <div className="hero-home-body">
           <h1 className="hero-home-title">
-            <span>駅の暮らしやすさを、</span>
+            <span>駅の</span>
+            <span>暮らしやすさを、</span>
             <span>{MAX_TOTAL}点で。</span>
           </h1>
           <p className="hero-home-lead">
@@ -111,7 +112,7 @@ export default function TopPage({ stations }) {
               id="station-search"
               type="search"
               autoComplete="off"
-              placeholder="駅名・よみがなを入力（例: 池袋、きちじょうじ）"
+              placeholder="駅名・よみがなで探す（例: 池袋）"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
             />

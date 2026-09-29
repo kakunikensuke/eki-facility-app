@@ -345,6 +345,17 @@ body {
   display: inline-block;
 }
 
+/* スマホでは浮いたボトムナビが画面下端に重なるので、写真の帰属表示と本文をその上へ逃がす */
+@media (max-width: 879px) {
+  .hero-home .hero-credit {
+    bottom: 96px;
+  }
+
+  .hero-home-body {
+    padding-bottom: 150px;
+  }
+}
+
 .hero-home-lead {
   margin: 16px 0 24px;
   max-width: 36em;

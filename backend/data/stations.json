@@ -2234,7 +2234,7 @@
   {
     "slug": "kansai-international-airport",
     "name_ja": "関西国際空港駅",
-    "kana": "かんさいいんてないおなあいぽ",
+    "kana": "かんさいこくさいくうこう",
     "prefecture": "大阪府",
     "lat": 34.4320042,
     "lon": 135.2366026
@@ -2242,7 +2242,7 @@
   {
     "slug": "osaka-international-airport",
     "name_ja": "大阪国際空港駅",
-    "kana": "おさかいんてないおなあいぽ",
+    "kana": "おおさかこくさいくうこう",
     "prefecture": "兵庫県",
     "lat": 34.7915145,
     "lon": 135.4418616

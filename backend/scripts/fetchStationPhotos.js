@@ -46,6 +46,7 @@ const EXCLUDE = new RegExp(
     "転車台", "turntable", "工事中", "under construction", "境界線",
     // 2026-09-29の全駅実行で混ざっていたもの（駅構内の設備・通路・売店）
     "構内", "断路器", "変電", "通路", "passage", "kiosk", "キオスク", "売店", "待合室",
+    "券売機", "vending", "machine", "精算", "トイレ", "toilet",
   ].join("|"),
   "i"
 );
@@ -53,8 +54,9 @@ const EXCLUDE = new RegExp(
 // 先に出したい写真（駅の外観・出口・駅前・周辺の建物）
 const PREFER = new RegExp(
   [
+    // 方角の英単語だけ（east など）にすると「JR East」に当たってしまうので、出口の形で書く
     "口", "exit", "entrance", "駅舎", "外観", "exterior", "building",
-    "north", "south", "east", "west", "広場", "駅前", "周辺", "plaza", "square",
+    "north side", "south side", "east side", "west side", "広場", "駅前", "周辺", "plaza", "square",
     "モール", "mall", "商店街", "眺め", "view", "panorama", "street", "通り",
   ].join("|"),
   "i"
@@ -155,7 +157,11 @@ async function photosOf(title) {
       height: ii.thumbheight,
       page: ii.descriptionurl,
       // 説明文が英語だけ・ファイル名そのままのものは見出しに向かないので空にする
-      caption: /[ぁ-んァ-ヶ一-龠]/.test(description) ? description : "",
+      // 「User:〇〇 撮影日：…」のような撮影メモも見出しに向かないので空にする
+      caption:
+        /[ぁ-んァ-ヶ一-龠]/.test(description) && !/User:|撮影日|撮影場所|撮影者/.test(description)
+          ? description
+          : "",
       // 撮影者が機械的に読めない形で書かれているファイルは、ファイルページを見てもらう
       artist: /コンピュータが読み取れる|not machine-readable/i.test(stripHtml(meta.Artist?.value))
         ? "ファイルページ参照"

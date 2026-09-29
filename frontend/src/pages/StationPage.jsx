@@ -171,7 +171,10 @@ export default function StationPage({ stations }) {
                                 {it.count}
                                 <small>軒</small>
                               </span>
-                              <span className="domain-item-share">上位{topShare(it.pct)}%</span>
+                              {/* 0軒に「上位◯%」を付けても意味をなさないので出さない */}
+                              <span className="domain-item-share">
+                                {it.count > 0 ? `上位${topShare(it.pct)}%` : ""}
+                              </span>
                             </li>
                           );
                         })}
