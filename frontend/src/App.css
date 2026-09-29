@@ -12,12 +12,10 @@
   position: relative;
   padding: 20px 20px 28px;
   color: #fff;
-  background:
-    radial-gradient(120% 90% at 15% 0%, rgba(76, 175, 120, 0.9), transparent 60%),
-    radial-gradient(120% 90% at 85% 15%, rgba(122, 90, 200, 0.85), transparent 60%),
-    radial-gradient(120% 100% at 50% 100%, rgba(235, 150, 80, 0.85), transparent 65%),
-    #4c8a5f;
-  border-radius: 0 0 28px 28px;
+  /* 2026-09-29、緑・紫・橙の3色グラデーションをやめて単色にした。
+     どのサイトにもある既製テンプレートの見た目で、中身の数字より装飾が目立っていた */
+  background: var(--header-bg);
+  border-radius: 0 0 20px 20px;
 }
 
 .hero-top {
@@ -1333,4 +1331,232 @@ h1.page-title {
   font-size: 12px;
   line-height: 1.7;
   color: var(--text);
+}
+
+/* ---------- トップページ（2026-09-29作り直し。pages/TopPage.jsx） ---------- */
+
+.top-hero {
+  padding: 24px 20px 24px;
+}
+
+.top-title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.3;
+  color: #fff;
+  text-align: center;
+}
+
+.top-hero .top-lead {
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 40em;
+  margin: 10px auto 0;
+}
+
+label.top-section-title {
+  display: block;
+}
+
+.top-section-title {
+  font-size: 16px;
+}
+
+.top-note {
+  margin: -4px 0 12px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.name-matches {
+  margin-top: 12px;
+}
+
+.station-index-pref {
+  margin-left: 6px;
+  font-size: 11px;
+  color: var(--text);
+}
+
+.purpose-grid {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .purpose-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .purpose-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.purpose-card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.purpose-title {
+  margin: 0;
+  font-size: 16px;
+  color: var(--text-h);
+}
+
+.purpose-lead {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.purpose-list {
+  margin: 10px 0 12px;
+  padding-left: 1.4em;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.purpose-list li + li {
+  margin-top: 6px;
+}
+
+.purpose-list li::marker {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.purpose-station {
+  font-weight: 700;
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.purpose-station:hover {
+  text-decoration: underline;
+}
+
+.purpose-reason {
+  display: block;
+  font-size: 12px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.purpose-more {
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.pref-groups {
+  display: grid;
+  gap: 8px;
+}
+
+@media (min-width: 880px) {
+  .pref-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+.pref-group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0 14px;
+}
+
+.pref-group summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 48px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.pref-group-count {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text);
+  margin-left: auto;
+  padding-right: 8px;
+}
+
+.pref-group[open] {
+  padding-bottom: 14px;
+}
+
+.pref-group summary:focus-visible,
+.purpose-more:focus-visible,
+.purpose-station:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- PC幅：ボトムナビを画面上端の横並びナビにする ---------- */
+/* スマホの親指操作のための下部固定ナビは、PCでは画面の中央下に浮いて本文に重なるだけになる */
+@media (min-width: 880px) {
+  .bottom-nav {
+    top: 0;
+    bottom: auto;
+    left: 0;
+    transform: none;
+    max-width: none;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 16px;
+    border-top: 0;
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+  }
+
+  .bottom-nav-item {
+    flex: 0 0 auto;
+    flex-direction: row;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+
+  .bottom-nav-item.active {
+    background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  }
+
+  .bottom-nav-icon {
+    font-size: 16px;
+  }
+
+  .bottom-nav-label {
+    font-size: 14px;
+  }
+
+  .app-container {
+    padding-top: 52px;
+    padding-bottom: 24px;
+  }
+
+  .search-panel {
+    top: 68px;
+  }
+
+  .top-hero {
+    padding: 36px 32px 32px;
+  }
+
+  .top-title {
+    font-size: 30px;
+  }
 }

@@ -62,6 +62,7 @@ import {
   PRESETS,
   DEFAULT_PRESET,
   buildTierTable,
+  groupByPrefecture,
   presetWeights,
   resultReasons,
   searchStations,
@@ -79,7 +80,6 @@ const {
   TAG_THRESHOLDS_BY_WALK_MINUTES,
 } = require("../../backend/stationTags.js");
 const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("../../backend/facilityRecord.js");
-const { buildStationScores } = require("../../backend/stationScores.js");
 const {
   getConcentration,
   buildRankMap,
@@ -201,14 +201,6 @@ function writePage(page) {
 
 // --- 各ページ ---------------------------------------------------------------
 
-// 全駅への内部リンク一覧。クローラが349駅を発見できる唯一の経路なので必ず出す
-// （アプリ本体は<select>での遷移しか持たず、駅ページへのaタグが存在しない）
-function stationIndexList() {
-  return stations
-    .map((s) => `<li>${link(`/${s.slug}`, s.name_ja)}</li>`)
-    .join("");
-}
-
 // 条件検索と目的別ランキングの元になる全駅×全段階の表。/api/station-matrix.json と同じもの
 const MATRIX = buildStationMatrix(stations, facilityCounts);
 const DEFAULT_TABLE = buildTierTable(MATRIX, DEFAULT_WALK_MINUTES);
@@ -234,9 +226,6 @@ function searchPageHtml() {
       <ol>${results.slice(0, SEARCH_PAGE_SIZE).map((row) => resultItemHtml(row, weights)).join("")}</ol>`;
 }
 
-// トップのランキング。件数はTopPage.jsxのRANKING_LIMITと揃える規約
-const RANKING_LIMIT = 20;
-
 // 順位表は1度だけ作る（駅ごとに引き直すと全駅の再計算を349回繰り返すことになる）
 const RANK_BY_SLUG = buildRankMap(stations, facilityCounts);
 // カテゴリ別の順位表も同じ理由で1度だけ作る（カテゴリ数×駅数ぶんの並べ替えになるため）
@@ -244,19 +233,28 @@ const CATEGORY_RANK_BY_SLUG = buildCategoryRankMap(stations, facilityCounts, DEF
 // 似ている駅も全駅の総当たりなので1度だけ作る（generateApiData.js と同じ関数・同じ段階）
 const SIMILAR_BY_SLUG = buildSimilarMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
 
+// トップの目的別ランキングの件数。TopPage.jsx の PURPOSE_LIMIT と揃える規約
+const PURPOSE_LIMIT = 5;
+
 function topPage() {
   const description = topDescription(stations.length);
-  const ranking = buildStationScores(stations, facilityCounts).slice(0, RANKING_LIMIT);
-  const rankingHtml =
-    ranking.length > 0
-      ? `<h2>駅前スコアの高い駅 TOP${ranking.length}（徒歩${DEFAULT_WALK_MINUTES}分圏内）</h2>
-      <ol>${ranking
-        .map(
-          (s) =>
-            `<li>${link(`/${s.slug}`, s.name_ja)}（${esc(s.score)}点・合計${esc(s.total_count)}軒）</li>`
-        )
-        .join("")}</ol>`
-      : "";
+
+  const purposeHtml = PRESETS.map((preset) => {
+    const weights = presetWeights(preset.key);
+    const rows = searchStations(DEFAULT_TABLE, { weights }).results.slice(0, PURPOSE_LIMIT);
+    return `<h3>${esc(preset.label)}</h3>
+      <p>${esc(preset.lead)}</p>
+      <ol>${rows.map((row) => resultItemHtml(row, weights)).join("")}</ol>
+      <p>${link(`/search?preset=${preset.key}`, `${preset.label}の条件で絞り込む`)}</p>`;
+  }).join("");
+
+  // 全駅への内部リンク。クローラが349駅を発見できる主な経路なので必ず全駅を出す
+  const prefectureHtml = groupByPrefecture(stations)
+    .map(
+      (g) => `<h3>${esc(g.prefecture)}（${g.stations.length}駅）</h3>
+      <ul>${g.stations.map((s) => `<li>${link(`/${s.slug}`, s.name_ja)}</li>`).join("")}</ul>`
+    )
+    .join("");
 
   return {
     title: topTitle(),
@@ -271,11 +269,13 @@ function topPage() {
     },
     body: `<main>
       <h1>住みやすさ駅前スコア</h1>
-      <p>${esc(description)}</p>
-      ${rankingHtml}
-      <h2>対応駅一覧（${stations.length}駅）</h2>
-      <ul>${stationIndexList()}</ul>
-      <p>${link("/compare", "駅を比較する")} ／ ${link("/guide", "スコアの見方")}</p>
+      <p>引っ越し先の駅を、歩いて行ける店の数で比べられます。全国${stations.length}駅の徒歩5〜20分圏内にあるコンビニ・スーパー・病院・飲食店・ドラッグストア・公園・保育園/幼稚園を、OpenStreetMapのデータで数えています。</p>
+      <h2>目的から探す</h2>
+      <p>駅名が決まっていなければ、暮らし方から選べます。徒歩${DEFAULT_WALK_MINUTES}分圏内で、目的に合う項目が全国の上位にそろっている駅の上位${PURPOSE_LIMIT}駅です。最低軒数や都道府県を足して絞り込むこともできます。</p>
+      ${purposeHtml}
+      <h2>都道府県から探す（${stations.length}駅）</h2>
+      ${prefectureHtml}
+      <p>${link("/search", "条件で駅を探す")} ／ ${link("/compare", "駅を比較する")} ／ ${link("/guide", "スコアの見方")}</p>
     </main>
     ${siteFooterHtml("/")}`,
   };

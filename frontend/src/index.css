@@ -5,6 +5,10 @@
   --surface: #fcfcfb;
   --border: #e1e0d9;
   --accent: #008300;
+  /* ヘッダーの地の色。白文字とのコントラスト比 約8:1 */
+  --header-bg: #1e5b3a;
+  /* 補足の文字色（フッターの出典表示など）。白地で 5.3:1 */
+  --muted: #6b6a64;
 
   /* カテゴリカラー(dataviz skillの検証済みパレット、固定順1-4を使用) */
   --series-convenience: #2a78d6;
@@ -31,6 +35,8 @@
     --surface: #1a1a19;
     --border: #2c2c2a;
     --accent: #0ca30c;
+    --header-bg: #173f2a;
+    --muted: #9a998f;
 
     --series-convenience: #3987e5;
     --series-supermarket: #008300;
