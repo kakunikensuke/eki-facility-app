@@ -20,6 +20,7 @@ import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
 import { CATEGORIES } from "../src/categories.js";
+import { buildStationMatrix } from "./stationMatrix.js";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -57,10 +58,19 @@ function writeJson(relativePath, value) {
 fs.rmSync(OUT_DIR, { recursive: true, force: true });
 
 // --- GET /api/stations 相当 ---------------------------------------------------
-// lat/lonも返すのは、駅ページの「近くの駅」リンクをフロント側だけで組み立てるため
+// lat/lonも返すのは、駅ページの「近くの駅」リンクをフロント側だけで組み立てるため。
+// kana（読み）・prefectureは、トップの駅名検索をひらがなで引けるようにするのと、
+// 駅一覧・条件検索を都道府県で分けるため（2026-09-29追加）
 writeJson(
   "stations.json",
-  stations.map(({ slug, name_ja, lat, lon }) => ({ slug, name_ja, lat, lon }))
+  stations.map(({ slug, name_ja, kana, prefecture, lat, lon }) => ({
+    slug,
+    name_ja,
+    kana,
+    prefecture,
+    lat,
+    lon,
+  }))
 );
 
 // --- GET /api/station-scores 相当 ---------------------------------------------
@@ -68,6 +78,12 @@ writeJson("station-scores.json", {
   walk_minutes: DEFAULT_WALK_MINUTES,
   stations: buildStationScores(stations, facilityCounts),
 });
+
+// --- 全駅×全段階の軒数（条件で駅を探す・目的別の並べ替え用、2026-09-29追加） ---------
+// 条件検索はブラウザ側で全駅を絞り込むので、駅ごとのJSONを349本読ませずに済むよう
+// 1ファイルにまとめる。容量を抑えるため、軒数はカテゴリ順（categories）の配列で持つ。
+// 計算は frontend/src/stationSearch.js（プリレンダも同じものを使う）。
+writeJson("station-matrix.json", buildStationMatrix(stations, facilityCounts));
 
 // --- GET /api/facility-counts?station=<slug> 相当 ------------------------------
 // 順位表は1度だけ作る（駅ごとに引き直すと全駅の再計算を349回繰り返すことになる）
@@ -146,5 +162,5 @@ for (const station of stations) {
 }
 
 console.log(
-  `APIの静的JSONを生成しました（駅${written}件 + 一覧2件 / データ未整備でスキップ ${skipped}駅、出力先 public/api/）`
+  `APIの静的JSONを生成しました（駅${written}件 + 一覧3件 / データ未整備でスキップ ${skipped}駅、出力先 public/api/）`
 );
