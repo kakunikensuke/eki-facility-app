@@ -12,7 +12,8 @@ const { normalizeRecord, WALK_MINUTES_TIERS } = require("./facilityRecord");
  * - 施設ごとに「全国の対応駅の中での位置」（パーセンタイル、0〜100）を出す。
  *   軒数の桁が違う施設（飲食店は数百、図書館は0〜2）も同じ物差しで並べられる
  * - 分野の点 = その分野の施設のパーセンタイルの平均（0〜100、小数1桁）
- * - 総合点 = 6分野の平均 × 10（0〜1000点）。満点で頭打ちにならないので、上位の駅にも差がつく
+ * - 総合点 = 6分野の平均（0〜100点、小数1桁）。満点で頭打ちにならないので、上位の駅にも差がつく
+ *   （公開当初は×10して1000点満点にしていたが、分野の点と物差しをそろえるため2026-09-29に100点満点へ）
  *
  * 相対評価なので、対象駅を増やすと既存の駅の点数も少し動く。旧スコアはそれを避けるために
  * 絶対的なtargetを使っていたが、頭打ちで順位が機能しなくなる方が問題が大きいと判断した。
@@ -132,7 +133,7 @@ function scoreTier(stations, facilityCounts, walkMinutes) {
       const avg = domain.items.reduce((a, k) => a + items[k].pct, 0) / domain.items.length;
       domains[domain.key] = { score: round1(avg) };
     }
-    const total = Math.round((DOMAINS.reduce((a, d) => a + domains[d.key].score, 0) / DOMAINS.length) * 10);
+    const total = round1(DOMAINS.reduce((a, d) => a + domains[d.key].score, 0) / DOMAINS.length);
     results.set(row.slug, { counts: row.counts, raw_counts: row.raw, items, domains, total });
   }
 

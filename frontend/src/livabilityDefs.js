@@ -36,7 +36,7 @@ export const ITEMS = [
   { key: "public_bath", label: "銭湯", domain: "leisure" },
 ];
 
-export const MAX_TOTAL = 1000;
+export const MAX_TOTAL = 100;
 
 export const domainOf = (key) => DOMAINS.find((d) => d.key === key);
 export const itemOf = (key) => ITEMS.find((i) => i.key === key);

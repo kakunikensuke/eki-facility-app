@@ -140,7 +140,7 @@ export default function TopPage({ stations }) {
         <section className="block">
           <h2 className="block-title">総合点の高い駅（徒歩10分圏内）</h2>
           <p className="note-text">
-            6分野の点の平均×10。施設ごとに全国の対応駅の中での位置を出しているので、満点で頭打ちにならず上位の駅にも差がつきます。
+            6分野の点の平均（小数1桁）。施設ごとに全国の対応駅の中での位置を出しているので、満点で頭打ちにならず上位の駅にも差がつきます。
           </p>
           {!table && <p className="status-message">読み込み中...</p>}
           {table && (

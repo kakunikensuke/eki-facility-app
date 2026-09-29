@@ -142,7 +142,7 @@ export default function StationPage({ stations }) {
               <p className="lead-text">{summaryText(station.name_ja, tier)}</p>
               <p className="note-text">
                 駅から半径{tier.radius_m}m（徒歩1分=80m）以内の施設を数え、施設ごとに全国{tier.of}
-                駅の中での位置を出して、分野ごとに平均しています。総合点は6分野の平均×10です。
+                駅の中での位置を出して、分野ごとに平均しています。総合点は6分野の点の平均です。
               </p>
 
               <div className="domain-grid">

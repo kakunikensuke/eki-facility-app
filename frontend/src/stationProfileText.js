@@ -91,9 +91,9 @@ export function categoryReachText(reaches, walkMinutes) {
 export function nearestComparisonText(stationName, nearest, walkMinutes) {
   if (!nearest) return "";
   const head = `最も近い${nearest.name}（約${nearest.distance}）は、同じ徒歩${walkMinutes}分圏内で${nearest.total}点、${stationName}は${nearest.own_total}点です。`;
-  const diff = nearest.own_total - nearest.total;
-  // 1000点満点での数十点の差は、施設1〜2種類ぶんの順位の違い程度なので「ほぼ同じ」として扱う
-  if (Math.abs(diff) < 30) return `${head}2駅の点数はほぼ同じです。`;
+  const diff = Math.round((nearest.own_total - nearest.total) * 10) / 10;
+  // 100点満点での数点の差は、施設1〜2種類ぶんの順位の違い程度なので「ほぼ同じ」として扱う
+  if (Math.abs(diff) < 3) return `${head}2駅の点数はほぼ同じです。`;
   return diff > 0
     ? `${head}${stationName}のほうが${diff}点高くなっています。`
     : `${head}${nearest.name}のほうが${-diff}点高くなっています。`;
