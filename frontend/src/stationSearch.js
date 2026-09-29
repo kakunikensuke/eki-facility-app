@@ -189,7 +189,7 @@ export function searchStations(table, cond) {
 }
 
 // 結果の1行に添える根拠。重みの大きいカテゴリから、軒数と全国での位置を出す
-export function resultReasons(table, row, weights, limit = 3) {
+export function resultReasons(table, row, weights, limit = 4) {
   return SEARCH_CATEGORIES.filter((c) => (weights[c.key] ?? 0) > 0)
     .sort((a, b) => (weights[b.key] ?? 0) - (weights[a.key] ?? 0))
     .slice(0, limit)

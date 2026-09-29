@@ -30,6 +30,23 @@ export async function fetchStationScores() {
   return scores;
 }
 
+// 条件検索・目的別ランキング用。全駅×全段階の軒数（scripts/stationMatrix.js）。
+// トップと検索ページの行き来で読み直さないよう、1度読んだものを使い回す
+let matrixPromise = null;
+export function fetchStationMatrix() {
+  if (!matrixPromise) {
+    matrixPromise = fetchJson(`${API_BASE}/station-matrix.json`).then((matrix) => {
+      if (!matrix) throw new Error("駅データの取得に失敗しました");
+      return matrix;
+    });
+    // 失敗したときは次の呼び出しで取り直せるようにする
+    matrixPromise.catch(() => {
+      matrixPromise = null;
+    });
+  }
+  return matrixPromise;
+}
+
 // 集計データがまだ無い駅はファイルそのものが存在しない。呼び出し側は
 // nullを「この駅の集計データはまだ準備できていません」として扱う。
 export async function fetchFacilityCounts(stationSlug) {

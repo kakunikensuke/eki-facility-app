@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { fetchStations } from "./api";
 import TopPage from "./pages/TopPage";
 import StationPage from "./pages/StationPage";
+import SearchPage from "./pages/SearchPage";
 import ComparePage from "./pages/ComparePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
@@ -38,6 +39,7 @@ function App() {
             持たないと検索上そのまま駅ページに吸収されるため、実体を持たせた
             （設計書7章・pages/TopPage.jsx参照） */}
         <Route path="/" element={<TopPage stations={stations} />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/compare" element={<ComparePage stations={stations} />} />
         <Route path="/favorites" element={<FavoritesPage stations={stations} />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />

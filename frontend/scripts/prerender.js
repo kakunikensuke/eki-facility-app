@@ -36,6 +36,7 @@ import {
   nearestComparisonText,
 } from "../src/stationProfileText.js";
 import {
+  SEARCH_BLOCKS,
   GUIDE_BLOCKS,
   ABOUT_BLOCKS,
   PRIVACY_BLOCKS,
@@ -55,6 +56,16 @@ import {
   stationDescription,
   STATIC_PAGES,
 } from "../src/pageMeta.js";
+
+import {
+  PRESETS,
+  DEFAULT_PRESET,
+  buildTierTable,
+  presetWeights,
+  resultReasons,
+  searchStations,
+} from "../src/stationSearch.js";
+import { buildStationMatrix } from "./stationMatrix.js";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -194,6 +205,31 @@ function stationIndexList() {
   return stations
     .map((s) => `<li>${link(`/${s.slug}`, s.name_ja)}</li>`)
     .join("");
+}
+
+// 条件検索と目的別ランキングの元になる全駅×全段階の表。/api/station-matrix.json と同じもの
+const MATRIX = buildStationMatrix(stations, facilityCounts);
+const DEFAULT_TABLE = buildTierTable(MATRIX, DEFAULT_WALK_MINUTES);
+
+// 検索結果1行ぶん。画面（SearchPage.jsx / TopPage.jsx）と同じ根拠を文字で出す
+function resultItemHtml(row, weights) {
+  const reasons = resultReasons(DEFAULT_TABLE, row, weights)
+    .map((r) => `${esc(r.label)}${esc(r.count)}軒（上位${esc(r.share)}%）`)
+    .join("・");
+  return `<li>${link(`/${row.station.slug}`, row.station.name_ja)}（${esc(row.station.prefecture)}）: ${reasons}／適合度${esc(row.fit)}</li>`;
+}
+
+// /search の静的HTML。JSが動く前・動かないクローラにも、初期状態（バランス重視・徒歩10分・
+// 絞り込みなし）の結果を見せる。件数は SearchPage.jsx の PAGE_SIZE と揃える
+const SEARCH_PAGE_SIZE = 30;
+function searchPageHtml() {
+  const weights = presetWeights(DEFAULT_PRESET);
+  const { results, total } = searchStations(DEFAULT_TABLE, { weights });
+  const preset = PRESETS.find((p) => p.key === DEFAULT_PRESET);
+  return `<p>駅名が決まっていなくても大丈夫です。暮らしに必要な店の条件から、全国の対応駅を絞り込んで並べます。</p>
+      <h2>全国で条件に合う駅：${results.length}駅（全${total}駅中）</h2>
+      <p>並び順：${esc(preset.label)}・徒歩${DEFAULT_WALK_MINUTES}分圏内。適合度は選んだ項目が全国のどの位置にあるかの重み付き平均（0〜100）です。</p>
+      <ol>${results.slice(0, SEARCH_PAGE_SIZE).map((row) => resultItemHtml(row, weights)).join("")}</ol>`;
 }
 
 // トップのランキング。件数はTopPage.jsxのRANKING_LIMITと揃える規約
@@ -415,12 +451,17 @@ for (const station of stations) {
 // クローラや審査ボットからは読み物が皆無のサイトに見えるため、
 // content/pages.js のブロックからReact側と同じ本文を組む。
 const STATIC_PAGE_BLOCKS = {
+  "/search": () => SEARCH_BLOCKS,
   "/guide": () => GUIDE_BLOCKS,
   "/compare": () => COMPARE_BLOCKS,
   "/contact": () => CONTACT_BLOCKS,
   "/contact-received": () => CONTACT_RECEIVED_BLOCKS,
   "/about": () => [...ABOUT_BLOCKS, ...contactBlocks()],
   "/privacy": () => [...PRIVACY_BLOCKS, ...contactBlocks()],
+};
+
+const STATIC_PAGE_LEAD = {
+  "/search": searchPageHtml,
 };
 
 // お問い合わせフォーム。項目の定義は content/pages.js が持ち、
@@ -490,12 +531,14 @@ function blocksToHtml(blocks) {
 for (const p of STATIC_PAGES) {
   const blocks = STATIC_PAGE_BLOCKS[p.path]?.() ?? [];
   const bodyHtml = blocks.length > 0 ? blocksToHtml(blocks) : `<p>${esc(p.description)}</p>`;
+  // 解説の前に置く、そのページ固有の中身（データから組むもの）
+  const leadHtml = STATIC_PAGE_LEAD[p.path]?.() ?? "";
   writePage({
     title: p.title,
     description: p.description,
     canonicalPath: p.path,
     noindex: p.noindex,
-    body: `<main><h1>${esc(p.heading)}</h1>${bodyHtml}</main>
+    body: `<main><h1>${esc(p.heading)}</h1>${leadHtml}${bodyHtml}</main>
     ${siteFooterHtml(p.path)}`,
   });
   // noindex のページは sitemap にも載せない（載せておいて検索避けするのは矛盾している）

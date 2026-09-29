@@ -38,6 +38,14 @@ export const FAVORITES_META = {
 // 固定ページ（駅データに依存しないページ）
 export const STATIC_PAGES = [
   {
+    // 2026-09-29追加。駅名が決まっていない人が、店の条件から駅を探す入口
+    path: "/search",
+    heading: "条件で駅を探す",
+    title: `条件で駅を探す｜スーパー・病院・公園の数で絞り込み｜${SITE_NAME}`,
+    description:
+      "徒歩5〜20分圏内のスーパー・病院・公園・保育園などの最低軒数と都道府県で駅を絞り込み、一人暮らし・子育て・自炊など重視する項目に沿って並べ替えられます。",
+  },
+  {
     path: "/compare",
     heading: "駅を比較する",
     title: `駅を比較する｜${SITE_NAME}`,

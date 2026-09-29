@@ -2,9 +2,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 // 地図表示は要件定義書8.2で将来拡張候補として保留（アプリの核心的な利用シーン＝
 // 駅同士の店舗数比較から外れるため、タブごと未設置。2026-07-18判断）。
-// 比較タブは2026-07-17、お気に入りタブは2026-07-18実装。
+// 比較タブは2026-07-17、お気に入りタブは2026-07-18、条件で探すタブは2026-09-29実装。
 const ITEMS = [
   { key: "home", label: "ホーム", icon: "🏠", path: "/" },
+  { key: "search", label: "条件で探す", icon: "🔍", path: "/search" },
   { key: "compare", label: "比較", icon: "📊", path: "/compare" },
   { key: "favorite", label: "お気に入り", icon: "⭐", path: "/favorites" },
 ];
@@ -12,12 +13,9 @@ const ITEMS = [
 export default function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
+  // 駅ページはホームの配下として扱うので、どのタブにも当たらなければホーム
   const activeKey =
-    location.pathname === "/compare"
-      ? "compare"
-      : location.pathname === "/favorites"
-        ? "favorite"
-        : "home";
+    ITEMS.find((item) => item.path !== "/" && item.path === location.pathname)?.key ?? "home";
 
   return (
     <nav className="bottom-nav" aria-label="アプリ内ナビゲーション">
