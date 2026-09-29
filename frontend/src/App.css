@@ -1276,3 +1276,61 @@ h1.page-title {
 .legal-card li {
   line-height: 1.8;
 }
+
+/* 施設の揃い方が似ている駅（backend/stationSimilarity.js、2026-09-29追加） */
+.similar-card {
+  margin: 20px 16px 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.similar-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.similar-card-lead {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.similar-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.similar-item {
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+
+.similar-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+}
+
+.similar-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.similar-pref {
+  font-size: 11px;
+  color: var(--text);
+}
+
+.similar-text {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text);
+}

@@ -108,3 +108,33 @@ export function nearestComparisonText(stationName, nearest, ownTotal, walkMinute
   if (ratio < 1.2) return `${head}2駅の施設数はほぼ同水準です。`;
   return `${head}${more}のほうが${less}より約${ratio.toFixed(1)}倍多くなっています。`;
 }
+
+/**
+ * 「施設の揃い方が似ている駅」1駅ぶんの説明（2026-09-29追加）。
+ * item は backend/stationSimilarity.js の buildSimilarMap が返す1件
+ * （close/far の own が基準の駅、other が似ている駅の軒数）。
+ * どこが近く、どこが違うかを軒数で書く。「似ている」とだけ書いても根拠にならない。
+ */
+export function similarStationText(stationName, item, categories) {
+  const labelOf = (key) => categories.find((c) => c.key === key)?.label ?? key;
+  const zero = item.close.filter((c) => c.own === 0 && c.other === 0);
+  const nonZero = item.close.filter((c) => !(c.own === 0 && c.other === 0));
+
+  const sentences = [];
+  if (nonZero.length > 0) {
+    const list = nonZero.map((c) => `${labelOf(c.category)}（${c.own}軒と${c.other}軒）`).join("・");
+    sentences.push(`${list}が近い水準です。`);
+  }
+  if (zero.length > 0) {
+    sentences.push(`${zero.map((c) => labelOf(c.category)).join("・")}はどちらも0軒です。`);
+  }
+  if (item.close.length === 0) {
+    sentences.push("1つずつ見ると差はありますが、7項目の組み合わせ全体では近い駅です。");
+  }
+  if (item.far) {
+    sentences.push(
+      `違いが大きいのは${labelOf(item.far.category)}で、${stationName}の${item.far.own}軒に対して${item.far.other}軒です。`
+    );
+  }
+  return sentences.join("");
+}

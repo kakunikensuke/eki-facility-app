@@ -38,6 +38,7 @@ const {
   buildCategoryRankMap,
   getCategoryReach,
 } = require("../../backend/stationProfile.js");
+const { buildSimilarMap } = require("../../backend/stationSimilarity.js");
 
 const DATA_DIR = path.join(__dirname, "..", "..", "backend", "data");
 const OUT_DIR = path.join(__dirname, "..", "public", "api");
@@ -90,6 +91,8 @@ writeJson("station-matrix.json", buildStationMatrix(stations, facilityCounts));
 const rankBySlug = buildRankMap(stations, facilityCounts);
 // カテゴリ別順位も同じ理由で1度だけ作る（カテゴリ数×駅数ぶんの並べ替えになるため）
 const categoryRankBySlug = buildCategoryRankMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
+// 似ている駅も全駅の総当たりなので1度だけ作る
+const similarBySlug = buildSimilarMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
 
 /**
  * 最も近い駅との合計軒数の比較。
@@ -155,6 +158,7 @@ for (const station of stations) {
     category_ranks: categoryRankBySlug.get(station.slug) ?? null,
     category_reach: getCategoryReach(normalized.tiers, DEFAULT_WALK_MINUTES),
     nearest_comparison: buildNearestComparison(station, normalized),
+    similar_stations: similarBySlug.get(station.slug) ?? [],
     updated_at: normalized.updated_at,
     source: normalized.source,
   });

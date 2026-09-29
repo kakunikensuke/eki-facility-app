@@ -34,6 +34,7 @@ import {
   categoryRankText,
   categoryReachText,
   nearestComparisonText,
+  similarStationText,
 } from "../src/stationProfileText.js";
 import {
   SEARCH_BLOCKS,
@@ -85,6 +86,7 @@ const {
   buildCategoryRankMap,
   getCategoryReach,
 } = require("../../backend/stationProfile.js");
+const { buildSimilarMap, MIN_DISTANCE_KM } = require("../../backend/stationSimilarity.js");
 
 // デプロイ先が1つしかないので既定値を本番URLにしている（Cloudflare Pages側の
 // 環境変数設定を増やさずに済ませるため）。別ドメインで使う場合のみ環境変数で上書きする。
@@ -239,6 +241,8 @@ const RANKING_LIMIT = 20;
 const RANK_BY_SLUG = buildRankMap(stations, facilityCounts);
 // カテゴリ別の順位表も同じ理由で1度だけ作る（カテゴリ数×駅数ぶんの並べ替えになるため）
 const CATEGORY_RANK_BY_SLUG = buildCategoryRankMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
+// 似ている駅も全駅の総当たりなので1度だけ作る（generateApiData.js と同じ関数・同じ段階）
+const SIMILAR_BY_SLUG = buildSimilarMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
 
 function topPage() {
   const description = topDescription(stations.length);
@@ -275,6 +279,11 @@ function topPage() {
     </main>
     ${siteFooterHtml("/")}`,
   };
+}
+
+// 「似ている駅」の前置き。StationPage.jsx と同じ文言にすること
+function similarLead() {
+  return `徒歩${DEFAULT_WALK_MINUTES}分圏内の7項目（コンビニ・スーパー・病院・飲食店・ドラッグストア・公園・保育園/幼稚園）の軒数の組み合わせが近い駅を、全国から選んでいます。集計範囲が重なる${MIN_DISTANCE_KM}km以内の駅は除いています。`;
 }
 
 // APIが返すのと同じ形の1段階ぶんのデータを組み立てる（stationComment等が同じ形を期待するため）
@@ -360,6 +369,23 @@ function stationPage(station) {
       ${profileSentences.map((s) => `<p>${esc(s)}</p>`).join("")}`
       : "";
 
+  // 施設の揃い方が似ている駅（画面の StationPage.jsx と同じ文言）
+  const similar = SIMILAR_BY_SLUG.get(station.slug) ?? [];
+  const allCategories = [...CATEGORIES, ...EXTRA_CATEGORIES];
+  const similarHtml =
+    similar.length > 0
+      ? `<h2>${esc(station.name_ja)}と施設の揃い方が似ている駅</h2>
+      <p>${esc(similarLead())}</p>
+      <ul>${similar
+        .map(
+          (item) =>
+            `<li>${link(`/${item.slug}`, item.name_ja)}（${esc(item.prefecture ?? "")}）: ${esc(
+              similarStationText(station.name_ja, item, allCategories)
+            )}</li>`
+        )
+        .join("")}</ul>`
+      : "";
+
   // 駅同士を結ぶ内部リンク。トップの一覧しか経路が無い平たい構造を崩す狙い（nearbyStations.js参照）
   const nearby = findNearbyStations(station, stations);
   const nearbyHtml =
@@ -407,6 +433,7 @@ function stationPage(station) {
       </table>
       <p>店舗数はOpenStreetMapのデータに基づく目安です（更新: ${esc(record.updated_at)}）。</p>
       ${profileHtml}
+      ${similarHtml}
       ${nearbyHtml}
       <p>${link("/", `全${stations.length}駅の一覧を見る`)} ／ ${link("/compare", "他の駅と比較する")}</p>
     </main>

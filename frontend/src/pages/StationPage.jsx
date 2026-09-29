@@ -14,6 +14,7 @@ import {
   categoryRankText,
   categoryReachText,
   nearestComparisonText,
+  similarStationText,
 } from "../stationProfileText";
 import { stationTitle, stationDescription } from "../pageMeta";
 import { useDocumentMeta } from "../useDocumentTitle";
@@ -235,6 +236,33 @@ export default function StationPage({ stations }) {
                   {text}
                 </p>
               ))}
+            </div>
+          )}
+
+          {/* 施設の揃い方が似ている駅（backend/stationSimilarity.js）。近くの駅は距離で選ぶが、
+              こちらは中身で選ぶ。文言はプリレンダ（prerender.jsの similarLead）と揃えること */}
+          {data.similar_stations?.length > 0 && (
+            <div className="similar-card">
+              <div className="similar-card-title">{station.name_ja}と施設の揃い方が似ている駅</div>
+              <p className="similar-card-lead">
+                徒歩{data.default_walk_minutes}
+                分圏内の7項目（コンビニ・スーパー・病院・飲食店・ドラッグストア・公園・保育園/幼稚園）の軒数の組み合わせが近い駅を、全国から選んでいます。集計範囲が重なる1.6km以内の駅は除いています。
+              </p>
+              <ul className="similar-list">
+                {data.similar_stations.map((item) => (
+                  <li className="similar-item" key={item.slug}>
+                    <div className="similar-head">
+                      <Link className="similar-name" to={`/${item.slug}`}>
+                        {item.name_ja}
+                      </Link>
+                      {item.prefecture && <span className="similar-pref">{item.prefecture}</span>}
+                    </div>
+                    <p className="similar-text">
+                      {similarStationText(station.name_ja, item, [...CATEGORIES, ...EXTRA_CATEGORIES])}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 
