@@ -28,7 +28,10 @@ const path = require("path");
 
 const STATIONS_PATH = path.join(__dirname, "..", "data", "stations.json");
 const OUTPUT_PATH = path.join(__dirname, "..", "data", "facility-counts.json");
-const OVERPASS_ENDPOINT = "https://overpass-api.de/api/interpreter";
+// 公開インスタンスは混雑すると429を返し続けて1駅1分以上かかることがある。
+// 全駅を手元で取り直すときは、ミラー（例: https://maps.mail.ru/osm/tools/overpass/api/interpreter）を
+// 環境変数で指定し、--part で分けて並行に流せるようにしている
+const OVERPASS_ENDPOINT = process.env.OVERPASS_ENDPOINT || "https://overpass-api.de/api/interpreter";
 
 // 集計する徒歩分数の段階。半径は「徒歩1分=80m」で換算する（要件定義書5章）。
 const WALK_MINUTES_TIERS = [5, 10, 15, 20];
@@ -99,16 +102,24 @@ const MAX_RADIUS_M = Math.max(...WALK_MINUTES_TIERS) * WALK_SPEED_M_PER_MIN;
 // 最大半径の円に入る対象を、カテゴリのタグごとに1回ずつ集めて位置つきで返させる。
 // out center は線（way）にも中心点を付ける。点（node）は lat/lon をそのまま持つ
 function buildOverpassQuery(lat, lon) {
-  const pairs = new Map();
+  // 同じキー（shop / amenity / leisure）の値はまとめて正規表現で1回に探す。
+  // 円内の走査はタグの種類ごとに1回ずつ走るので、21種類を別々に書くと重く、公開サーバーで
+  // タイムアウト（504）が続いた
+  const valuesByKey = new Map();
   for (const tags of Object.values(CATEGORY_TAGS)) {
-    for (const [key, value] of tags) pairs.set(`${key}=${value}`, [key, value]);
+    for (const [key, value] of tags) {
+      if (!valuesByKey.has(key)) valuesByKey.set(key, new Set());
+      valuesByKey.get(key).add(value);
+    }
   }
-  const filters = [...pairs.values()]
-    .map(
-      ([key, value]) =>
-        `  node["${key}"="${value}"](around:${MAX_RADIUS_M},${lat},${lon});\n` +
-        `  way["${key}"="${value}"](around:${MAX_RADIUS_M},${lat},${lon});`
-    )
+  const filters = [...valuesByKey]
+    .map(([key, values]) => {
+      const pattern = `^(${[...values].join("|")})$`;
+      return (
+        `  node["${key}"~"${pattern}"](around:${MAX_RADIUS_M},${lat},${lon});\n` +
+        `  way["${key}"~"${pattern}"](around:${MAX_RADIUS_M},${lat},${lon});`
+      );
+    })
     .join("\n");
   // 大規模駅は対象が数千件になるため、タイムアウトは余裕を持たせる
   return `[out:json][timeout:180];\n(\n${filters}\n);\nout tags center;`;
@@ -244,8 +255,21 @@ async function main() {
     console.log(`--limit ${limit}: 先頭${stations.length}駅のみ処理します\n`);
   }
 
+  // --part 2/3 : 駅を3つに分けた2番目だけを処理する（別のエンドポイントで並行に流すため）。
+  // --out <path>: 取得できた駅だけをこのファイルに書く。並行に流した複数のプロセスが
+  //               同じ facility-counts.json を上書きし合わないようにするため。
+  //               あとで scripts/mergeFacilityCounts.js で本体にまとめる
+  const partIdx = process.argv.indexOf("--part");
+  if (partIdx !== -1) {
+    const [k, n] = process.argv[partIdx + 1].split("/").map(Number);
+    stations = stations.filter((_, i) => i % n === k - 1);
+    console.log(`--part ${k}/${n}: ${stations.length}駅を処理します\n`);
+  }
+  const outIdx = process.argv.indexOf("--out");
+  const outPath = outIdx === -1 ? OUTPUT_PATH : path.resolve(process.argv[outIdx + 1]);
+
   let existing = {};
-  if (fs.existsSync(OUTPUT_PATH)) {
+  if (outPath === OUTPUT_PATH && fs.existsSync(OUTPUT_PATH)) {
     existing = JSON.parse(fs.readFileSync(OUTPUT_PATH, "utf-8"));
   }
 
@@ -268,6 +292,10 @@ async function main() {
         (m) => `${m}分:${Object.values(tiers[m].counts).reduce((a, b) => a + b, 0)}件`
       ).join(" ");
       console.log(`OK ${summary}`);
+      // 途中で落ちても取れた分が残るよう、20駅ごとに書き出しておく
+      if (successCount % 20 === 0) {
+        fs.writeFileSync(outPath, JSON.stringify(results, null, 2) + "\n", "utf-8");
+      }
     } catch (err) {
       failureCount += 1;
       console.error(`失敗（既存データを保持）: ${err.message}`);
@@ -275,8 +303,8 @@ async function main() {
     await sleep(REQUEST_INTERVAL_MS);
   }
 
-  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(results, null, 2) + "\n", "utf-8");
-  console.log(`\n完了: 成功${successCount}件 / 失敗${failureCount}件 -> ${OUTPUT_PATH}`);
+  fs.writeFileSync(outPath, JSON.stringify(results, null, 2) + "\n", "utf-8");
+  console.log(`\n完了: 成功${successCount}件 / 失敗${failureCount}件 -> ${outPath}`);
 }
 
 if (require.main !== module) {

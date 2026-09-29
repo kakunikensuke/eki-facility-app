@@ -1,33 +1,19 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { fetchFacilityCounts } from "../api";
-import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
 import BottomNav from "../components/BottomNav";
 import ContentBlocks from "../components/ContentBlocks";
 import Footer from "../components/Footer";
 import { COMPARE_BLOCKS } from "../content/pages";
+import { DOMAINS, MAX_TOTAL, formatPeople, formatYenPerM2, itemsOfDomain } from "../livabilityDefs";
 import { STATIC_PAGES } from "../pageMeta";
 import { useDocumentMeta } from "../useDocumentTitle";
-import { DEFAULT_WALK_MINUTES } from "../walkTiers";
 
 const META = STATIC_PAGES.find((p) => p.path === "/compare");
 
-// 引越し検討者が「今の駅 or 候補駅同士」を比べる、というアプリの核心的な利用シーン
-// (project_eki_facility_app.md参照)を2駅固定・毎回選び直す方式で実現する。
-//
-// 比較は徒歩10分圏に固定している。駅ページ側は4段階を切り替えられる(2026-08-07追加)が、
-// ここで段階も可変にすると「どの範囲で比べているか」が分かりにくくなるため、
-// 既定の段階だけを扱う。
-
-// 集計途中の駅は既定の段階を持たないことがあるため、無ければ利用可能な最小の段階で代替する
-function pickTier(data) {
-  return data?.tiers?.[DEFAULT_WALK_MINUTES] ?? data?.tiers?.[data?.available_walk_minutes?.[0]];
-}
-
-function useCompareMeta() {
-  // これが無いと、他ページから遷移してきたときにtitleが前のページのまま残る
-  useDocumentMeta(META.title, META.description);
-}
-
+// 2駅を並べて比べるページ（2026-07-17追加、2026-09-29に6分野版へ作り直し）。
+// 比較は既定の徒歩10分圏に固定する。段階も変えられると「どの範囲で比べているか」が
+// 分かりにくくなるため（段階の比較は駅ページで行う）。
 function useStationData(slug) {
   const [data, setData] = useState(null);
   const [status, setStatus] = useState(slug ? "loading" : "idle");
@@ -54,148 +40,157 @@ function useStationData(slug) {
   return { data, status };
 }
 
+function StationSelect({ label, value, onChange, stations }) {
+  return (
+    <label className="compare-pick">
+      <span>{label}</span>
+      <select className="search-select" value={value} onChange={(e) => onChange(e.target.value)}>
+        <option value="">選択してください</option>
+        {stations.map((s) => (
+          <option key={s.slug} value={s.slug}>
+            {s.name_ja}（{s.prefecture}）
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+// 数値2つのうち大きい方に印を付ける（同じなら両方付けない）
+const lead = (a, b) => (a > b ? " is-lead" : "");
+
 export default function ComparePage({ stations }) {
-  useCompareMeta();
+  useDocumentMeta(META.title, META.description);
   const [slugA, setSlugA] = useState(stations[0]?.slug ?? "");
   const [slugB, setSlugB] = useState(stations[1]?.slug ?? "");
+  const { data: a, status: statusA } = useStationData(slugA);
+  const { data: b, status: statusB } = useStationData(slugB);
 
-  const { data: dataA, status: statusA } = useStationData(slugA);
-  const { data: dataB, status: statusB } = useStationData(slugB);
-
-  const nameOf = (slug) => stations.find((s) => s.slug === slug)?.name_ja ?? "";
-  const sameStation = Boolean(slugA) && slugA === slugB;
-  const tierA = pickTier(dataA);
-  const tierB = pickTier(dataB);
-  const bothReady = !sameStation && statusA === "ok" && statusB === "ok" && tierA && tierB;
+  const same = Boolean(slugA) && slugA === slugB;
+  const ta = a?.tiers?.[a.default_walk_minutes];
+  const tb = b?.tiers?.[b.default_walk_minutes];
+  const ready = !same && statusA === "ok" && statusB === "ok" && ta && tb && a.slug === slugA && b.slug === slugB;
 
   return (
-    <div className="app-container">
-      <header className="hero-header subpage-header">
-        <div className="hero-top">
-          <div className="page-title">駅を比較</div>
-        </div>
+    <div className="page">
+      <header className="page-head">
+        <Link className="page-head-brand" to="/">
+          住みやすさ駅前スコア
+        </Link>
+        <h1 className="page-head-title">駅を比較する</h1>
+        <p className="page-head-lead">2つの駅を、6分野の点・施設の数・地価・乗降客数で並べて比べます（徒歩10分圏内）。</p>
       </header>
 
-      <div className="compare-select-row">
-        <select
-          className="compare-select-input"
-          aria-label="駅A"
-          value={slugA}
-          onChange={(e) => setSlugA(e.target.value)}
-        >
-          <option value="">選択してください</option>
-          {stations.map((s) => (
-            <option key={s.slug} value={s.slug}>
-              {s.name_ja}
-            </option>
-          ))}
-        </select>
-        <select
-          className="compare-select-input"
-          aria-label="駅B"
-          value={slugB}
-          onChange={(e) => setSlugB(e.target.value)}
-        >
-          <option value="">選択してください</option>
-          {stations.map((s) => (
-            <option key={s.slug} value={s.slug}>
-              {s.name_ja}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {sameStation && <p className="status-message">異なる2駅を選んでください。</p>}
-
-      {!sameStation && (statusA === "loading" || statusB === "loading") && (
-        <p className="status-message">読み込み中...</p>
-      )}
-      {!sameStation && (statusA === "error" || statusB === "error") && (
-        <p className="status-message status-error">
-          データの取得に失敗しました。時間をおいて再度お試しください。
-        </p>
-      )}
-      {!sameStation && (statusA === "not-found" || statusB === "not-found") && (
-        <p className="status-message">選択した駅の集計データはまだ準備できていません。</p>
-      )}
-
-      {bothReady && (
-        <>
-          <div className="compare-score-card">
-            <div
-              className={`compare-score-item${
-                tierA.score.total >= tierB.score.total ? " compare-score-winner" : ""
-              }`}
-            >
-              <div className="compare-score-name">{nameOf(slugA)}</div>
-              <div className="compare-score-value">{tierA.score.total}</div>
-              <div className="compare-score-label">SCORE</div>
-            </div>
-            <div className="compare-score-divider" />
-            <div
-              className={`compare-score-item${
-                tierB.score.total >= tierA.score.total ? " compare-score-winner" : ""
-              }`}
-            >
-              <div className="compare-score-name">{nameOf(slugB)}</div>
-              <div className="compare-score-value">{tierB.score.total}</div>
-              <div className="compare-score-label">SCORE</div>
-            </div>
+      <main className="page-body">
+        <section className="block">
+          <div className="compare-picks">
+            <StationSelect label="駅A" value={slugA} onChange={setSlugA} stations={stations} />
+            <StationSelect label="駅B" value={slugB} onChange={setSlugB} stations={stations} />
           </div>
 
-          <div className="compare-card">
-            <div className="compare-card-title">
-              カテゴリ別 軒数比較（徒歩{tierA.walk_minutes}分圏内）
-            </div>
-            {[...CATEGORIES, ...EXTRA_CATEGORIES].map((cat) => {
-              const countA = tierA.counts[cat.key] || 0;
-              const countB = tierB.counts[cat.key] || 0;
-              return (
-                <div className="compare-row" key={cat.key}>
-                  <span
-                    className={`compare-value${countA > countB ? " compare-value-lead" : ""}`}
-                  >
-                    {countA}軒
-                  </span>
-                  <span className="compare-label">
-                    {cat.icon} {cat.label}
-                  </span>
-                  <span
-                    className={`compare-value${countB > countA ? " compare-value-lead" : ""}`}
-                  >
-                    {countB}軒
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+          {same && <p className="status-message">異なる2駅を選んでください。</p>}
+          {!same && (statusA === "loading" || statusB === "loading") && (
+            <p className="status-message">読み込み中...</p>
+          )}
+          {!same && (statusA === "error" || statusB === "error") && (
+            <p className="status-message status-error">データの取得に失敗しました。時間をおいて再度お試しください。</p>
+          )}
+          {!same && (statusA === "not-found" || statusB === "not-found") && (
+            <p className="status-message">選択した駅の集計データはまだ準備できていません。</p>
+          )}
+        </section>
 
-          <div className="info-card">
-            <p className="disclaimer">
-              店舗数・スコアはOpenStreetMapのデータに基づく目安です。実際の店舗数と異なる場合があります。
+        {ready && (
+          <section className="block">
+            <table className="compare-table">
+              <thead>
+                <tr>
+                  <th scope="col" />
+                  <th scope="col">
+                    <Link to={`/${a.slug}`}>{a.name_ja}</Link>
+                  </th>
+                  <th scope="col">
+                    <Link to={`/${b.slug}`}>{b.name_ja}</Link>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="compare-total">
+                  <th scope="row">総合点</th>
+                  <td className={lead(ta.total, tb.total)}>
+                    {ta.total}
+                    <small>/{MAX_TOTAL}・{ta.rank}位</small>
+                  </td>
+                  <td className={lead(tb.total, ta.total)}>
+                    {tb.total}
+                    <small>/{MAX_TOTAL}・{tb.rank}位</small>
+                  </td>
+                </tr>
+                {DOMAINS.map((d) => (
+                  <tr key={d.key}>
+                    <th scope="row">
+                      <span className="cat-dot" style={{ background: d.color }} aria-hidden="true" />
+                      {d.label}
+                    </th>
+                    <td className={lead(ta.domains[d.key].score, tb.domains[d.key].score)}>
+                      {ta.domains[d.key].score.toFixed(1)}
+                    </td>
+                    <td className={lead(tb.domains[d.key].score, ta.domains[d.key].score)}>
+                      {tb.domains[d.key].score.toFixed(1)}
+                    </td>
+                  </tr>
+                ))}
+                <tr>
+                  <th scope="row">住宅地の地価</th>
+                  <td>{a.public.land ? `${formatYenPerM2(a.public.land.median_yen_per_m2)}/m²` : "—"}</td>
+                  <td>{b.public.land ? `${formatYenPerM2(b.public.land.median_yen_per_m2)}/m²` : "—"}</td>
+                </tr>
+                <tr>
+                  <th scope="row">1日の乗降客数</th>
+                  <td>{a.public.ridership ? formatPeople(a.public.ridership.daily) : "—"}</td>
+                  <td>{b.public.ridership ? formatPeople(b.public.ridership.daily) : "—"}</td>
+                </tr>
+                {DOMAINS.map((d) => (
+                  <CompareItems key={d.key} domain={d} ta={ta} tb={tb} />
+                ))}
+              </tbody>
+            </table>
+            <p className="note-text">
+              施設の数はOpenStreetMap、地価と乗降客数は国土数値情報（国土交通省、CC BY 4.0）に基づきます。
             </p>
-            <p className="attribution">
-              地図データ: ©{" "}
-              <a
-                href="https://www.openstreetmap.org/copyright"
-                target="_blank"
-                rel="noreferrer"
-              >
-                OpenStreetMap contributors
-              </a>
-            </p>
-          </div>
-        </>
-      )}
+          </section>
+        )}
 
-      {/* 本文は content/pages.js（プリレンダと共有）。ツール部分は動的なので
-          静的HTMLに出せるのはこの解説だけになる */}
-      <div className="legal-card">
-        <ContentBlocks blocks={COMPARE_BLOCKS} />
-      </div>
+        <section className="block prose">
+          <ContentBlocks blocks={COMPARE_BLOCKS} />
+        </section>
+      </main>
 
       <Footer />
       <BottomNav />
     </div>
+  );
+}
+
+function CompareItems({ domain, ta, tb }) {
+  return (
+    <>
+      <tr className="compare-group">
+        <th colSpan={3} scope="colgroup">
+          {domain.label}の施設（軒）
+        </th>
+      </tr>
+      {itemsOfDomain(domain.key).map((item) => {
+        const x = ta.items[item.key].count;
+        const y = tb.items[item.key].count;
+        return (
+          <tr key={item.key}>
+            <th scope="row">{item.label}</th>
+            <td className={lead(x, y)}>{x}</td>
+            <td className={lead(y, x)}>{y}</td>
+          </tr>
+        );
+      })}
+    </>
   );
 }

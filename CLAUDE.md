@@ -30,6 +30,18 @@
 - **審査が終わるまで「広告枠（準備中）」のダミーを置かない。** 承認後に
   `components/AdSlot.jsx` を実タグに差し替えて `StationPage.jsx` に戻す
 
+## 2026-09-29の全面改造（スコア・デザイン・写真・公的データ）
+
+ユーザーの依頼「ださい・スコアの要素が足りない」を受けて作り直した。**旧スコア（4カテゴリ・100点満点・target方式）はもう使っていない。**
+
+- **スコア**: `backend/livability.js` が唯一の採点。19種類の施設 → 6分野（買い物・食事・医療・子育て/教育・生活/安全・自然/余暇）。施設ごとに全国パーセンタイル → 分野の平均（0〜100）→ 総合＝6分野の平均×10（0〜1000）。相対評価なので駅の増減で点が動く（頭打ちで順位が機能しない方を重く見た判断）。画面用の定義は `frontend/src/livabilityDefs.js` に複製し、ずれたらビルドが止まる（`stationBundle.js` の `assertDefsInSync`）
+- **表示データ**: `frontend/scripts/stationBundle.js` が駅ごとの一式を作り、`generateApiData.js`（JSON）と `prerender.js`（静的HTML）の**両方が同じ物を使う**。文章は `src/stationProfileText.js` にだけ置く
+- **施設の集計**: `backend/batch/updateFacilityCounts.js` は18カテゴリを1600m圏で1回に取り（キーごとに正規表現でまとめる）、距離は手元で数える。`restaurant` はカフェを含む従来の定義のまま、採点は `restaurant_only`（カフェを除く）。全駅を手元で取り直すときは `OVERPASS_ENDPOINT=https://maps.mail.ru/osm/tools/overpass/api/interpreter` と `--part k/n --out` で並行に流し、`backend/scripts/mergeFacilityCounts.js` でまとめる（公開サーバー1本だと429で1駅1分かかる）
+- **地価・乗降客数**: `backend/scripts/importPublicData.js` が国土数値情報（L01地価公示・S12駅別乗降客数、CC BY 4.0）から `backend/data/station-public.json` を作る。元データはリポジトリに入れない。**年1回手動で更新**。点数には混ぜず並べて見せる。出典表示が必要（駅ページ・比較・使い方・運営者情報に記載済み）
+- **写真**: `backend/scripts/fetchStationPhotos.js` が日本語版Wikipediaの駅記事の写真（Wikimedia Commons）を機械的に選んで `backend/data/station-photos.json` に保存。**目視確認はしない方針**（ユーザー指定）なので、混ざってはいけない写真はファイル名・説明文の除外語（`EXCLUDE`）で落とす。画像はWikimediaのサムネイルを直接読む。**撮影者とライセンスの表示を消さないこと**（CC BYの条件。ヒーロー右下と駅ページ下部）
+- **デザイン**: `src/design.css`（App.cssの後に読む）。写真のスライドは `components/PhotoHero.jsx`。フォントはGoogle Fonts（Zen Kaku Gothic New / Outfit）で、プライバシーポリシーに記載済み
+- `backend/server.js` と `backend/scoring.js`・`backend/stationTags.js` は旧スコアのまま残っている（本番では使っていない）
+
 ## 条件検索・目的別ランキング・似ている駅（2026-09-29追加）
 
 4回目の不承認（9/15）を受けて、見た目の手直しより先に「駅名を知らない人が使える機能」を足した。
@@ -62,8 +74,8 @@
 - 集計範囲: **徒歩5/10/15/20分の4段階**（半径400/800/1200/1600m、`半径=徒歩分数×80m/分`で換算）。2026-08-07に徒歩10分のみから拡張。既定の表示段階は徒歩10分（`frontend/src/walkTiers.js`の`DEFAULT_WALK_MINUTES`）。4段階は1回のOverpassクエリでまとめて取得しており、リクエスト数は段階を増やしても駅あたり1回のまま
 - 対象駅: 初期は池袋・新宿・渋谷・東京・品川・上野・横浜の7駅（ロッカーアプリと同じ）。**2026-07-17、ロッカーアプリの349駅（23都道府県）全件に拡大**（座標データ流用）。目的は住みやすさスコアのtarget値を実データ分布から決め直すこと（下記参照）。
 - カテゴリ範囲: 病院はクリニック含む、飲食店はカフェ・ファストフード含む
-- 追加カテゴリ（2026-07-16、スコア対象外・表示のみ）: ドラッグストア(`shop=chemist`)・公園(`leisure=park`)・保育園・幼稚園(`amenity=kindergarten`、OSM上で両者を区別するタグがないため統合)
-- 住みやすさスコアのtarget値: 実データの75パーセンタイル値（上位25%の駅で満点になる基準）。**2026-08-07の4段階化に伴い、段階ごとに別々のtarget値を持つ**（`backend/scoring.js`の`SCORE_TARGETS_BY_WALK_MINUTES`）。集計面積が段階で16倍変わるため、単一のtargetでは徒歩5分がほぼ0点・徒歩20分がほぼ満点になってしまうことによる。値の再計算は`node backend/scripts/computeScoreTargets.js`で行い、出力を`scoring.js`に貼り付ける（自動読み込みにしないのは、対象駅の増減で既存駅のスコアが動くのを避けるため）。「こんな人におすすめ」タグのしきい値も同様に段階別（`backend/stationTags.js`）。詳細は設計書5.1参照。
+- 追加カテゴリ（2026-07-16追加）: ドラッグストア・公園・保育園/幼稚園（OSMで区別できないため統合）。**2026-09-29からは他の施設と同じく採点に含む**（上の「全面改造」参照）
+- ~~住みやすさスコアのtarget値（75パーセンタイルで満点）~~ **2026-09-29に廃止**。今の採点は backend/livability.js（全国パーセンタイル方式、1000点満点）。旧方式は約1割の駅が100点で並び順位が機能しなかった
 
 ## プラットフォーム方針
 

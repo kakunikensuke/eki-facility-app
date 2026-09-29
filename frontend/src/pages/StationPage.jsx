@@ -1,32 +1,38 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchFacilityCounts } from "../api";
-import { CATEGORIES, EXTRA_CATEGORIES } from "../categories";
 import BottomNav from "../components/BottomNav";
 import Footer from "../components/Footer";
+import PhotoHero from "../components/PhotoHero";
+import SiteHeader from "../components/SiteHeader";
 import { toggleFavorite, useFavorites } from "../favorites";
-import { buildStationComment } from "../stationComment";
-import { getStationTags } from "../stationTags";
+import { DOMAINS, MAX_TOTAL, formatPeople, formatYenPerM2, itemsOfDomain } from "../livabilityDefs";
 import { findNearbyStations, formatDistance } from "../nearbyStations";
-import {
-  concentrationText,
-  rankText,
-  categoryRankText,
-  categoryReachText,
-  nearestComparisonText,
-  similarStationText,
-} from "../stationProfileText";
 import { stationTitle, stationDescription } from "../pageMeta";
+import {
+  categoryReachText,
+  concentrationText,
+  landText,
+  nearestComparisonText,
+  photoCredit,
+  ridershipText,
+  similarLead,
+  similarStationText,
+  summaryText,
+  topShare,
+} from "../stationProfileText";
 import { useDocumentMeta } from "../useDocumentTitle";
-import { DEFAULT_WALK_MINUTES } from "../walkTiers";
 import NotFound from "./NotFound";
 
+// 駅ページ（2026-09-29に作り直し）。
+// 表示データは scripts/stationBundle.js が駅ごとに作ったもの（/api/facility-counts/<slug>.json）。
+// 静的HTML（scripts/prerender.js の stationPage）も同じデータ・同じ文言関数から組むので、
+// ここに文章を直書きしないこと（stationProfileText.js に置く）。
 export default function StationPage({ stations }) {
   const { stationSlug } = useParams();
-  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [status, setStatus] = useState("loading"); // loading | ok | not-found | error
-  const [walkMinutes, setWalkMinutes] = useState(DEFAULT_WALK_MINUTES);
+  const [walkMinutes, setWalkMinutes] = useState(null);
   const favorites = useFavorites();
 
   const station = stations.find((s) => s.slug === stationSlug);
@@ -45,266 +51,245 @@ export default function StationPage({ stations }) {
           return;
         }
         setData(result);
-        // 集計途中の駅は既定の段階を持たないことがあるため、実際に返ってきた段階に寄せる
-        if (!result.tiers[DEFAULT_WALK_MINUTES]) {
-          setWalkMinutes(result.available_walk_minutes[0]);
-        } else {
-          setWalkMinutes(DEFAULT_WALK_MINUTES);
-        }
+        setWalkMinutes(result.default_walk_minutes);
         setStatus("ok");
       })
       .catch(() => setStatus("error"));
   }, [stationSlug, station]);
 
-  // アプリ内で駅を切り替えたときにtitle/descriptionを追随させる。
-  // 初期表示分はビルド時のプリレンダが埋めているので、ここは遷移時のための処理。
-  // hookは条件分岐より前に呼ぶ必要があるため、NotFoundの判定より上に置いている。
-  // descriptionは既定の段階を基準にするため、タブ切り替えでは変えない（プリレンダの文言と揃える）。
-  const metaTier = data?.tiers?.[data?.default_walk_minutes] ?? data?.tiers?.[walkMinutes];
+  // descriptionは既定の段階を基準にする（プリレンダの文言と揃える）
+  const metaTier = data?.tiers?.[data?.default_walk_minutes];
   useDocumentMeta(
     station ? stationTitle(station.name_ja) : undefined,
     station && metaTier ? stationDescription(station.name_ja, metaTier) : undefined
   );
 
-  if (!station) {
-    return <NotFound />;
-  }
+  if (!station) return <NotFound />;
 
-  const tier = data?.tiers?.[walkMinutes] ?? null;
-  const totalCount = tier
-    ? CATEGORIES.reduce((sum, cat) => sum + (tier.counts[cat.key] || 0), 0)
-    : 0;
-  const stationTags = tier ? getStationTags(tier.tag_keys) : [];
+  const ready = status === "ok" && data?.slug === stationSlug;
+  const tier = ready ? data.tiers[walkMinutes] ?? data.tiers[data.default_walk_minutes] : null;
+  const defaultTier = ready ? data.tiers[data.default_walk_minutes] : null;
   const nearby = findNearbyStations(station, stations);
 
-  // 「データの読み方」に出す文章。順位・カテゴリ別順位・不足カテゴリ・広がり方・隣駅との比較の順。
-  // 徒歩分数のタブには連動しない（順位と比較は既定段階、広がり方は5分と20分の比）ため、
-  // walkMinutes ではなく data.default_walk_minutes を基準にする。
-  const profileTexts = data
+  const readTexts = ready
     ? [
-        rankText(data.rank, data.default_walk_minutes),
-        categoryRankText(data.category_ranks, CATEGORIES, data.default_walk_minutes),
-        categoryReachText(data.category_reach, CATEGORIES, data.default_walk_minutes),
+        categoryReachText(data.category_reach, data.default_walk_minutes),
         concentrationText(data.concentration),
-        nearestComparisonText(
-          station?.name_ja,
-          data.nearest_comparison,
-          data.nearest_comparison?.own_total,
-          data.default_walk_minutes
-        ),
+        nearestComparisonText(station.name_ja, data.nearest, data.default_walk_minutes),
       ].filter(Boolean)
     : [];
 
   return (
-    <div className="app-container">
-      <header className="hero-header">
-        <button
-          type="button"
-          className="favorite-toggle favorite-toggle-header"
-          aria-label={favorited ? "お気に入りから削除" : "お気に入りに追加"}
-          onClick={() => toggleFavorite(stationSlug)}
-        >
-          {favorited ? "★" : "☆"}
-        </button>
-        <div className="hero-top">
-          <div className="app-logo">住みやすさ駅前スコア</div>
-        </div>
-
-        {status === "ok" && tier && (
-          <div className="score-ring-row">
-            <div className="side-stat">
-              <div className="side-stat-value">{totalCount}</div>
-              <div className="side-stat-label">合計軒数</div>
-            </div>
-            <div className="score-ring">
-              <div className="score-ring-value">{tier.score.total}</div>
-              <div className="score-ring-label">SCORE</div>
-            </div>
-            <div className="side-stat">
-              <div className="side-stat-value">徒歩{tier.walk_minutes}分</div>
-              <div className="side-stat-label">集計範囲</div>
-            </div>
-          </div>
-        )}
-      </header>
-
-      <label className="station-select-label">
-        駅を選択
-        <select value={stationSlug} onChange={(e) => navigate(`/${e.target.value}`)}>
-          {stations.map((s) => (
-            <option key={s.slug} value={s.slug}>
-              {s.name_ja}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      {status === "loading" && <p className="status-message">読み込み中...</p>}
-      {status === "error" && (
-        <p className="status-message status-error">
-          データの取得に失敗しました。時間をおいて再度お試しください。
-        </p>
-      )}
-      {status === "not-found" && (
-        <p className="status-message">この駅の集計データはまだ準備できていません。</p>
-      )}
-
-      {status === "ok" && tier && (
-        <>
-          <div className="walk-tabs" role="tablist" aria-label="集計範囲（徒歩分数）">
-            {data.available_walk_minutes.map((minutes) => (
-              <button
-                key={minutes}
-                type="button"
-                role="tab"
-                aria-selected={minutes === walkMinutes}
-                className={`walk-tab${minutes === walkMinutes ? " walk-tab-active" : ""}`}
-                onClick={() => setWalkMinutes(minutes)}
-              >
-                徒歩{minutes}分
-              </button>
-            ))}
-          </div>
-          <p className="walk-tabs-note">
-            駅から半径{tier.radius_m}m以内が集計対象です（徒歩1分=80mで換算）。
+    <div className="page">
+      <PhotoHero photos={ready ? data.photos : []} resetKey={stationSlug} className="hero-station">
+        <SiteHeader />
+        <div className="hero-station-body">
+          <p className="hero-eyebrow">
+            {station.prefecture}
+            {station.kana && <span className="hero-kana">{station.kana}</span>}
           </p>
-
-          <p className="station-comment">{buildStationComment(station.name_ja, tier)}</p>
-
-          {stationTags.length > 0 && (
-            <div className="station-tags">
-              {stationTags.map((tag) => (
-                <span className="station-tag" key={tag.key}>
-                  {tag.label}
-                </span>
-              ))}
+          <h1 className="hero-title">{station.name_ja}</h1>
+          {defaultTier && (
+            <div className="hero-score">
+              <span className="hero-score-value">{defaultTier.total}</span>
+              <span className="hero-score-max">/ {MAX_TOTAL}</span>
+              <span className="hero-score-rank">
+                全{defaultTier.of}駅中 <b>{defaultTier.rank}</b> 位
+                <small>（徒歩{defaultTier.walk_minutes}分圏内）</small>
+              </span>
             </div>
           )}
+          <button
+            type="button"
+            className="hero-fav"
+            aria-pressed={favorited}
+            onClick={() => toggleFavorite(stationSlug)}
+          >
+            {favorited ? "★ お気に入り済み" : "☆ お気に入りに追加"}
+          </button>
+        </div>
+      </PhotoHero>
 
-          <div className="breakdown-card">
-            {CATEGORIES.map((cat) => {
-              const count = tier.counts[cat.key] || 0;
-              const points = tier.score.breakdown[cat.key];
-              const maxPoints = 100 / CATEGORIES.length;
-              const widthPct = Math.max((points / maxPoints) * 100, 4);
-              return (
-                <div className="breakdown-item" key={cat.key}>
-                  <div className="breakdown-row-top">
-                    <span className="breakdown-label">
-                      {cat.icon} {cat.label}
-                      {cat.note && <span className="breakdown-note">（{cat.note}）</span>}
-                    </span>
-                    <span className="breakdown-value">{count}軒</span>
-                  </div>
-                  <div className="breakdown-bar">
-                    <div
-                      className={`breakdown-bar-fill breakdown-bar-${cat.key}`}
-                      style={{ width: `${widthPct}%` }}
-                    />
-                  </div>
+      <main className="page-body">
+        {status === "loading" && <p className="status-message">読み込み中...</p>}
+        {status === "error" && (
+          <p className="status-message status-error">
+            データの取得に失敗しました。時間をおいて再度お試しください。
+          </p>
+        )}
+        {status === "not-found" && (
+          <p className="status-message">この駅の集計データはまだ準備できていません。</p>
+        )}
+
+        {ready && tier && (
+          <>
+            <section className="block">
+              <div className="block-head">
+                <h2 className="block-title">6分野の評価</h2>
+                <div className="seg" role="group" aria-label="集計範囲（徒歩分数）">
+                  {data.walk_minutes.map((minutes) => (
+                    <button
+                      key={minutes}
+                      type="button"
+                      aria-pressed={minutes === tier.walk_minutes}
+                      onClick={() => setWalkMinutes(minutes)}
+                    >
+                      徒歩{minutes}分
+                    </button>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
-
-          <div className="extra-card">
-            <div className="extra-card-title">その他の施設（スコア対象外）</div>
-            {EXTRA_CATEGORIES.map((cat) => {
-              const count = tier.counts[cat.key] || 0;
-              return (
-                <div className="extra-item" key={cat.key}>
-                  <div className="extra-item-row">
-                    <span className="extra-item-label">
-                      <span className={`extra-item-dot extra-item-dot-${cat.key}`} />
-                      {cat.icon} {cat.label}
-                      {cat.note && <span className="extra-item-note">（{cat.note}）</span>}
-                    </span>
-                    <span className="extra-item-value">{count}軒</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* 順位と施設の広がり方は徒歩分数のタブに連動しない（順位は既定段階、
-              広がり方は5分と20分の比）ため、タブの外側の話として別カードにする */}
-          {profileTexts.length > 0 && (
-            <div className="profile-card">
-              <div className="profile-card-title">{station.name_ja}のデータの読み方</div>
-              {profileTexts.map((text, i) => (
-                <p className="profile-text" key={i}>
-                  {text}
-                </p>
-              ))}
-            </div>
-          )}
-
-          {/* 施設の揃い方が似ている駅（backend/stationSimilarity.js）。近くの駅は距離で選ぶが、
-              こちらは中身で選ぶ。文言はプリレンダ（prerender.jsの similarLead）と揃えること */}
-          {data.similar_stations?.length > 0 && (
-            <div className="similar-card">
-              <div className="similar-card-title">{station.name_ja}と施設の揃い方が似ている駅</div>
-              <p className="similar-card-lead">
-                徒歩{data.default_walk_minutes}
-                分圏内の7項目（コンビニ・スーパー・病院・飲食店・ドラッグストア・公園・保育園/幼稚園）の軒数の組み合わせが近い駅を、全国から選んでいます。集計範囲が重なる1.6km以内の駅は除いています。
-              </p>
-              <ul className="similar-list">
-                {data.similar_stations.map((item) => (
-                  <li className="similar-item" key={item.slug}>
-                    <div className="similar-head">
-                      <Link className="similar-name" to={`/${item.slug}`}>
-                        {item.name_ja}
-                      </Link>
-                      {item.prefecture && <span className="similar-pref">{item.prefecture}</span>}
-                    </div>
-                    <p className="similar-text">
-                      {similarStationText(station.name_ja, item, [...CATEGORIES, ...EXTRA_CATEGORIES])}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {nearby.length > 0 && (
-            <div className="nearby-card">
-              <div className="nearby-card-title">{station.name_ja}の近くの駅</div>
-              <div className="nearby-list">
-                {nearby.map(({ station: s, km }) => (
-                  <Link className="nearby-link" key={s.slug} to={`/${s.slug}`}>
-                    {s.name_ja}
-                    <span className="nearby-link-distance">約{formatDistance(km)}</span>
-                  </Link>
-                ))}
               </div>
-            </div>
-          )}
+              <p className="lead-text">{summaryText(station.name_ja, tier)}</p>
+              <p className="note-text">
+                駅から半径{tier.radius_m}m（徒歩1分=80m）以内の施設を数え、施設ごとに全国{tier.of}
+                駅の中での位置を出して、分野ごとに平均しています。総合点は6分野の平均×10です。
+              </p>
 
-          <div className="info-card">
-            <p className="disclaimer">
-              店舗数・スコアはOpenStreetMapのデータに基づく目安です。実際の店舗数と異なる場合があります。
-              <br />
-              データ更新日時: {data.updated_at}
-            </p>
-            <p className="attribution">
-              地図データ: ©{" "}
-              <a
-                href="https://www.openstreetmap.org/copyright"
-                target="_blank"
-                rel="noreferrer"
-              >
-                OpenStreetMap contributors
-              </a>
-            </p>
-          </div>
+              <div className="domain-grid">
+                {DOMAINS.map((domain) => {
+                  const d = tier.domains[domain.key];
+                  return (
+                    <article className="domain" key={domain.key} style={{ "--dom": domain.color }}>
+                      <header className="domain-head">
+                        <h3>{domain.label}</h3>
+                        <span className="domain-rank">{d.rank}位</span>
+                      </header>
+                      <p className="domain-score">
+                        <b>{d.score.toFixed(1)}</b>
+                        <small>/ 100</small>
+                      </p>
+                      <div className="domain-bar" aria-hidden="true">
+                        <span style={{ width: `${d.score}%` }} />
+                      </div>
+                      <ul className="domain-items">
+                        {itemsOfDomain(domain.key).map((item) => {
+                          const it = tier.items[item.key];
+                          return (
+                            <li key={item.key} title={item.note}>
+                              <span className="domain-item-label">{item.label}</span>
+                              <span className="domain-item-count">
+                                {it.count}
+                                <small>軒</small>
+                              </span>
+                              <span className="domain-item-share">上位{topShare(it.pct)}%</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
 
-        {/* AdSlotは審査が終わるまで置かない。現状は「広告枠（準備中）」と出るだけの
-            ダミーで、駅ページはサイトの98%（349枚）を占めるため、審査ボットが見る
-            ページのほとんどに空の枠が並ぶことになる。トップページからは同じ理由で
-            すでに外してあった（TopPage.jsx参照）のに、こちらに残っていた。
-            AdSense承認後に components/AdSlot.jsx を実タグに差し替えて復活させる */}
-        </>
-      )}
+            {(data.public.land || data.public.ridership) && (
+              <section className="block">
+                <h2 className="block-title">暮らしのコストと駅の規模</h2>
+                <div className="fact-grid">
+                  {data.public.land && (
+                    <article className="fact">
+                      <h3 className="fact-label">住宅地の地価（中央値）</h3>
+                      <p className="fact-value">
+                        {formatYenPerM2(data.public.land.median_yen_per_m2)}
+                        <small>/m²</small>
+                      </p>
+                      <p className="fact-sub">
+                        前年比 {data.public.land.change_pct > 0 ? "+" : ""}
+                        {data.public.land.change_pct}%・高い方から{data.public.land.rank_high}番目
+                      </p>
+                      <p className="fact-text">{landText(data.public.land)}</p>
+                    </article>
+                  )}
+                  {data.public.ridership && (
+                    <article className="fact">
+                      <h3 className="fact-label">1日の乗降客数</h3>
+                      <p className="fact-value">{formatPeople(data.public.ridership.daily)}</p>
+                      <p className="fact-sub">
+                        対応駅で{data.public.ridership.rank}番目に多い
+                      </p>
+                      <p className="fact-text">{ridershipText(data.public.ridership)}</p>
+                    </article>
+                  )}
+                </div>
+                <p className="note-text">
+                  出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）を加工して作成
+                </p>
+              </section>
+            )}
+
+            {readTexts.length > 0 && (
+              <section className="block">
+                <h2 className="block-title">{station.name_ja}のデータの読み方</h2>
+                {readTexts.map((text, i) => (
+                  <p className="body-text" key={i}>
+                    {text}
+                  </p>
+                ))}
+              </section>
+            )}
+
+            {data.similar_stations.length > 0 && (
+              <section className="block">
+                <h2 className="block-title">{station.name_ja}と施設の揃い方が似ている駅</h2>
+                <p className="note-text">{similarLead(data.default_walk_minutes)}</p>
+                <ul className="link-list">
+                  {data.similar_stations.map((item) => (
+                    <li key={item.slug}>
+                      <Link className="link-list-name" to={`/${item.slug}`}>
+                        {item.name_ja}
+                        {item.prefecture && <small>{item.prefecture}</small>}
+                      </Link>
+                      <p>{similarStationText(station.name_ja, item)}</p>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {nearby.length > 0 && (
+              <section className="block">
+                <h2 className="block-title">{station.name_ja}の近くの駅</h2>
+                <div className="chips">
+                  {nearby.map(({ station: s, km }) => (
+                    <Link className="chip" key={s.slug} to={`/${s.slug}`}>
+                      {s.name_ja}
+                      <small>約{formatDistance(km)}</small>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            <section className="block block-quiet">
+              <h2 className="block-title">データと写真について</h2>
+              <p className="note-text">
+                施設の数はOpenStreetMapのデータに基づく目安です（地図データ: ©{" "}
+                <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+                  OpenStreetMap contributors
+                </a>
+                ）。実際の店舗数と異なる場合があります。データ更新日時: {data.updated_at}
+              </p>
+              {data.photos.length > 0 && (
+                <>
+                  <p className="note-text">
+                    写真はWikipedia日本語版の「{data.photo_article}」の記事に掲載されているもの（Wikimedia Commons）です。
+                  </p>
+                  <ul className="credit-list">
+                    {data.photos.map((photo) => (
+                      <li key={photo.src}>
+                        <a href={photo.page} target="_blank" rel="noreferrer">
+                          {photo.caption || "写真"}
+                        </a>{" "}
+                        — {photoCredit(photo)}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </section>
+          </>
+        )}
+      </main>
 
       <Footer />
       <BottomNav />

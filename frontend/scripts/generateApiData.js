@@ -2,51 +2,19 @@
 //
 // なぜ必要か（2026-08-15）:
 // バックエンド（backend/server.js）は動的な処理を一切していない。リポジトリ内の
-// 静的JSON（stations.json / facility-counts.json）を読んで決まった計算を返すだけで、
-// 書き込みも認証も無く、データが変わるのは1日1回のGitHub Actionsのときだけ。
-// それをRenderの常時起動サービスで賄っていたため、無料枠（アカウント単位で
-// 月750インスタンス時間）を圧迫していた。ロッカーアプリと合わせて2サービスを
-// 24時間起こしていると1日48時間消費し、15.6日で使い切って両アプリのAPIが止まる。
+// 静的JSONを読んで決まった計算を返すだけで、書き込みも認証も無く、データが変わるのは
+// 1日1回のGitHub Actionsのときだけ。それをRenderの常時起動サービスで賄っていたため、
+// 無料枠を圧迫していた。ビルド時に全部JSONとして出しておけば、Cloudflare Pagesが配信できる。
 //
-// ビルド時に全部JSONとして出しておけば、Cloudflare Pagesが配信できる。
-// Renderもスリープ対策のUptimeRobotも要らなくなり、コールドスタートも原理的に消える。
-//
-// 応答の形は backend/server.js のエンドポイントと**完全に同じにすること**。
-// ズレるとフロントが壊れる。計算そのものはbackendのモジュールを直接使って
-// 二重実装を避けている（プリレンダ scripts/prerender.js と同じ方針）。
+// 2026-09-29、中身の組み立てを scripts/stationBundle.js に移した（プリレンダと同じ物を使うため）。
+// ここは書き出すだけ。backend/server.js は旧スコアのまま残っているが、本番では使っていない。
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { createRequire } from "module";
-import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
-import { CATEGORIES } from "../src/categories.js";
-import { buildStationMatrix } from "./stationMatrix.js";
+import { loadData, buildAll } from "./stationBundle.js";
 
-const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const { calculateScore, SCORE_TARGETS_BY_WALK_MINUTES } = require("../../backend/scoring.js");
-const {
-  getStationTagKeys,
-  TAG_THRESHOLDS_BY_WALK_MINUTES,
-} = require("../../backend/stationTags.js");
-const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("../../backend/facilityRecord.js");
-const { buildStationScores } = require("../../backend/stationScores.js");
-const {
-  getConcentration,
-  buildRankMap,
-  buildCategoryRankMap,
-  getCategoryReach,
-} = require("../../backend/stationProfile.js");
-const { buildSimilarMap } = require("../../backend/stationSimilarity.js");
-
-const DATA_DIR = path.join(__dirname, "..", "..", "backend", "data");
 const OUT_DIR = path.join(__dirname, "..", "public", "api");
-
-const stations = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "stations.json"), "utf-8"));
-const facilityCounts = JSON.parse(
-  fs.readFileSync(path.join(DATA_DIR, "facility-counts.json"), "utf-8")
-);
 
 function writeJson(relativePath, value) {
   const outPath = path.join(OUT_DIR, relativePath);
@@ -58,13 +26,13 @@ function writeJson(relativePath, value) {
 // 一覧に無い駅のページだけ生き続けることになる
 fs.rmSync(OUT_DIR, { recursive: true, force: true });
 
-// --- GET /api/stations 相当 ---------------------------------------------------
-// lat/lonも返すのは、駅ページの「近くの駅」リンクをフロント側だけで組み立てるため。
-// kana（読み）・prefectureは、トップの駅名検索をひらがなで引けるようにするのと、
-// 駅一覧・条件検索を都道府県で分けるため（2026-09-29追加）
+const data = loadData();
+const { bundles, matrix, photosLite, scores } = buildAll(data);
+
+// 駅一覧。lat/lonは「近くの駅」、kana・prefectureは読みでの検索と都道府県別の一覧に使う
 writeJson(
   "stations.json",
-  stations.map(({ slug, name_ja, kana, prefecture, lat, lon }) => ({
+  data.stations.map(({ slug, name_ja, kana, prefecture, lat, lon }) => ({
     slug,
     name_ja,
     kana,
@@ -74,97 +42,16 @@ writeJson(
   }))
 );
 
-// --- GET /api/station-scores 相当 ---------------------------------------------
-writeJson("station-scores.json", {
-  walk_minutes: DEFAULT_WALK_MINUTES,
-  stations: buildStationScores(stations, facilityCounts),
-});
+writeJson("station-scores.json", { walk_minutes: matrix.default_walk_minutes, stations: scores });
+writeJson("station-matrix.json", matrix);
+writeJson("station-photos-lite.json", photosLite);
 
-// --- 全駅×全段階の軒数（条件で駅を探す・目的別の並べ替え用、2026-09-29追加） ---------
-// 条件検索はブラウザ側で全駅を絞り込むので、駅ごとのJSONを349本読ませずに済むよう
-// 1ファイルにまとめる。容量を抑えるため、軒数はカテゴリ順（categories）の配列で持つ。
-// 計算は frontend/src/stationSearch.js（プリレンダも同じものを使う）。
-writeJson("station-matrix.json", buildStationMatrix(stations, facilityCounts));
-
-// --- GET /api/facility-counts?station=<slug> 相当 ------------------------------
-// 順位表は1度だけ作る（駅ごとに引き直すと全駅の再計算を349回繰り返すことになる）
-const rankBySlug = buildRankMap(stations, facilityCounts);
-// カテゴリ別順位も同じ理由で1度だけ作る（カテゴリ数×駅数ぶんの並べ替えになるため）
-const categoryRankBySlug = buildCategoryRankMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
-// 似ている駅も全駅の総当たりなので1度だけ作る
-const similarBySlug = buildSimilarMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
-
-/**
- * 最も近い駅との合計軒数の比較。
- * 「隣の駅と比べてどうか」は駅単体の数字からは出てこない情報だが、フロントは自駅ぶんの
- * 集計しか読まないので、比較相手の軒数はここで数えて応答に含める。
- * 自駅と同じ4カテゴリ・同じ段階（既定＝徒歩10分）で数えないと比較にならない。
- */
-function buildNearestComparison(station, normalizedSelf) {
-  const nearest = findNearbyStations(station, stations, 1)[0];
-  if (!nearest) return null;
-
-  const raw = facilityCounts[nearest.station.slug];
-  if (!raw) return null;
-
-  const tier = normalizeRecord(raw).tiers[DEFAULT_WALK_MINUTES];
-  const selfTier = normalizedSelf.tiers[DEFAULT_WALK_MINUTES];
-  if (!tier || !selfTier) return null;
-
-  const sum = (counts) => CATEGORIES.reduce((acc, cat) => acc + (counts[cat.key] || 0), 0);
-  return {
-    name: nearest.station.name_ja,
-    slug: nearest.station.slug,
-    distance: formatDistance(nearest.km),
-    total: sum(tier.counts),
-    own_total: sum(selfTier.counts),
-  };
-}
-
-let written = 0;
-let skipped = 0;
-for (const station of stations) {
-  const record = facilityCounts[station.slug];
-  // 集計データがまだ無い駅はファイルを作らない（フロント側は「準備できていません」を出す）
-  if (!record) {
-    skipped++;
-    continue;
-  }
-
-  const normalized = normalizeRecord(record);
-  const tiers = {};
-  for (const [key, tier] of Object.entries(normalized.tiers)) {
-    const walkMinutes = Number(key);
-    tiers[key] = {
-      walk_minutes: walkMinutes,
-      radius_m: tier.radius_m,
-      counts: tier.counts,
-      score: calculateScore(tier.counts, walkMinutes),
-      targets: SCORE_TARGETS_BY_WALK_MINUTES[walkMinutes],
-      tag_keys: getStationTagKeys(tier.counts, walkMinutes),
-      tag_thresholds: TAG_THRESHOLDS_BY_WALK_MINUTES[walkMinutes],
-    };
-  }
-
-  writeJson(`facility-counts/${station.slug}.json`, {
-    station: station.slug,
-    tiers,
-    available_walk_minutes: Object.keys(tiers)
-      .map(Number)
-      .sort((a, b) => a - b),
-    default_walk_minutes: DEFAULT_WALK_MINUTES,
-    rank: rankBySlug.get(station.slug) ?? null,
-    concentration: getConcentration(normalized.tiers),
-    category_ranks: categoryRankBySlug.get(station.slug) ?? null,
-    category_reach: getCategoryReach(normalized.tiers, DEFAULT_WALK_MINUTES),
-    nearest_comparison: buildNearestComparison(station, normalized),
-    similar_stations: similarBySlug.get(station.slug) ?? [],
-    updated_at: normalized.updated_at,
-    source: normalized.source,
-  });
-  written++;
+for (const bundle of bundles.values()) {
+  writeJson(`facility-counts/${bundle.slug}.json`, bundle);
 }
 
 console.log(
-  `APIの静的JSONを生成しました（駅${written}件 + 一覧3件 / データ未整備でスキップ ${skipped}駅、出力先 public/api/）`
+  `APIの静的JSONを生成しました（駅${bundles.size}件 + 一覧4件 / データ未整備でスキップ ${
+    data.stations.length - bundles.size
+  }駅、写真あり ${Object.keys(photosLite).length}駅、出力先 public/api/）`
 );

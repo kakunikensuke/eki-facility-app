@@ -1,47 +1,30 @@
-const { calculateScore, SCORED_CATEGORIES } = require("./scoring");
-const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("./facilityRecord");
+const { scoreTier } = require("./livability");
+const { DEFAULT_WALK_MINUTES } = require("./facilityRecord");
 
 /**
- * トップページのランキング用に、全駅のスコアを上位順で返す。
+ * 全駅の総合点を上位順で返す（/api/station-scores.json）。
  *
- * 段階は既定の徒歩10分に固定する。トップで段階を切り替えられるようにすると
- * 順位が4通りできてしまい、「上位の駅」という一覧の意味が薄れるため
- * （段階の比較は駅ページのタブで行う）。
+ * 2026-09-29に採点を backend/livability.js（6分野・1000点満点）へ切り替えた。
+ * 以前は4カテゴリ・100点満点で、約1割の駅が100点で並んでいたため合計軒数で順位を崩していた。
+ * 今の総合点は頭打ちにならないので、同点は駅名順だけで崩す。
  *
- * 並び順は「スコア降順 → 合計軒数降順 → 駅名順」。
- * スコアは各カテゴリがtarget値で頭打ちになる設計上100点が上限で、
- * 徒歩10分では約1割の駅が満点に達する。スコアだけで並べると満点の駅の順序が
- * 駅名順（＝実力と無関係）になり、上位が特定の事業者名で埋まって
- * さも上位を独占しているように見えてしまう。合計軒数で崩して実態に沿わせ、
- * 画面にも軒数を併記して並び順の根拠が見えるようにしている。
- *
- * server.js と frontend/scripts/prerender.js の双方から使う（順位がAPIと
- * 静的HTMLでズレないよう、算出は1箇所に置く）。
+ * 段階は既定の徒歩10分に固定する（段階の比較は駅ページで行う）。
  */
 function buildStationScores(stations, facilityCounts) {
+  const scored = scoreTier(stations, facilityCounts, DEFAULT_WALK_MINUTES);
   return stations
-    .map((station) => {
-      const raw = facilityCounts[station.slug];
-      if (!raw) return null;
-      const tier = normalizeRecord(raw).tiers[DEFAULT_WALK_MINUTES];
-      // 集計途中で既定の段階をまだ持たない駅は順位をつけられないので除外する
-      if (!tier) return null;
+    .filter((s) => scored.has(s.slug))
+    .map((s) => {
+      const r = scored.get(s.slug);
       return {
-        slug: station.slug,
-        name_ja: station.name_ja,
+        slug: s.slug,
+        name_ja: s.name_ja,
         walk_minutes: DEFAULT_WALK_MINUTES,
-        score: calculateScore(tier.counts, DEFAULT_WALK_MINUTES).total,
-        // 駅ページの「合計軒数」と同じ定義（スコア対象の4カテゴリのみ）
-        total_count: SCORED_CATEGORIES.reduce((sum, key) => sum + (tier.counts[key] || 0), 0),
+        score: r.total,
+        rank: r.rank,
       };
     })
-    .filter(Boolean)
-    .sort(
-      (a, b) =>
-        b.score - a.score ||
-        b.total_count - a.total_count ||
-        a.name_ja.localeCompare(b.name_ja, "ja")
-    );
+    .sort((a, b) => b.score - a.score || a.name_ja.localeCompare(b.name_ja, "ja"));
 }
 
 module.exports = { buildStationScores };

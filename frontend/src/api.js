@@ -47,6 +47,13 @@ export function fetchStationMatrix() {
   return matrixPromise;
 }
 
+// トップの背景用。全駅の写真の最初の数枚と帰属表示（scripts/stationBundle.js の photosLite）
+export async function fetchPhotosLite() {
+  const photos = await fetchJson(`${API_BASE}/station-photos-lite.json`);
+  if (!photos) throw new Error("写真一覧の取得に失敗しました");
+  return photos;
+}
+
 // 集計データがまだ無い駅はファイルそのものが存在しない。呼び出し側は
 // nullを「この駅の集計データはまだ準備できていません」として扱う。
 export async function fetchFacilityCounts(stationSlug) {

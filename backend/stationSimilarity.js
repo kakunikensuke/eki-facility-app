@@ -1,16 +1,17 @@
 const { normalizeRecord } = require("./facilityRecord");
+const { ITEMS, itemCounts } = require("./livability");
 
 /**
  * 「施設の揃い方が似ている駅」を探す（2026-09-29追加）。
  *
  * 駅ページには「近くの駅」があるが、それは距離で選んだもので中身は似ているとは限らない。
  * 引っ越し先を探す人が本当に知りたいのは「今の駅と同じような暮らし方ができる、別の場所の駅」
- * なので、7カテゴリの軒数の組み合わせが近い駅を全国から選ぶ。
+ * なので、施設の軒数の組み合わせが近い駅を全国から選ぶ。
  *
  * 近さの測り方:
  * - 軒数は駅によって桁が違う（飲食店は0〜1,000軒超、病院は0〜数十軒）ので、
  *   そのまま差を取ると飲食店だけで順位が決まってしまう。log(1+軒数) にしてから
- *   カテゴリごとに標準化（平均0・標準偏差1）し、7カテゴリを同じ重さで扱う。
+ *   カテゴリごとに標準化（平均0・標準偏差1）し、全項目を同じ重さで扱う。
  * - 近い駅は集計範囲の円が重なり、同じ店を数えているので似て当然になる。
  *   それは「近くの駅」欄で既に出しているので、ここでは一定距離より近い駅を除く。
  *
@@ -18,16 +19,8 @@ const { normalizeRecord } = require("./facilityRecord");
  * （APIと静的HTMLで結果がズレないよう、算出は1箇所に置く）。
  */
 
-// 7カテゴリ（スコア対象の4つ＋表示のみの3つ）。暮らし方の近さを見るので公園・保育園も含める
-const SIMILARITY_CATEGORIES = [
-  "convenience_store",
-  "supermarket",
-  "hospital",
-  "restaurant",
-  "drugstore",
-  "park",
-  "nursery",
-];
+// 採点と同じ19項目（backend/livability.js の ITEMS）。2026-09-29までは7カテゴリだった
+const SIMILARITY_CATEGORIES = ITEMS.map((i) => i.key);
 
 // 徒歩10分圏（半径800m）どうしが重ならない距離。これより近い駅は同じ店を数えている
 const MIN_DISTANCE_KM = 1.6;
@@ -58,7 +51,8 @@ function buildSimilarMap(stations, facilityCounts, walkMinutes, limit = 5) {
       const raw = facilityCounts[station.slug];
       const tier = raw && normalizeRecord(raw).tiers[walkMinutes];
       if (!tier) return null;
-      const counts = SIMILARITY_CATEGORIES.map((key) => tier.counts[key] || 0);
+      const all = itemCounts(tier.counts);
+      const counts = SIMILARITY_CATEGORIES.map((key) => all[key]);
       return { station, counts, logs: counts.map((c) => Math.log1p(c)) };
     })
     .filter(Boolean);
@@ -96,7 +90,9 @@ function buildSimilarMap(stations, facilityCounts, walkMinutes, limit = 5) {
       picked.map(({ other, diffs }) => {
         const order = diffs.map((d, i) => ({ d, i })).sort((a, b) => a.d - b.d);
         // 近いカテゴリは差の小さい順に最大3つ。どれも近くなければ空（文章側でその旨を書かない）
-        const close = order
+        // 両方0軒の施設は「近い」根拠として弱いので、軒数のある施設を先に選ぶ
+        const bothZero = (i) => self.counts[i] === 0 && other.counts[i] === 0;
+        const close = [...order.filter((o) => !bothZero(o.i)), ...order.filter((o) => bothZero(o.i))]
           .filter((o) => o.d <= CLOSE_Z)
           .slice(0, 3)
           .map((o) => ({

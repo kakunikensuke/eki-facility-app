@@ -1,52 +1,54 @@
-// 「条件で駅を探す」「重視する項目で並べる」の計算（2026-09-29追加）。
+// 「条件で駅を探す」「重視する分野で並べる」の計算（2026-09-29追加、同日に6分野版へ作り直し）。
 //
 // 駅ページは「行きたい駅が決まっている人」しか使えない。引っ越し先を探している人は
 // まだ駅名を知らないので、「スーパーが5軒以上ある駅」「子育てに向く駅」のように
 // 条件の側から駅を出せるようにする。
 //
-// 並べ方について:
-// 住みやすさスコアは各カテゴリが上位25%で満点になる設計のため、徒歩10分では
-// 39駅が100点で並んでしまい順位として機能しない。ここではカテゴリごとの
-// 「全国の駅の中での位置（パーセンタイル）」を重み付きで平均する。軒数の桁が違う
-// カテゴリ（飲食店は数百軒、病院は数軒）を同じ物差しで足し合わせられ、満点で頭打ちにもならない。
+// 並べ方: 6分野の点（backend/livability.js。施設ごとの全国パーセンタイルの平均、0〜100）を
+// 重み付きで平均する。「手頃さ」を重視すると、住宅地の地価が安いほど高い位置（地価の全国
+// パーセンタイルを裏返したもの）も混ぜる。
 //
 // React（pages/SearchPage.jsx・TopPage.jsx）とプリレンダ（scripts/prerender.js）の
 // 両方から使うので、拡張子まで明示すること。
-import { CATEGORIES, EXTRA_CATEGORIES } from "./categories.js";
+import { DOMAINS, ITEMS } from "./livabilityDefs.js";
 
-export const SEARCH_CATEGORIES = [...CATEGORIES, ...EXTRA_CATEGORIES];
+// 並べ替えに使う軸。6分野＋地価の安さ
+export const AXES = [
+  ...DOMAINS.map((d) => ({ key: d.key, label: d.label })),
+  { key: "affordable", label: "手頃さ（地価の安さ）" },
+];
 
 // 目的別の重み。0=考えない、1=少し、2=重視、3=最重視（WEIGHT_LEVELSと対応）
 export const PRESETS = [
   {
     key: "balance",
-    label: "バランス重視",
-    lead: "コンビニ・スーパー・病院・飲食店の4つを同じ重さで見ます",
-    weights: { convenience_store: 2, supermarket: 2, hospital: 2, restaurant: 2 },
+    label: "バランス",
+    lead: "6分野すべてを同じ重さで見ます（総合点の順）",
+    weights: { shopping: 2, dining: 2, medical: 2, family: 2, services: 2, leisure: 2 },
   },
   {
     key: "single",
     label: "一人暮らし",
-    lead: "コンビニと飲食店を重く、スーパーとドラッグストアを少し見ます",
-    weights: { convenience_store: 3, restaurant: 3, supermarket: 1, drugstore: 1 },
-  },
-  {
-    key: "cooking",
-    label: "自炊・まとめ買い",
-    lead: "スーパーを最も重く、ドラッグストアとコンビニも見ます",
-    weights: { supermarket: 3, drugstore: 2, convenience_store: 1 },
+    lead: "食事と買い物を重く、生活・安全も見ます",
+    weights: { dining: 3, shopping: 3, services: 2, leisure: 1 },
   },
   {
     key: "family",
     label: "子育て",
-    lead: "公園と保育園・幼稚園を最も重く、病院とスーパーも見ます",
-    weights: { park: 3, nursery: 3, hospital: 2, supermarket: 1 },
+    lead: "子育て・教育と自然・余暇を重く、医療と買い物も見ます",
+    weights: { family: 3, leisure: 3, medical: 2, shopping: 1, services: 1 },
   },
   {
     key: "medical",
-    label: "医療の近さ",
-    lead: "病院（クリニックを含む）を最も重く、ドラッグストアも見ます",
-    weights: { hospital: 3, drugstore: 2 },
+    label: "医療・シニア",
+    lead: "医療を最も重く、買い物と生活・安全も見ます",
+    weights: { medical: 3, shopping: 2, services: 2 },
+  },
+  {
+    key: "value",
+    label: "手頃さも",
+    lead: "6分野に加えて、住宅地の地価が安いことを重く見ます",
+    weights: { shopping: 1, dining: 1, medical: 1, family: 1, services: 1, leisure: 1, affordable: 3 },
   },
 ];
 
@@ -61,35 +63,13 @@ export const WEIGHT_LEVELS = [
 
 export function presetWeights(key) {
   const preset = PRESETS.find((p) => p.key === key) ?? PRESETS[0];
-  return Object.fromEntries(SEARCH_CATEGORIES.map((c) => [c.key, preset.weights[c.key] ?? 0]));
+  return Object.fromEntries(AXES.map((a) => [a.key, preset.weights[a.key] ?? 0]));
 }
 
 // 重みがどのプリセットとも一致しないときは null（＝自分で調整した並び）
 export function matchPreset(weights) {
-  const found = PRESETS.find((p) =>
-    SEARCH_CATEGORIES.every((c) => (p.weights[c.key] ?? 0) === (weights[c.key] ?? 0))
-  );
+  const found = PRESETS.find((p) => AXES.every((a) => (p.weights[a.key] ?? 0) === (weights[a.key] ?? 0)));
   return found ? found.key : null;
-}
-
-/**
- * 1段階ぶんの「駅×カテゴリ」の表と、カテゴリごとの分布を作る。
- * matrix は /api/station-matrix.json（scripts/generateApiData.js が出力）。
- */
-export function buildTierTable(matrix, walkMinutes) {
-  const keys = matrix.categories;
-  const rows = matrix.stations
-    .filter((s) => Array.isArray(s.counts[walkMinutes]))
-    .map((s) => ({
-      station: s,
-      counts: Object.fromEntries(keys.map((k, i) => [k, s.counts[walkMinutes][i]])),
-    }));
-
-  // カテゴリごとに昇順の軒数を持っておき、位置を二分探索で引く
-  const sorted = Object.fromEntries(
-    keys.map((k) => [k, rows.map((r) => r.counts[k]).sort((a, b) => a - b)])
-  );
-  return { walkMinutes: Number(walkMinutes), rows, sorted, total: rows.length };
 }
 
 function countBelow(sorted, value) {
@@ -103,16 +83,27 @@ function countBelow(sorted, value) {
   return lo;
 }
 
-function countAtOrBelow(sorted, value) {
-  return countBelow(sorted, value + 1);
-}
+/**
+ * 1段階ぶんの「駅×施設」の表を作る。matrix は /api/station-matrix.json（scripts/stationBundle.js）。
+ */
+export function buildTierTable(matrix, walkMinutes) {
+  const rows = matrix.stations
+    .filter((s) => s.t[walkMinutes])
+    .map((s) => {
+      const t = s.t[walkMinutes];
+      return {
+        station: s,
+        counts: Object.fromEntries(matrix.items.map((k, i) => [k, t.c[i]])),
+        domains: Object.fromEntries(matrix.domains.map((k, i) => [k, t.d[i]])),
+        total: t.s,
+      };
+    });
 
-// 0〜100。同じ軒数の駅が大量にある（0軒が多い病院など）ときは、その中央の位置を取る
-export function percentileOf(table, key, value) {
-  const s = table.sorted[key];
-  const below = countBelow(s, value);
-  const equal = countAtOrBelow(s, value) - below;
-  return ((below + equal / 2) / s.length) * 100;
+  const sorted = Object.fromEntries(
+    matrix.items.map((k) => [k, rows.map((r) => r.counts[k]).sort((a, b) => a - b)])
+  );
+  const lands = rows.map((r) => r.station.land).filter((v) => v !== null).sort((a, b) => a - b);
+  return { walkMinutes: Number(walkMinutes), rows, sorted, lands, total: rows.length };
 }
 
 // 「全国の上位◯%」。この軒数以上の駅が全体の何%か（切り上げ、最小1%）
@@ -120,6 +111,14 @@ export function topShareOf(table, key, value) {
   const s = table.sorted[key];
   const atLeast = s.length - countBelow(s, value);
   return Math.max(1, Math.ceil((atLeast / s.length) * 100));
+}
+
+// 地価が安いほど高い位置（0〜100）。地価が無い駅は null
+function affordability(table, land) {
+  if (land === null || table.lands.length === 0) return null;
+  const below = countBelow(table.lands, land);
+  const equal = countBelow(table.lands, land + 1) - below;
+  return 100 - ((below + equal / 2) / table.lands.length) * 100;
 }
 
 /**
@@ -135,44 +134,58 @@ export function thresholdOptions(table, key) {
     .map((value) => ({ value, share: topShareOf(table, key, value) }));
 }
 
+// 地価の上限の選択肢（円/m²）。対応駅の分布の25/50/75%点を1万円単位に丸める
+export function landOptions(table) {
+  const s = table.lands;
+  if (s.length === 0) return [];
+  const at = (q) => Math.round(s[Math.floor(s.length * q)] / 10000) * 10000;
+  return [...new Set([at(0.25), at(0.5), at(0.75)])].map((value) => ({
+    value,
+    share: Math.round((countBelow(s, value + 1) / s.length) * 100),
+  }));
+}
+
 /**
  * 条件で絞り、重みで並べる。
- * cond = { pref: "" | 都道府県名, mins: {key: 軒数}, weights: {key: 0〜3} }
+ * cond = { pref, mins: {施設: 軒数}, maxLand: 円/m² | 0, weights: {軸: 0〜3} }
  */
 export function searchStations(table, cond) {
   const mins = cond.mins ?? {};
   let weights = cond.weights ?? presetWeights(DEFAULT_PRESET);
-  // 全部「考えない」にされたら並べようがないので、バランス重視で並べる
-  if (!SEARCH_CATEGORIES.some((c) => (weights[c.key] ?? 0) > 0)) {
-    weights = presetWeights(DEFAULT_PRESET);
-  }
-  const weightSum = SEARCH_CATEGORIES.reduce((a, c) => a + (weights[c.key] ?? 0), 0);
+  if (!AXES.some((a) => (weights[a.key] ?? 0) > 0)) weights = presetWeights(DEFAULT_PRESET);
 
   const matches = (row, skipKey) =>
     (!cond.pref || row.station.prefecture === cond.pref || skipKey === "pref") &&
+    (!cond.maxLand || skipKey === "maxLand" || (row.station.land !== null && row.station.land <= cond.maxLand)) &&
     Object.entries(mins).every(([k, min]) => k === skipKey || !min || row.counts[k] >= min);
 
   const results = table.rows
     .filter((row) => matches(row))
     .map((row) => {
-      const fit =
-        SEARCH_CATEGORIES.reduce(
-          (a, c) => a + (weights[c.key] ?? 0) * percentileOf(table, c.key, row.counts[c.key]),
-          0
-        ) / weightSum;
-      const scoredTotal = CATEGORIES.reduce((a, c) => a + row.counts[c.key], 0);
-      return { ...row, fit: Math.round(fit), fitRaw: fit, scoredTotal };
+      const values = { ...row.domains, affordable: affordability(table, row.station.land) };
+      // 地価の無い駅は「手頃さ」を採点から外し、残りの軸で平均する（0点扱いにすると不当に沈む）
+      let sum = 0;
+      let wsum = 0;
+      for (const axis of AXES) {
+        const w = weights[axis.key] ?? 0;
+        if (!w || values[axis.key] === null) continue;
+        sum += w * values[axis.key];
+        wsum += w;
+      }
+      const fitRaw = wsum > 0 ? sum / wsum : 0;
+      return { ...row, affordable: values.affordable, fit: Math.round(fitRaw * 10) / 10, fitRaw };
     })
     .sort(
       (a, b) =>
         b.fitRaw - a.fitRaw ||
-        b.scoredTotal - a.scoredTotal ||
+        b.total - a.total ||
         (a.station.kana || "").localeCompare(b.station.kana || "", "ja")
     );
 
   // 1件も無いとき、どの条件を外せば何駅になるかを出す（行き止まりにしない）
   const activeKeys = [
     ...(cond.pref ? ["pref"] : []),
+    ...(cond.maxLand ? ["maxLand"] : []),
     ...Object.entries(mins)
       .filter(([, v]) => v)
       .map(([k]) => k),
@@ -188,16 +201,16 @@ export function searchStations(table, cond) {
   return { results, relax, weights, total: table.total };
 }
 
-// 結果の1行に添える根拠。重みの大きいカテゴリから、軒数と全国での位置を出す
-export function resultReasons(table, row, weights, limit = 4) {
-  return SEARCH_CATEGORIES.filter((c) => (weights[c.key] ?? 0) > 0)
+// 結果の1行に添える根拠。重みの大きい軸から、点数を出す
+export function resultReasons(row, weights, limit = 3) {
+  return AXES.filter((a) => (weights[a.key] ?? 0) > 0)
+    .filter((a) => a.key !== "affordable" || row.affordable !== null)
     .sort((a, b) => (weights[b.key] ?? 0) - (weights[a.key] ?? 0))
     .slice(0, limit)
-    .map((c) => ({
-      key: c.key,
-      label: c.label,
-      count: row.counts[c.key],
-      share: topShareOf(table, c.key, row.counts[c.key]),
+    .map((a) => ({
+      key: a.key,
+      label: a.key === "affordable" ? "手頃さ" : a.label,
+      score: a.key === "affordable" ? Math.round(row.affordable * 10) / 10 : row.domains[a.key],
     }));
 }
 
@@ -205,38 +218,40 @@ export function resultReasons(table, row, weights, limit = 4) {
 
 export function condFromParams(params, matrix) {
   const walkParam = Number(params.get("walk"));
-  const walkMinutes = matrix.walk_minutes.includes(walkParam)
-    ? walkParam
-    : matrix.default_walk_minutes;
+  const walkMinutes = matrix.walk_minutes.includes(walkParam) ? walkParam : matrix.default_walk_minutes;
   const pref = params.get("pref") || "";
+  const maxLandParam = Number(params.get("max_land"));
+  const maxLand = Number.isInteger(maxLandParam) && maxLandParam > 0 ? maxLandParam : 0;
 
   const mins = {};
-  for (const c of SEARCH_CATEGORIES) {
-    const v = Number(params.get(`min_${c.key}`));
-    if (Number.isInteger(v) && v > 0) mins[c.key] = v;
+  for (const item of ITEMS) {
+    const v = Number(params.get(`min_${item.key}`));
+    if (Number.isInteger(v) && v > 0) mins[item.key] = v;
   }
 
-  // w=3,3,1,0,1,0,0 （SEARCH_CATEGORIESの順）。無ければプリセット
+  // w=3,3,1,0,1,0,0 （AXESの順）。無ければプリセット
   let weights;
   const w = params.get("w");
-  if (w && /^[0-3](,[0-3]){6}$/.test(w)) {
+  const pattern = new RegExp(`^[0-3](,[0-3]){${AXES.length - 1}}$`);
+  if (w && pattern.test(w)) {
     const parts = w.split(",").map(Number);
-    weights = Object.fromEntries(SEARCH_CATEGORIES.map((c, i) => [c.key, parts[i]]));
+    weights = Object.fromEntries(AXES.map((a, i) => [a.key, parts[i]]));
   } else {
     weights = presetWeights(params.get("preset") || DEFAULT_PRESET);
   }
-  return { walkMinutes, pref, mins, weights };
+  return { walkMinutes, pref, mins, maxLand, weights };
 }
 
 export function paramsFromCond(cond, defaultWalkMinutes) {
   const p = new URLSearchParams();
   const preset = matchPreset(cond.weights);
   if (preset && preset !== DEFAULT_PRESET) p.set("preset", preset);
-  if (!preset) p.set("w", SEARCH_CATEGORIES.map((c) => cond.weights[c.key] ?? 0).join(","));
+  if (!preset) p.set("w", AXES.map((a) => cond.weights[a.key] ?? 0).join(","));
   if (cond.walkMinutes !== defaultWalkMinutes) p.set("walk", String(cond.walkMinutes));
   if (cond.pref) p.set("pref", cond.pref);
-  for (const c of SEARCH_CATEGORIES) {
-    if (cond.mins[c.key]) p.set(`min_${c.key}`, String(cond.mins[c.key]));
+  if (cond.maxLand) p.set("max_land", String(cond.maxLand));
+  for (const item of ITEMS) {
+    if (cond.mins[item.key]) p.set(`min_${item.key}`, String(cond.mins[item.key]));
   }
   return p;
 }

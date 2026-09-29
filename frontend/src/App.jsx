@@ -13,6 +13,7 @@ import ContactPage from "./pages/ContactPage";
 import ContactReceivedPage from "./pages/ContactReceivedPage";
 import NotFound from "./pages/NotFound";
 import "./App.css";
+import "./design.css";
 
 function App() {
   const [stations, setStations] = useState(null);

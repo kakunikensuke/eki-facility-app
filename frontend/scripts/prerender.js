@@ -23,19 +23,20 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { createRequire } from "module";
-import { CATEGORIES, EXTRA_CATEGORIES } from "../src/categories.js";
-import { buildStationComment } from "../src/stationComment.js";
-import { getStationTags } from "../src/stationTags.js";
 import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
 import {
-  concentrationText,
-  rankText,
-  categoryRankText,
   categoryReachText,
+  concentrationText,
+  landText,
   nearestComparisonText,
+  photoCredit,
+  ridershipText,
+  similarLead,
   similarStationText,
+  summaryText,
+  topShare,
 } from "../src/stationProfileText.js";
+import { DOMAINS, ITEMS, MAX_TOTAL } from "../src/livabilityDefs.js";
 import {
   SEARCH_BLOCKS,
   GUIDE_BLOCKS,
@@ -57,7 +58,6 @@ import {
   stationDescription,
   STATIC_PAGES,
 } from "../src/pageMeta.js";
-
 import {
   PRESETS,
   DEFAULT_PRESET,
@@ -67,37 +67,20 @@ import {
   resultReasons,
   searchStations,
 } from "../src/stationSearch.js";
-import { buildStationMatrix } from "./stationMatrix.js";
+// 採点・順位・公的データ・写真・似ている駅は、APIのJSONと同じ物をここで作って使う
+// （scripts/stationBundle.js。2026-09-29、画面と静的HTMLで中身がずれないよう1か所にまとめた）
+import { loadData, buildAll } from "./stationBundle.js";
 
-const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// スコア計算・タグ判定・レコード正規化はバックエンドの実装をそのまま使う
-// （target値やしきい値を三重に複製しないため）
-const { calculateScore, SCORE_TARGETS_BY_WALK_MINUTES } = require("../../backend/scoring.js");
-const {
-  getStationTagKeys,
-  TAG_THRESHOLDS_BY_WALK_MINUTES,
-} = require("../../backend/stationTags.js");
-const { normalizeRecord, DEFAULT_WALK_MINUTES } = require("../../backend/facilityRecord.js");
-const {
-  getConcentration,
-  buildRankMap,
-  buildCategoryRankMap,
-  getCategoryReach,
-} = require("../../backend/stationProfile.js");
-const { buildSimilarMap, MIN_DISTANCE_KM } = require("../../backend/stationSimilarity.js");
 
 // デプロイ先が1つしかないので既定値を本番URLにしている（Cloudflare Pages側の
 // 環境変数設定を増やさずに済ませるため）。別ドメインで使う場合のみ環境変数で上書きする。
 const SITE_URL = process.env.VITE_SITE_URL || "https://eki.kakuni-lab.com";
 const DIST = path.join(__dirname, "..", "dist");
-const DATA_DIR = path.join(__dirname, "..", "..", "backend", "data");
 
-const stations = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "stations.json"), "utf-8"));
-const facilityCounts = JSON.parse(
-  fs.readFileSync(path.join(DATA_DIR, "facility-counts.json"), "utf-8")
-);
+const DATA = loadData();
+const { stations } = DATA;
+const { bundles, matrix } = buildAll(DATA);
 
 const TEMPLATE_PATH = path.join(DIST, "index.html");
 if (!fs.existsSync(TEMPLATE_PATH)) {
@@ -201,52 +184,59 @@ function writePage(page) {
 
 // --- 各ページ ---------------------------------------------------------------
 
-// 条件検索と目的別ランキングの元になる全駅×全段階の表。/api/station-matrix.json と同じもの
-const MATRIX = buildStationMatrix(stations, facilityCounts);
-const DEFAULT_TABLE = buildTierTable(MATRIX, DEFAULT_WALK_MINUTES);
+const DEFAULT_WALK_MINUTES = matrix.default_walk_minutes;
+const DEFAULT_TABLE = buildTierTable(matrix, DEFAULT_WALK_MINUTES);
+
+// 件数は TopPage.jsx / SearchPage.jsx と揃える規約
+const PURPOSE_LIMIT = 5;
+const RANKING_LIMIT = 10;
+const SEARCH_PAGE_SIZE = 30;
 
 // 検索結果1行ぶん。画面（SearchPage.jsx / TopPage.jsx）と同じ根拠を文字で出す
 function resultItemHtml(row, weights) {
-  const reasons = resultReasons(DEFAULT_TABLE, row, weights)
-    .map((r) => `${esc(r.label)}${esc(r.count)}軒（上位${esc(r.share)}%）`)
+  const reasons = resultReasons(row, weights)
+    .map((r) => `${esc(r.label)} ${esc(r.score)}点`)
     .join("・");
-  return `<li>${link(`/${row.station.slug}`, row.station.name_ja)}（${esc(row.station.prefecture)}）: ${reasons}／適合度${esc(row.fit)}</li>`;
+  return `<li>${link(`/${row.station.slug}`, row.station.name_ja)}（${esc(row.station.prefecture)}・総合${esc(
+    row.total
+  )}点）: ${reasons}／適合度${esc(row.fit)}</li>`;
 }
 
-// /search の静的HTML。JSが動く前・動かないクローラにも、初期状態（バランス重視・徒歩10分・
-// 絞り込みなし）の結果を見せる。件数は SearchPage.jsx の PAGE_SIZE と揃える
-const SEARCH_PAGE_SIZE = 30;
+// /search の静的HTML。JSが動く前・動かないクローラにも、初期状態（バランス・徒歩10分・
+// 絞り込みなし）の結果を見せる
 function searchPageHtml() {
   const weights = presetWeights(DEFAULT_PRESET);
   const { results, total } = searchStations(DEFAULT_TABLE, { weights });
   const preset = PRESETS.find((p) => p.key === DEFAULT_PRESET);
-  return `<p>駅名が決まっていなくても大丈夫です。暮らしに必要な店の条件から、全国の対応駅を絞り込んで並べます。</p>
+  return `<p>駅名が決まっていなくても大丈夫です。暮らし方と、なくては困る施設の条件から、全国の対応駅を絞り込んで並べます。</p>
       <h2>全国で条件に合う駅：${results.length}駅（全${total}駅中）</h2>
-      <p>並び順：${esc(preset.label)}・徒歩${DEFAULT_WALK_MINUTES}分圏内。適合度は選んだ項目が全国のどの位置にあるかの重み付き平均（0〜100）です。</p>
+      <p>並び順：${esc(preset.label)}・徒歩${DEFAULT_WALK_MINUTES}分圏内。適合度は選んだ分野の点の重み付き平均（0〜100）です。</p>
       <ol>${results.slice(0, SEARCH_PAGE_SIZE).map((row) => resultItemHtml(row, weights)).join("")}</ol>`;
 }
-
-// 順位表は1度だけ作る（駅ごとに引き直すと全駅の再計算を349回繰り返すことになる）
-const RANK_BY_SLUG = buildRankMap(stations, facilityCounts);
-// カテゴリ別の順位表も同じ理由で1度だけ作る（カテゴリ数×駅数ぶんの並べ替えになるため）
-const CATEGORY_RANK_BY_SLUG = buildCategoryRankMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
-// 似ている駅も全駅の総当たりなので1度だけ作る（generateApiData.js と同じ関数・同じ段階）
-const SIMILAR_BY_SLUG = buildSimilarMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
-
-// トップの目的別ランキングの件数。TopPage.jsx の PURPOSE_LIMIT と揃える規約
-const PURPOSE_LIMIT = 5;
 
 function topPage() {
   const description = topDescription(stations.length);
 
-  const purposeHtml = PRESETS.map((preset) => {
-    const weights = presetWeights(preset.key);
-    const rows = searchStations(DEFAULT_TABLE, { weights }).results.slice(0, PURPOSE_LIMIT);
-    return `<h3>${esc(preset.label)}</h3>
+  const ranking = [...DEFAULT_TABLE.rows].sort((a, b) => b.total - a.total).slice(0, RANKING_LIMIT);
+  const rankingHtml = `<ol>${ranking
+    .map(
+      (row) =>
+        `<li>${link(`/${row.station.slug}`, row.station.name_ja)}（${esc(row.station.prefecture)}）: ${esc(
+          row.total
+        )}点／${DOMAINS.map((d) => `${d.label}${row.domains[d.key]}`).join("・")}</li>`
+    )
+    .join("")}</ol>`;
+
+  const purposeHtml = PRESETS.filter((p) => p.key !== "balance")
+    .map((preset) => {
+      const weights = presetWeights(preset.key);
+      const rows = searchStations(DEFAULT_TABLE, { weights }).results.slice(0, PURPOSE_LIMIT);
+      return `<h3>${esc(preset.label)}</h3>
       <p>${esc(preset.lead)}</p>
       <ol>${rows.map((row) => resultItemHtml(row, weights)).join("")}</ol>
-      <p>${link(`/search?preset=${preset.key}`, `${preset.label}の条件で絞り込む`)}</p>`;
-  }).join("");
+      <p>${link(`/search?preset=${preset.key}`, "この条件で絞り込む")}</p>`;
+    })
+    .join("");
 
   // 全駅への内部リンク。クローラが349駅を発見できる主な経路なので必ず全駅を出す
   const prefectureHtml = groupByPrefecture(stations)
@@ -268,119 +258,76 @@ function topPage() {
       url: `${SITE_URL}/`,
     },
     body: `<main>
-      <h1>住みやすさ駅前スコア</h1>
-      <p>引っ越し先の駅を、歩いて行ける店の数で比べられます。全国${stations.length}駅の徒歩5〜20分圏内にあるコンビニ・スーパー・病院・飲食店・ドラッグストア・公園・保育園/幼稚園を、OpenStreetMapのデータで数えています。</p>
-      <h2>目的から探す</h2>
-      <p>駅名が決まっていなければ、暮らし方から選べます。徒歩${DEFAULT_WALK_MINUTES}分圏内で、目的に合う項目が全国の上位にそろっている駅の上位${PURPOSE_LIMIT}駅です。最低軒数や都道府県を足して絞り込むこともできます。</p>
+      <h1>駅の暮らしやすさを、${MAX_TOTAL}点で。</h1>
+      <p>全国${stations.length}駅の徒歩5〜20分圏内にある${ITEMS.length}種類の施設を数え、買い物・食事・医療・子育て・生活・余暇の6分野で採点。住宅地の地価と乗降客数も並べて見られます。</p>
+      <p>${link("/search", "駅名が決まっていない方は、条件から探す")}</p>
+      <h2>総合点の高い駅（徒歩${DEFAULT_WALK_MINUTES}分圏内）</h2>
+      <p>6分野の点の平均×10。施設ごとに全国の対応駅の中での位置を出しているので、満点で頭打ちにならず上位の駅にも差がつきます。</p>
+      ${rankingHtml}
+      <h2>暮らし方から探す</h2>
+      <p>目的に合う分野の点が高い駅の上位${PURPOSE_LIMIT}駅です（徒歩${DEFAULT_WALK_MINUTES}分圏内）。都道府県や最低軒数で絞り込むこともできます。</p>
       ${purposeHtml}
       <h2>都道府県から探す（${stations.length}駅）</h2>
       ${prefectureHtml}
-      <p>${link("/search", "条件で駅を探す")} ／ ${link("/compare", "駅を比較する")} ／ ${link("/guide", "スコアの見方")}</p>
     </main>
     ${siteFooterHtml("/")}`,
   };
 }
 
-// 「似ている駅」の前置き。StationPage.jsx と同じ文言にすること
-function similarLead() {
-  return `徒歩${DEFAULT_WALK_MINUTES}分圏内の7項目（コンビニ・スーパー・病院・飲食店・ドラッグストア・公園・保育園/幼稚園）の軒数の組み合わせが近い駅を、全国から選んでいます。集計範囲が重なる${MIN_DISTANCE_KM}km以内の駅は除いています。`;
-}
-
-// APIが返すのと同じ形の1段階ぶんのデータを組み立てる（stationComment等が同じ形を期待するため）
-function buildTier(record, walkMinutes) {
-  const raw = record.tiers[walkMinutes];
-  if (!raw) return null;
-  return {
-    walk_minutes: Number(walkMinutes),
-    radius_m: raw.radius_m,
-    counts: raw.counts,
-    score: calculateScore(raw.counts, Number(walkMinutes)),
-    targets: SCORE_TARGETS_BY_WALK_MINUTES[walkMinutes],
-    tag_keys: getStationTagKeys(raw.counts, Number(walkMinutes)),
-    tag_thresholds: TAG_THRESHOLDS_BY_WALK_MINUTES[walkMinutes],
-  };
-}
-
 function stationPage(station) {
-  const raw = facilityCounts[station.slug];
-  if (!raw) return null;
+  const b = bundles.get(station.slug);
+  if (!b) return null;
+  const main = b.tiers[b.default_walk_minutes];
+  const tiers = b.walk_minutes.map((m) => b.tiers[m]);
 
-  const record = normalizeRecord(raw);
-  const availableMinutes = Object.keys(record.tiers)
-    .map(Number)
-    .sort((a, b) => a - b);
-  const tiers = availableMinutes.map((m) => buildTier(record, m)).filter(Boolean);
-  if (tiers.length === 0) return null;
+  // 4段階の総合点・分野の点・施設の数を表にする。段階の切り替えは画面ではボタンだが、
+  // クローラにも全段階の数字が見えるようにしておく
+  const head = tiers.map((t) => `<th>徒歩${esc(t.walk_minutes)}分</th>`).join("");
+  const totalRow = `<tr><th>総合点（${MAX_TOTAL}点満点）</th>${tiers
+    .map((t) => `<td>${esc(t.total)}点（${esc(t.rank)}位）</td>`)
+    .join("")}</tr>`;
+  const domainRows = DOMAINS.map(
+    (d) =>
+      `<tr><th>${esc(d.label)}</th>${tiers
+        .map((t) => `<td>${esc(t.domains[d.key].score)}点（${esc(t.domains[d.key].rank)}位）</td>`)
+        .join("")}</tr>`
+  ).join("");
+  const itemRows = ITEMS.map(
+    (item) =>
+      `<tr><th>${esc(item.label)}</th>${tiers
+        .map((t) => `<td>${esc(t.items[item.key].count)}軒（上位${esc(topShare(t.items[item.key].pct))}%）</td>`)
+        .join("")}</tr>`
+  ).join("");
 
-  // 見出し・description・一言コメントは既定の段階を基準にする（無ければ最小の段階）
-  const mainTier = tiers.find((t) => t.walk_minutes === DEFAULT_WALK_MINUTES) ?? tiers[0];
-  const comment = buildStationComment(station.name_ja, mainTier);
-  const tags = getStationTags(mainTier.tag_keys);
-  const totalCount = CATEGORIES.reduce((sum, cat) => sum + (mainTier.counts[cat.key] || 0), 0);
-
-  const description = stationDescription(station.name_ja, mainTier);
-
-  // 4段階すべての軒数を1つの表に出す。段階の切り替えはJS側のタブだが、
-  // クローラにも全段階の数字が見えるようにしておく（1ページの情報量を増やす狙いもある）
-  const headerCells = tiers.map((t) => `<th>徒歩${esc(t.walk_minutes)}分</th>`).join("");
-  const rows = [...CATEGORIES, ...EXTRA_CATEGORIES]
-    .map((cat) => {
-      const cells = tiers.map((t) => `<td>${esc(t.counts[cat.key] || 0)}軒</td>`).join("");
-      return `<tr><td>${esc(cat.label)}</td>${cells}</tr>`;
-    })
-    .join("");
-  const scoreRow = tiers.map((t) => `<td>${esc(t.score.total)}点</td>`).join("");
-
-  const tagHtml = tags.length > 0
-    ? `<p>${tags.map((t) => esc(t.label)).join(" / ")}</p>`
-    : "";
-
-  // その駅にしか当てはまらない情報（順位・施設の広がり方）。画面側と同じ文言を使う
-  // 最も近い駅の合計軒数。「隣と比べてどうか」は駅単体の数字からは出てこない情報で、
-  // 住む場所を選ぶときの実際の比べ方でもある。自駅と同じ4カテゴリ・同じ段階で数える。
-  const nearestInfo = (() => {
-    const first = findNearbyStations(station, stations, 1)[0];
-    if (!first) return null;
-    const nearestRaw = facilityCounts[first.station.slug];
-    if (!nearestRaw) return null;
-    const nearestTier = normalizeRecord(nearestRaw).tiers[mainTier.walk_minutes];
-    if (!nearestTier) return null;
-    return {
-      name: first.station.name_ja,
-      distance: formatDistance(first.km),
-      total: CATEGORIES.reduce((sum, cat) => sum + (nearestTier.counts[cat.key] || 0), 0),
-    };
-  })();
-
-  const profileSentences = [
-    rankText(RANK_BY_SLUG.get(station.slug), DEFAULT_WALK_MINUTES),
-    categoryRankText(CATEGORY_RANK_BY_SLUG.get(station.slug), CATEGORIES, DEFAULT_WALK_MINUTES),
-    categoryReachText(
-      getCategoryReach(record.tiers, DEFAULT_WALK_MINUTES),
-      CATEGORIES,
-      DEFAULT_WALK_MINUTES
-    ),
-    concentrationText(getConcentration(record.tiers)),
-    nearestComparisonText(station.name_ja, nearestInfo, totalCount, mainTier.walk_minutes),
-  ].filter(Boolean);
-  const profileHtml =
-    profileSentences.length > 0
-      ? `<h2>${esc(station.name_ja)}のデータの読み方</h2>
-      ${profileSentences.map((s) => `<p>${esc(s)}</p>`).join("")}`
+  const publicHtml =
+    b.public.land || b.public.ridership
+      ? `<h2>暮らしのコストと駅の規模</h2>
+      ${[landText(b.public.land), ridershipText(b.public.ridership)]
+        .filter(Boolean)
+        .map((t) => `<p>${esc(t)}</p>`)
+        .join("")}
+      <p>出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）を加工して作成</p>`
       : "";
 
-  // 施設の揃い方が似ている駅（画面の StationPage.jsx と同じ文言）
-  const similar = SIMILAR_BY_SLUG.get(station.slug) ?? [];
-  const allCategories = [...CATEGORIES, ...EXTRA_CATEGORIES];
+  const readTexts = [
+    categoryReachText(b.category_reach, b.default_walk_minutes),
+    concentrationText(b.concentration),
+    nearestComparisonText(station.name_ja, b.nearest, b.default_walk_minutes),
+  ].filter(Boolean);
+  const readHtml =
+    readTexts.length > 0
+      ? `<h2>${esc(station.name_ja)}のデータの読み方</h2>${readTexts.map((t) => `<p>${esc(t)}</p>`).join("")}`
+      : "";
+
   const similarHtml =
-    similar.length > 0
+    b.similar_stations.length > 0
       ? `<h2>${esc(station.name_ja)}と施設の揃い方が似ている駅</h2>
-      <p>${esc(similarLead())}</p>
-      <ul>${similar
+      <p>${esc(similarLead(b.default_walk_minutes))}</p>
+      <ul>${b.similar_stations
         .map(
           (item) =>
             `<li>${link(`/${item.slug}`, item.name_ja)}（${esc(item.prefecture ?? "")}）: ${esc(
-              similarStationText(station.name_ja, item, allCategories)
+              similarStationText(station.name_ja, item)
             )}</li>`
         )
         .join("")}</ul>`
@@ -392,16 +339,35 @@ function stationPage(station) {
     nearby.length > 0
       ? `<h2>${esc(station.name_ja)}の近くの駅</h2>
       <ul>${nearby
+        .map(({ station: s, km }) => `<li>${link(`/${s.slug}`, s.name_ja)}（約${esc(formatDistance(km))}）</li>`)
+        .join("")}</ul>`
+      : "";
+
+  // 写真の1枚目と、全写真の帰属表示（CC BYの条件）
+  const photo = b.photos[0];
+  const photoHtml = photo
+    ? `<figure><img src="${esc(photo.src)}" alt="${esc(photo.caption || station.name_ja)}" width="${esc(
+        photo.width
+      )}" height="${esc(photo.height)}" loading="lazy" /><figcaption>${esc(photo.caption)} ${esc(
+        photoCredit(photo)
+      )}</figcaption></figure>`
+    : "";
+  const creditHtml =
+    b.photos.length > 0
+      ? `<p>写真はWikipedia日本語版の「${esc(b.photo_article)}」の記事に掲載されているもの（Wikimedia Commons）です。</p>
+      <ul>${b.photos
         .map(
-          ({ station: s, km }) =>
-            `<li>${link(`/${s.slug}`, s.name_ja)}（約${esc(formatDistance(km))}）</li>`
+          (p) =>
+            `<li><a href="${esc(p.page)}" target="_blank" rel="noreferrer">${esc(p.caption || "写真")}</a> — ${esc(
+              photoCredit(p)
+            )}</li>`
         )
         .join("")}</ul>`
       : "";
 
   return {
     title: stationTitle(station.name_ja),
-    description,
+    description: stationDescription(station.name_ja, main),
     canonicalPath: `/${station.slug}`,
     jsonLd: [
       {
@@ -410,6 +376,7 @@ function stationPage(station) {
         name: station.name_ja,
         geo: { "@type": "GeoCoordinates", latitude: station.lat, longitude: station.lon },
         url: `${SITE_URL}/${station.slug}`,
+        ...(photo ? { image: photo.src } : {}),
       },
       // 検索結果に「住みやすさ駅前スコア > 池袋駅」の形で階層が出るようにする
       {
@@ -422,20 +389,36 @@ function stationPage(station) {
       },
     ],
     body: `<main>
+      <p>${esc(station.prefecture)}・${esc(station.kana ?? "")}</p>
       <h1>${esc(station.name_ja)}の住みやすさ駅前スコア</h1>
-      <p>スコア ${mainTier.score.total} 点／徒歩${esc(mainTier.walk_minutes)}分圏内の合計 ${totalCount} 軒</p>
-      <p>${esc(comment)}</p>
-      ${tagHtml}
-      <h2>徒歩分数別の施設数</h2>
+      ${photoHtml}
+      <p>${esc(summaryText(station.name_ja, main))}</p>
+      <h2>6分野の評価（徒歩分数別）</h2>
+      <p>駅から半径${esc(main.radius_m)}m（徒歩1分=80m）以内の施設を数え、施設ごとに全国${esc(
+        main.of
+      )}駅の中での位置を出して、分野ごとに平均しています。総合点は6分野の平均×10です。</p>
       <table>
-        <thead><tr><th>カテゴリ</th>${headerCells}</tr></thead>
-        <tbody><tr><td>住みやすさスコア</td>${scoreRow}</tr>${rows}</tbody>
+        <thead><tr><th></th>${head}</tr></thead>
+        <tbody>${totalRow}${domainRows}</tbody>
       </table>
-      <p>店舗数はOpenStreetMapのデータに基づく目安です（更新: ${esc(record.updated_at)}）。</p>
-      ${profileHtml}
+      <h2>施設の数（徒歩分数別）</h2>
+      <table>
+        <thead><tr><th></th>${head}</tr></thead>
+        <tbody>${itemRows}</tbody>
+      </table>
+      ${publicHtml}
+      ${readHtml}
       ${similarHtml}
       ${nearbyHtml}
-      <p>${link("/", `全${stations.length}駅の一覧を見る`)} ／ ${link("/compare", "他の駅と比較する")}</p>
+      <h2>データと写真について</h2>
+      <p>施設の数はOpenStreetMapのデータに基づく目安です。実際の店舗数と異なる場合があります（更新: ${esc(
+        b.updated_at
+      )}）。</p>
+      ${creditHtml}
+      <p>${link("/", `全${stations.length}駅の一覧を見る`)} ／ ${link("/search", "条件で駅を探す")} ／ ${link(
+        "/compare",
+        "他の駅と比較する"
+      )}</p>
     </main>
     ${siteFooterHtml(`/${station.slug}`)}`,
   };
