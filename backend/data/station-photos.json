@@ -7267,35 +7267,6 @@
       }
     ]
   },
-  "kamakura-post-office": {
-    "article": "鎌倉駅",
-    "photos": [
-      {
-        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/CIAL_Kamakura.jpg/1280px-CIAL_Kamakura.jpg",
-        "width": 1280,
-        "height": 960,
-        "page": "https://commons.wikimedia.org/wiki/File:CIAL_Kamakura.jpg",
-        "caption": "鎌倉駅直結の駅ビルCIAL鎌倉",
-        "artist": "Yoh-Plus",
-        "license": "CC BY 4.0",
-        "license_url": "https://creativecommons.org/licenses/by/4.0"
-      },
-      {
-        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/%E6%B1%9F%E3%83%8E%E9%9B%BB-%E9%8E%8C%E5%80%89%E9%A7%85.jpg/1280px-%E6%B1%9F%E3%83%8E%E9%9B%BB-%E9%8E%8C%E5%80%89%E9%A7%85.jpg",
-        "width": 1280,
-        "height": 960,
-        "page": "https://commons.wikimedia.org/wiki/File:%E6%B1%9F%E3%83%8E%E9%9B%BB-%E9%8E%8C%E5%80%89%E9%A7%85.jpg",
-        "caption": "江ノ電鎌倉駅",
-        "artist": "Sakurayama 7",
-        "license": "CC BY-SA 4.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-      }
-    ]
-  },
-  "eneos-platform-hitachino-ushiku-ss": {
-    "article": null,
-    "photos": []
-  },
   "yako": {
     "article": "矢向駅",
     "photos": [
@@ -10491,10 +10462,6 @@
       }
     ]
   },
-  "aeon-mall-sendai-uesugi": {
-    "article": null,
-    "photos": []
-  },
   "fukaya": {
     "article": "深谷駅",
     "photos": [
@@ -11973,21 +11940,6 @@
       }
     ]
   },
-  "yakushiji-temple": {
-    "article": "西ノ京駅",
-    "photos": [
-      {
-        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Nishinokyo_Station%2C_ekisha.jpg/1280px-Nishinokyo_Station%2C_ekisha.jpg",
-        "width": 1280,
-        "height": 851,
-        "page": "https://commons.wikimedia.org/wiki/File:Nishinokyo_Station,_ekisha.jpg",
-        "caption": "西ノ京駅 駅舎",
-        "artist": "Saigen Jiro",
-        "license": "CC0",
-        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-      }
-    ]
-  },
   "maebashi": {
     "article": "前橋駅",
     "photos": [
@@ -12788,10 +12740,6 @@
       }
     ]
   },
-  "aeon-laketown-mori": {
-    "article": null,
-    "photos": []
-  },
   "osaka-metro-gamoyonchome": {
     "article": "蒲生四丁目駅",
     "photos": [
@@ -13224,71 +13172,6 @@
         "artist": "Suicasmo",
         "license": "CC BY-SA 4.0",
         "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-      }
-    ]
-  },
-  "takasaki-opa": {
-    "article": "高崎駅",
-    "photos": [
-      {
-        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/JRE-Takasaki-STA_West.jpg/1280px-JRE-Takasaki-STA_West.jpg",
-        "width": 1280,
-        "height": 853,
-        "page": "https://commons.wikimedia.org/wiki/File:JRE-Takasaki-STA_West.jpg",
-        "caption": "JR高崎駅の西口・駅ビル外観",
-        "artist": "MaedaAkihiko",
-        "license": "CC BY-SA 4.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
-      {
-        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/JR_Takasaki_St.%282021.01.26%29.jpg/1280px-JR_Takasaki_St.%282021.01.26%29.jpg",
-        "width": 1280,
-        "height": 720,
-        "page": "https://commons.wikimedia.org/wiki/File:JR_Takasaki_St.(2021.01.26).jpg",
-        "caption": "JR高崎駅東口 (2021年1月26日撮影)",
-        "artist": "Mod Text.11",
-        "license": "CC BY-SA 4.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
-      {
-        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/JoshinTakasaki-Iriguchi.jpg/1280px-JoshinTakasaki-Iriguchi.jpg",
-        "width": 1280,
-        "height": 960,
-        "page": "https://commons.wikimedia.org/wiki/File:JoshinTakasaki-Iriguchi.jpg",
-        "caption": "上信電鉄高崎駅の入り口です。 (2026年3月14日撮影)",
-        "artist": "Haru0621",
-        "license": "CC BY-SA 4.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
-      {
-        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/%E9%AB%98%E5%B4%8E%E9%A7%85%E6%9D%B1%E5%8F%A3_-_panoramio.jpg/1280px-%E9%AB%98%E5%B4%8E%E9%A7%85%E6%9D%B1%E5%8F%A3_-_panoramio.jpg",
-        "width": 1280,
-        "height": 960,
-        "page": "https://commons.wikimedia.org/wiki/File:%E9%AB%98%E5%B4%8E%E9%A7%85%E6%9D%B1%E5%8F%A3_-_panoramio.jpg",
-        "caption": "高崎駅東口",
-        "artist": "Ryo Bow",
-        "license": "CC BY 3.0",
-        "license_url": "https://creativecommons.org/licenses/by/3.0"
-      },
-      {
-        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Gunma_Convention_Center.jpg/1280px-Gunma_Convention_Center.jpg",
-        "width": 1280,
-        "height": 960,
-        "page": "https://commons.wikimedia.org/wiki/File:Gunma_Convention_Center.jpg",
-        "caption": "群馬コンベンションセンター",
-        "artist": "W.CC",
-        "license": "CC BY-SA 4.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
-      {
-        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Gunma_Music_Center_2009.jpg/1280px-Gunma_Music_Center_2009.jpg",
-        "width": 1280,
-        "height": 904,
-        "page": "https://commons.wikimedia.org/wiki/File:Gunma_Music_Center_2009.jpg",
-        "caption": "群馬音楽センター / Gunma music center Architect アントニン・レーモンド / Antonin Raymond Location 群",
-        "artist": "Wiiii",
-        "license": "CC BY-SA 3.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
       }
     ]
   },

@@ -1432,22 +1432,6 @@
     "lon": 139.697405
   },
   {
-    "slug": "kamakura-post-office",
-    "name_ja": "鎌倉郵便局駅",
-    "kana": "かまくらぽといえ",
-    "prefecture": "神奈川県",
-    "lat": 35.31812,
-    "lon": 139.552002
-  },
-  {
-    "slug": "eneos-platform-hitachino-ushiku-ss",
-    "name_ja": "ENEOSプラットフォームひたち野うしくSS駅",
-    "kana": "えねおすぷらっとふぉーむひたちのうしくえすえす",
-    "prefecture": "茨城県",
-    "lat": 36.00273,
-    "lon": 140.162676
-  },
-  {
     "slug": "yako",
     "name_ja": "矢向駅",
     "kana": "やこう",
@@ -2088,14 +2072,6 @@
     "lon": 139.7002234
   },
   {
-    "slug": "aeon-mall-sendai-uesugi",
-    "name_ja": "イオンモール仙台上杉駅",
-    "kana": "いおんもーるせんだいうえすぎ",
-    "prefecture": "宮城県",
-    "lat": 38.2759491,
-    "lon": 140.8724141
-  },
-  {
     "slug": "fukaya",
     "name_ja": "深谷駅",
     "kana": "ふかや",
@@ -2400,14 +2376,6 @@
     "lon": 140.2070619
   },
   {
-    "slug": "yakushiji-temple",
-    "name_ja": "薬師寺駅",
-    "kana": "やくしじてんえ",
-    "prefecture": "奈良県",
-    "lat": 34.6703328,
-    "lon": 135.7833696
-  },
-  {
     "slug": "maebashi",
     "name_ja": "前橋駅",
     "kana": "まえばし",
@@ -2584,14 +2552,6 @@
     "lon": 140.4347327
   },
   {
-    "slug": "aeon-laketown-mori",
-    "name_ja": "イオンレイクタウンmori駅",
-    "kana": "いおんれいくたうんもり",
-    "prefecture": "埼玉県",
-    "lat": 35.8797605,
-    "lon": 139.827657
-  },
-  {
     "slug": "osaka-metro-gamoyonchome",
     "name_ja": "Osaka Metro 蒲生四丁目駅",
     "kana": "おおさかめとろがもうよんちょうめ",
@@ -2678,14 +2638,6 @@
     "prefecture": "東京都",
     "lat": 35.5968717,
     "lon": 139.6673356
-  },
-  {
-    "slug": "takasaki-opa",
-    "name_ja": "高崎オーパ駅",
-    "kana": "たかさきおーぱ",
-    "prefecture": "群馬県",
-    "lat": 36.3230837,
-    "lon": 139.0110944
   },
   {
     "slug": "hanamaki",

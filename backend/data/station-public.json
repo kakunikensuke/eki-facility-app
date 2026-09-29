@@ -2767,32 +2767,6 @@
         "year": 2026
       }
     },
-    "kamakura-post-office": {
-      "ridership": {
-        "daily": 105981,
-        "operators": [
-          "江ノ島電鉄",
-          "東日本旅客鉄道"
-        ]
-      },
-      "land": {
-        "median_yen_per_m2": 314000,
-        "change_pct": 6.3,
-        "points": 12,
-        "radius_m": 1600,
-        "year": 2026
-      }
-    },
-    "eneos-platform-hitachino-ushiku-ss": {
-      "ridership": null,
-      "land": {
-        "median_yen_per_m2": 65150,
-        "change_pct": 5.8,
-        "points": 2,
-        "radius_m": 1600,
-        "year": 2026
-      }
-    },
     "yako": {
       "ridership": {
         "daily": 35884,
@@ -3993,16 +3967,6 @@
         "year": 2026
       }
     },
-    "aeon-mall-sendai-uesugi": {
-      "ridership": null,
-      "land": {
-        "median_yen_per_m2": 276000,
-        "change_pct": 5.7,
-        "points": 15,
-        "radius_m": 1600,
-        "year": 2026
-      }
-    },
     "fukaya": {
       "ridership": {
         "daily": 18100,
@@ -4563,21 +4527,6 @@
         "year": 2026
       }
     },
-    "yakushiji-temple": {
-      "ridership": {
-        "daily": 6736,
-        "operators": [
-          "近畿日本鉄道"
-        ]
-      },
-      "land": {
-        "median_yen_per_m2": 64650,
-        "change_pct": 0,
-        "points": 4,
-        "radius_m": 1600,
-        "year": 2026
-      }
-    },
     "maebashi": {
       "ridership": {
         "daily": 19804,
@@ -4888,16 +4837,6 @@
       "ridership": null,
       "land": null
     },
-    "aeon-laketown-mori": {
-      "ridership": null,
-      "land": {
-        "median_yen_per_m2": 184000,
-        "change_pct": 6.1,
-        "points": 2,
-        "radius_m": 1600,
-        "year": 2026
-      }
-    },
     "osaka-metro-gamoyonchome": {
       "ridership": {
         "daily": 17513,
@@ -5061,16 +5000,6 @@
         "median_yen_per_m2": 913000,
         "change_pct": 6.5,
         "points": 15,
-        "radius_m": 1600,
-        "year": 2026
-      }
-    },
-    "takasaki-opa": {
-      "ridership": null,
-      "land": {
-        "median_yen_per_m2": 112000,
-        "change_pct": 3.5,
-        "points": 5,
         "radius_m": 1600,
         "year": 2026
       }

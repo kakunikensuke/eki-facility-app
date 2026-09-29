@@ -4676,58 +4676,6 @@
         "special_share_pct": 0
       }
     },
-    "kamakura-post-office": {
-      "radius_m": 800,
-      "flood": {
-        "at_station": "lt05",
-        "share_pct": 16.1,
-        "deep_share_pct": 0,
-        "max": "05to3"
-      },
-      "hightide": {
-        "at_station": null,
-        "share_pct": 0.9,
-        "deep_share_pct": 0,
-        "max": "lt05"
-      },
-      "tsunami": {
-        "at_station": "3to5",
-        "share_pct": 41.2,
-        "deep_share_pct": 10.5,
-        "max": "gte5"
-      },
-      "landslide": {
-        "at_station": null,
-        "share_pct": 25.2,
-        "special_share_pct": 9.2
-      }
-    },
-    "eneos-platform-hitachino-ushiku-ss": {
-      "radius_m": 800,
-      "flood": {
-        "at_station": null,
-        "share_pct": 0.1,
-        "deep_share_pct": 0,
-        "max": "lt05"
-      },
-      "hightide": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "tsunami": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "landslide": {
-        "at_station": null,
-        "share_pct": 0,
-        "special_share_pct": 0
-      }
-    },
     "yako": {
       "radius_m": 800,
       "flood": {
@@ -6808,32 +6756,6 @@
         "special_share_pct": 0
       }
     },
-    "aeon-mall-sendai-uesugi": {
-      "radius_m": 800,
-      "flood": {
-        "at_station": null,
-        "share_pct": 12.5,
-        "deep_share_pct": 0,
-        "max": "05to3"
-      },
-      "hightide": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "tsunami": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "landslide": {
-        "at_station": null,
-        "share_pct": 0,
-        "special_share_pct": 0
-      }
-    },
     "fukaya": {
       "radius_m": 800,
       "flood": {
@@ -7822,32 +7744,6 @@
         "special_share_pct": 0
       }
     },
-    "yakushiji-temple": {
-      "radius_m": 800,
-      "flood": {
-        "at_station": null,
-        "share_pct": 39.5,
-        "deep_share_pct": 0,
-        "max": "05to3"
-      },
-      "hightide": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "tsunami": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "landslide": {
-        "at_station": null,
-        "share_pct": 0,
-        "special_share_pct": 0
-      }
-    },
     "maebashi": {
       "radius_m": 800,
       "flood": {
@@ -8420,32 +8316,6 @@
         "special_share_pct": 21.1
       }
     },
-    "aeon-laketown-mori": {
-      "radius_m": 800,
-      "flood": {
-        "at_station": "05to3",
-        "share_pct": 95.5,
-        "deep_share_pct": 39.8,
-        "max": "gte5"
-      },
-      "hightide": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "tsunami": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "landslide": {
-        "at_station": null,
-        "share_pct": 0,
-        "special_share_pct": 0
-      }
-    },
     "osaka-metro-gamoyonchome": {
       "radius_m": 800,
       "flood": {
@@ -8730,32 +8600,6 @@
         "at_station": null,
         "share_pct": 1.8,
         "special_share_pct": 0.3
-      }
-    },
-    "takasaki-opa": {
-      "radius_m": 800,
-      "flood": {
-        "at_station": null,
-        "share_pct": 4.4,
-        "deep_share_pct": 0,
-        "max": "lt05"
-      },
-      "hightide": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "tsunami": {
-        "at_station": null,
-        "share_pct": 0,
-        "deep_share_pct": 0,
-        "max": null
-      },
-      "landslide": {
-        "at_station": null,
-        "share_pct": 0,
-        "special_share_pct": 0
       }
     },
     "hanamaki": {
