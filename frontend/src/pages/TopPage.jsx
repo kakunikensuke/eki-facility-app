@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchPhotosLite, fetchStationMatrix } from "../api";
+import { fetchDocNav, fetchPhotosLite, fetchStationMatrix } from "../api";
 import BottomNav from "../components/BottomNav";
 import Footer from "../components/Footer";
 import PhotoHero from "../components/PhotoHero";
@@ -34,12 +34,14 @@ export default function TopPage({ stations }) {
   const [matrix, setMatrix] = useState(null);
   const [photos, setPhotos] = useState(null);
   const [keyword, setKeyword] = useState("");
+  const [docNav, setDocNav] = useState(null);
 
   useDocumentMeta(topTitle(), topDescription(stations.length));
 
   useEffect(() => {
     fetchStationMatrix().then(setMatrix).catch(() => setMatrix(false));
     fetchPhotosLite().then(setPhotos).catch(() => setPhotos({}));
+    fetchDocNav().then(setDocNav).catch(() => setDocNav(null));
   }, []);
 
   const table = useMemo(
@@ -207,6 +209,38 @@ export default function TopPage({ stations }) {
             </div>
           )}
         </section>
+
+        {docNav && (
+          <section className="block">
+            <h2 className="block-title">データで見る駅選び</h2>
+            <p className="note-text">全国の駅の施設・地価・乗降客数・ハザードマップのデータから分かったことをまとめています。</p>
+            <ul className="doc-cards">
+              {docNav.articles.map((x) => (
+                <li key={x.slug}>
+                  <Link to={`/article/${x.slug}`}>
+                    <b>{x.heading}</b>
+                    <span>{x.summary}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {docNav && (
+          <section className="block">
+            <h2 className="block-title">路線から探す</h2>
+            <p className="note-text">路線ごとに、このサイトで扱っている駅を住みやすさの順に並べています。</p>
+            <div className="chips">
+              {docNav.lines.map((l) => (
+                <Link className="chip" key={l.slug} to={`/line/${l.slug}`}>
+                  {l.name}
+                  <small>{l.count}駅</small>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="block">
           <h2 className="block-title">都道府県から探す（{stations.length}駅）</h2>

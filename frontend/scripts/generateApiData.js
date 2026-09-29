@@ -12,6 +12,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { loadData, buildAll } from "./stationBundle.js";
+import { buildDocs } from "./contentDocs.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = path.join(__dirname, "..", "public", "api");
@@ -50,8 +51,16 @@ for (const bundle of bundles.values()) {
   writeJson(`facility-counts/${bundle.slug}.json`, bundle);
 }
 
+// 路線ページ・記事（scripts/contentDocs.js）。本文HTMLはプリレンダと同じ物
+const { docs, nav } = buildDocs(bundles, data.stationLines);
+for (const doc of docs) {
+  const { path: docPath, title, description, heading, kicker, lead, html } = doc;
+  writeJson(`docs/${doc.kind}/${doc.slug}.json`, { path: docPath, title, description, heading, kicker, lead, html });
+}
+writeJson("docs/nav.json", nav);
+
 console.log(
-  `APIの静的JSONを生成しました（駅${bundles.size}件 + 一覧4件 / データ未整備でスキップ ${
+  `APIの静的JSONを生成しました（駅${bundles.size}件 + 一覧4件 + 路線・記事${docs.length}件 / データ未整備でスキップ ${
     data.stations.length - bundles.size
   }駅、写真あり ${Object.keys(photosLite).length}駅、出力先 public/api/）`
 );

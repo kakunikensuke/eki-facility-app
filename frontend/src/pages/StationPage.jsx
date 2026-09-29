@@ -21,6 +21,14 @@ import {
   summaryText,
   topShare,
 } from "../stationProfileText";
+import {
+  HAZARD_KINDS,
+  HAZARD_NOTES,
+  HAZARD_SOURCE,
+  hazardAtStationText,
+  hazardKindText,
+  hazardSummaryText,
+} from "../hazardText";
 import { useDocumentMeta } from "../useDocumentTitle";
 import NotFound from "./NotFound";
 
@@ -217,6 +225,49 @@ export default function StationPage({ stations }) {
                 <p className="note-text">
                   出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）を加工して作成
                 </p>
+              </section>
+            )}
+
+            {data.hazard && (
+              <section className="block">
+                <h2 className="block-title">災害リスク（ハザードマップの想定）</h2>
+                <p className="lead-text">{hazardSummaryText(station.name_ja, data.hazard)}</p>
+                <div className="fact-grid hazard-grid">
+                  {HAZARD_KINDS.map((kind) => {
+                    const h = data.hazard[kind.key];
+                    return (
+                      <article className={`fact hazard${h.share_pct > 0 ? " hazard-on" : ""}`} key={kind.key}>
+                        <h3 className="fact-label">{kind.label}</h3>
+                        <p className="fact-value">
+                          {h.share_pct}
+                          <small>%</small>
+                        </p>
+                        <p className="fact-sub">{hazardAtStationText(kind, h)}</p>
+                        <p className="fact-text">{hazardKindText(kind, h, data.hazard.radius_m)}</p>
+                      </article>
+                    );
+                  })}
+                </div>
+                <ul className="note-list">
+                  {HAZARD_NOTES.map((note) => (
+                    <li key={note}>{note}</li>
+                  ))}
+                </ul>
+                <p className="note-text">{HAZARD_SOURCE}</p>
+              </section>
+            )}
+
+            {data.lines.length > 0 && (
+              <section className="block">
+                <h2 className="block-title">{station.name_ja}が乗っている路線</h2>
+                <p className="note-text">路線ごとに、このサイトで扱っている駅を住みやすさの順に並べています。</p>
+                <div className="chips">
+                  {data.lines.map((line) => (
+                    <Link className="chip" key={line.slug} to={`/line/${line.slug}`}>
+                      {line.name}
+                    </Link>
+                  ))}
+                </div>
               </section>
             )}
 

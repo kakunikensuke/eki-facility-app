@@ -42,6 +42,13 @@
 - **デザイン**: `src/design.css`（App.cssの後に読む）。写真のスライドは `components/PhotoHero.jsx`。フォントはGoogle Fonts（Zen Kaku Gothic New / Outfit）で、プライバシーポリシーに記載済み
 - `backend/server.js` と `backend/scoring.js`・`backend/stationTags.js` は旧スコアのまま残っている（本番では使っていない）
 
+## 路線ページ・記事・災害リスク（2026-09-29追加）
+
+- **路線ページ** `/lines`・`/line/<slug>`: `backend/scripts/importLines.js` が国土数値情報S12（駅別乗降客数）の路線名から `backend/data/station-lines.json` を作る。S12の路線名は正式名（埼京線＝赤羽線、京浜東北線＝東北線）なので、ページにする路線と呼び名は `LINE_META` に手で書く（無い路線はページを作らない）。掲載駅5駅以上・新幹線は除外。事業者名付きの駅（「東急 渋谷駅」）はその事業者の路線にだけ載せる。`rail_stations` はS12に同名の駅がある駅の一覧で、**ロッカーアプリ由来の施設名（鎌倉郵便局駅・イオンモール仙台上杉駅・ENEOS…SS駅・イオンレイクタウンmori駅・高崎オーパ駅・薬師寺駅）を記事の集計から外す**のに使う
+- **記事** `/articles`・`/article/<slug>`（7本）と路線ページの本文は `frontend/scripts/contentDocs.js` が**ビルド時にHTMLとして1回だけ作る**。prerender.js（静的HTML）と generateApiData.js（`/api/docs/<kind>/<slug>.json` → `pages/DocPage.jsx` が差し込む）の両方がそれを使うので、画面とクローラの中身は構造的にずれない。文章はすべてデータから導き、結論の言葉も数字で切り替える（相関の強弱など）。データで確かめられない理由付けは書かない
+- **災害リスク**: `backend/scripts/fetchHazard.js` がハザードマップポータルサイトの地図タイル（洪水L2・高潮・津波・土砂3種）の色を駅から半径800m・50m間隔で読み、`backend/data/station-hazard.json` を作る（PNGは標準ライブラリの zlib で読む。タイルは一時フォルダにキャッシュ）。**総合点には混ぜない**。出典「ハザードマップポータルサイト」を加工して作成・国が作ったように見せない・宅建の重要事項説明に使えない旨と、内水氾濫を含まない旨を必ず表示する（文言は `src/hazardText.js`）
+- `verifyOutput` は下の階層（`dist/line/`・`dist/article/`）も点検し、`lines.html`・`articles.html` が無ければビルドを落とす
+
 ## 条件検索・目的別ランキング・似ている駅（2026-09-29追加）
 
 4回目の不承認（9/15）を受けて、見た目の手直しより先に「駅名を知らない人が使える機能」を足した。

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { SITE_NAME, STATIC_PAGES } from "../pageMeta";
+import { CONTENT_SECTIONS, SITE_NAME, STATIC_PAGES } from "../pageMeta";
 
 // 全ページ共通のフッター。
 //
@@ -12,6 +12,7 @@ export default function Footer() {
   const { pathname } = useLocation();
   const items = [
     { path: "/", label: "駅一覧" },
+    ...CONTENT_SECTIONS,
     ...STATIC_PAGES.filter((p) => !p.hideFromNav).map((p) => ({
       path: p.path,
       label: p.heading,

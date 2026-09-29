@@ -54,6 +54,23 @@ export async function fetchPhotosLite() {
   return photos;
 }
 
+// 路線ページ・記事（scripts/contentDocs.js が作る本文HTML入りのJSON）。key は "line/jr-yamanote" など
+export async function fetchDoc(key) {
+  return fetchJson(`${API_BASE}/docs/${key}.json`);
+}
+
+// トップ・駅ページから路線と記事へ張るリンクの目次
+let navPromise = null;
+export function fetchDocNav() {
+  if (!navPromise) {
+    navPromise = fetchJson(`${API_BASE}/docs/nav.json`);
+    navPromise.catch(() => {
+      navPromise = null;
+    });
+  }
+  return navPromise;
+}
+
 // 集計データがまだ無い駅はファイルそのものが存在しない。呼び出し側は
 // nullを「この駅の集計データはまだ準備できていません」として扱う。
 export async function fetchFacilityCounts(stationSlug) {

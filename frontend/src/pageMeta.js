@@ -28,6 +28,13 @@ export function stationDescription(stationName, tier) {
   );
 }
 
+// 路線ページ・記事の入口。フッター（components/Footer.jsx と prerender.js の siteFooterHtml）に
+// 駅一覧の次に並べる。STATIC_PAGES と違い本文は scripts/contentDocs.js がデータから作る
+export const CONTENT_SECTIONS = [
+  { path: "/lines", label: "路線から探す" },
+  { path: "/articles", label: "データで見る駅選び" },
+];
+
 // お気に入りページはブラウザのlocalStorage次第で中身が変わるため、
 // プリレンダ対象（STATIC_PAGES）には入れずtitleだけ用意する
 export const FAVORITES_META = {
@@ -56,7 +63,7 @@ export const STATIC_PAGES = [
     heading: "使い方・スコアの見方",
     title: `使い方・スコアの見方｜${SITE_NAME}`,
     description:
-      "住みやすさ駅前スコアの算出方法、target値の根拠、集計範囲の取り方、データの限界について説明します。",
+      "住みやすさ駅前スコアの算出方法（19種類の施設・6分野・100点満点）、集計範囲の取り方、地価・乗降客数・災害リスクのデータの出どころと限界について説明します。",
   },
   {
     path: "/about",

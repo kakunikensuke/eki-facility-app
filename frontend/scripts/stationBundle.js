@@ -38,6 +38,9 @@ export function loadData() {
     // 無くてもビルドは通し、その欄を出さないだけにする
     stationPublic: readJson("station-public.json", { source: null, stations: {} }),
     stationPhotos: readJson("station-photos.json", {}),
+    // 災害リスク（fetchHazard.js）と路線（importLines.js）。どちらも手元で不定期に更新する
+    stationHazard: readJson("station-hazard.json", { stations: {} }),
+    stationLines: readJson("station-lines.json", { lines: [], station_lines: {} }),
   };
 }
 
@@ -58,7 +61,7 @@ export function assertDefsInSync() {
 // 「徒歩10分圏内に0軒だったら、どこまで広げると見つかるか」を見る主要4施設
 const REACH_KEYS = ["convenience_store", "supermarket", "hospital", "restaurant"];
 
-export function buildAll({ stations, facilityCounts, stationPublic, stationPhotos }) {
+export function buildAll({ stations, facilityCounts, stationPublic, stationPhotos, stationHazard, stationLines }) {
   assertDefsInSync();
 
   const scoredByTier = livability.scoreAllTiers(stations, facilityCounts);
@@ -121,6 +124,11 @@ export function buildAll({ stations, facilityCounts, stationPublic, stationPhoto
       concentration: getConcentration(record.tiers),
       category_reach: getCategoryReach(record.tiers, DEFAULT_WALK_MINUTES, REACH_KEYS),
       nearest,
+      hazard: stationHazard?.stations?.[station.slug] ?? null,
+      lines: (stationLines?.station_lines?.[station.slug] ?? []).map((lineSlug) => ({
+        slug: lineSlug,
+        name: stationLines.lines.find((l) => l.slug === lineSlug).name,
+      })),
       similar_stations: similarBySlug.get(station.slug) ?? [],
       updated_at: record.updated_at,
       source: record.source,

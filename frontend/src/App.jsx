@@ -11,6 +11,7 @@ import GuidePage from "./pages/GuidePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import ContactReceivedPage from "./pages/ContactReceivedPage";
+import DocPage from "./pages/DocPage";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 import "./design.css";
@@ -48,6 +49,11 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/contact-received" element={<ContactReceivedPage />} />
+        {/* 路線ページと記事（2026-09-29追加。本文は scripts/contentDocs.js） */}
+        <Route path="/lines" element={<DocPage kind="index" slug="lines" />} />
+        <Route path="/line/:slug" element={<DocPage kind="line" />} />
+        <Route path="/articles" element={<DocPage kind="index" slug="articles" />} />
+        <Route path="/article/:slug" element={<DocPage kind="article" />} />
         <Route path="/:stationSlug" element={<StationPage stations={stations} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

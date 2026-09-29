@@ -51,6 +51,15 @@ import {
   contactBlocks,
 } from "../src/content/pages.js";
 import {
+  HAZARD_KINDS,
+  HAZARD_NOTES,
+  HAZARD_SOURCE,
+  hazardAtStationText,
+  hazardKindText,
+  hazardSummaryText,
+} from "../src/hazardText.js";
+import {
+  CONTENT_SECTIONS,
   SITE_NAME,
   topTitle,
   topDescription,
@@ -70,6 +79,8 @@ import {
 // 採点・順位・公的データ・写真・似ている駅は、APIのJSONと同じ物をここで作って使う
 // （scripts/stationBundle.js。2026-09-29、画面と静的HTMLで中身がずれないよう1か所にまとめた）
 import { loadData, buildAll } from "./stationBundle.js";
+// 路線ページと記事。本文HTMLはここで作った物を画面（DocPage.jsx）も使う
+import { buildDocs } from "./contentDocs.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -81,6 +92,7 @@ const DIST = path.join(__dirname, "..", "dist");
 const DATA = loadData();
 const { stations } = DATA;
 const { bundles, matrix } = buildAll(DATA);
+const { docs: DOCS, nav: DOC_NAV } = buildDocs(bundles, DATA.stationLines);
 
 const TEMPLATE_PATH = path.join(DIST, "index.html");
 if (!fs.existsSync(TEMPLATE_PATH)) {
@@ -143,6 +155,7 @@ function metaTags({ title, description, canonicalPath, jsonLd, noindex }) {
 function siteFooterHtml(currentPath) {
   const items = [
     { path: "/", label: "駅一覧" },
+    ...CONTENT_SECTIONS,
     ...STATIC_PAGES.filter((p) => !p.hideFromNav).map((p) => ({
       path: p.path,
       label: p.heading,
@@ -267,6 +280,14 @@ function topPage() {
       <h2>暮らし方から探す</h2>
       <p>目的に合う分野の点が高い駅の上位${PURPOSE_LIMIT}駅です（徒歩${DEFAULT_WALK_MINUTES}分圏内）。都道府県や最低軒数で絞り込むこともできます。</p>
       ${purposeHtml}
+      <h2>データで見る駅選び</h2>
+      <p>全国の駅の施設・地価・乗降客数・ハザードマップのデータから分かったことをまとめています。</p>
+      <ul>${DOC_NAV.articles
+        .map((x) => `<li>${link(`/article/${x.slug}`, x.heading)}: ${esc(x.summary)}</li>`)
+        .join("")}</ul>
+      <h2>路線から探す</h2>
+      <p>路線ごとに、このサイトで扱っている駅を住みやすさの順に並べています。</p>
+      <ul>${DOC_NAV.lines.map((l) => `<li>${link(`/line/${l.slug}`, l.name)}（${esc(l.count)}駅）</li>`).join("")}</ul>
       <h2>都道府県から探す（${stations.length}駅）</h2>
       ${prefectureHtml}
     </main>
@@ -311,6 +332,27 @@ function stationPage(station) {
         .map((t) => `<p>${esc(t)}</p>`)
         .join("")}
       <p>出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）を加工して作成</p>`
+      : "";
+
+  // 災害リスク（StationPage.jsx と同じ文言関数）
+  const hz = b.hazard;
+  const hazardHtml = hz
+    ? `<h2>災害リスク（ハザードマップの想定）</h2>
+      <p>${esc(hazardSummaryText(station.name_ja, hz))}</p>
+      <ul>${HAZARD_KINDS.map(
+        (kind) =>
+          `<li><strong>${esc(kind.label)} ${esc(hz[kind.key].share_pct)}%</strong>（${esc(
+            hazardAtStationText(kind, hz[kind.key])
+          )}）: ${esc(hazardKindText(kind, hz[kind.key], hz.radius_m))}</li>`
+      ).join("")}</ul>
+      <ul>${HAZARD_NOTES.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>
+      <p>${esc(HAZARD_SOURCE)}</p>`
+    : "";
+  const linesHtml =
+    b.lines.length > 0
+      ? `<h2>${esc(station.name_ja)}が乗っている路線</h2>
+      <p>路線ごとに、このサイトで扱っている駅を住みやすさの順に並べています。</p>
+      <ul>${b.lines.map((l) => `<li>${link(`/line/${l.slug}`, l.name)}</li>`).join("")}</ul>`
       : "";
 
   const readTexts = [
@@ -411,6 +453,8 @@ function stationPage(station) {
         <tbody>${itemRows}</tbody>
       </table>
       ${publicHtml}
+      ${hazardHtml}
+      ${linesHtml}
       ${readHtml}
       ${similarHtml}
       ${nearbyHtml}
@@ -559,6 +603,30 @@ for (const p of STATIC_PAGES) {
   if (!p.noindex) sitemapPaths.push(p.path);
 }
 
+// 路線ページ・記事とその一覧（scripts/contentDocs.js）
+for (const doc of DOCS) {
+  const breadcrumb = [{ "@type": "ListItem", position: 1, name: SITE_NAME, item: `${SITE_URL}/` }];
+  if (doc.kind !== "index") {
+    const parent = doc.kind === "line" ? "/lines" : "/articles";
+    breadcrumb.push({ "@type": "ListItem", position: 2, name: doc.kicker, item: `${SITE_URL}${parent}` });
+  }
+  breadcrumb.push({ "@type": "ListItem", position: breadcrumb.length + 1, name: doc.heading });
+  writePage({
+    title: doc.title,
+    description: doc.description,
+    canonicalPath: doc.path,
+    jsonLd: [
+      doc.kind === "article"
+        ? { "@context": "https://schema.org", "@type": "Article", headline: doc.heading, description: doc.description }
+        : { "@context": "https://schema.org", "@type": "WebPage", name: doc.heading, description: doc.description },
+      { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: breadcrumb },
+    ],
+    body: `<main><p>${esc(doc.kicker)}</p><h1>${esc(doc.heading)}</h1><p>${esc(doc.lead)}</p>${doc.html}</main>
+    ${siteFooterHtml(doc.path)}`,
+  });
+  sitemapPaths.push(doc.path);
+}
+
 writeSitemap(sitemapPaths);
 
 // --- 生成物の自己点検 -------------------------------------------------------
@@ -575,7 +643,11 @@ writeSitemap(sitemapPaths);
 // チェックを外さないこと。
 function verifyOutput() {
   const errors = [];
-  const files = fs.readdirSync(DIST).filter((f) => f.endsWith(".html"));
+  // 路線ページ・記事は dist/line/・dist/article/ の下にあるので、下の階層まで見る
+  const files = fs
+    .readdirSync(DIST, { recursive: true })
+    .map((f) => f.replace(/\\/g, "/"))
+    .filter((f) => f.endsWith(".html") && !f.startsWith("api/"));
 
   // 審査でもクロールでも、この3つへ到達できることが要件になる
   const REQUIRED_LINKS = ["/about", "/privacy", "/contact"];
@@ -613,6 +685,11 @@ function verifyOutput() {
     errors.push("contact.html にフォームが出力されていない");
   }
 
+  // 路線ページ・記事の一覧が無ければ、データ（station-lines.json）の読み込みに失敗している
+  for (const required of ["lines.html", "articles.html"]) {
+    if (!files.includes(required)) errors.push(`${required} が生成されていない`);
+  }
+
   if (errors.length > 0) {
     console.error(`
 生成物の点検で ${errors.length} 件の問題が見つかりました:`);
@@ -626,6 +703,6 @@ function verifyOutput() {
 verifyOutput();
 
 console.log(
-  `静的HTMLを生成しました（駅${stationCount}ページ + 固定${STATIC_PAGES.length + 1}ページ / データ未整備でスキップ ${skipped}駅、SITE_URL=${SITE_URL}）`
+  `静的HTMLを生成しました（駅${stationCount}ページ + 路線・記事${DOCS.length}ページ + 固定${STATIC_PAGES.length + 1}ページ / データ未整備でスキップ ${skipped}駅、SITE_URL=${SITE_URL}）`
 );
 console.log(`sitemap.xml を生成しました（${sitemapPaths.length}件のURL）`);
