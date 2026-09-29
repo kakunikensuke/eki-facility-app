@@ -21,6 +21,7 @@ import {
   nearbySummaryText,
   nearestComparisonText,
   photoCredit,
+  photoSourceText,
   prefRankText,
   ridershipText,
   similarLead,
@@ -370,7 +371,7 @@ export default function StationPage({ stations }) {
               {data.photos.length > 0 && (
                 <>
                   <p className="note-text">
-                    写真はWikipedia日本語版の「{data.photo_article}」の記事に掲載されているもの（Wikimedia Commons）です。
+                    {photoSourceText(data.photo_article, data.photo_source)}
                   </p>
                   <ul className="credit-list">
                     {data.photos.map((photo) => (

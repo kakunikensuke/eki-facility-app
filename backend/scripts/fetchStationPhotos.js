@@ -126,31 +126,52 @@ async function findArticle(station) {
   );
 }
 
-async function photosOf(title) {
+const IMAGE_PROPS =
+  "&prop=imageinfo&iiprop=url|size|mime|extmetadata" +
+  `&iiurlwidth=${THUMB_WIDTH}` +
+  "&iiextmetadatafilter=LicenseShortName|LicenseUrl|Artist|ImageDescription";
+
+// 自由に使えるライセンスだけ（CC BY / CC BY-SA / CC0 / パブリックドメイン）。
+// 記事に載る写真はほぼこれだが、位置で探すCommonsの写真には「利用条件付き」なども混ざるため確かめる
+const FREE_LICENSE = /^(CC BY|CC-BY|CC0|Public domain|パブリック・ドメイン|PD|Copyrighted free use)/i;
+
+async function photosOf(title, opts = {}) {
   const url =
     "https://ja.wikipedia.org/w/api.php?action=query&format=json&generator=images&gimlimit=200" +
-    "&prop=imageinfo&iiprop=url|size|mime|extmetadata" +
-    `&iiurlwidth=${THUMB_WIDTH}` +
-    "&iiextmetadatafilter=LicenseShortName|LicenseUrl|Artist|ImageDescription" +
+    IMAGE_PROPS +
     "&titles=" +
     encodeURIComponent(title);
   const json = await getJson(url);
+  return pickPhotos(Object.values(json.query?.pages || {}), opts);
+}
+
+/**
+ * 写真の候補を選ぶ。opts:
+ * - minWidth / minRatio: 大きさと縦横比の下限（既定は MIN_WIDTH・1.25）
+ * - exclude: 除く語（既定は EXCLUDE）
+ * - require: この条件（ファイル名＋説明文）に合うものだけ（位置で探すときに駅の写真に絞る）
+ */
+function pickPhotos(pages, opts = {}) {
+  const minWidth = opts.minWidth ?? MIN_WIDTH;
+  const minRatio = opts.minRatio ?? 1.25;
+  const exclude = opts.exclude ?? EXCLUDE;
   const candidates = [];
-  for (const page of Object.values(json.query?.pages || {})) {
+  for (const page of pages) {
     const ii = page.imageinfo?.[0];
-    if (!ii || ii.mime !== "image/jpeg" || ii.width < MIN_WIDTH) continue;
+    if (!ii || ii.mime !== "image/jpeg" || ii.width < minWidth) continue;
     const ratio = ii.width / ii.height;
-    if (ratio < 1.25 || ratio > 3.2) continue;
+    if (ratio < minRatio || ratio > 3.2) continue;
     const meta = ii.extmetadata || {};
     const license = meta.LicenseShortName?.value;
-    if (!license) continue;
-    const fileName = page.title.replace(/^ファイル:/, "");
+    if (!license || !FREE_LICENSE.test(license)) continue;
+    const fileName = page.title.replace(/^(ファイル|File):/, "");
     // 多言語の説明が「英語zh:中国語ja:日本語」のように連結されていることがあるので、日本語の部分を取る
     const rawDescription = stripHtml(meta.ImageDescription?.value);
     const jaPart = rawDescription.includes("ja:") ? rawDescription.split("ja:").pop() : rawDescription;
     const description = jaPart.trim().slice(0, 80);
     const text = `${fileName} ${description}`;
-    if (EXCLUDE.test(text)) continue;
+    if (exclude.test(text)) continue;
+    if (opts.require && !opts.require(text)) continue;
     candidates.push({
       // 末尾の計測用クエリ（?utm_source=...）は外す
       src: ii.thumburl.split("?")[0],
@@ -176,6 +197,95 @@ async function photosOf(title) {
   return candidates.slice(0, MAX_PHOTOS).map(({ prefer, ...photo }) => photo);
 }
 
+// --- 写真が1枚も無い駅の補い（--fill。2026-09-30追加） ----------------------------------------
+// ユーザーの指示「写真が無いのはセンスが悪いので全駅に写真を」。無料で使える写真だけを、次の順に探す。
+// 1. 同じ記事で条件を緩める（ホーム・改札・駅名標も可、幅800px以上、縦横比1.0以上）
+// 2. Wikimedia Commons で駅から500m以内に撮られた写真のうち、ファイル名か説明文に駅名が入っているもの
+// 3. 駅のある市区町村の記事の写真（駅の写真ではないことを出典表示で明記する）
+
+// 条件を緩めても使わないもの（車両・地図・ロゴ・古い写真・設備）
+const EXCLUDE_RELAXED = new RegExp(
+  [
+    "空撮", "空中写真", "aerial", "航空写真",
+    "明治", "大正", "昭和", "19[0-9]{2}", "18[0-9]{2}", "circa",
+    "路線図", "配線", "map", "地図", "logo", "ロゴ",
+    "系", "形電車", "series", "車両", "列車", "electric car", "train",
+    "転車台", "turntable", "工事中", "under construction", "境界線",
+    "断路器", "変電", "券売機", "vending", "machine", "精算", "トイレ", "toilet",
+    // 市区町村の記事に多い、景色でないもの
+    "旗", "flag", "紋", "emblem", "symbol", "シンボル", "マーク", "位置図", "location", "庁舎内",
+    "料理", "food", "dish", "肖像", "portrait",
+  ].join("|"),
+  "i"
+);
+
+async function relaxedPhotos(article) {
+  return photosOf(article, { minWidth: 800, minRatio: 1.0, exclude: EXCLUDE_RELAXED });
+}
+
+// 駅名の書き方の候補（ファイル名は英語のことが多いので、URL用の英字名も使う）
+function nameMatchers(station) {
+  const ja = nameCandidates(station.name_ja);
+  const en = station.slug
+    .replace(/-(hokkaido|aomori|iwate|miyagi|akita|yamagata|fukushima|ibaraki|tochigi|gunma|saitama|chiba|tokyo|kanagawa|niigata|toyama|ishikawa|fukui|yamanashi|nagano|gifu|shizuoka|aichi|mie|shiga|kyoto|osaka|hyogo|nara|wakayama|tottori|shimane|okayama|hiroshima|yamaguchi|tokushima|kagawa|ehime|kochi|fukuoka|saga|nagasaki|kumamoto|oita|miyazaki|kagoshima|okinawa|d+)$/, "")
+    .replace(/-/g, "");
+  return (text) => {
+    const t = text.replace(/ヶ/g, "ケ");
+    const latin = text.toLowerCase().replace(/[^a-z]/g, "");
+    return ja.some((n) => t.includes(n)) || (en.length >= 4 && latin.includes(en));
+  };
+}
+
+async function geoPhotos(station) {
+  const url =
+    "https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=geosearch" +
+    `&ggscoord=${station.lat}|${station.lon}&ggsradius=500&ggslimit=100&ggsnamespace=6` +
+    IMAGE_PROPS;
+  const json = await getJson(url);
+  return pickPhotos(Object.values(json.query?.pages || {}), {
+    minWidth: 800,
+    minRatio: 1.0,
+    exclude: EXCLUDE_RELAXED,
+    require: nameMatchers(station),
+  });
+}
+
+// 駅の記事 → Wikidataの「所在地」（P131）→ その市区町村の日本語版の記事名
+async function municipalityArticle(article) {
+  const query = `SELECT ?title WHERE {
+    ?s schema:about ?item ; schema:isPartOf <https://ja.wikipedia.org/> ; schema:name ${JSON.stringify(article)}@ja .
+    ?item wdt:P131 ?m .
+    ?a schema:about ?m ; schema:isPartOf <https://ja.wikipedia.org/> ; schema:name ?title .
+  } LIMIT 1`;
+  const json = await getJson("https://query.wikidata.org/sparql?format=json&query=" + encodeURIComponent(query));
+  return json.results.bindings[0]?.title.value ?? null;
+}
+
+async function fillStation(station, entry) {
+  let article = entry?.article ?? null;
+  if (!article) {
+    article = await findArticle(station);
+    await sleep(REQUEST_INTERVAL_MS);
+  }
+  if (article) {
+    const photos = await relaxedPhotos(article);
+    await sleep(REQUEST_INTERVAL_MS);
+    if (photos.length > 0) return { article, photos, source: "article" };
+  }
+  const geo = await geoPhotos(station);
+  await sleep(REQUEST_INTERVAL_MS);
+  if (geo.length > 0) return { article, photos: geo, source: "commons-geo" };
+  if (article) {
+    const muni = await municipalityArticle(article);
+    await sleep(REQUEST_INTERVAL_MS);
+    if (muni) {
+      const photos = await photosOf(muni, { minWidth: 1000, exclude: EXCLUDE_RELAXED });
+      if (photos.length > 0) return { article: muni, photos, source: "municipality", station_article: article };
+    }
+  }
+  return { article, photos: [] };
+}
+
 async function main() {
   const stations = JSON.parse(fs.readFileSync(STATIONS_PATH, "utf-8"));
   const onlyIdx = process.argv.indexOf("--only");
@@ -186,6 +296,28 @@ async function main() {
   // --missing: まだ調べていない駅だけ。25駅ごとに書き出すので、止まっても同じコマンドで続きから再開できる
   const missing = process.argv.includes("--missing");
   const save = () => fs.writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2) + "\n");
+
+  // --fill: 写真が1枚も無い駅だけを、条件を緩めた順に補う（fillStation）
+  if (process.argv.includes("--fill")) {
+    const empty = stations.filter((s) => (!only || only.includes(s.slug)) && !(existing[s.slug]?.photos?.length > 0));
+    console.log(`写真の無い${empty.length}駅を補います`);
+    const bySource = {};
+    let n = 0;
+    for (const station of empty) {
+      try {
+        const filled = await fillStation(station, existing[station.slug]);
+        result[station.slug] = filled;
+        bySource[filled.source ?? "なし"] = (bySource[filled.source ?? "なし"] ?? 0) + 1;
+        console.log(`[${station.slug}] ${filled.source ?? "見つからず"} ${filled.article ?? ""} → ${filled.photos.length}枚`);
+      } catch (err) {
+        console.error(`[${station.slug}] 失敗（既存データを保持）: ${err.message}`);
+      }
+      if (++n % 25 === 0) save();
+    }
+    save();
+    console.log(`\n補った結果: ${JSON.stringify(bySource)}`);
+    return;
+  }
   const targets = stations.filter((s) => (!only || only.includes(s.slug)) && (!missing || !existing[s.slug]));
   console.log(`${targets.length}駅を調べます`);
   let withPhotos = 0;

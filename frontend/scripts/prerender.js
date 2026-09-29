@@ -35,6 +35,7 @@ import {
   nearbySummaryText,
   nearestComparisonText,
   photoCredit,
+  photoSourceText,
   prefRankText,
   ridershipText,
   similarLead,
@@ -431,7 +432,7 @@ function stationPage(station) {
     : "";
   const creditHtml =
     b.photos.length > 0
-      ? `<p>写真はWikipedia日本語版の「${esc(b.photo_article)}」の記事に掲載されているもの（Wikimedia Commons）です。</p>
+      ? `<p>${esc(photoSourceText(b.photo_article, b.photo_source))}</p>
       <ul>${b.photos
         .map(
           (p) =>

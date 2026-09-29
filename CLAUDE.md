@@ -74,6 +74,12 @@
 - 文言はすべて `src/stationProfileText.js`（`nearbySummaryText`・`nearbyFacilityRows`・`prefRankText`・`lineRankText`・`localRankHeading`）。画面とプリレンダの両方が使う
 - 結果: 駅ページの本文の中央値 3,204字 → 4,228字。ページ数 2,086（駅1,882・都道府県47・路線139・記事7ほか）
 
+### 同日の追加: 都道府県ページ・記事・全駅の写真
+
+- **都道府県ページ**に「暮らし方別の上位駅」（`purposeSection`。条件検索と同じ `searchStations` で出し、`/search?preset=…&pref=…` へリンク。buildDocs に matrix を渡す）と「駅前（直線400m以内）で日常の用事が済む駅」（`dailyNeedsSection`。日常の5種類＝`DAILY_KEYS`）を足した。本文の中央値 1,556字 → 2,433字
+- **記事**を2本追加: `daily-needs`（駅前に日常の5施設がそろう駅）・`capital-stations`（県庁所在地の駅を比べる。代表駅は `CAPITAL_NAMES`、addStations.js の CAPITALS と同じ）
+- **写真の無い駅をなくす**（ユーザー「写真が無いのはセンスが悪い。全駅に、無料で」）: `fetchStationPhotos.js --fill` が写真0枚の駅だけを ①同じ記事で条件を緩める（ホーム等も可・幅800px以上）②Commonsで駅から500m以内・ファイル名か説明に駅名が入る写真 ③駅のある市区町村の記事の写真、の順に補う。自由ライセンス（CC BY / BY-SA / CC0 / PD / Copyrighted free use）だけ。出どころは `source`（`article` / `commons-geo` / `municipality`）に残し、`photoSourceText` が出典の文を切り替える（市区町村の写真は「駅そのものの写真ではありません」と明記）
+
 ## 条件検索・目的別ランキング・似ている駅（2026-09-29追加）
 
 4回目の不承認（9/15）を受けて、見た目の手直しより先に「駅名を知らない人が使える機能」を足した。

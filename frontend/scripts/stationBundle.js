@@ -135,6 +135,8 @@ export function buildAll({
       photos: stationPhotos[station.slug]?.photos ?? [],
       // 写真を載せているWikipedia記事の題名（出典の表示に使う）
       photo_article: stationPhotos[station.slug]?.article ?? null,
+      // 写真の出どころ（駅の記事・駅の近くの写真・市区町村の記事。fetchStationPhotos.js の --fill）
+      photo_source: stationPhotos[station.slug]?.source ?? "article",
       concentration: getConcentration(record.tiers),
       category_reach: getCategoryReach(record.tiers, DEFAULT_WALK_MINUTES, REACH_KEYS),
       nearest,

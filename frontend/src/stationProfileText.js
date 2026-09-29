@@ -257,3 +257,19 @@ export function nearbyFacilityRows(nearby) {
 export function localRankHeading(prefecture, lineRanks) {
   return lineRanks && lineRanks.length > 0 ? `${prefecture}・同じ路線の駅の中での位置` : `${prefecture}の駅の中での位置`;
 }
+
+/**
+ * 写真の出どころの説明（2026-09-30追加）。source は backend/scripts/fetchStationPhotos.js が付ける
+ * - なし / "article": 駅の記事に載っている写真
+ * - "commons-geo": 駅の記事に使える写真が無く、Commonsで駅の近くで撮られた駅名入りの写真
+ * - "municipality": 駅の写真が見つからず、駅のある市区町村の記事の写真（駅の写真ではない）
+ */
+export function photoSourceText(article, source) {
+  if (source === "commons-geo") {
+    return "写真はWikimedia Commonsに登録されている、駅の近くで撮影された写真です。";
+  }
+  if (source === "municipality") {
+    return `この駅の写真が見つからなかったため、駅のある${article}の写真（Wikipedia日本語版の「${article}」の記事に掲載されているもの。Wikimedia Commons）を載せています。駅そのものの写真ではありません。`;
+  }
+  return `写真はWikipedia日本語版の「${article}」の記事に掲載されているもの（Wikimedia Commons）です。`;
+}
