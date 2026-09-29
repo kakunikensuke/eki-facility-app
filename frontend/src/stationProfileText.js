@@ -190,9 +190,9 @@ export function lineRankText(stationName, ranks) {
 }
 
 // 「駅から近い施設」で、暮らしの用事に使う順に見る種類（buildNearbyFacilities.js の LISTED の一部）
-const DAILY_KEYS = ["supermarket", "convenience_store", "drugstore", "hospital", "post_office"];
+export const DAILY_KEYS = ["supermarket", "convenience_store", "drugstore", "hospital", "post_office"];
 // 徒歩5分・10分の目安（徒歩1分=80m）
-const NEAR_M = 400;
+export const NEAR_M = 400;
 const MID_M = 800;
 
 export function formatMeters(m) {

@@ -52,7 +52,7 @@ for (const bundle of bundles.values()) {
 }
 
 // 路線ページ・記事（scripts/contentDocs.js）。本文HTMLはプリレンダと同じ物
-const { docs, nav } = buildDocs(bundles, data.stationLines);
+const { docs, nav } = buildDocs(bundles, data.stationLines, matrix);
 for (const doc of docs) {
   const { path: docPath, title, description, heading, kicker, lead, html } = doc;
   writeJson(`docs/${doc.kind}/${doc.slug}.json`, { path: docPath, title, description, heading, kicker, lead, html });

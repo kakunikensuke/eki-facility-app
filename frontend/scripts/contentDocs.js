@@ -7,9 +7,18 @@
 // - すべての文をデータから導き、数字が変われば結論の言葉も変わるように書く
 // - データで確かめられない理由付け（「オフィス街だから」など）は書かない
 // - 同じ場所の別事業者の駅（「新大阪駅」と「Osaka Metro 新大阪駅」）は一覧で1つにまとめる
-import { DOMAINS, formatPeople, formatYenPerM2 } from "../src/livabilityDefs.js";
+import { DOMAINS, ITEMS, formatPeople, formatYenPerM2 } from "../src/livabilityDefs.js";
 import { DEPTH_LABELS, HAZARD_KINDS, HAZARD_NOTES, HAZARD_SOURCE } from "../src/hazardText.js";
-import { PREF_PAGE_MIN, groupByPrefecture, prefectureSlug } from "../src/stationSearch.js";
+import {
+  PRESETS,
+  PREF_PAGE_MIN,
+  buildTierTable,
+  groupByPrefecture,
+  prefectureSlug,
+  presetWeights,
+  searchStations,
+} from "../src/stationSearch.js";
+import { DAILY_KEYS, NEAR_M, formatMeters } from "../src/stationProfileText.js";
 
 const WALK = 10; // サイトの既定の段階（徒歩10分）
 const PUBLIC_SOURCE =
@@ -357,6 +366,113 @@ function domainTopSection(scope, rows) {
   ];
 }
 
+// --- 駅前の日常の施設（2026-09-30追加。backend/data/station-nearby.json） -------------------
+// 駅から直線 NEAR_M（400m＝徒歩5分の目安）以内に、日常の用事に使う5種類（DAILY_KEYS）がいくつあるか
+
+const itemLabel = (key) => ITEMS.find((i) => i.key === key).label;
+const DAILY_LABELS = DAILY_KEYS.map(itemLabel).join("・");
+const nearestOf = (b, key) => b.nearby_facilities?.[key]?.nearest_m ?? null;
+const dailyCount = (b) => DAILY_KEYS.filter((k) => nearestOf(b, k) !== null && nearestOf(b, k) <= NEAR_M).length;
+const dailyMissing = (b) =>
+  DAILY_KEYS.filter((k) => nearestOf(b, k) === null || nearestOf(b, k) > NEAR_M).map((k) =>
+    nearestOf(b, k) === null ? `${itemLabel(k)}（1.6km以内に無し）` : `${itemLabel(k)}（約${formatMeters(nearestOf(b, k))}）`
+  );
+const hasNearby = (b) => Boolean(b.nearby_facilities);
+const pct = (k, n) => fmt1((k / n) * 100);
+
+// 1つの都道府県（や駅の集まり）の中で、駅前に日常の施設がそろう駅を並べる
+const DAILY_TABLE_LIMIT = 20;
+function dailyNeedsSection(scope, rows, ctx) {
+  const list = rows.filter(hasNearby);
+  if (list.length === 0) return [];
+  const { daily } = ctx.national;
+  const full = list.filter((b) => dailyCount(b) === DAILY_KEYS.length);
+  const sorted = [...list].sort((x, y) => dailyCount(y) - dailyCount(x) || T(y).total - T(x).total);
+  const shown = sorted.slice(0, DAILY_TABLE_LIMIT);
+  const blocks = [
+    h2(`駅前（直線${NEAR_M}m以内）で日常の用事が済む駅`),
+    p(
+      `駅から直線${NEAR_M}m（徒歩5分の目安）以内に、${DAILY_LABELS}の5種類がいくつあるかを数えました。` +
+        (full.length > 0
+          ? `${scope}の${list.length}駅のうち、5種類すべてがそろうのは${full.length}駅（${pct(full.length, list.length)}%）です。`
+          : `${scope}の${list.length}駅には、5種類すべてがそろう駅はありません。`) +
+        `全国では${daily.count}駅中${daily.full}駅（${pct(daily.full, daily.count)}%）です。`
+    ),
+    table(
+      ["駅", `${NEAR_M}m以内にある種類`, "足りない施設（最も近いものまで）"],
+      shown.map((b) => [
+        { href: `/${b.slug}`, text: b.name_ja },
+        { text: `${dailyCount(b)} / ${DAILY_KEYS.length}`, num: true },
+        dailyMissing(b).join("、") || "—",
+      ])
+    ),
+  ];
+  if (sorted.length > shown.length) {
+    blocks.push(note(`表は5種類のそろい方が多い順に${shown.length}駅を載せています。ほかの駅は各駅のページの「駅から近い施設」をご覧ください。`));
+  }
+  // スーパーが最も遠い駅（無い駅を先に）
+  const noSuper = list.filter((b) => nearestOf(b, "supermarket") === null);
+  if (noSuper.length > 0) {
+    blocks.push(
+      p(`${noSuper.map((b) => b.name_ja).join("・")}は、徒歩20分圏内（1.6km）にスーパーが見つかりませんでした。`)
+    );
+  } else if (list.length >= 2) {
+    const far = [...list].sort((x, y) => nearestOf(y, "supermarket") - nearestOf(x, "supermarket"))[0];
+    const near = [...list].sort((x, y) => nearestOf(x, "supermarket") - nearestOf(y, "supermarket"))[0];
+    blocks.push(
+      p(
+        `最も近いスーパーまでの距離は、${near.name_ja}の約${formatMeters(nearestOf(near, "supermarket"))}が最も短く、` +
+          `${far.name_ja}の約${formatMeters(nearestOf(far, "supermarket"))}が最も長くなっています。`
+      )
+    );
+  }
+  blocks.push(note("距離は駅からの直線距離で、OpenStreetMapに登録されている施設から出しています。実際の道のりはこれより長くなります。"));
+  return blocks;
+}
+
+// --- 暮らし方別の上位駅（2026-09-30追加）。条件検索（/search）と同じ並べ方で、その条件の検索画面へつなぐ
+function purposeSection(pref, rows, ctx) {
+  const { table: tierTable } = ctx;
+  if (!tierTable) return [];
+  const limit = rows.length >= 6 ? 3 : 1;
+  const presets = PRESETS.filter((x) => x.key !== "balance");
+  const picked = presets.map((preset) => ({
+    preset,
+    top: searchStations(tierTable, { weights: presetWeights(preset.key), pref }).results.slice(0, limit),
+  }));
+  const appear = tally(
+    picked.flatMap((x) => x.top.map((r) => r.station)),
+    (s) => s.slug
+  );
+  const most = appear[0];
+  const mostStation = most && ctx.bundles.get(most[0]);
+  const blocks = [
+    h2(`暮らし方別の上位駅（${pref}内）`),
+    p(
+      `条件検索と同じ計算で、目的に合う分野の点を重く見たときの${pref}内の${limit === 1 ? "1位" : `上位${limit}駅`}です（徒歩${WALK}分圏内）。` +
+        `総合点の順位とは入れ替わることがあります。`
+    ),
+    ul(
+      picked.map(({ preset, top }) => ({
+        html:
+          `<b>${esc(preset.label)}</b>（${esc(preset.lead)}）: ` +
+          top.map((r) => `${a(`/${r.station.slug}`, r.station.name_ja)}（${esc(fmt1(r.fit))}）`).join("、") +
+          ` — ${a(`/search?preset=${preset.key}&pref=${encodeURIComponent(pref)}`, "この条件で探す")}`,
+      }))
+    ),
+  ];
+  if (mostStation && most[1] >= 2 && presets.length > 1) {
+    blocks.push(
+      p(
+        `${presets.length}つの暮らし方のうち${most[1]}つで${limit === 1 ? "1位" : `上位${limit}駅`}に入ったのは${mostStation.name_ja}で、` +
+          `${most[1] === presets.length ? "どの暮らし方でも上位に来ます。" : "暮らし方が変わっても上位に残りやすい駅です。"}`
+      )
+    );
+  }
+  blocks.push(note("かっこ内の数字は、目的ごとの重みで6分野の点（「手頃さも」は地価の安さも）を平均したものです。"));
+  return blocks;
+}
+
 const lineChip = (l) => ({ href: `/line/${l.slug}`, text: l.name, sub: `${l.stations.length}駅` });
 
 // --- 路線ページ ---------------------------------------------------------------
@@ -452,6 +568,8 @@ function prefPage(pref, rows, ctx) {
     )
   );
 
+  blocks.push(...purposeSection(pref, rows, ctx));
+  blocks.push(...dailyNeedsSection(pref, rows, ctx));
   blocks.push(...hazardSection(pref, rows));
   blocks.push(...domainTopSection(`${pref}内`, rows));
 
@@ -1200,6 +1318,284 @@ function articleLandChange(ctx) {
   };
 }
 
+// --- 記事: 駅前に日常の5施設がそろう駅（2026-09-30追加） ---------------------------------
+
+const DAILY_LIST_LIMIT = 20;
+
+function articleDailyNeeds(ctx) {
+  const list = ctx.B.filter(hasNearby);
+  const n = list.length;
+  const byCount = Array.from({ length: DAILY_KEYS.length + 1 }, (_, k) => list.filter((b) => dailyCount(b) === k));
+  const full = byCount[DAILY_KEYS.length];
+  const blocks = [
+    p(
+      `全国${n}駅について、駅から直線${NEAR_M}m（徒歩5分の目安）以内に、${DAILY_LABELS}の5種類がいくつあるかを数えました。` +
+        "駅を出てすぐに食料品・日用品・薬・通院・郵便の用事が済むかどうかの目安です。"
+    ),
+    h2(`${NEAR_M}m以内にある種類の数`),
+    table(
+      ["種類の数", "駅数", "割合"],
+      [...byCount]
+        .map((g, k) => [{ text: `${k} / ${DAILY_KEYS.length}`, num: true }, { text: `${g.length}駅`, num: true }, { text: `${pct(g.length, n)}%`, num: true }])
+        .reverse()
+    ),
+    p(
+      `5種類すべてがそろうのは${full.length}駅（${pct(full.length, n)}%）、1つもないのは${byCount[0].length}駅（${pct(byCount[0].length, n)}%）です。`
+    ),
+    h2("種類ごとの近さ"),
+    table(
+      ["施設", `${NEAR_M}m以内にある駅`, "最も近いものまでの距離（中央値）", "1.6km以内に無い駅"],
+      DAILY_KEYS.map((k) => {
+        const ds = list.map((b) => nearestOf(b, k)).filter((m) => m !== null);
+        return [
+          itemLabel(k),
+          { text: `${pct(ds.filter((m) => m <= NEAR_M).length, n)}%`, num: true },
+          { text: `約${formatMeters(Math.round(median(ds) / 10) * 10)}`, num: true },
+          { text: `${n - ds.length}駅`, num: true },
+        ];
+      })
+    ),
+  ];
+  const missRate = DAILY_KEYS.map((k) => ({ k, rate: list.filter((b) => !(nearestOf(b, k) !== null && nearestOf(b, k) <= NEAR_M)).length / n })).sort(
+    (x, y) => y.rate - x.rate
+  );
+  blocks.push(
+    p(
+      `${NEAR_M}m以内に無いことが最も多いのは${itemLabel(missRate[0].k)}（${fmt1(missRate[0].rate * 100)}%の駅）、最も少ないのは${itemLabel(
+        missRate[missRate.length - 1].k
+      )}（${fmt1(missRate[missRate.length - 1].rate * 100)}%）です。`
+    )
+  );
+
+  // 乗降客数・地価との関係
+  const withRider = list.filter(riderOf);
+  const rR = spearman(
+    withRider.map(riderOf),
+    withRider.map(dailyCount)
+  );
+  const withLand = list.filter(landOf);
+  const rL = spearman(
+    withLand.map(landOf),
+    withLand.map(dailyCount)
+  );
+  const fewer = list.filter((b) => dailyCount(b) <= 2);
+  const medRider = (g) => median(g.filter(riderOf).map(riderOf));
+  blocks.push(
+    h2("乗降客数・地価との関係"),
+    p(
+      `5種類すべてがそろう駅の乗降客数の中央値は1日${formatPeople(medRider(full))}、2種類以下の駅（${fewer.length}駅）は${formatPeople(medRider(fewer))}です。` +
+        `駅の乗降客数と5種類の数の順位相関は${fmtR(rR)}（${correlationWords(rR)}）、住宅地の地価との順位相関は${fmtR(rL)}（${correlationWords(rL)}）です。`
+    )
+  );
+
+  // 乗降客数が多いのに駅前にスーパーが無い駅
+  const bigNoSuper = dedupeColocated(
+    list
+      .filter((b) => (riderOf(b) ?? 0) >= 50000 && !(nearestOf(b, "supermarket") !== null && nearestOf(b, "supermarket") <= NEAR_M))
+      .sort((x, y) => riderOf(y) - riderOf(x)),
+    DAILY_LIST_LIMIT
+  );
+  if (bigNoSuper.length > 0) {
+    blocks.push(
+      h2(`1日5万人以上が乗り降りするのに、${NEAR_M}m以内にスーパーが無い駅`),
+      table(
+        ["駅", "都道府県", "1日の乗降客数", "最も近いスーパーまで"],
+        bigNoSuper.map((b) => [
+          { href: `/${b.slug}`, text: b.name_ja },
+          b.prefecture,
+          { text: formatPeople(riderOf(b)), num: true },
+          nearestOf(b, "supermarket") === null ? "1.6km以内に無し" : { text: `約${formatMeters(nearestOf(b, "supermarket"))}`, num: true },
+        ])
+      ),
+      note("乗降客数の多い順です。同じ場所の別事業者の駅は1つにまとめています。")
+    );
+  }
+
+  // 都道府県ごとの「5種類そろう駅」の割合（10駅以上の都道府県）
+  const prefRows = tally(list, (b) => b.prefecture)
+    .filter(([, c]) => c >= 10)
+    .map(([pref, c]) => ({ pref, c, full: list.filter((b) => b.prefecture === pref && dailyCount(b) === DAILY_KEYS.length).length }))
+    .sort((x, y) => y.full / y.c - x.full / x.c);
+  if (prefRows.length >= 3) {
+    blocks.push(
+      h2("都道府県ごとの割合（掲載10駅以上）"),
+      table(
+        ["都道府県", "掲載駅", "5種類そろう駅", "割合"],
+        prefRows.map((r) => [
+          { href: `/pref/${prefectureSlug(r.pref)}`, text: r.pref },
+          { text: `${r.c}駅`, num: true },
+          { text: `${r.full}駅`, num: true },
+          { text: `${pct(r.full, r.c)}%`, num: true },
+        ])
+      ),
+      p(
+        `割合が最も高いのは${prefRows[0].pref}（${pct(prefRows[0].full, prefRows[0].c)}%）、最も低いのは${prefRows[prefRows.length - 1].pref}（${pct(
+          prefRows[prefRows.length - 1].full,
+          prefRows[prefRows.length - 1].c
+        )}%）です。`
+      )
+    );
+  }
+
+  blocks.push(
+    readingNotes([
+      `距離は駅の位置からの直線距離です。線路や川をまたぐ場合など、実際に歩く道のりは長くなります。${NEAR_M}mは徒歩1分=80mで5分にあたります。`,
+      "施設はOpenStreetMapの登録から数えています。病院・クリニックは診療科を区別していません。登録漏れや閉店後の登録が残っていることがあります。",
+      ...COMMON_NOTES,
+    ]),
+    note(PUBLIC_SOURCE)
+  );
+
+  return {
+    slug: "daily-needs",
+    heading: "駅前に日常の5施設がそろう駅",
+    title: `駅前${NEAR_M}m以内にスーパー・コンビニ・病院などがそろう駅｜全国${n}駅を調査`,
+    description: `全国${n}駅で、駅から${NEAR_M}m（徒歩5分）以内に${DAILY_LABELS}がそろうかを調べました。5種類すべてがそろうのは${full.length}駅（${pct(
+      full.length,
+      n
+    )}%）。乗降客数・地価との関係も。`,
+    summary: `5種類すべてが${NEAR_M}m以内にそろうのは${full.length}駅（${pct(full.length, n)}%）。最も欠けやすいのは${itemLabel(missRate[0].k)}。`,
+    html: blocks.join(""),
+  };
+}
+
+// --- 記事: 県庁所在地の駅を比べる（2026-09-30追加） ----------------------------------------
+
+// 県庁所在地の代表駅（backend/scripts/addStations.js の CAPITALS と同じ駅）。都道府県の順
+const CAPITAL_NAMES = [
+  "札幌", "青森", "盛岡", "仙台", "秋田", "山形", "福島", "水戸", "宇都宮", "前橋", "浦和", "千葉", "東京", "横浜",
+  "新潟", "富山", "金沢", "福井", "甲府", "長野", "岐阜", "静岡", "名古屋", "津", "大津", "京都", "大阪", "三ノ宮",
+  "奈良", "和歌山", "鳥取", "松江", "岡山", "広島", "山口", "徳島", "高松", "松山", "高知", "博多", "佐賀", "長崎",
+  "熊本", "大分", "宮崎", "鹿児島中央", "県庁前",
+];
+
+function articleCapitals(ctx) {
+  const all = [...ctx.bundles.values()].filter((b) => b.tiers[WALK]);
+  const prefOrder = groupByPrefecture(all).map((g) => g.prefecture);
+  const caps = CAPITAL_NAMES.map((name) =>
+    all.find(
+      (b) =>
+        (b.name_ja === `${name}駅` || b.name_ja.startsWith(`${name}駅（`)) &&
+        // 同名の駅（大阪府の「福島駅（阪神）」など）を避けるため、県庁所在地の都道府県の駅だけ
+        prefOrder.indexOf(b.prefecture) === CAPITAL_NAMES.indexOf(name)
+    )
+  ).filter(Boolean);
+  const rows = [...caps].sort((x, y) => T(y).total - T(x).total);
+  const n = rows.length;
+  const { national } = ctx;
+  const top = rows[0];
+  const last = rows[n - 1];
+  const medCap = median(rows.map((b) => T(b).total));
+
+  const blocks = [
+    p(
+      `47都道府県の県庁所在地の代表駅（${n}駅）を、住みやすさ駅前スコア（徒歩${WALK}分圏内）で並べました。` +
+        "県庁所在地の駅は、その県で最も大きな駅であることが多く、引っ越し先の最初の候補になりやすい駅です。"
+    ),
+    h2("県庁所在地の駅ランキング"),
+    table(
+      ["順位", "駅", "都道府県", "総合点", "全国順位", "いちばん高い分野", "住宅地の地価", "1日の乗降客数", `${NEAR_M}m以内の日常の施設`],
+      rows.map((b, i) => [
+        { text: String(i + 1), num: true },
+        { href: `/${b.slug}`, text: b.name_ja },
+        { href: `/pref/${prefectureSlug(b.prefecture)}`, text: b.prefecture },
+        { text: fmt1(T(b).total), num: true },
+        { text: `${T(b).rank}位`, num: true },
+        `${domainLabel(strongestDomain(T(b)).key)} ${fmt1(strongestDomain(T(b)).score)}`,
+        landOf(b) ? { text: `${formatYenPerM2(landOf(b))}/m²`, num: true } : null,
+        riderOf(b) ? { text: formatPeople(riderOf(b)), num: true } : null,
+        hasNearby(b) ? { text: `${dailyCount(b)} / ${DAILY_KEYS.length}`, num: true } : null,
+      ])
+    ),
+    h2("分かったこと"),
+    p(
+      `1位は${top.name_ja}（${top.prefecture}）の${fmt1(T(top).total)}点、最下位は${last.name_ja}（${last.prefecture}）の${fmt1(T(last).total)}点で、` +
+        `${fmt1(T(top).total - T(last).total)}点の開きがあります。県庁所在地の駅の中央値は${fmt1(medCap)}点で、全国${national.count}駅の中央値（${fmt1(
+          national.medianTotal
+        )}点）より${medCap >= national.medianTotal ? `${fmt1(medCap - national.medianTotal)}点高くなっています` : `${fmt1(national.medianTotal - medCap)}点低くなっています`}。`
+    ),
+  ];
+
+  // 県内1位ではない県庁所在地の駅
+  const notTop = rows
+    .map((b) => {
+      const inPref = all.filter((x) => x.prefecture === b.prefecture).sort((x, y) => T(y).total - T(x).total);
+      return { b, rank: inPref.indexOf(b) + 1, of: inPref.length, first: inPref[0] };
+    })
+    .filter((x) => x.rank > 1);
+  blocks.push(
+    p(
+      `${n}駅のうち、県内の掲載駅の中で総合点が1位なのは${n - notTop.length}駅です。` +
+        (notTop.length > 0 ? `残りの${notTop.length}駅は、県内にもっと点の高い駅があります。` : "")
+    )
+  );
+  if (notTop.length > 0) {
+    blocks.push(
+      table(
+        ["県庁所在地の駅", "県内の順位", "県内1位の駅"],
+        notTop
+          .sort((x, y) => x.rank / x.of - y.rank / y.of)
+          .map((x) => [
+            { href: `/${x.b.slug}`, text: `${x.b.name_ja}（${fmt1(T(x.b).total)}点）` },
+            { text: `${x.of}駅中${x.rank}位`, num: true },
+            { href: `/${x.first.slug}`, text: `${x.first.name_ja}（${fmt1(T(x.first).total)}点）` },
+          ])
+      )
+    );
+  }
+
+  const withRider = rows.filter(riderOf);
+  const r = spearman(
+    withRider.map(riderOf),
+    withRider.map((b) => T(b).total)
+  );
+  blocks.push(
+    p(
+      `県庁所在地の駅どうしで、乗降客数と総合点の順位相関は${fmtR(r)}です（${correlationWords(r)}）。` +
+        (r >= 0.4 ? "大きな駅ほど、駅の周りの施設もそろっている傾向があります。" : "駅の大きさだけでは、周りの施設のそろい方は決まりません。")
+    )
+  );
+  const weakTally = tally(rows, (b) => weakestDomain(T(b)).key);
+  blocks.push(
+    p(
+      `分野別では、最も低い分野として多く挙がったのは${weakTally
+        .slice(0, 2)
+        .map(([k, c]) => `${domainLabel(k)}（${c}駅）`)
+        .join("と")}です。`
+    )
+  );
+  const flooded = rows.filter((b) => (b.hazard?.flood?.share_pct ?? 0) >= 50);
+  if (flooded.length > 0) {
+    blocks.push(
+      p(
+        `徒歩${WALK}分圏の半分以上が洪水の浸水想定区域にかかる県庁所在地の駅は${flooded.length}駅（${flooded
+          .map((b) => b.name_ja)
+          .join("・")}）です。`
+      )
+    );
+  }
+
+  blocks.push(
+    readingNotes([
+      "県庁所在地の代表駅は、県庁所在地の市で乗降客数の多いターミナル駅を選んでいます（埼玉県は浦和駅、兵庫県は三ノ宮駅、沖縄県はゆいレールの県庁前駅）。",
+      "駅前の施設は、県庁や官庁街が駅から離れているかどうかには左右されません。点数は駅の周りの施設の数だけから出しています。",
+      ...COMMON_NOTES,
+    ]),
+    note(PUBLIC_SOURCE)
+  );
+
+  return {
+    slug: "capital-stations",
+    heading: "県庁所在地の駅を比べる",
+    title: `県庁所在地の駅の住みやすさランキング｜47都道府県の代表駅を比較`,
+    description: `47都道府県の県庁所在地の代表駅を、住みやすさ駅前スコア・地価・乗降客数・駅前の日常の施設で比較しました。1位は${top.name_ja}（${fmt1(
+      T(top).total
+    )}点）。`,
+    summary: `1位は${top.name_ja}（${fmt1(T(top).total)}点）、最下位は${last.name_ja}（${fmt1(T(last).total)}点）。県内1位ではない県庁所在地の駅は${notTop.length}駅。`,
+    html: blocks.join(""),
+  };
+}
+
 const ARTICLES = [
   articleCheapAndConvenient,
   articleRidership,
@@ -1208,6 +1604,8 @@ const ARTICLES = [
   articleDomainBalance,
   articlePrefectures,
   articleLandChange,
+  articleDailyNeeds,
+  articleCapitals,
 ];
 
 function articlesIndex(articles) {
@@ -1230,7 +1628,7 @@ function articlesIndex(articles) {
 
 // --- まとめて作る -------------------------------------------------------------
 
-export function buildDocs(bundles, stationLines) {
+export function buildDocs(bundles, stationLines, matrix = null) {
   // 集計は鉄道の駅として確認できた駅だけで行う（importLines.js の rail_stations）。
   // ロッカーアプリ由来の施設名（「イオンモール仙台上杉駅」など）を記事の表に混ぜない
   const rail = new Set(stationLines.rail_stations ?? [...bundles.keys()]);
@@ -1243,12 +1641,19 @@ export function buildDocs(bundles, stationLines) {
     medianTotal: median(totals),
     q75: totals[Math.floor(totals.length * 0.75)],
     domainMeans: Object.fromEntries(DOMAINS.map((d) => [d.key, mean(all.map((b) => T(b).domains[d.key].score))])),
+    // 駅前（直線400m以内）に日常の5種類がそろう駅の数（都道府県ページの比較用）
+    daily: {
+      count: all.filter(hasNearby).length,
+      full: all.filter((b) => hasNearby(b) && dailyCount(b) === DAILY_KEYS.length).length,
+    },
   };
   // 施設数のデータがまだ無い駅（取得に失敗した駅など）は路線から外し、5駅未満になった路線はページを作らない
   const allLines = stationLines.lines
     .map((l) => ({ ...l, stations: l.stations.filter((s) => bundles.has(s)) }))
     .filter((l) => l.stations.length >= 5);
-  const ctx = { bundles, B, national, allLines };
+  // 暮らし方別の上位駅は条件検索（/search）と同じ表・同じ計算で出す
+  const table = matrix ? buildTierTable(matrix, WALK) : null;
+  const ctx = { bundles, B, national, allLines, table };
 
   const lines = allLines.map((line) => ({ ...linePage(line, ctx), kind: "line", slug: line.slug }));
   const prefGroups = groupByPrefecture(all).map((g) => ({

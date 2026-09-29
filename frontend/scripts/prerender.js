@@ -98,7 +98,7 @@ const DIST = path.join(__dirname, "..", "dist");
 const DATA = loadData();
 const { stations } = DATA;
 const { bundles, matrix } = buildAll(DATA);
-const { docs: DOCS, nav: DOC_NAV } = buildDocs(bundles, DATA.stationLines);
+const { docs: DOCS, nav: DOC_NAV } = buildDocs(bundles, DATA.stationLines, matrix);
 
 const TEMPLATE_PATH = path.join(DIST, "index.html");
 if (!fs.existsSync(TEMPLATE_PATH)) {
