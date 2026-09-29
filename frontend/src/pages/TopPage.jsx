@@ -24,7 +24,7 @@ const RANKING_LIMIT = 10;
 const NAME_MATCH_LIMIT = 8;
 // トップページに出す路線の数（駅の多い順）。残りは /lines から
 const TOP_LINES_LIMIT = 24;
-// 何も入力していないときの背景に回す駅の数（乗降客数の多い、写真のある駅から）
+// 何も入力していないときの背景に回す駅の数（都道府県ごとに乗降客数の最も多い、写真のある駅から）
 const FEATURED_COUNT = 8;
 
 // トップページ（2026-09-29に作り直し）。
@@ -56,17 +56,25 @@ export default function TopPage({ stations }) {
     [q, stations]
   );
 
-  // 背景の写真。入力中は候補の先頭の駅、それ以外は大きな駅を1枚ずつ巡回する
+  // 背景の写真。入力中は候補の先頭の駅、それ以外は大きな駅を1枚ずつ巡回する。
+  // 都道府県ごとに乗降客数の最も多い駅を1駅ずつ選ぶ（2026-09-30）。単純に多い順だと東京の駅ばかりになり、
+  // 「渋谷駅」と「東急 渋谷駅」のように記事が同じ駅で同じ写真が続いたため、同じ写真も2度使わない
   const featured = useMemo(() => {
     if (!photos || !matrix) return [];
-    return matrix.stations
-      .filter((s) => photos[s.slug]?.length && s.ridership)
-      .sort((a, b) => b.ridership - a.ridership)
-      .slice(0, FEATURED_COUNT)
-      .map((s) => {
-        const photo = photos[s.slug][0];
-        return { ...photo, caption: photo.caption ? `${s.name_ja} — ${photo.caption}` : s.name_ja };
-      });
+    const usedPrefs = new Set();
+    const usedSrcs = new Set();
+    const picked = [];
+    for (const s of matrix.stations
+      .filter((x) => photos[x.slug]?.length && x.ridership)
+      .sort((a, b) => b.ridership - a.ridership)) {
+      const photo = photos[s.slug][0];
+      if (usedPrefs.has(s.prefecture) || usedSrcs.has(photo.src)) continue;
+      usedPrefs.add(s.prefecture);
+      usedSrcs.add(photo.src);
+      picked.push({ ...photo, caption: photo.caption ? `${s.name_ja} — ${photo.caption}` : s.name_ja });
+      if (picked.length >= FEATURED_COUNT) break;
+    }
+    return picked;
   }, [photos, matrix]);
   const focus = matches.find((s) => photos?.[s.slug]?.length);
   const heroPhotos = focus ? photos[focus.slug] : featured;
@@ -253,21 +261,13 @@ export default function TopPage({ stations }) {
           <section className="block">
             <h2 className="block-title">都道府県から探す（{stations.length}駅）</h2>
             <div className="chips">
-              {docNav.prefectures.map((g) =>
-                g.slug ? (
-                  <Link className="chip" key={g.name} to={`/pref/${g.slug}`}>
-                    {g.name}
-                    <small>{g.count}駅</small>
-                  </Link>
-                ) : (
-                  g.stations.map((s) => (
-                    <Link className="chip" key={s.slug} to={`/${s.slug}`}>
-                      {s.name_ja}
-                      <small>{g.name}</small>
-                    </Link>
-                  ))
-                )
-              )}
+              {/* 駅の少ない都道府県（ページ無し）は一覧の該当欄へ。表示はほかの都道府県とそろえる */}
+              {docNav.prefectures.map((g) => (
+                <Link className="chip" key={g.name} to={g.page ? `/pref/${g.slug}` : `/prefectures#${g.slug}`}>
+                  {g.name}
+                  <small>{g.count}駅</small>
+                </Link>
+              ))}
             </div>
             <Link className="purpose-more" to="/prefectures">
               都道府県ごとの一覧と比較 →

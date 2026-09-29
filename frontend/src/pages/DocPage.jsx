@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { fetchDoc } from "../api";
 import BottomNav from "../components/BottomNav";
 import Footer from "../components/Footer";
@@ -44,6 +44,18 @@ export default function DocPage({ kind, slug: fixedSlug }) {
 
   const ready = status === "ok" && doc?.key === key;
   useDocumentMeta(ready ? doc.title : undefined, ready ? doc.description : undefined);
+
+  // 本文を読み込んでから #見出し の位置へ移る（トップの「福井県 2駅」→ /prefectures#fukui など）
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (!ready || !hash) return;
+    // 本文は後から差し込むので、ブラウザの :target が効かない。印は自分で付ける
+    const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!el) return;
+    document.querySelectorAll(".doc .is-target").forEach((x) => x.classList.remove("is-target"));
+    el.classList.add("is-target");
+    el.scrollIntoView({ block: "center" });
+  }, [ready, hash]);
 
   if (status === "not-found") return <NotFound />;
 

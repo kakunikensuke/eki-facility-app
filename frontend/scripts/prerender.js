@@ -254,12 +254,10 @@ function topPage() {
     .join("");
 
   // 全駅への入口。2026-09-30に1,856駅へ増やしたので、全駅を直接並べるのをやめ、都道府県ページを経由させる。
-  // ページの無い（駅の少ない）都道府県だけは駅を直接並べる。全駅にたどり着けるかは verifyOutput が点検する
+  // ページの無い（駅の少ない）都道府県は一覧の該当欄へ飛ばす。全駅にたどり着けるかは verifyOutput が点検する
   const prefectureHtml = `<ul>${DOC_NAV.prefectures
-    .map((g) =>
-      g.slug
-        ? `<li>${link(`/pref/${g.slug}`, g.name)}（${esc(g.count)}駅）</li>`
-        : `<li>${esc(g.name)}: ${g.stations.map((s) => link(`/${s.slug}`, s.name_ja)).join("、")}</li>`
+    .map(
+      (g) => `<li>${link(g.page ? `/pref/${g.slug}` : `/prefectures#${g.slug}`, g.name)}（${esc(g.count)}駅）</li>`
     )
     .join("")}</ul>
       <p>${link("/prefectures", "都道府県ごとの一覧と比較")}</p>`;

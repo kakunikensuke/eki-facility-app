@@ -518,12 +518,16 @@ function prefsIndex(groups, ctx) {
   }
   if (small.length > 0) {
     blocks.push(h2(`掲載駅が${PREF_PAGE_MIN}駅未満の都道府県`));
+    // トップの「福井県 2駅」などはここ（/prefectures#fukui）へ飛ぶので、都道府県ごとに id を付ける
     blocks.push(
-      ul(
-        small.map((g) => ({
-          html: `${esc(g.prefecture)}: ${g.rows.map((b) => `${stationLink(b)}（${esc(fmt1(T(b).total))}点）`).join("、")}`,
-        }))
-      )
+      `<ul>${small
+        .map(
+          (g) =>
+            `<li id="${esc(prefectureSlug(g.prefecture))}">${esc(g.prefecture)}: ${g.rows
+              .map((b) => `${stationLink(b)}（${esc(fmt1(T(b).total))}点）`)
+              .join("、")}</li>`
+        )
+        .join("")}</ul>`
     );
   }
   return {
@@ -1262,15 +1266,15 @@ export function buildDocs(bundles, stationLines) {
   ];
 
   // トップページ・駅ページから張るリンク用の目次。
-  // ページの無い（駅の少ない）都道府県は slug を null にし、駅を直接並べる
+  // ページの無い（駅の少ない）都道府県は page を false にし、一覧（/prefectures#<slug>）へ飛ばす
   const nav = {
     lines: allLines.map((l) => ({ slug: l.slug, name: l.name, count: l.stations.length })),
     articles: articles.map((x) => ({ slug: x.slug, heading: x.heading, summary: x.summary })),
     prefectures: prefGroups.map((g) => ({
       name: g.prefecture,
-      slug: g.rows.length >= PREF_PAGE_MIN ? prefectureSlug(g.prefecture) : null,
+      slug: prefectureSlug(g.prefecture),
       count: g.rows.length,
-      stations: g.rows.length >= PREF_PAGE_MIN ? [] : g.rows.map((b) => ({ slug: b.slug, name_ja: b.name_ja })),
+      page: g.rows.length >= PREF_PAGE_MIN,
     })),
   };
   return { docs: [...indexes, ...prefs, ...lines, ...articles], nav };

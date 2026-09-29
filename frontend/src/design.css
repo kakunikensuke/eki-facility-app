@@ -1270,6 +1270,14 @@ body {
   color: var(--ink-2);
 }
 
+/* トップの「福井県 2駅」などから /prefectures#fukui に来たとき、その県の行を目立たせる */
+.doc li:target,
+.doc li.is-target {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-radius: 6px;
+  outline: 6px solid color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
 .doc p + p {
   margin-top: 14px;
 }
