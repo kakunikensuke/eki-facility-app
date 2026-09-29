@@ -2,14 +2,20 @@
  * 駅周辺施設数の集計バッチ
  *
  * 対象駅ごとにOpenStreetMap Overpass APIへ問い合わせ、徒歩5/10/15/20分圏内（半径400/800/
- * 1200/1600m）にあるコンビニ・病院・スーパー・飲食店・ドラッグストア・公園・保育園の件数を
+ * 1200/1600m）にあるコンビニ・病院・スーパー・飲食店など18カテゴリ（CATEGORY_TAGS）の件数を
  * 集計してfacility-counts.jsonに保存する。ユーザーの検索リクエストは常にこの事前集計済み
  * JSONを読むだけで、Overpass APIをリアルタイムに叩くことはしない（レート制限対策、
  * 設計書「2. なぜ検索のたびに外部APIを呼ばないか」参照）。
  *
- * 4段階化は2026-08-07に対応（それ以前は徒歩10分のみ）。1駅あたりのリクエストは1回のまま
- * （4半径×7カテゴリ=28個のcountを1クエリで取得する）なので、Overpass APIへの負荷は
- * 段階を増やしても変わらない。
+ * 4段階化は2026-08-07に対応（それ以前は徒歩10分のみ）。
+ *
+ * 2026-09-29、カテゴリを7から18に増やし、取得方法を変えた。
+ * 以前は「半径×カテゴリ」ごとに around で数えさせていた（4×7=28個のcount）が、
+ * カテゴリを増やすとサーバー側の走査が 4×18=72 回になる。今は1600m圏内の対象を
+ * 1回だけまとめて取り（位置つき）、4段階の距離はこちらで数える。Overpass側の走査は
+ * カテゴリ数ぶんの1回ずつで済み、段階を増やしても負荷が増えない。
+ * 線（way）は中心点の距離で判定する。以前の around は「線のどこかが円に掛かれば数える」
+ * だったので、大きな公園などは数がわずかに変わる。
  *
  * ドラッグストア・公園・保育園は住みやすさスコア（scoring.js）には含めない表示専用
  * カテゴリ（2026-07-16追加、要件定義書8.1参照）。
@@ -41,6 +47,10 @@ const RETRIABLE_STATUSES = [429, 500, 502, 503, 504];
 
 // カテゴリ→OSMタグの対応（要件定義書5章で確定: クリニックは病院に含む、カフェ・ファストフードは飲食店に含む）
 // drugstore/park/nurseryは2026-07-16追加。スコア非対象の表示専用カテゴリ（要件定義書8.1）。
+//
+// 2026-09-29に11カテゴリを追加（スコアを6分野で出すため。backend/scoring.js）。
+// restaurant は従来どおりカフェを含む（既存の画面と数字の意味を変えないため）。カフェだけの数は
+// cafe に別に持ち、「カフェを除く飲食店」は restaurant - cafe で出す。
 const CATEGORY_TAGS = {
   convenience_store: [["shop", "convenience"]],
   supermarket: [["shop", "supermarket"]],
@@ -59,34 +69,87 @@ const CATEGORY_TAGS = {
   // 登録されている(池袋駅周辺で実データ確認済み、2026-07-16)。区別できないため
   // 「保育園・幼稚園」として統合表示する。
   nursery: [["amenity", "kindergarten"]],
+
+  // ---- 2026-09-29追加 ----
+  cafe: [["amenity", "cafe"]],
+  // 100円ショップ。OSMではダイソー等が shop=variety_store で登録されている
+  variety_store: [["shop", "variety_store"]],
+  post_office: [["amenity", "post_office"]],
+  bank: [
+    ["amenity", "bank"],
+    ["amenity", "atm"],
+  ],
+  laundry: [["shop", "laundry"]],
+  // 交番・警察署。OSMでは交番も amenity=police で登録されている
+  police: [["amenity", "police"]],
+  dentist: [["amenity", "dentist"]],
+  // 調剤薬局。ドラッグストア（shop=chemist）とは別
+  pharmacy: [["amenity", "pharmacy"]],
+  // OSMでは小中高を区別するタグが揃っていないため「学校」としてまとめる
+  school: [["amenity", "school"]],
+  library: [["amenity", "library"]],
+  fitness: [["leisure", "fitness_centre"]],
+  public_bath: [["amenity", "public_bath"]],
 };
 
 const CATEGORY_NAMES = Object.keys(CATEGORY_TAGS);
 
-// 4段階×7カテゴリ=28個のcountを1クエリで取得する。out countの出力順はクエリ内の
-// 記述順と一致するため、後段（fetchCountsForStation）で同じ順に読み出して対応づける。
-function buildOverpassQuery(lat, lon) {
-  const setBlocks = [];
-  const countLines = [];
+const MAX_RADIUS_M = Math.max(...WALK_MINUTES_TIERS) * WALK_SPEED_M_PER_MIN;
 
+// 最大半径の円に入る対象を、カテゴリのタグごとに1回ずつ集めて位置つきで返させる。
+// out center は線（way）にも中心点を付ける。点（node）は lat/lon をそのまま持つ
+function buildOverpassQuery(lat, lon) {
+  const pairs = new Map();
+  for (const tags of Object.values(CATEGORY_TAGS)) {
+    for (const [key, value] of tags) pairs.set(`${key}=${value}`, [key, value]);
+  }
+  const filters = [...pairs.values()]
+    .map(
+      ([key, value]) =>
+        `  node["${key}"="${value}"](around:${MAX_RADIUS_M},${lat},${lon});\n` +
+        `  way["${key}"="${value}"](around:${MAX_RADIUS_M},${lat},${lon});`
+    )
+    .join("\n");
+  // 大規模駅は対象が数千件になるため、タイムアウトは余裕を持たせる
+  return `[out:json][timeout:180];\n(\n${filters}\n);\nout tags center;`;
+}
+
+function distanceM(lat1, lon1, lat2, lon2) {
+  const toRad = (deg) => (deg * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const h =
+    Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return 2 * 6371000 * Math.asin(Math.sqrt(h));
+}
+
+// 1件の対象が当てはまるカテゴリ（銀行とATMを兼ねる等、複数に当たることがある）
+function categoriesOf(tags) {
+  return CATEGORY_NAMES.filter((name) =>
+    CATEGORY_TAGS[name].some(([key, value]) => tags[key] === value)
+  );
+}
+
+/** Overpassの応答（elements）を4段階×カテゴリの件数にする。テストしやすいよう切り出している */
+function countByTier(elements, lat, lon) {
+  const tiers = {};
   for (const minutes of WALK_MINUTES_TIERS) {
-    const radiusM = minutes * WALK_SPEED_M_PER_MIN;
-    for (const name of CATEGORY_NAMES) {
-      const setName = `${name}_${minutes}`;
-      const filters = CATEGORY_TAGS[name]
-        .map(
-          ([key, value]) =>
-            `  node["${key}"="${value}"](around:${radiusM},${lat},${lon});\n` +
-            `  way["${key}"="${value}"](around:${radiusM},${lat},${lon});`
-        )
-        .join("\n");
-      setBlocks.push(`(\n${filters}\n)->.${setName};`);
-      countLines.push(`.${setName} out count;`);
+    tiers[minutes] = {
+      radius_m: minutes * WALK_SPEED_M_PER_MIN,
+      counts: Object.fromEntries(CATEGORY_NAMES.map((name) => [name, 0])),
+    };
+  }
+  for (const el of elements) {
+    const point = el.type === "node" ? el : el.center;
+    if (!point || !el.tags) continue;
+    const d = distanceM(lat, lon, point.lat, point.lon);
+    const names = categoriesOf(el.tags);
+    for (const minutes of WALK_MINUTES_TIERS) {
+      if (d > minutes * WALK_SPEED_M_PER_MIN) continue;
+      for (const name of names) tiers[minutes].counts[name] += 1;
     }
   }
-
-  // 半径1600mの大規模駅は集計に10秒強かかるため、タイムアウトは余裕を持たせる
-  return `[out:json][timeout:180];\n${setBlocks.join("\n")}\n${countLines.join("\n")}`;
+  return tiers;
 }
 
 function sleep(ms) {
@@ -110,7 +173,6 @@ function nowJst() {
 
 async function fetchCountsForStation(station) {
   const query = buildOverpassQuery(station.lat, station.lon);
-  const expectedCount = CATEGORY_NAMES.length * WALK_MINUTES_TIERS.length;
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt += 1) {
     const response = await fetch(OVERPASS_ENDPOINT, {
@@ -134,24 +196,12 @@ async function fetchCountsForStation(station) {
     }
 
     const json = await response.json();
-    const countElements = (json.elements || []).filter((el) => el.type === "count");
-
-    if (countElements.length !== expectedCount) {
-      throw new Error(
-        `想定外のcount要素数（期待値${expectedCount}件、実際${countElements.length}件）`
-      );
+    // タイムアウトなどでサーバーが途中で打ち切ると、200のまま remark にエラーが入る。
+    // それを0件として保存すると全カテゴリ0軒の駅ができてしまうので、失敗として扱う
+    if (json.remark && /error|timed out/i.test(json.remark)) {
+      throw new Error(`Overpass APIが処理を打ち切りました: ${json.remark}`);
     }
-
-    const tiers = {};
-    let i = 0;
-    for (const minutes of WALK_MINUTES_TIERS) {
-      const counts = {};
-      for (const name of CATEGORY_NAMES) {
-        counts[name] = Number(countElements[i].tags.total);
-        i += 1;
-      }
-      tiers[minutes] = { radius_m: minutes * WALK_SPEED_M_PER_MIN, counts };
-    }
+    const tiers = countByTier(json.elements || [], station.lat, station.lon);
     return tiers;
   }
 
@@ -229,7 +279,11 @@ async function main() {
   console.log(`\n完了: 成功${successCount}件 / 失敗${failureCount}件 -> ${OUTPUT_PATH}`);
 }
 
+if (require.main !== module) {
+  module.exports = { buildOverpassQuery, countByTier, fetchCountsForStation, CATEGORY_TAGS };
+} else {
 main().catch((err) => {
   console.error("バッチ実行中に予期しないエラー:", err);
   process.exit(1);
 });
+}
