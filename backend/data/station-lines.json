@@ -1,0 +1,1889 @@
+{
+  "source": "国土数値情報（駅別乗降客数データ）国土交通省 / CC BY 4.0",
+  "source_file": "S12-25_NumberOfPassengers.geojson",
+  "lines": [
+    {
+      "slug": "jr-tohoku",
+      "name": "JR東北本線（京浜東北線・宇都宮線）",
+      "operator": "東日本旅客鉄道",
+      "official": "東北線",
+      "note": "正式な路線名の「東北本線」でまとめています。東京〜大宮の京浜東北線、宇都宮線、東北地方の東北本線を含みます。",
+      "stations": [
+        "tokyo",
+        "ueno",
+        "omiya",
+        "akihabara",
+        "nippori",
+        "akabane",
+        "sendai",
+        "urawa",
+        "kanda",
+        "nishi-nippori",
+        "kawaguchi",
+        "okachimachi",
+        "oji",
+        "warabi",
+        "minami-urawa",
+        "nishi-kawaguchi",
+        "saitama-shintoshin",
+        "musashi-urawa",
+        "kita-urawa",
+        "uguisudani",
+        "tabata",
+        "utsunomiya",
+        "oyama",
+        "kita-akabane",
+        "ukima-funado",
+        "hasuda",
+        "higashi-jujo",
+        "kita-toda",
+        "naka-urawa",
+        "toda-koen",
+        "yono",
+        "kita-yono",
+        "yono-hommachi",
+        "minami-yono",
+        "higashi-omiya",
+        "kuki",
+        "toro",
+        "nasushiobara",
+        "kuroiso",
+        "kaminakazato",
+        "koga",
+        "koriyama",
+        "fukushima",
+        "toda",
+        "ishibashi",
+        "morioka",
+        "higashi-washinomiya",
+        "ichinoseki",
+        "hanamaki",
+        "hiraizumi"
+      ]
+    },
+    {
+      "slug": "jr-chuo",
+      "name": "JR中央線",
+      "operator": "東日本旅客鉄道",
+      "official": "中央線",
+      "note": "正式な路線名の「中央本線」でまとめています。中央線快速と、御茶ノ水〜三鷹の中央・総武線各駅停車、高尾より西の区間を含みます。",
+      "stations": [
+        "shinjuku",
+        "tachikawa",
+        "nakano",
+        "kichijoji",
+        "kokubunji",
+        "kanda",
+        "yotsuya",
+        "ochanomizu",
+        "mitaka",
+        "ogikubo",
+        "hachioji",
+        "suidobashi",
+        "iidabashi",
+        "musashi-sakai",
+        "musashi-koganei",
+        "yoyogi",
+        "ichigaya",
+        "kunitachi",
+        "koenji",
+        "nishi-ogikubo",
+        "shinanomachi",
+        "sendagaya",
+        "higashi-nakano",
+        "asagaya",
+        "otsuki",
+        "hino",
+        "higashi-koganei",
+        "toyoda",
+        "nishi-hachioji",
+        "nishi-kokubunji",
+        "kofu",
+        "enzan",
+        "okubo",
+        "kobuchizawa",
+        "yamanashi-shi",
+        "takao",
+        "katsunuma-budokyo",
+        "sagamiko"
+      ]
+    },
+    {
+      "slug": "jr-tokaido",
+      "name": "JR東海道本線（東海道線・京浜東北線）",
+      "operator": "東日本旅客鉄道",
+      "official": "東海道線",
+      "note": "正式な路線名の「東海道本線」でまとめています。東京〜横浜の京浜東北線の区間を含みます。",
+      "stations": [
+        "tokyo",
+        "shinagawa",
+        "yokohama",
+        "shimbashi",
+        "kawasaki",
+        "hamamatsucho",
+        "yurakucho",
+        "tamachi",
+        "kamata",
+        "musashi-kosugi",
+        "fujisawa",
+        "totsuka",
+        "ofuna",
+        "oimachi",
+        "omori",
+        "tsurumi",
+        "hiratsuka",
+        "tsujido",
+        "chigasaki",
+        "higashi-totsuka",
+        "takanawa-gateway",
+        "atami",
+        "hodogaya",
+        "shin-kawasaki",
+        "odawara",
+        "yugawara",
+        "oiso",
+        "ninomiya",
+        "shin-koyasu",
+        "kozu",
+        "manazuru",
+        "nishi-oi",
+        "kamonomiya",
+        "higashi-kanagawa"
+      ]
+    },
+    {
+      "slug": "jr-sobu",
+      "name": "JR総武本線（総武線各駅停車・快速）",
+      "operator": "東日本旅客鉄道",
+      "official": "総武線",
+      "note": "正式な路線名の「総武本線」でまとめています。",
+      "stations": [
+        "tokyo",
+        "akihabara",
+        "chiba",
+        "tsudanuma",
+        "ochanomizu",
+        "shin-koiwa",
+        "ichikawa",
+        "motoyawata",
+        "kameido",
+        "asakusabashi",
+        "inage",
+        "ryogoku",
+        "nishi-funabashi",
+        "hirai",
+        "makuhari",
+        "shin-kemigawa",
+        "shin-nihombashi",
+        "nishi-chiba",
+        "shimosa-nakayama",
+        "higashi-funabashi",
+        "bakurocho",
+        "makuharihongo",
+        "sakura",
+        "tsuga"
+      ]
+    },
+    {
+      "slug": "jr-musashino",
+      "name": "JR武蔵野線",
+      "operator": "東日本旅客鉄道",
+      "official": "武蔵野線",
+      "note": null,
+      "stations": [
+        "minami-urawa",
+        "musashi-urawa",
+        "nishi-funabashi",
+        "fuchu-hommachi",
+        "niiza",
+        "nishi-kokubunji",
+        "kita-fuchu",
+        "shin-kodaira",
+        "yono",
+        "shin-matsudo",
+        "higashi-tokorozawa",
+        "koshigaya-laketown",
+        "higashi-urawa",
+        "funabashi-hoten",
+        "higashi-matsudo",
+        "misato",
+        "shin-akitsu",
+        "yoshikawa",
+        "higashi-kawaguchi",
+        "shinmisato"
+      ]
+    },
+    {
+      "slug": "jr-joban",
+      "name": "JR常磐線",
+      "operator": "東日本旅客鉄道",
+      "official": "常磐線",
+      "note": null,
+      "stations": [
+        "kita-senju",
+        "kashiwa",
+        "nippori",
+        "matsudo",
+        "kanamachi",
+        "mikawashima",
+        "kameari",
+        "minami-senju",
+        "shin-matsudo",
+        "mito",
+        "toride",
+        "katsuta",
+        "ushiku",
+        "ryugasaki-shi",
+        "minami-kashiwa",
+        "kita-kashiwa",
+        "yumoto",
+        "ishioka",
+        "tsuchiura"
+      ]
+    },
+    {
+      "slug": "jr-yamanote",
+      "name": "JR山手線",
+      "operator": "東日本旅客鉄道",
+      "official": "山手線",
+      "note": null,
+      "stations": [
+        "ikebukuro",
+        "shinjuku",
+        "shibuya",
+        "shinagawa",
+        "takadanobaba",
+        "osaki",
+        "ebisu",
+        "gotanda",
+        "meguro",
+        "harajuku",
+        "sugamo",
+        "yoyogi",
+        "otsuka",
+        "komagome",
+        "mejiro",
+        "tabata",
+        "shin-okubo"
+      ]
+    },
+    {
+      "slug": "jr-yokohama",
+      "name": "JR横浜線",
+      "operator": "東日本旅客鉄道",
+      "official": "横浜線",
+      "note": null,
+      "stations": [
+        "machida",
+        "hachioji",
+        "hashimoto",
+        "nagatsuta",
+        "kamoi",
+        "kikuna",
+        "tokaichiba",
+        "kobuchi",
+        "fuchinobe",
+        "naruse",
+        "oguchi",
+        "nakayama",
+        "kozukue",
+        "shin-yokohama",
+        "hachioji-minamino",
+        "higashi-kanagawa",
+        "sagamihara"
+      ]
+    },
+    {
+      "slug": "jr-keiyo",
+      "name": "JR京葉線",
+      "operator": "東日本旅客鉄道",
+      "official": "京葉線",
+      "note": null,
+      "stations": [
+        "tokyo",
+        "maihama",
+        "kaihin-makuhari",
+        "shin-urayasu",
+        "nishi-funabashi",
+        "hatchobori",
+        "etchujima",
+        "minami-funabashi",
+        "shin-narashino",
+        "kemigawahama",
+        "inagekaigan",
+        "soga",
+        "ichikawa-shiohama",
+        "chibaminato"
+      ]
+    },
+    {
+      "slug": "jr-nambu",
+      "name": "JR南武線",
+      "operator": "東日本旅客鉄道",
+      "official": "南武線",
+      "note": null,
+      "stations": [
+        "kawasaki",
+        "tachikawa",
+        "musashi-kosugi",
+        "musashi-mizonokuchi",
+        "noborito",
+        "fuchu-hommachi",
+        "nishi-fuchu",
+        "inagi-naganuma",
+        "minami-tama",
+        "musashi-nakahara",
+        "yanokuchi",
+        "yako",
+        "kashimada",
+        "musashi-shinjo"
+      ]
+    },
+    {
+      "slug": "jr-negishi",
+      "name": "JR根岸線",
+      "operator": "東日本旅客鉄道",
+      "official": "根岸線",
+      "note": null,
+      "stations": [
+        "yokohama",
+        "ofuna",
+        "sakuragicho",
+        "kannai",
+        "isogo",
+        "konandai",
+        "negishi",
+        "yokodai",
+        "hongodai",
+        "ishikawacho",
+        "shinsugita"
+      ]
+    },
+    {
+      "slug": "osaka-metro-midosuji",
+      "name": "Osaka Metro御堂筋線",
+      "operator": "大阪市高速電気軌道",
+      "official": "1号線(御堂筋線)",
+      "note": null,
+      "stations": [
+        "osaka-metro-shin-osaka",
+        "osaka-metro-esaka",
+        "osaka-metro-higashi-mikuni",
+        "osaka-metro-umeda",
+        "osaka-metro-tennoji",
+        "osaka-metro-shinsaibashi",
+        "osaka-metro-nagai",
+        "osaka-metro-namba",
+        "osaka-metro-nakatsu",
+        "osaka-metro-dobutsuen-mae",
+        "osaka-metro-hommachi"
+      ]
+    },
+    {
+      "slug": "osaka-metro-tanimachi",
+      "name": "Osaka Metro谷町線",
+      "operator": "大阪市高速電気軌道",
+      "official": "2号線(谷町線)",
+      "note": null,
+      "stations": [
+        "osaka-metro-tennoji",
+        "osaka-metro-higashiumeda",
+        "osaka-metrotenjimbashisuji-6-chome",
+        "osaka-metro-deto",
+        "osaka-metro-kireuriwari",
+        "osaka-metro-yao-minami",
+        "osaka-metro-nagahara",
+        "osaka-metro-nakazakicho",
+        "osaka-metro-hirano",
+        "osaka-metro-fuminosato",
+        "osaka-metro-abeno"
+      ]
+    },
+    {
+      "slug": "jr-takasaki",
+      "name": "JR高崎線",
+      "operator": "東日本旅客鉄道",
+      "official": "高崎線",
+      "note": null,
+      "stations": [
+        "omiya",
+        "takasaki",
+        "okegawa",
+        "fukaya",
+        "kitamoto",
+        "kumagaya",
+        "miyahara",
+        "konosu"
+      ]
+    },
+    {
+      "slug": "keihan-main",
+      "name": "京阪本線",
+      "operator": "京阪電気鉄道",
+      "official": "京阪本線",
+      "note": null,
+      "stations": [
+        "keihan-hirakata-shi",
+        "keihan-kyobashi",
+        "keihan-kitahama",
+        "keihan-temmabashi",
+        "keihan-sanjo",
+        "keihan-gion-shijo",
+        "keihan-shichijo"
+      ]
+    },
+    {
+      "slug": "tokyo-metro-marunouchi",
+      "name": "東京メトロ丸ノ内線",
+      "operator": "東京地下鉄",
+      "official": "4号線丸ノ内線",
+      "note": null,
+      "stations": [
+        "ikebukuro",
+        "shinjuku",
+        "tokyo",
+        "yotsuya",
+        "ochanomizu",
+        "ogikubo"
+      ]
+    },
+    {
+      "slug": "tokyo-metro-hibiya",
+      "name": "東京メトロ日比谷線",
+      "operator": "東京地下鉄",
+      "official": "2号線日比谷線",
+      "note": null,
+      "stations": [
+        "ueno",
+        "akihabara",
+        "kita-senju",
+        "ebisu",
+        "hatchobori",
+        "minami-senju"
+      ]
+    },
+    {
+      "slug": "jr-ome",
+      "name": "JR青梅線",
+      "operator": "東日本旅客鉄道",
+      "official": "青梅線",
+      "note": null,
+      "stations": [
+        "tachikawa",
+        "haijima",
+        "kawabe",
+        "nishi-tachikawa",
+        "okutama",
+        "ome"
+      ]
+    },
+    {
+      "slug": "tokyo-metro-namboku",
+      "name": "東京メトロ南北線",
+      "operator": "東京地下鉄",
+      "official": "7号線南北線",
+      "note": null,
+      "stations": [
+        "meguro",
+        "yotsuya",
+        "iidabashi",
+        "oji",
+        "ichigaya",
+        "komagome"
+      ]
+    },
+    {
+      "slug": "osaka-metro-nagahori-tsurumi-ryokuchi",
+      "name": "Osaka Metro長堀鶴見緑地線",
+      "operator": "大阪市高速電気軌道",
+      "official": "7号線(長堀鶴見緑地線)",
+      "note": null,
+      "stations": [
+        "osaka-metro-shinsaibashi",
+        "osaka-metro-osaka-business-park",
+        "osaka-metro-gamoyonchome",
+        "osakametroimafukutsurumieki",
+        "osaka-metro-kyobashi",
+        "osaka-metro-nagahoribashi"
+      ]
+    },
+    {
+      "slug": "keio",
+      "name": "京王線",
+      "operator": "京王電鉄",
+      "official": "京王線",
+      "note": null,
+      "stations": [
+        "keio-shinjuku",
+        "keio-seiseki-sakuragaoka",
+        "keio-fuchu",
+        "keio-hachimanyama",
+        "keio-chofu"
+      ]
+    },
+    {
+      "slug": "toei-oedo",
+      "name": "都営大江戸線",
+      "operator": "東京都",
+      "official": "12号線大江戸線",
+      "note": null,
+      "stations": [
+        "shinjuku",
+        "iidabashi",
+        "yoyogi",
+        "ryogoku",
+        "higashi-nakano"
+      ]
+    },
+    {
+      "slug": "tokyu-denentoshi",
+      "name": "東急田園都市線",
+      "operator": "東急電鉄",
+      "official": "田園都市線",
+      "note": null,
+      "stations": [
+        "tokyu-shibuya",
+        "nagatsuta",
+        "tokyu-komazawa-university",
+        "tokyu-sangen-jaya",
+        "tokyu-tama-plaza"
+      ]
+    },
+    {
+      "slug": "tokyu-toyoko",
+      "name": "東急東横線",
+      "operator": "東急電鉄",
+      "official": "東横線",
+      "note": null,
+      "stations": [
+        "tokyu-shibuya",
+        "yokohama",
+        "tokyu-musashi-kosugi",
+        "kikuna",
+        "tokyu-den-en-chofu"
+      ]
+    },
+    {
+      "slug": "jr-yokosuka",
+      "name": "JR横須賀線",
+      "operator": "東日本旅客鉄道",
+      "official": "横須賀線",
+      "note": null,
+      "stations": [
+        "ofuna",
+        "kamakura",
+        "kita-kamakura",
+        "yokosuka",
+        "zushi"
+      ]
+    },
+    {
+      "slug": "jr-ou",
+      "name": "JR奥羽本線",
+      "operator": "東日本旅客鉄道",
+      "official": "奥羽線",
+      "note": null,
+      "stations": [
+        "shin-aomori",
+        "fukushima",
+        "yonezawa",
+        "yamagata",
+        "akita"
+      ]
+    }
+  ],
+  "station_lines": {
+    "tokyo": [
+      "jr-tohoku",
+      "jr-tokaido",
+      "jr-sobu",
+      "jr-keiyo",
+      "tokyo-metro-marunouchi"
+    ],
+    "ueno": [
+      "jr-tohoku",
+      "tokyo-metro-hibiya"
+    ],
+    "omiya": [
+      "jr-tohoku",
+      "jr-takasaki"
+    ],
+    "akihabara": [
+      "jr-tohoku",
+      "jr-sobu",
+      "tokyo-metro-hibiya"
+    ],
+    "nippori": [
+      "jr-tohoku",
+      "jr-joban"
+    ],
+    "akabane": [
+      "jr-tohoku"
+    ],
+    "sendai": [
+      "jr-tohoku"
+    ],
+    "urawa": [
+      "jr-tohoku"
+    ],
+    "kanda": [
+      "jr-tohoku",
+      "jr-chuo"
+    ],
+    "nishi-nippori": [
+      "jr-tohoku"
+    ],
+    "kawaguchi": [
+      "jr-tohoku"
+    ],
+    "okachimachi": [
+      "jr-tohoku"
+    ],
+    "oji": [
+      "jr-tohoku",
+      "tokyo-metro-namboku"
+    ],
+    "warabi": [
+      "jr-tohoku"
+    ],
+    "minami-urawa": [
+      "jr-tohoku",
+      "jr-musashino"
+    ],
+    "nishi-kawaguchi": [
+      "jr-tohoku"
+    ],
+    "saitama-shintoshin": [
+      "jr-tohoku"
+    ],
+    "musashi-urawa": [
+      "jr-tohoku",
+      "jr-musashino"
+    ],
+    "kita-urawa": [
+      "jr-tohoku"
+    ],
+    "uguisudani": [
+      "jr-tohoku"
+    ],
+    "tabata": [
+      "jr-tohoku",
+      "jr-yamanote"
+    ],
+    "utsunomiya": [
+      "jr-tohoku"
+    ],
+    "oyama": [
+      "jr-tohoku"
+    ],
+    "kita-akabane": [
+      "jr-tohoku"
+    ],
+    "ukima-funado": [
+      "jr-tohoku"
+    ],
+    "hasuda": [
+      "jr-tohoku"
+    ],
+    "higashi-jujo": [
+      "jr-tohoku"
+    ],
+    "kita-toda": [
+      "jr-tohoku"
+    ],
+    "naka-urawa": [
+      "jr-tohoku"
+    ],
+    "toda-koen": [
+      "jr-tohoku"
+    ],
+    "yono": [
+      "jr-tohoku",
+      "jr-musashino"
+    ],
+    "kita-yono": [
+      "jr-tohoku"
+    ],
+    "yono-hommachi": [
+      "jr-tohoku"
+    ],
+    "minami-yono": [
+      "jr-tohoku"
+    ],
+    "higashi-omiya": [
+      "jr-tohoku"
+    ],
+    "kuki": [
+      "jr-tohoku"
+    ],
+    "toro": [
+      "jr-tohoku"
+    ],
+    "nasushiobara": [
+      "jr-tohoku"
+    ],
+    "kuroiso": [
+      "jr-tohoku"
+    ],
+    "kaminakazato": [
+      "jr-tohoku"
+    ],
+    "koga": [
+      "jr-tohoku"
+    ],
+    "koriyama": [
+      "jr-tohoku"
+    ],
+    "fukushima": [
+      "jr-tohoku",
+      "jr-ou"
+    ],
+    "toda": [
+      "jr-tohoku"
+    ],
+    "ishibashi": [
+      "jr-tohoku"
+    ],
+    "morioka": [
+      "jr-tohoku"
+    ],
+    "higashi-washinomiya": [
+      "jr-tohoku"
+    ],
+    "ichinoseki": [
+      "jr-tohoku"
+    ],
+    "hanamaki": [
+      "jr-tohoku"
+    ],
+    "hiraizumi": [
+      "jr-tohoku"
+    ],
+    "shinjuku": [
+      "jr-chuo",
+      "jr-yamanote",
+      "tokyo-metro-marunouchi",
+      "toei-oedo"
+    ],
+    "tachikawa": [
+      "jr-chuo",
+      "jr-nambu",
+      "jr-ome"
+    ],
+    "nakano": [
+      "jr-chuo"
+    ],
+    "kichijoji": [
+      "jr-chuo"
+    ],
+    "kokubunji": [
+      "jr-chuo"
+    ],
+    "yotsuya": [
+      "jr-chuo",
+      "tokyo-metro-marunouchi",
+      "tokyo-metro-namboku"
+    ],
+    "ochanomizu": [
+      "jr-chuo",
+      "jr-sobu",
+      "tokyo-metro-marunouchi"
+    ],
+    "mitaka": [
+      "jr-chuo"
+    ],
+    "ogikubo": [
+      "jr-chuo",
+      "tokyo-metro-marunouchi"
+    ],
+    "hachioji": [
+      "jr-chuo",
+      "jr-yokohama"
+    ],
+    "suidobashi": [
+      "jr-chuo"
+    ],
+    "iidabashi": [
+      "jr-chuo",
+      "tokyo-metro-namboku",
+      "toei-oedo"
+    ],
+    "musashi-sakai": [
+      "jr-chuo"
+    ],
+    "musashi-koganei": [
+      "jr-chuo"
+    ],
+    "yoyogi": [
+      "jr-chuo",
+      "jr-yamanote",
+      "toei-oedo"
+    ],
+    "ichigaya": [
+      "jr-chuo",
+      "tokyo-metro-namboku"
+    ],
+    "kunitachi": [
+      "jr-chuo"
+    ],
+    "koenji": [
+      "jr-chuo"
+    ],
+    "nishi-ogikubo": [
+      "jr-chuo"
+    ],
+    "shinanomachi": [
+      "jr-chuo"
+    ],
+    "sendagaya": [
+      "jr-chuo"
+    ],
+    "higashi-nakano": [
+      "jr-chuo",
+      "toei-oedo"
+    ],
+    "asagaya": [
+      "jr-chuo"
+    ],
+    "otsuki": [
+      "jr-chuo"
+    ],
+    "hino": [
+      "jr-chuo"
+    ],
+    "higashi-koganei": [
+      "jr-chuo"
+    ],
+    "toyoda": [
+      "jr-chuo"
+    ],
+    "nishi-hachioji": [
+      "jr-chuo"
+    ],
+    "nishi-kokubunji": [
+      "jr-chuo",
+      "jr-musashino"
+    ],
+    "kofu": [
+      "jr-chuo"
+    ],
+    "enzan": [
+      "jr-chuo"
+    ],
+    "okubo": [
+      "jr-chuo"
+    ],
+    "kobuchizawa": [
+      "jr-chuo"
+    ],
+    "yamanashi-shi": [
+      "jr-chuo"
+    ],
+    "takao": [
+      "jr-chuo"
+    ],
+    "katsunuma-budokyo": [
+      "jr-chuo"
+    ],
+    "sagamiko": [
+      "jr-chuo"
+    ],
+    "shinagawa": [
+      "jr-tokaido",
+      "jr-yamanote"
+    ],
+    "yokohama": [
+      "jr-tokaido",
+      "jr-negishi",
+      "tokyu-toyoko"
+    ],
+    "shimbashi": [
+      "jr-tokaido"
+    ],
+    "kawasaki": [
+      "jr-tokaido",
+      "jr-nambu"
+    ],
+    "hamamatsucho": [
+      "jr-tokaido"
+    ],
+    "yurakucho": [
+      "jr-tokaido"
+    ],
+    "tamachi": [
+      "jr-tokaido"
+    ],
+    "kamata": [
+      "jr-tokaido"
+    ],
+    "musashi-kosugi": [
+      "jr-tokaido",
+      "jr-nambu"
+    ],
+    "fujisawa": [
+      "jr-tokaido"
+    ],
+    "totsuka": [
+      "jr-tokaido"
+    ],
+    "ofuna": [
+      "jr-tokaido",
+      "jr-negishi",
+      "jr-yokosuka"
+    ],
+    "oimachi": [
+      "jr-tokaido"
+    ],
+    "omori": [
+      "jr-tokaido"
+    ],
+    "tsurumi": [
+      "jr-tokaido"
+    ],
+    "hiratsuka": [
+      "jr-tokaido"
+    ],
+    "tsujido": [
+      "jr-tokaido"
+    ],
+    "chigasaki": [
+      "jr-tokaido"
+    ],
+    "higashi-totsuka": [
+      "jr-tokaido"
+    ],
+    "takanawa-gateway": [
+      "jr-tokaido"
+    ],
+    "atami": [
+      "jr-tokaido"
+    ],
+    "hodogaya": [
+      "jr-tokaido"
+    ],
+    "shin-kawasaki": [
+      "jr-tokaido"
+    ],
+    "odawara": [
+      "jr-tokaido"
+    ],
+    "yugawara": [
+      "jr-tokaido"
+    ],
+    "oiso": [
+      "jr-tokaido"
+    ],
+    "ninomiya": [
+      "jr-tokaido"
+    ],
+    "shin-koyasu": [
+      "jr-tokaido"
+    ],
+    "kozu": [
+      "jr-tokaido"
+    ],
+    "manazuru": [
+      "jr-tokaido"
+    ],
+    "nishi-oi": [
+      "jr-tokaido"
+    ],
+    "kamonomiya": [
+      "jr-tokaido"
+    ],
+    "higashi-kanagawa": [
+      "jr-tokaido",
+      "jr-yokohama"
+    ],
+    "chiba": [
+      "jr-sobu"
+    ],
+    "tsudanuma": [
+      "jr-sobu"
+    ],
+    "shin-koiwa": [
+      "jr-sobu"
+    ],
+    "ichikawa": [
+      "jr-sobu"
+    ],
+    "motoyawata": [
+      "jr-sobu"
+    ],
+    "kameido": [
+      "jr-sobu"
+    ],
+    "asakusabashi": [
+      "jr-sobu"
+    ],
+    "inage": [
+      "jr-sobu"
+    ],
+    "ryogoku": [
+      "jr-sobu",
+      "toei-oedo"
+    ],
+    "nishi-funabashi": [
+      "jr-sobu",
+      "jr-musashino",
+      "jr-keiyo"
+    ],
+    "hirai": [
+      "jr-sobu"
+    ],
+    "makuhari": [
+      "jr-sobu"
+    ],
+    "shin-kemigawa": [
+      "jr-sobu"
+    ],
+    "shin-nihombashi": [
+      "jr-sobu"
+    ],
+    "nishi-chiba": [
+      "jr-sobu"
+    ],
+    "shimosa-nakayama": [
+      "jr-sobu"
+    ],
+    "higashi-funabashi": [
+      "jr-sobu"
+    ],
+    "bakurocho": [
+      "jr-sobu"
+    ],
+    "makuharihongo": [
+      "jr-sobu"
+    ],
+    "sakura": [
+      "jr-sobu"
+    ],
+    "tsuga": [
+      "jr-sobu"
+    ],
+    "fuchu-hommachi": [
+      "jr-musashino",
+      "jr-nambu"
+    ],
+    "niiza": [
+      "jr-musashino"
+    ],
+    "kita-fuchu": [
+      "jr-musashino"
+    ],
+    "shin-kodaira": [
+      "jr-musashino"
+    ],
+    "shin-matsudo": [
+      "jr-musashino",
+      "jr-joban"
+    ],
+    "higashi-tokorozawa": [
+      "jr-musashino"
+    ],
+    "koshigaya-laketown": [
+      "jr-musashino"
+    ],
+    "higashi-urawa": [
+      "jr-musashino"
+    ],
+    "funabashi-hoten": [
+      "jr-musashino"
+    ],
+    "higashi-matsudo": [
+      "jr-musashino"
+    ],
+    "misato": [
+      "jr-musashino"
+    ],
+    "shin-akitsu": [
+      "jr-musashino"
+    ],
+    "yoshikawa": [
+      "jr-musashino"
+    ],
+    "higashi-kawaguchi": [
+      "jr-musashino"
+    ],
+    "shinmisato": [
+      "jr-musashino"
+    ],
+    "kita-senju": [
+      "jr-joban",
+      "tokyo-metro-hibiya"
+    ],
+    "kashiwa": [
+      "jr-joban"
+    ],
+    "matsudo": [
+      "jr-joban"
+    ],
+    "kanamachi": [
+      "jr-joban"
+    ],
+    "mikawashima": [
+      "jr-joban"
+    ],
+    "kameari": [
+      "jr-joban"
+    ],
+    "minami-senju": [
+      "jr-joban",
+      "tokyo-metro-hibiya"
+    ],
+    "mito": [
+      "jr-joban"
+    ],
+    "toride": [
+      "jr-joban"
+    ],
+    "katsuta": [
+      "jr-joban"
+    ],
+    "ushiku": [
+      "jr-joban"
+    ],
+    "ryugasaki-shi": [
+      "jr-joban"
+    ],
+    "minami-kashiwa": [
+      "jr-joban"
+    ],
+    "kita-kashiwa": [
+      "jr-joban"
+    ],
+    "yumoto": [
+      "jr-joban"
+    ],
+    "ishioka": [
+      "jr-joban"
+    ],
+    "tsuchiura": [
+      "jr-joban"
+    ],
+    "ikebukuro": [
+      "jr-yamanote",
+      "tokyo-metro-marunouchi"
+    ],
+    "shibuya": [
+      "jr-yamanote"
+    ],
+    "takadanobaba": [
+      "jr-yamanote"
+    ],
+    "osaki": [
+      "jr-yamanote"
+    ],
+    "ebisu": [
+      "jr-yamanote",
+      "tokyo-metro-hibiya"
+    ],
+    "gotanda": [
+      "jr-yamanote"
+    ],
+    "meguro": [
+      "jr-yamanote",
+      "tokyo-metro-namboku"
+    ],
+    "harajuku": [
+      "jr-yamanote"
+    ],
+    "sugamo": [
+      "jr-yamanote"
+    ],
+    "otsuka": [
+      "jr-yamanote"
+    ],
+    "komagome": [
+      "jr-yamanote",
+      "tokyo-metro-namboku"
+    ],
+    "mejiro": [
+      "jr-yamanote"
+    ],
+    "shin-okubo": [
+      "jr-yamanote"
+    ],
+    "machida": [
+      "jr-yokohama"
+    ],
+    "hashimoto": [
+      "jr-yokohama"
+    ],
+    "nagatsuta": [
+      "jr-yokohama",
+      "tokyu-denentoshi"
+    ],
+    "kamoi": [
+      "jr-yokohama"
+    ],
+    "kikuna": [
+      "jr-yokohama",
+      "tokyu-toyoko"
+    ],
+    "tokaichiba": [
+      "jr-yokohama"
+    ],
+    "kobuchi": [
+      "jr-yokohama"
+    ],
+    "fuchinobe": [
+      "jr-yokohama"
+    ],
+    "naruse": [
+      "jr-yokohama"
+    ],
+    "oguchi": [
+      "jr-yokohama"
+    ],
+    "nakayama": [
+      "jr-yokohama"
+    ],
+    "kozukue": [
+      "jr-yokohama"
+    ],
+    "shin-yokohama": [
+      "jr-yokohama"
+    ],
+    "hachioji-minamino": [
+      "jr-yokohama"
+    ],
+    "sagamihara": [
+      "jr-yokohama"
+    ],
+    "maihama": [
+      "jr-keiyo"
+    ],
+    "kaihin-makuhari": [
+      "jr-keiyo"
+    ],
+    "shin-urayasu": [
+      "jr-keiyo"
+    ],
+    "hatchobori": [
+      "jr-keiyo",
+      "tokyo-metro-hibiya"
+    ],
+    "etchujima": [
+      "jr-keiyo"
+    ],
+    "minami-funabashi": [
+      "jr-keiyo"
+    ],
+    "shin-narashino": [
+      "jr-keiyo"
+    ],
+    "kemigawahama": [
+      "jr-keiyo"
+    ],
+    "inagekaigan": [
+      "jr-keiyo"
+    ],
+    "soga": [
+      "jr-keiyo"
+    ],
+    "ichikawa-shiohama": [
+      "jr-keiyo"
+    ],
+    "chibaminato": [
+      "jr-keiyo"
+    ],
+    "musashi-mizonokuchi": [
+      "jr-nambu"
+    ],
+    "noborito": [
+      "jr-nambu"
+    ],
+    "nishi-fuchu": [
+      "jr-nambu"
+    ],
+    "inagi-naganuma": [
+      "jr-nambu"
+    ],
+    "minami-tama": [
+      "jr-nambu"
+    ],
+    "musashi-nakahara": [
+      "jr-nambu"
+    ],
+    "yanokuchi": [
+      "jr-nambu"
+    ],
+    "yako": [
+      "jr-nambu"
+    ],
+    "kashimada": [
+      "jr-nambu"
+    ],
+    "musashi-shinjo": [
+      "jr-nambu"
+    ],
+    "sakuragicho": [
+      "jr-negishi"
+    ],
+    "kannai": [
+      "jr-negishi"
+    ],
+    "isogo": [
+      "jr-negishi"
+    ],
+    "konandai": [
+      "jr-negishi"
+    ],
+    "negishi": [
+      "jr-negishi"
+    ],
+    "yokodai": [
+      "jr-negishi"
+    ],
+    "hongodai": [
+      "jr-negishi"
+    ],
+    "ishikawacho": [
+      "jr-negishi"
+    ],
+    "shinsugita": [
+      "jr-negishi"
+    ],
+    "osaka-metro-shin-osaka": [
+      "osaka-metro-midosuji"
+    ],
+    "osaka-metro-esaka": [
+      "osaka-metro-midosuji"
+    ],
+    "osaka-metro-higashi-mikuni": [
+      "osaka-metro-midosuji"
+    ],
+    "osaka-metro-umeda": [
+      "osaka-metro-midosuji"
+    ],
+    "osaka-metro-tennoji": [
+      "osaka-metro-midosuji",
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metro-shinsaibashi": [
+      "osaka-metro-midosuji",
+      "osaka-metro-nagahori-tsurumi-ryokuchi"
+    ],
+    "osaka-metro-nagai": [
+      "osaka-metro-midosuji"
+    ],
+    "osaka-metro-namba": [
+      "osaka-metro-midosuji"
+    ],
+    "osaka-metro-nakatsu": [
+      "osaka-metro-midosuji"
+    ],
+    "osaka-metro-dobutsuen-mae": [
+      "osaka-metro-midosuji"
+    ],
+    "osaka-metro-hommachi": [
+      "osaka-metro-midosuji"
+    ],
+    "osaka-metro-higashiumeda": [
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metrotenjimbashisuji-6-chome": [
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metro-deto": [
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metro-kireuriwari": [
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metro-yao-minami": [
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metro-nagahara": [
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metro-nakazakicho": [
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metro-hirano": [
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metro-fuminosato": [
+      "osaka-metro-tanimachi"
+    ],
+    "osaka-metro-abeno": [
+      "osaka-metro-tanimachi"
+    ],
+    "takasaki": [
+      "jr-takasaki"
+    ],
+    "okegawa": [
+      "jr-takasaki"
+    ],
+    "fukaya": [
+      "jr-takasaki"
+    ],
+    "kitamoto": [
+      "jr-takasaki"
+    ],
+    "kumagaya": [
+      "jr-takasaki"
+    ],
+    "miyahara": [
+      "jr-takasaki"
+    ],
+    "konosu": [
+      "jr-takasaki"
+    ],
+    "keihan-hirakata-shi": [
+      "keihan-main"
+    ],
+    "keihan-kyobashi": [
+      "keihan-main"
+    ],
+    "keihan-kitahama": [
+      "keihan-main"
+    ],
+    "keihan-temmabashi": [
+      "keihan-main"
+    ],
+    "keihan-sanjo": [
+      "keihan-main"
+    ],
+    "keihan-gion-shijo": [
+      "keihan-main"
+    ],
+    "keihan-shichijo": [
+      "keihan-main"
+    ],
+    "haijima": [
+      "jr-ome"
+    ],
+    "kawabe": [
+      "jr-ome"
+    ],
+    "nishi-tachikawa": [
+      "jr-ome"
+    ],
+    "okutama": [
+      "jr-ome"
+    ],
+    "ome": [
+      "jr-ome"
+    ],
+    "osaka-metro-osaka-business-park": [
+      "osaka-metro-nagahori-tsurumi-ryokuchi"
+    ],
+    "osaka-metro-gamoyonchome": [
+      "osaka-metro-nagahori-tsurumi-ryokuchi"
+    ],
+    "osakametroimafukutsurumieki": [
+      "osaka-metro-nagahori-tsurumi-ryokuchi"
+    ],
+    "osaka-metro-kyobashi": [
+      "osaka-metro-nagahori-tsurumi-ryokuchi"
+    ],
+    "osaka-metro-nagahoribashi": [
+      "osaka-metro-nagahori-tsurumi-ryokuchi"
+    ],
+    "keio-shinjuku": [
+      "keio"
+    ],
+    "keio-seiseki-sakuragaoka": [
+      "keio"
+    ],
+    "keio-fuchu": [
+      "keio"
+    ],
+    "keio-hachimanyama": [
+      "keio"
+    ],
+    "keio-chofu": [
+      "keio"
+    ],
+    "tokyu-shibuya": [
+      "tokyu-denentoshi",
+      "tokyu-toyoko"
+    ],
+    "tokyu-komazawa-university": [
+      "tokyu-denentoshi"
+    ],
+    "tokyu-sangen-jaya": [
+      "tokyu-denentoshi"
+    ],
+    "tokyu-tama-plaza": [
+      "tokyu-denentoshi"
+    ],
+    "tokyu-musashi-kosugi": [
+      "tokyu-toyoko"
+    ],
+    "tokyu-den-en-chofu": [
+      "tokyu-toyoko"
+    ],
+    "kamakura": [
+      "jr-yokosuka"
+    ],
+    "kita-kamakura": [
+      "jr-yokosuka"
+    ],
+    "yokosuka": [
+      "jr-yokosuka"
+    ],
+    "zushi": [
+      "jr-yokosuka"
+    ],
+    "shin-aomori": [
+      "jr-ou"
+    ],
+    "yonezawa": [
+      "jr-ou"
+    ],
+    "yamagata": [
+      "jr-ou"
+    ],
+    "akita": [
+      "jr-ou"
+    ]
+  },
+  "rail_stations": [
+    "ikebukuro",
+    "shinjuku",
+    "shibuya",
+    "tokyo",
+    "shinagawa",
+    "ueno",
+    "yokohama",
+    "omiya",
+    "shimbashi",
+    "akihabara",
+    "kita-senju",
+    "kawasaki",
+    "takadanobaba",
+    "tachikawa",
+    "osaki",
+    "hamamatsucho",
+    "nakano",
+    "kichijoji",
+    "yurakucho",
+    "ebisu",
+    "tamachi",
+    "kamata",
+    "kashiwa",
+    "musashi-kosugi",
+    "gotanda",
+    "nippori",
+    "chiba",
+    "fujisawa",
+    "kokubunji",
+    "totsuka",
+    "machida",
+    "akabane",
+    "meguro",
+    "sendai",
+    "ofuna",
+    "urawa",
+    "kanda",
+    "matsudo",
+    "nishi-nippori",
+    "tsudanuma",
+    "yotsuya",
+    "ochanomizu",
+    "oimachi",
+    "mitaka",
+    "omori",
+    "ogikubo",
+    "maihama",
+    "musashi-mizonokuchi",
+    "noborito",
+    "hachioji",
+    "kawaguchi",
+    "shin-koiwa",
+    "sakuragicho",
+    "tsurumi",
+    "suidobashi",
+    "iidabashi",
+    "harajuku",
+    "sugamo",
+    "musashi-sakai",
+    "okachimachi",
+    "hashimoto",
+    "oji",
+    "kaihin-makuhari",
+    "musashi-koganei",
+    "hiratsuka",
+    "yoyogi",
+    "ichikawa",
+    "tsujido",
+    "nagatsuta",
+    "warabi",
+    "minami-urawa",
+    "motoyawata",
+    "kameido",
+    "nishi-kawaguchi",
+    "otsuka",
+    "saitama-shintoshin",
+    "kannai",
+    "chigasaki",
+    "higashi-totsuka",
+    "shin-urayasu",
+    "ichigaya",
+    "musashi-urawa",
+    "asakusabashi",
+    "kanamachi",
+    "kunitachi",
+    "kita-urawa",
+    "koenji",
+    "inage",
+    "komagome",
+    "nishi-ogikubo",
+    "takanawa-gateway",
+    "shinanomachi",
+    "ryogoku",
+    "nishi-funabashi",
+    "uguisudani",
+    "mejiro",
+    "tabata",
+    "sendagaya",
+    "higashi-nakano",
+    "itabashi",
+    "kamakura",
+    "atami",
+    "hatchobori",
+    "asagaya",
+    "etchujima",
+    "utsunomiya",
+    "hodogaya",
+    "hirai",
+    "makuhari",
+    "kamoi",
+    "shin-kemigawa",
+    "oyama",
+    "otsuki",
+    "fuchu-hommachi",
+    "shin-kawasaki",
+    "haijima",
+    "nishi-fuchu",
+    "kawabe",
+    "kita-akabane",
+    "nishi-tachikawa",
+    "hino",
+    "higashi-koganei",
+    "toyoda",
+    "odawara",
+    "niiza",
+    "nishi-hachioji",
+    "ukima-funado",
+    "shin-nihombashi",
+    "isogo",
+    "hasuda",
+    "mikawashima",
+    "inagi-naganuma",
+    "higashi-jujo",
+    "minami-tama",
+    "kita-toda",
+    "nishi-kokubunji",
+    "kita-fuchu",
+    "naka-urawa",
+    "shin-kodaira",
+    "musashi-nakahara",
+    "konandai",
+    "negishi",
+    "yugawara",
+    "kikuna",
+    "tokyo-monorail-haneda-airport-terminal-3",
+    "tokyo-monorail-haneda-airport-terminal-1",
+    "tokyo-monorail-haneda-airport-terminal-2",
+    "kawagoe",
+    "nishi-chiba",
+    "musashi-itsukaichi",
+    "yanokuchi",
+    "toda-koen",
+    "yono",
+    "kofu",
+    "yokodai",
+    "hongodai",
+    "shimosa-nakayama",
+    "kita-yono",
+    "oiso",
+    "ninomiya",
+    "ishikawacho",
+    "yono-hommachi",
+    "tokaichiba",
+    "kobuchi",
+    "fuchinobe",
+    "naruse",
+    "keio-seiseki-sakuragaoka",
+    "keio-fuchu",
+    "keio-hachimanyama",
+    "keio-chofu",
+    "keio-shinjuku",
+    "kameari",
+    "minami-yono",
+    "enzan",
+    "minami-senju",
+    "shin-matsudo",
+    "shin-koyasu",
+    "kozu",
+    "okubo",
+    "yako",
+    "higashi-omiya",
+    "kuki",
+    "higashi-tokorozawa",
+    "kobuchizawa",
+    "higashi-funabashi",
+    "yamanashi-shi",
+    "ito",
+    "toro",
+    "oguchi",
+    "nakayama",
+    "minami-funabashi",
+    "bakurocho",
+    "mobara",
+    "goi",
+    "narita",
+    "kita-kamakura",
+    "keihan-hirakata-shi",
+    "keihan-nakanoshima",
+    "keihan-kyobashi",
+    "keihan-kitahama",
+    "keihan-temmabashi",
+    "mito",
+    "kyoto",
+    "jujo",
+    "okutama",
+    "kinomiya",
+    "nasushiobara",
+    "shin-narashino",
+    "nikko",
+    "toride",
+    "kuroiso",
+    "takasaki",
+    "kaminakazato",
+    "katsuta",
+    "makuharihongo",
+    "kozukue",
+    "koga",
+    "shin-yokohama",
+    "manazuru",
+    "shin-aomori",
+    "koriyama",
+    "fukushima",
+    "koshigaya-laketown",
+    "shin-osaka",
+    "nishi-oi",
+    "tokyu-shibuya",
+    "tokyu-musashi-kosugi",
+    "kemigawahama",
+    "inagekaigan",
+    "tokyu-komazawa-university",
+    "toda",
+    "sawara",
+    "takao",
+    "hachioji-minamino",
+    "higashi-urawa",
+    "funabashi-hoten",
+    "ushiku",
+    "ryugasaki-shi",
+    "higashi-matsudo",
+    "tokyu-o-okayama",
+    "minami-kashiwa",
+    "ishibashi",
+    "keihan-sanjo",
+    "keihan-demachiyanagi",
+    "keihan-gion-shijo",
+    "keihan-shichijo",
+    "nagano",
+    "misato",
+    "soga",
+    "okegawa",
+    "kita-kashiwa",
+    "hakata",
+    "kashimada",
+    "ichikawa-shiohama",
+    "niigata",
+    "sapporo",
+    "sapporo-city-subway-odori",
+    "sapporo-city-subway-sapporo",
+    "shin-okubo",
+    "fukaya",
+    "shin-akitsu",
+    "kitamoto",
+    "kumagaya",
+    "yokosuka",
+    "yoshikawa",
+    "miyahara",
+    "konosu",
+    "anegasaki",
+    "morioka",
+    "kamonomiya",
+    "sakura",
+    "higashi-washinomiya",
+    "tsuga",
+    "yumoto",
+    "musashi-shinjo",
+    "yonezawa",
+    "kansai-international-airport",
+    "osaka-international-airport",
+    "osaka-metro-esaka",
+    "osaka-metro-higashi-mikuni",
+    "osaka-metro-umeda",
+    "osaka-metro-tennoji",
+    "osaka-metro-shinsaibashi",
+    "ichinoseki",
+    "yamagata",
+    "echigoyuzawa",
+    "osaka-metro-higashiumeda",
+    "osaka-metro-takaita",
+    "osaka-metrotenjimbashisuji-6-chome",
+    "osaka-metro-shin-osaka",
+    "osaka-metro-nagai",
+    "osaka-metro-deto",
+    "osaka-metro-kireuriwari",
+    "hankyu-osaka-umeda",
+    "railway-museum",
+    "ishioka",
+    "tsuchiura",
+    "maebashi",
+    "zushi",
+    "higashi-kanagawa",
+    "higashi-kawaguchi",
+    "yokohama-municipal-subway-kannai",
+    "yokohama-municipal-subway-shin-yokohama",
+    "tsuruoka",
+    "sakata",
+    "murakami",
+    "ajiro",
+    "katsunuma-budokyo",
+    "sagamiko",
+    "osaka-metro-yao-minami",
+    "osaka-metro-nagahara",
+    "osaka-metro-osaka-business-park",
+    "osaka-metro-namba",
+    "osaka-metro-nakazakicho",
+    "osaka-metro-ogimachi",
+    "osaka-metro-nakatsu",
+    "chibaminato",
+    "akigawa",
+    "yamadera",
+    "osaka-metro-gamoyonchome",
+    "osakametroimafukutsurumieki",
+    "osaka-metro-dobutsuen-mae",
+    "osaka-metro-hirano",
+    "osaka-metro-fuminosato",
+    "osaka-metro-hommachi",
+    "osaka-metro-kyobashi",
+    "ome",
+    "tokyu-sangen-jaya",
+    "toke",
+    "tokyu-den-en-chofu",
+    "hanamaki",
+    "same",
+    "honhachinohe",
+    "hachinohe",
+    "shinsugita",
+    "akita",
+    "hiraizumi",
+    "osaka-metro-yotsubashi",
+    "osaka-metro-nagahoribashi",
+    "osaka-metro-abeno",
+    "shinmisato",
+    "tokyu-tama-plaza",
+    "sagamihara"
+  ]
+}
