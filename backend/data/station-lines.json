@@ -123,7 +123,8 @@
         "maya",
         "notogawa",
         "minami-hikone",
-        "yamazaki"
+        "yamazaki",
+        "tachibana"
       ]
     },
     {
@@ -450,6 +451,46 @@
         "nishi-gifu",
         "iwata",
         "nishi-yaizu"
+      ]
+    },
+    {
+      "slug": "jr-kagoshima",
+      "name": "JR鹿児島本線",
+      "operator": "九州旅客鉄道",
+      "official": "鹿児島線",
+      "note": null,
+      "stations": [
+        "hakata",
+        "kokura",
+        "kagoshima-chuo",
+        "kumamoto",
+        "yoshizuka",
+        "kashii",
+        "orio",
+        "chihaya",
+        "kurosaki",
+        "fukkodaimae",
+        "takeshita",
+        "minami-fukuoka",
+        "fukuma",
+        "tobata",
+        "kyusandaimae",
+        "akama",
+        "kurume",
+        "futsukaichi",
+        "hakozaki",
+        "tosu",
+        "omuta",
+        "koga-fukuoka",
+        "yahata",
+        "moji",
+        "sasabaru",
+        "shingu-chuo",
+        "togo",
+        "onojo",
+        "kami-kumamoto",
+        "kiyama",
+        "sendai-kagoshima"
       ]
     },
     {
@@ -829,42 +870,6 @@
         "nishi-urawa",
         "ichikawaono",
         "yoshikawa-minami"
-      ]
-    },
-    {
-      "slug": "jr-kagoshima",
-      "name": "JR鹿児島本線",
-      "operator": "九州旅客鉄道",
-      "official": "鹿児島線",
-      "note": null,
-      "stations": [
-        "hakata",
-        "kokura",
-        "kagoshima-chuo",
-        "kumamoto",
-        "yoshizuka",
-        "kashii",
-        "orio",
-        "chihaya",
-        "kurosaki",
-        "fukkodaimae",
-        "takeshita",
-        "minami-fukuoka",
-        "fukuma",
-        "tobata",
-        "kyusandaimae",
-        "akama",
-        "kurume",
-        "futsukaichi",
-        "hakozaki",
-        "tosu",
-        "omuta",
-        "koga-fukuoka",
-        "yahata",
-        "moji",
-        "sasabaru",
-        "shingu-chuo",
-        "togo"
       ]
     },
     {
@@ -1346,6 +1351,35 @@
       ]
     },
     {
+      "slug": "hankyu-kyoto",
+      "name": "阪急京都線",
+      "operator": "阪急電鉄",
+      "official": "京都線",
+      "note": null,
+      "stations": [
+        "minami-ibaraki",
+        "kyoto-kawaramachi",
+        "juso",
+        "takatsuki-shi",
+        "ibaraki-shi",
+        "kami-shinjo",
+        "katsura",
+        "awaji",
+        "omiya-kyoto",
+        "nagaoka-tenjin",
+        "nishi-kyogoku",
+        "tonda",
+        "aikawa",
+        "shojaku",
+        "nishiyama-tennozan",
+        "sojiji",
+        "rakusaiguchi",
+        "higashi-muko",
+        "settsu-shi",
+        "saiin"
+      ]
+    },
+    {
       "slug": "toei-shinjuku",
       "name": "都営新宿線",
       "operator": "東京都",
@@ -1455,34 +1489,6 @@
         "nango-jusan-chome",
         "nijuyon-ken",
         "hibarigaoka-hokkaido"
-      ]
-    },
-    {
-      "slug": "hankyu-kyoto",
-      "name": "阪急京都線",
-      "operator": "阪急電鉄",
-      "official": "京都線",
-      "note": null,
-      "stations": [
-        "minami-ibaraki",
-        "kyoto-kawaramachi",
-        "juso",
-        "takatsuki-shi",
-        "ibaraki-shi",
-        "kami-shinjo",
-        "katsura",
-        "awaji",
-        "omiya-kyoto",
-        "nagaoka-tenjin",
-        "nishi-kyogoku",
-        "tonda",
-        "aikawa",
-        "shojaku",
-        "nishiyama-tennozan",
-        "sojiji",
-        "rakusaiguchi",
-        "higashi-muko",
-        "settsu-shi"
       ]
     },
     {
@@ -2309,6 +2315,27 @@
       ]
     },
     {
+      "slug": "jr-sanin",
+      "name": "JR山陰本線（嵯峨野線など）",
+      "operator": "西日本旅客鉄道",
+      "official": "山陰線",
+      "note": "正式な路線名の「山陰本線」でまとめています。京都〜園部の嵯峨野線の区間を含みます。",
+      "stations": [
+        "kyoto",
+        "nijo",
+        "saga-arashiyama",
+        "kameoka",
+        "emmachi",
+        "tambaguchi",
+        "tottori",
+        "matsue",
+        "yonago",
+        "izumoshi",
+        "kurayoshi",
+        "nogi"
+      ]
+    },
+    {
       "slug": "osaka-metro-sennichimae",
       "name": "Osaka Metro千日前線",
       "operator": "大阪市高速電気軌道",
@@ -2431,6 +2458,26 @@
       ]
     },
     {
+      "slug": "nankai-koya",
+      "name": "南海高野線",
+      "operator": "南海電気鉄道",
+      "official": "高野線",
+      "note": null,
+      "stations": [
+        "nakamozu",
+        "mikunigaoka",
+        "sakaihigashi",
+        "kawachinagano",
+        "kitanoda",
+        "kongo",
+        "hatsushiba",
+        "mikkaichicho",
+        "chiyoda",
+        "shirasagi",
+        "hashimoto-wakayama"
+      ]
+    },
+    {
       "slug": "jr-takarazuka",
       "name": "JR宝塚線（福知山線）",
       "operator": "西日本旅客鉄道",
@@ -2489,22 +2536,22 @@
       ]
     },
     {
-      "slug": "nankai-koya",
-      "name": "南海高野線",
-      "operator": "南海電気鉄道",
-      "official": "高野線",
+      "slug": "jr-nippo",
+      "name": "JR日豊本線",
+      "operator": "九州旅客鉄道",
+      "official": "日豊線",
       "note": null,
       "stations": [
-        "nakamozu",
-        "mikunigaoka",
-        "sakaihigashi",
-        "kawachinagano",
-        "kitanoda",
-        "kongo",
-        "hatsushiba",
-        "mikkaichicho",
-        "chiyoda",
-        "shirasagi"
+        "kokura",
+        "oita",
+        "shimosone",
+        "beppu",
+        "yukuhashi",
+        "jono",
+        "miyazaki",
+        "nakatsu",
+        "minami-miyazaki",
+        "hyugashi"
       ]
     },
     {
@@ -2736,23 +2783,6 @@
       ]
     },
     {
-      "slug": "jr-sanin",
-      "name": "JR山陰本線（嵯峨野線など）",
-      "operator": "西日本旅客鉄道",
-      "official": "山陰線",
-      "note": "正式な路線名の「山陰本線」でまとめています。京都〜園部の嵯峨野線の区間を含みます。",
-      "stations": [
-        "kyoto",
-        "nijo",
-        "saga-arashiyama",
-        "kameoka",
-        "emmachi",
-        "tambaguchi",
-        "tottori",
-        "matsue"
-      ]
-    },
-    {
       "slug": "saitama-railway",
       "name": "埼玉高速鉄道線（埼玉スタジアム線）",
       "operator": "埼玉高速鉄道",
@@ -2885,6 +2915,22 @@
       ]
     },
     {
+      "slug": "jr-ou",
+      "name": "JR奥羽本線",
+      "operator": "東日本旅客鉄道",
+      "official": "奥羽線",
+      "note": null,
+      "stations": [
+        "shin-aomori",
+        "fukushima",
+        "yonezawa",
+        "yamagata",
+        "akita",
+        "aomori",
+        "omagari"
+      ]
+    },
+    {
       "slug": "sotetsu-izumino",
       "name": "相鉄いずみ野線",
       "operator": "相模鉄道",
@@ -2914,22 +2960,6 @@
         "dome-mae",
         "fuku",
         "dekijima"
-      ]
-    },
-    {
-      "slug": "jr-nippo",
-      "name": "JR日豊本線",
-      "operator": "九州旅客鉄道",
-      "official": "日豊線",
-      "note": null,
-      "stations": [
-        "kokura",
-        "oita",
-        "shimosone",
-        "beppu",
-        "yukuhashi",
-        "jono",
-        "miyazaki"
       ]
     },
     {
@@ -3082,21 +3112,6 @@
         "nagaoka",
         "shinonoi",
         "kameda"
-      ]
-    },
-    {
-      "slug": "jr-ou",
-      "name": "JR奥羽本線",
-      "operator": "東日本旅客鉄道",
-      "official": "奥羽線",
-      "note": null,
-      "stations": [
-        "shin-aomori",
-        "fukushima",
-        "yonezawa",
-        "yamagata",
-        "akita",
-        "aomori"
       ]
     },
     {
@@ -3566,9 +3581,9 @@
     ],
     "kyoto": [
       "jr-west-tokaido",
+      "jr-sanin",
       "kyoto-karasuma",
       "kintetsu-kyoto",
-      "jr-sanin",
       "jr-nara"
     ],
     "shin-osaka": [
@@ -3725,6 +3740,9 @@
       "jr-west-tokaido"
     ],
     "yamazaki": [
+      "jr-west-tokaido"
+    ],
+    "tachibana": [
       "jr-west-tokaido"
     ],
     "hiroshima": [
@@ -4573,6 +4591,103 @@
     ],
     "nishi-yaizu": [
       "jr-central-tokaido"
+    ],
+    "hakata": [
+      "jr-kagoshima",
+      "fukuoka-kuko",
+      "fukuoka-nanakuma"
+    ],
+    "kokura": [
+      "jr-kagoshima",
+      "jr-nippo"
+    ],
+    "kagoshima-chuo": [
+      "jr-kagoshima"
+    ],
+    "kumamoto": [
+      "jr-kagoshima"
+    ],
+    "yoshizuka": [
+      "jr-kagoshima"
+    ],
+    "kashii": [
+      "jr-kagoshima"
+    ],
+    "orio": [
+      "jr-kagoshima"
+    ],
+    "chihaya": [
+      "jr-kagoshima"
+    ],
+    "kurosaki": [
+      "jr-kagoshima"
+    ],
+    "fukkodaimae": [
+      "jr-kagoshima"
+    ],
+    "takeshita": [
+      "jr-kagoshima"
+    ],
+    "minami-fukuoka": [
+      "jr-kagoshima"
+    ],
+    "fukuma": [
+      "jr-kagoshima"
+    ],
+    "tobata": [
+      "jr-kagoshima"
+    ],
+    "kyusandaimae": [
+      "jr-kagoshima"
+    ],
+    "akama": [
+      "jr-kagoshima"
+    ],
+    "kurume": [
+      "jr-kagoshima"
+    ],
+    "futsukaichi": [
+      "jr-kagoshima"
+    ],
+    "hakozaki": [
+      "jr-kagoshima"
+    ],
+    "tosu": [
+      "jr-kagoshima"
+    ],
+    "omuta": [
+      "jr-kagoshima",
+      "nishitetsu-tenjin-omuta"
+    ],
+    "koga-fukuoka": [
+      "jr-kagoshima"
+    ],
+    "yahata": [
+      "jr-kagoshima"
+    ],
+    "moji": [
+      "jr-kagoshima"
+    ],
+    "sasabaru": [
+      "jr-kagoshima"
+    ],
+    "shingu-chuo": [
+      "jr-kagoshima"
+    ],
+    "togo": [
+      "jr-kagoshima"
+    ],
+    "onojo": [
+      "jr-kagoshima"
+    ],
+    "kami-kumamoto": [
+      "jr-kagoshima"
+    ],
+    "kiyama": [
+      "jr-kagoshima"
+    ],
+    "sendai-kagoshima": [
+      "jr-kagoshima"
     ],
     "keio-shinjuku": [
       "keio"
@@ -5444,91 +5559,6 @@
     ],
     "yoshikawa-minami": [
       "jr-musashino"
-    ],
-    "hakata": [
-      "jr-kagoshima",
-      "fukuoka-kuko",
-      "fukuoka-nanakuma"
-    ],
-    "kokura": [
-      "jr-kagoshima",
-      "jr-nippo"
-    ],
-    "kagoshima-chuo": [
-      "jr-kagoshima"
-    ],
-    "kumamoto": [
-      "jr-kagoshima"
-    ],
-    "yoshizuka": [
-      "jr-kagoshima"
-    ],
-    "kashii": [
-      "jr-kagoshima"
-    ],
-    "orio": [
-      "jr-kagoshima"
-    ],
-    "chihaya": [
-      "jr-kagoshima"
-    ],
-    "kurosaki": [
-      "jr-kagoshima"
-    ],
-    "fukkodaimae": [
-      "jr-kagoshima"
-    ],
-    "takeshita": [
-      "jr-kagoshima"
-    ],
-    "minami-fukuoka": [
-      "jr-kagoshima"
-    ],
-    "fukuma": [
-      "jr-kagoshima"
-    ],
-    "tobata": [
-      "jr-kagoshima"
-    ],
-    "kyusandaimae": [
-      "jr-kagoshima"
-    ],
-    "akama": [
-      "jr-kagoshima"
-    ],
-    "kurume": [
-      "jr-kagoshima"
-    ],
-    "futsukaichi": [
-      "jr-kagoshima"
-    ],
-    "hakozaki": [
-      "jr-kagoshima"
-    ],
-    "tosu": [
-      "jr-kagoshima"
-    ],
-    "omuta": [
-      "jr-kagoshima",
-      "nishitetsu-tenjin-omuta"
-    ],
-    "koga-fukuoka": [
-      "jr-kagoshima"
-    ],
-    "yahata": [
-      "jr-kagoshima"
-    ],
-    "moji": [
-      "jr-kagoshima"
-    ],
-    "sasabaru": [
-      "jr-kagoshima"
-    ],
-    "shingu-chuo": [
-      "jr-kagoshima"
-    ],
-    "togo": [
-      "jr-kagoshima"
     ],
     "musashi-mizonokuchi": [
       "jr-nambu"
@@ -6437,6 +6467,70 @@
     "shinkanaoka": [
       "osaka-metro-midosuji"
     ],
+    "minami-ibaraki": [
+      "hankyu-kyoto",
+      "osaka-monorail"
+    ],
+    "kyoto-kawaramachi": [
+      "hankyu-kyoto"
+    ],
+    "juso": [
+      "hankyu-kyoto",
+      "hankyu-kobe",
+      "hankyu-takarazuka"
+    ],
+    "takatsuki-shi": [
+      "hankyu-kyoto"
+    ],
+    "ibaraki-shi": [
+      "hankyu-kyoto"
+    ],
+    "kami-shinjo": [
+      "hankyu-kyoto"
+    ],
+    "katsura": [
+      "hankyu-kyoto"
+    ],
+    "awaji": [
+      "hankyu-kyoto",
+      "hankyu-senri"
+    ],
+    "omiya-kyoto": [
+      "hankyu-kyoto"
+    ],
+    "nagaoka-tenjin": [
+      "hankyu-kyoto"
+    ],
+    "nishi-kyogoku": [
+      "hankyu-kyoto"
+    ],
+    "tonda": [
+      "hankyu-kyoto"
+    ],
+    "aikawa": [
+      "hankyu-kyoto"
+    ],
+    "shojaku": [
+      "hankyu-kyoto"
+    ],
+    "nishiyama-tennozan": [
+      "hankyu-kyoto"
+    ],
+    "sojiji": [
+      "hankyu-kyoto"
+    ],
+    "rakusaiguchi": [
+      "hankyu-kyoto"
+    ],
+    "higashi-muko": [
+      "hankyu-kyoto"
+    ],
+    "settsu-shi": [
+      "hankyu-kyoto"
+    ],
+    "saiin": [
+      "hankyu-kyoto"
+    ],
     "sumiyoshi-tokyo": [
       "toei-shinjuku",
       "tokyo-metro-hanzomon"
@@ -6616,67 +6710,6 @@
     ],
     "hibarigaoka-hokkaido": [
       "sapporo-tozai"
-    ],
-    "minami-ibaraki": [
-      "hankyu-kyoto",
-      "osaka-monorail"
-    ],
-    "kyoto-kawaramachi": [
-      "hankyu-kyoto"
-    ],
-    "juso": [
-      "hankyu-kyoto",
-      "hankyu-kobe",
-      "hankyu-takarazuka"
-    ],
-    "takatsuki-shi": [
-      "hankyu-kyoto"
-    ],
-    "ibaraki-shi": [
-      "hankyu-kyoto"
-    ],
-    "kami-shinjo": [
-      "hankyu-kyoto"
-    ],
-    "katsura": [
-      "hankyu-kyoto"
-    ],
-    "awaji": [
-      "hankyu-kyoto",
-      "hankyu-senri"
-    ],
-    "omiya-kyoto": [
-      "hankyu-kyoto"
-    ],
-    "nagaoka-tenjin": [
-      "hankyu-kyoto"
-    ],
-    "nishi-kyogoku": [
-      "hankyu-kyoto"
-    ],
-    "tonda": [
-      "hankyu-kyoto"
-    ],
-    "aikawa": [
-      "hankyu-kyoto"
-    ],
-    "shojaku": [
-      "hankyu-kyoto"
-    ],
-    "nishiyama-tennozan": [
-      "hankyu-kyoto"
-    ],
-    "sojiji": [
-      "hankyu-kyoto"
-    ],
-    "rakusaiguchi": [
-      "hankyu-kyoto"
-    ],
-    "higashi-muko": [
-      "hankyu-kyoto"
-    ],
-    "settsu-shi": [
-      "hankyu-kyoto"
     ],
     "omotesando": [
       "tokyo-metro-chiyoda",
@@ -7932,6 +7965,36 @@
     "keio-yomiuri-land": [
       "keio-sagamihara"
     ],
+    "saga-arashiyama": [
+      "jr-sanin"
+    ],
+    "kameoka": [
+      "jr-sanin"
+    ],
+    "emmachi": [
+      "jr-sanin"
+    ],
+    "tambaguchi": [
+      "jr-sanin"
+    ],
+    "tottori": [
+      "jr-sanin"
+    ],
+    "matsue": [
+      "jr-sanin"
+    ],
+    "yonago": [
+      "jr-sanin"
+    ],
+    "izumoshi": [
+      "jr-sanin"
+    ],
+    "kurayoshi": [
+      "jr-sanin"
+    ],
+    "nogi": [
+      "jr-sanin"
+    ],
     "nippombashi": [
       "osaka-metro-sennichimae",
       "osaka-metro-sakaisuji"
@@ -8067,6 +8130,33 @@
     "shin-moriyama": [
       "jr-central-chuo"
     ],
+    "sakaihigashi": [
+      "nankai-koya"
+    ],
+    "kawachinagano": [
+      "nankai-koya"
+    ],
+    "kitanoda": [
+      "nankai-koya"
+    ],
+    "kongo": [
+      "nankai-koya"
+    ],
+    "hatsushiba": [
+      "nankai-koya"
+    ],
+    "mikkaichicho": [
+      "nankai-koya"
+    ],
+    "chiyoda": [
+      "nankai-koya"
+    ],
+    "shirasagi": [
+      "nankai-koya"
+    ],
+    "hashimoto-wakayama": [
+      "nankai-koya"
+    ],
     "itami": [
       "jr-takarazuka"
     ],
@@ -8124,29 +8214,32 @@
     "katakuracho": [
       "yokohama-blue"
     ],
-    "sakaihigashi": [
-      "nankai-koya"
+    "oita": [
+      "jr-nippo"
     ],
-    "kawachinagano": [
-      "nankai-koya"
+    "shimosone": [
+      "jr-nippo"
     ],
-    "kitanoda": [
-      "nankai-koya"
+    "beppu": [
+      "jr-nippo"
     ],
-    "kongo": [
-      "nankai-koya"
+    "yukuhashi": [
+      "jr-nippo"
     ],
-    "hatsushiba": [
-      "nankai-koya"
+    "jono": [
+      "jr-nippo"
     ],
-    "mikkaichicho": [
-      "nankai-koya"
+    "miyazaki": [
+      "jr-nippo"
     ],
-    "chiyoda": [
-      "nankai-koya"
+    "nakatsu": [
+      "jr-nippo"
     ],
-    "shirasagi": [
-      "nankai-koya"
+    "minami-miyazaki": [
+      "jr-nippo"
+    ],
+    "hyugashi": [
+      "jr-nippo"
     ],
     "kaminagaya": [
       "yokohama-blue-south"
@@ -8361,24 +8454,6 @@
     "minami-hashimoto": [
       "jr-sagami"
     ],
-    "saga-arashiyama": [
-      "jr-sanin"
-    ],
-    "kameoka": [
-      "jr-sanin"
-    ],
-    "emmachi": [
-      "jr-sanin"
-    ],
-    "tambaguchi": [
-      "jr-sanin"
-    ],
-    "tottori": [
-      "jr-sanin"
-    ],
-    "matsue": [
-      "jr-sanin"
-    ],
     "urawa-misono": [
       "saitama-railway"
     ],
@@ -8511,6 +8586,24 @@
     "obaku": [
       "jr-nara"
     ],
+    "shin-aomori": [
+      "jr-ou"
+    ],
+    "yonezawa": [
+      "jr-ou"
+    ],
+    "yamagata": [
+      "jr-ou"
+    ],
+    "akita": [
+      "jr-ou"
+    ],
+    "aomori": [
+      "jr-ou"
+    ],
+    "omagari": [
+      "jr-ou"
+    ],
     "ryokuentoshi": [
       "sotetsu-izumino"
     ],
@@ -8534,24 +8627,6 @@
     ],
     "dekijima": [
       "hanshin-namba"
-    ],
-    "oita": [
-      "jr-nippo"
-    ],
-    "shimosone": [
-      "jr-nippo"
-    ],
-    "beppu": [
-      "jr-nippo"
-    ],
-    "yukuhashi": [
-      "jr-nippo"
-    ],
-    "jono": [
-      "jr-nippo"
-    ],
-    "miyazaki": [
-      "jr-nippo"
     ],
     "tachikawa-kita": [
       "tama-monorail"
@@ -8678,21 +8753,6 @@
     ],
     "kameda": [
       "jr-shinetsu"
-    ],
-    "shin-aomori": [
-      "jr-ou"
-    ],
-    "yonezawa": [
-      "jr-ou"
-    ],
-    "yamagata": [
-      "jr-ou"
-    ],
-    "akita": [
-      "jr-ou"
-    ],
-    "aomori": [
-      "jr-ou"
     ],
     "chiba-newtown-chuo": [
       "keisei-narita-sky-access",
@@ -10736,6 +10796,32 @@
     "tottori",
     "kochi",
     "matsue",
-    "yamaguchi"
+    "yamaguchi",
+    "tachibana",
+    "saiin",
+    "onojo",
+    "hatchobori-hiroshima",
+    "shimo-gion",
+    "hashimoto-wakayama",
+    "shin-takaoka",
+    "sasebo",
+    "kami-kumamoto",
+    "kiyama",
+    "yonago",
+    "sendai-kagoshima",
+    "nakatsu",
+    "okaido",
+    "izumoshi",
+    "harimayabashi",
+    "omagari",
+    "sabae",
+    "gomen",
+    "minami-miyazaki",
+    "kurayoshi",
+    "hyugashi",
+    "shozui",
+    "anan",
+    "ugo-honjo",
+    "nogi"
   ]
 }

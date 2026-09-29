@@ -90,7 +90,7 @@ function stripHtml(html) {
 const OPERATOR_PREFIXES = ["京王", "京阪", "阪急", "阪神", "東急", "西武", "東武", "小田急", "京急", "京成", "南海", "近鉄"];
 function nameCandidates(nameJa) {
   // 同名の駅を区別する括弧書き（「尼崎駅（阪神）」「今里駅（Osaka Metro）」）は比べる前に外す
-  const base = nameJa.replace(/（[^）]*）$/, "").replace(/^.*\s/, "").replace(/駅$/, "");
+  const base = nameJa.replace(/（[^）]*）$/, "").replace(/^.*\s/, "").replace(/(駅|停留場)$/, "");
   const names = [base];
   for (const prefix of OPERATOR_PREFIXES) {
     if (base.startsWith(prefix) && base.length > prefix.length) names.push(base.slice(prefix.length));
@@ -117,7 +117,7 @@ async function findArticle(station) {
     dist: Number(b.dist.value),
   }));
   const names = nameCandidates(station.name_ja);
-  const titleBase = (t) => t.replace(/\s*\(.*\)$/, "").replace(/駅$/, "").replace(/ヶ/g, "ケ");
+  const titleBase = (t) => t.replace(/\s*\(.*\)$/, "").replace(/(駅|停留場)$/, "").replace(/ヶ/g, "ケ");
   // 名前が合わない（「Osaka Metro なんば駅」の座標が記事側とずれている等）ときは、ごく近い駅の記事を使う
   return (
     rows.find((r) => names.includes(titleBase(r.title)))?.title ??

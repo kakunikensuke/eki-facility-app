@@ -27989,6 +27989,403 @@
         "radius_m": 3200,
         "year": 2026
       }
+    },
+    "tachibana": {
+      "ridership": {
+        "daily": 46054,
+        "operators": [
+          "西日本旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 189500,
+        "change_pct": 2.8,
+        "points": 10,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "saiin": {
+      "ridership": {
+        "daily": 43695,
+        "operators": [
+          "京福電気鉄道",
+          "阪急電鉄"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 325000,
+        "change_pct": 5.4,
+        "points": 11,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "onojo": {
+      "ridership": {
+        "daily": 16140,
+        "operators": [
+          "九州旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 248500,
+        "change_pct": 5.7,
+        "points": 6,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "hatchobori-hiroshima": {
+      "ridership": {
+        "daily": 11173,
+        "operators": [
+          "広島電鉄"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 564000,
+        "change_pct": 5.4,
+        "points": 6,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "shimo-gion": {
+      "ridership": {
+        "daily": 10866,
+        "operators": [
+          "西日本旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 163000,
+        "change_pct": 3.5,
+        "points": 9,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "hashimoto-wakayama": {
+      "ridership": {
+        "daily": 9581,
+        "operators": [
+          "西日本旅客鉄道",
+          "南海電気鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 28800,
+        "change_pct": -1.6,
+        "points": 2,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "shin-takaoka": {
+      "ridership": {
+        "daily": 9152,
+        "operators": [
+          "西日本旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 46600,
+        "change_pct": -1.1,
+        "points": 3,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "sasebo": {
+      "ridership": {
+        "daily": 8815,
+        "operators": [
+          "九州旅客鉄道",
+          "松浦鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 52500,
+        "change_pct": 3.3,
+        "points": 3,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "kami-kumamoto": {
+      "ridership": {
+        "daily": 8433,
+        "operators": [
+          "九州旅客鉄道",
+          "熊本市",
+          "熊本電気鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 73900,
+        "change_pct": 1,
+        "points": 8,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "kiyama": {
+      "ridership": {
+        "daily": 7904,
+        "operators": [
+          "甘木鉄道",
+          "九州旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 44350,
+        "change_pct": 7.7,
+        "points": 4,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "yonago": {
+      "ridership": {
+        "daily": 6434,
+        "operators": [
+          "西日本旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 44500,
+        "change_pct": 0.4,
+        "points": 2,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "sendai-kagoshima": {
+      "ridership": {
+        "daily": 5793,
+        "operators": [
+          "九州旅客鉄道",
+          "肥薩おれんじ鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 29550,
+        "change_pct": -0.1,
+        "points": 2,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "nakatsu": {
+      "ridership": {
+        "daily": 5212,
+        "operators": [
+          "九州旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 31000,
+        "change_pct": 0.8,
+        "points": 2,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "okaido": {
+      "ridership": {
+        "daily": 4855,
+        "operators": [
+          "伊予鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 153000,
+        "change_pct": 0.6,
+        "points": 6,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "izumoshi": {
+      "ridership": {
+        "daily": 4760,
+        "operators": [
+          "西日本旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 45850,
+        "change_pct": 0.8,
+        "points": 2,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "harimayabashi": {
+      "ridership": {
+        "daily": 4342,
+        "operators": [
+          "とさでん交通"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 122500,
+        "change_pct": 0.8,
+        "points": 8,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "omagari": {
+      "ridership": {
+        "daily": 3930,
+        "operators": [
+          "東日本旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 25600,
+        "change_pct": 2,
+        "points": 3,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "sabae": {
+      "ridership": {
+        "daily": 3928,
+        "operators": [
+          "ハピラインふくい"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 32750,
+        "change_pct": -0.9,
+        "points": 2,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "gomen": {
+      "ridership": {
+        "daily": 3724,
+        "operators": [
+          "四国旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 70100,
+        "change_pct": 1.5,
+        "points": 3,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "minami-miyazaki": {
+      "ridership": {
+        "daily": 3650,
+        "operators": [
+          "九州旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 61250,
+        "change_pct": 0.8,
+        "points": 4,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "kurayoshi": {
+      "ridership": {
+        "daily": 3362,
+        "operators": [
+          "西日本旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 37050,
+        "change_pct": 0.1,
+        "points": 2,
+        "radius_m": 3200,
+        "year": 2026
+      }
+    },
+    "hyugashi": {
+      "ridership": {
+        "daily": 2556,
+        "operators": [
+          "九州旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 34500,
+        "change_pct": 1.9,
+        "points": 7,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "shozui": {
+      "ridership": {
+        "daily": 2242,
+        "operators": [
+          "四国旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 42950,
+        "change_pct": -0.2,
+        "points": 6,
+        "radius_m": 3200,
+        "year": 2026
+      }
+    },
+    "anan": {
+      "ridership": {
+        "daily": 2162,
+        "operators": [
+          "四国旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 32300,
+        "change_pct": 0,
+        "points": 3,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "ugo-honjo": {
+      "ridership": {
+        "daily": 2152,
+        "operators": [
+          "東日本旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 24000,
+        "change_pct": 1.3,
+        "points": 2,
+        "radius_m": 1600,
+        "year": 2026
+      }
+    },
+    "nogi": {
+      "ridership": {
+        "daily": 1656,
+        "operators": [
+          "西日本旅客鉄道"
+        ]
+      },
+      "land": {
+        "median_yen_per_m2": 62100,
+        "change_pct": 1,
+        "points": 5,
+        "radius_m": 1600,
+        "year": 2026
+      }
     }
   }
 }

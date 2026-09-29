@@ -491,8 +491,11 @@ function prefsIndex(groups, ctx) {
   const byMedian = [...withPage].map((g) => ({ ...g, med: median(g.rows.map((b) => T(b).total)) })).sort((x, y) => y.med - x.med);
   const blocks = [
     p(
-      `全国${national.count}駅を都道府県ごとに分けました。${PREF_PAGE_MIN}駅以上ある${withPage.length}都道府県は、` +
-        "駅を住みやすさ駅前スコアの順に並べたページがあります。"
+      small.length > 0
+        ? `全国${national.count}駅を都道府県ごとに分けました。${PREF_PAGE_MIN}駅以上ある${withPage.length}都道府県は、` +
+            "駅を住みやすさ駅前スコアの順に並べたページがあります。"
+        : `全国${national.count}駅を都道府県ごとに分けました。${withPage.length}都道府県それぞれに、` +
+            "駅を住みやすさ駅前スコアの順に並べたページがあります。"
     ),
     table(
       ["都道府県", "掲載駅数", "中央値", "1位の駅"],

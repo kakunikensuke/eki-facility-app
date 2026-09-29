@@ -14846,5 +14846,213 @@
     "prefecture": "山口県",
     "lat": 34.1726,
     "lon": 131.4807
+  },
+  {
+    "slug": "tachibana",
+    "name_ja": "立花駅",
+    "kana": "たちばな",
+    "prefecture": "兵庫県",
+    "lat": 34.7377,
+    "lon": 135.4004
+  },
+  {
+    "slug": "saiin",
+    "name_ja": "西院駅",
+    "kana": "さいいん",
+    "prefecture": "京都府",
+    "lat": 35.0035,
+    "lon": 135.7319
+  },
+  {
+    "slug": "onojo",
+    "name_ja": "大野城駅",
+    "kana": "おおのじょう",
+    "prefecture": "福岡県",
+    "lat": 33.5257,
+    "lon": 130.4794
+  },
+  {
+    "slug": "hatchobori-hiroshima",
+    "name_ja": "八丁堀停留場",
+    "kana": "はっちょうぼり",
+    "prefecture": "広島県",
+    "lat": 34.3942,
+    "lon": 132.4636
+  },
+  {
+    "slug": "shimo-gion",
+    "name_ja": "下祇園駅",
+    "kana": "しもぎおん",
+    "prefecture": "広島県",
+    "lat": 34.4395,
+    "lon": 132.4627
+  },
+  {
+    "slug": "hashimoto-wakayama",
+    "name_ja": "橋本駅（和歌山県）",
+    "kana": "はしもと",
+    "prefecture": "和歌山県",
+    "lat": 34.3181,
+    "lon": 135.6149
+  },
+  {
+    "slug": "shin-takaoka",
+    "name_ja": "新高岡駅",
+    "kana": "しんたかおか",
+    "prefecture": "富山県",
+    "lat": 36.7271,
+    "lon": 137.0106
+  },
+  {
+    "slug": "sasebo",
+    "name_ja": "佐世保駅",
+    "kana": "させぼ",
+    "prefecture": "長崎県",
+    "lat": 33.1639,
+    "lon": 129.7256
+  },
+  {
+    "slug": "kami-kumamoto",
+    "name_ja": "上熊本駅",
+    "kana": "かみくまもと",
+    "prefecture": "熊本県",
+    "lat": 32.8181,
+    "lon": 130.6994
+  },
+  {
+    "slug": "kiyama",
+    "name_ja": "基山駅",
+    "kana": "きやま",
+    "prefecture": "佐賀県",
+    "lat": 33.4209,
+    "lon": 130.5322
+  },
+  {
+    "slug": "yonago",
+    "name_ja": "米子駅",
+    "kana": "よなご",
+    "prefecture": "鳥取県",
+    "lat": 35.4234,
+    "lon": 133.3367
+  },
+  {
+    "slug": "sendai-kagoshima",
+    "name_ja": "川内駅",
+    "kana": "せんだい",
+    "prefecture": "鹿児島県",
+    "lat": 31.8137,
+    "lon": 130.3123
+  },
+  {
+    "slug": "nakatsu",
+    "name_ja": "中津駅",
+    "kana": "なかつ",
+    "prefecture": "大分県",
+    "lat": 33.5992,
+    "lon": 131.1908
+  },
+  {
+    "slug": "okaido",
+    "name_ja": "大街道停留場",
+    "kana": "おおかいどう",
+    "prefecture": "愛媛県",
+    "lat": 33.8412,
+    "lon": 132.7699
+  },
+  {
+    "slug": "izumoshi",
+    "name_ja": "出雲市駅",
+    "kana": "いずもし",
+    "prefecture": "島根県",
+    "lat": 35.3607,
+    "lon": 132.7565
+  },
+  {
+    "slug": "harimayabashi",
+    "name_ja": "はりまや橋停留場",
+    "kana": "はりまやばし",
+    "prefecture": "高知県",
+    "lat": 33.5595,
+    "lon": 133.5429
+  },
+  {
+    "slug": "omagari",
+    "name_ja": "大曲駅",
+    "kana": "おおまがり",
+    "prefecture": "秋田県",
+    "lat": 39.4654,
+    "lon": 140.4796
+  },
+  {
+    "slug": "sabae",
+    "name_ja": "鯖江駅",
+    "kana": "さばえ",
+    "prefecture": "福井県",
+    "lat": 35.9432,
+    "lon": 136.1887
+  },
+  {
+    "slug": "gomen",
+    "name_ja": "後免駅",
+    "kana": "ごめん",
+    "prefecture": "高知県",
+    "lat": 33.5792,
+    "lon": 133.6452
+  },
+  {
+    "slug": "minami-miyazaki",
+    "name_ja": "南宮崎駅",
+    "kana": "みなみみやざき",
+    "prefecture": "宮崎県",
+    "lat": 31.895,
+    "lon": 131.4222
+  },
+  {
+    "slug": "kurayoshi",
+    "name_ja": "倉吉駅",
+    "kana": "くらよし",
+    "prefecture": "鳥取県",
+    "lat": 35.4546,
+    "lon": 133.8495
+  },
+  {
+    "slug": "hyugashi",
+    "name_ja": "日向市駅",
+    "kana": "ひゅうがし",
+    "prefecture": "宮崎県",
+    "lat": 32.4258,
+    "lon": 131.6278
+  },
+  {
+    "slug": "shozui",
+    "name_ja": "勝瑞駅",
+    "kana": "しょうずい",
+    "prefecture": "徳島県",
+    "lat": 34.1286,
+    "lon": 134.5283
+  },
+  {
+    "slug": "anan",
+    "name_ja": "阿南駅",
+    "kana": "あなん",
+    "prefecture": "徳島県",
+    "lat": 33.9185,
+    "lon": 134.6615
+  },
+  {
+    "slug": "ugo-honjo",
+    "name_ja": "羽後本荘駅",
+    "kana": "うごほんじょう",
+    "prefecture": "秋田県",
+    "lat": 39.3866,
+    "lon": 140.0572
+  },
+  {
+    "slug": "nogi",
+    "name_ja": "乃木駅",
+    "kana": "のぎ",
+    "prefecture": "島根県",
+    "lat": 35.4459,
+    "lon": 133.0487
   }
 ]

@@ -62850,5 +62850,994 @@
         "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
       }
     ]
+  },
+  "tachibana": {
+    "article": "立花駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Tachibana_sta_11.jpg/1280px-Tachibana_sta_11.jpg",
+        "width": 1280,
+        "height": 849,
+        "page": "https://commons.wikimedia.org/wiki/File:Tachibana_sta_11.jpg",
+        "caption": "JR神戸線 立花駅 セブン-イレブン ハートイン JR立花駅北口店",
+        "artist": "Asacyan",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/%E7%AB%8B%E8%8A%B1%E9%A7%85%E5%8C%97%E5%8F%A3.jpg/1280px-%E7%AB%8B%E8%8A%B1%E9%A7%85%E5%8C%97%E5%8F%A3.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:%E7%AB%8B%E8%8A%B1%E9%A7%85%E5%8C%97%E5%8F%A3.jpg",
+        "caption": "JR立花駅",
+        "artist": "小田急4000系ファン",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/%E7%AB%8B%E8%8A%B1%E9%A7%85%E5%8C%97%E5%8F%A32.jpg/1280px-%E7%AB%8B%E8%8A%B1%E9%A7%85%E5%8C%97%E5%8F%A32.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:%E7%AB%8B%E8%8A%B1%E9%A7%85%E5%8C%97%E5%8F%A32.jpg",
+        "caption": "JR立花駅",
+        "artist": "小田急4000系ファン",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/%E7%AB%8B%E8%8A%B1%E9%A7%85%E5%8D%97%E5%8F%A3.jpg/1280px-%E7%AB%8B%E8%8A%B1%E9%A7%85%E5%8D%97%E5%8F%A3.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:%E7%AB%8B%E8%8A%B1%E9%A7%85%E5%8D%97%E5%8F%A3.jpg",
+        "caption": "JR立花駅",
+        "artist": "小田急4000系ファン",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      }
+    ]
+  },
+  "saiin": {
+    "article": "西院駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/HankyuSaiinSta0055.jpg/1280px-HankyuSaiinSta0055.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:HankyuSaiinSta0055.jpg",
+        "caption": "西院駅地上駅舎全景",
+        "artist": "ja:User:Ritsuka",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/RandenSaiSta0074.jpg/1280px-RandenSaiSta0074.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:RandenSaiSta0074.jpg",
+        "caption": "",
+        "artist": "日本語版ウィキペディアのRitsukaさん",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/%E9%98%AA%E6%80%A5%E8%A5%BF%E9%99%A2%E9%A7%85%E5%8C%97%E5%8F%A3.jpg/1280px-%E9%98%AA%E6%80%A5%E8%A5%BF%E9%99%A2%E9%A7%85%E5%8C%97%E5%8F%A3.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:%E9%98%AA%E6%80%A5%E8%A5%BF%E9%99%A2%E9%A7%85%E5%8C%97%E5%8F%A3.jpg",
+        "caption": "阪急西院駅",
+        "artist": "NatsuTV",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/%E9%98%AA%E6%80%A5%E8%A5%BF%E9%99%A2%E9%A7%85%E5%8D%97%E5%8F%A3.jpg/1280px-%E9%98%AA%E6%80%A5%E8%A5%BF%E9%99%A2%E9%A7%85%E5%8D%97%E5%8F%A3.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:%E9%98%AA%E6%80%A5%E8%A5%BF%E9%99%A2%E9%A7%85%E5%8D%97%E5%8F%A3.jpg",
+        "caption": "阪急西院駅",
+        "artist": "NatsuTV",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/%E9%98%AA%E6%80%A5%E8%A5%BF%E9%99%A2%E9%A7%85%E8%A5%BF%E5%8F%A3.jpg/1280px-%E9%98%AA%E6%80%A5%E8%A5%BF%E9%99%A2%E9%A7%85%E8%A5%BF%E5%8F%A3.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:%E9%98%AA%E6%80%A5%E8%A5%BF%E9%99%A2%E9%A7%85%E8%A5%BF%E5%8F%A3.jpg",
+        "caption": "阪急西院駅",
+        "artist": "NatsuTV",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Kyotofamily.JPG/1280px-Kyotofamily.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Kyotofamily.JPG",
+        "caption": "京都ファミリーを撮影。",
+        "artist": "Tokumeigakarinoaoshima",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    ]
+  },
+  "onojo": {
+    "article": "大野城駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Onojo_Station_20160603.jpg/1280px-Onojo_Station_20160603.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Onojo_Station_20160603.jpg",
+        "caption": "大野城駅駅舎",
+        "artist": "そらみみ (Soramimi)",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Onojo_Station_20170101.jpg/1280px-Onojo_Station_20170101.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Onojo_Station_20170101.jpg",
+        "caption": "大野城駅西口",
+        "artist": "そらみみ",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    ]
+  },
+  "hatchobori-hiroshima": {
+    "article": "八丁堀停留場",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Hiroden_Hatchobori_Sta_20130224-1.JPG/1280px-Hiroden_Hatchobori_Sta_20130224-1.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Hiroden_Hatchobori_Sta_20130224-1.JPG",
+        "caption": "広島電鉄八丁堀電停（白島線側）",
+        "artist": "Taisyo",
+        "license": "CC BY 3.0",
+        "license_url": "https://creativecommons.org/licenses/by/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Hiroden_Hatchobori_Sta_20130224-2.JPG/1280px-Hiroden_Hatchobori_Sta_20130224-2.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Hiroden_Hatchobori_Sta_20130224-2.JPG",
+        "caption": "広島電鉄八丁堀電停（本線・西広島側）",
+        "artist": "Taisyo",
+        "license": "CC BY 3.0",
+        "license_url": "https://creativecommons.org/licenses/by/3.0"
+      }
+    ]
+  },
+  "shimo-gion": {
+    "article": "下祇園駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/JR_West_Shimo-Gion_Station_east_side.jpg/1280px-JR_West_Shimo-Gion_Station_east_side.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:JR_West_Shimo-Gion_Station_east_side.jpg",
+        "caption": "広島市安佐南区、西日本旅客鉄道（JR 西日本）可部線・下祇園駅 東口",
+        "artist": "Yasu (トーク)",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/JR_West_Shimo-Gion_Station_west_side.jpg/1280px-JR_West_Shimo-Gion_Station_west_side.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:JR_West_Shimo-Gion_Station_west_side.jpg",
+        "caption": "広島市安佐南区、西日本旅客鉄道（JR 西日本）可部線・下祇園駅 西口",
+        "artist": "Yasu (トーク)",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Shimo-Gion_Station_building_2.jpg/1280px-Shimo-Gion_Station_building_2.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Shimo-Gion_Station_building_2.jpg",
+        "caption": "可部線・下祗園駅",
+        "artist": "Taisyo",
+        "license": "CC BY 3.0",
+        "license_url": "https://creativecommons.org/licenses/by/3.0"
+      }
+    ]
+  },
+  "hashimoto-wakayama": {
+    "article": "橋本駅 (和歌山県)",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Hashimoto_station.JPG/1280px-Hashimoto_station.JPG",
+        "width": 1280,
+        "height": 708,
+        "page": "https://commons.wikimedia.org/wiki/File:Hashimoto_station.JPG",
+        "caption": "橋本駅 駅舎",
+        "artist": "Vanquish0",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Wakayama_Pref._Road_107.jpg/1280px-Wakayama_Pref._Road_107.jpg",
+        "width": 1280,
+        "height": 852,
+        "page": "https://commons.wikimedia.org/wiki/File:Wakayama_Pref._Road_107.jpg",
+        "caption": "和歌山県道107号橋本停車場線。橋本駅前より撮影。（和歌山県橋本市）",
+        "artist": "Flow in edgewise",
+        "license": "CC BY 3.0",
+        "license_url": "https://creativecommons.org/licenses/by/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/Nankai_2258_at_Hashimoto_Station.jpg/1280px-Nankai_2258_at_Hashimoto_Station.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:Nankai_2258_at_Hashimoto_Station.jpg",
+        "caption": "南海電鉄2258 (橋本駅にて)",
+        "artist": "KishujiRapid",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Nankai_Koya_Line_Hashimoto_Station_LED_Display.jpg/1280px-Nankai_Koya_Line_Hashimoto_Station_LED_Display.jpg",
+        "width": 1280,
+        "height": 487,
+        "page": "https://commons.wikimedia.org/wiki/File:Nankai_Koya_Line_Hashimoto_Station_LED_Display.jpg",
+        "caption": "南海橋本駅の行先表示器（LED式）",
+        "artist": "Kamigata0",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Wakayama_Hashimoto_Station_2008-08-31.jpg/1280px-Wakayama_Hashimoto_Station_2008-08-31.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Wakayama_Hashimoto_Station_2008-08-31.jpg",
+        "caption": "橋本駅 (和歌山県)",
+        "artist": "Rsa",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    ]
+  },
+  "shin-takaoka": {
+    "article": "新高岡駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Shin-Takaoka-STA_Johana-line_East-side.jpg/1280px-Shin-Takaoka-STA_Johana-line_East-side.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:Shin-Takaoka-STA_Johana-line_East-side.jpg",
+        "caption": "JR西日本・新高岡駅の城端線駅舎の東側",
+        "artist": "MaedaAkihiko",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Shin-Takaoka_Station.jpg/1280px-Shin-Takaoka_Station.jpg",
+        "width": 1280,
+        "height": 877,
+        "page": "https://commons.wikimedia.org/wiki/File:Shin-Takaoka_Station.jpg",
+        "caption": "富山県高岡市にある新高岡駅の南口。",
+        "artist": "RESPITE",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/%E6%96%B0%E9%AB%98%E5%B2%A1%E9%A7%85_-_panoramio.jpg/1280px-%E6%96%B0%E9%AB%98%E5%B2%A1%E9%A7%85_-_panoramio.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:%E6%96%B0%E9%AB%98%E5%B2%A1%E9%A7%85_-_panoramio.jpg",
+        "caption": "新高岡駅",
+        "artist": "くろふね",
+        "license": "CC BY 3.0",
+        "license_url": "https://creativecommons.org/licenses/by/3.0"
+      }
+    ]
+  },
+  "sasebo": {
+    "article": "佐世保駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Sasebo_station_east_entrance_view_20070725.jpg/1280px-Sasebo_station_east_entrance_view_20070725.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Sasebo_station_east_entrance_view_20070725.jpg",
+        "caption": "​投稿者が2007年7月25日に撮影",
+        "artist": "日本語版ウィキペディアのISSHIEさん",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/%E4%BD%90%E4%B8%96%E4%BF%9D%E9%A7%85_%E9%A7%85%E8%88%8E.jpg/1280px-%E4%BD%90%E4%B8%96%E4%BF%9D%E9%A7%85_%E9%A7%85%E8%88%8E.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:%E4%BD%90%E4%B8%96%E4%BF%9D%E9%A7%85_%E9%A7%85%E8%88%8E.jpg",
+        "caption": "佐世保駅 駅舎",
+        "artist": "Mont Blank rich",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/200320_Sasebo_Station_Sasebo_Nagasaki_pref_Japan04s3.jpg/1280px-200320_Sasebo_Station_Sasebo_Nagasaki_pref_Japan04s3.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:200320_Sasebo_Station_Sasebo_Nagasaki_pref_Japan04s3.jpg",
+        "caption": "佐世保駅, 長崎県佐世保市",
+        "artist": "663highland",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/200320_Sasebo_Station_Sasebo_Nagasaki_pref_Japan05s3.jpg/1280px-200320_Sasebo_Station_Sasebo_Nagasaki_pref_Japan05s3.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:200320_Sasebo_Station_Sasebo_Nagasaki_pref_Japan05s3.jpg",
+        "caption": "佐世保駅, 長崎県佐世保市",
+        "artist": "663highland",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Sasebo_MR.jpg/1280px-Sasebo_MR.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Sasebo_MR.jpg",
+        "caption": "松浦鉄道・佐世保駅 Sasebo Station of Matsuura Railway",
+        "artist": "ファイルページ参照",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    ]
+  },
+  "kami-kumamoto": {
+    "article": "上熊本駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/JR_Kamikumamoto_Station_20160214.jpg/1280px-JR_Kamikumamoto_Station_20160214.jpg",
+        "width": 1280,
+        "height": 833,
+        "page": "https://commons.wikimedia.org/wiki/File:JR_Kamikumamoto_Station_20160214.jpg",
+        "caption": "JR上熊本駅",
+        "artist": "Rsa",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Japan_Kamikumamoto_Sta_Tram1.JPG/1280px-Japan_Kamikumamoto_Sta_Tram1.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Japan_Kamikumamoto_Sta_Tram1.JPG",
+        "caption": "",
+        "artist": "STRONGlk7",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Kamikumamoto-station20090705.jpg/1280px-Kamikumamoto-station20090705.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Kamikumamoto-station20090705.jpg",
+        "caption": "上熊本駅",
+        "artist": "Rsa",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Kamikumamoto_Station_20160214.jpg/1280px-Kamikumamoto_Station_20160214.jpg",
+        "width": 1280,
+        "height": 552,
+        "page": "https://commons.wikimedia.org/wiki/File:Kamikumamoto_Station_20160214.jpg",
+        "caption": "上熊本駅",
+        "artist": "Rsa",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    ]
+  },
+  "kiyama": {
+    "article": "基山駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Kiyama-starm2.jpg/1280px-Kiyama-starm2.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Kiyama-starm2.jpg",
+        "caption": "佐賀県三養基郡基山町小倉・基山駅",
+        "artist": "Gw-Emo",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      }
+    ]
+  },
+  "yonago": {
+    "article": "米子駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Yonago-STA_Temporary-station-building.jpg/1280px-Yonago-STA_Temporary-station-building.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:Yonago-STA_Temporary-station-building.jpg",
+        "caption": "JR西日本・米子駅の仮駅舎外観",
+        "artist": "MaedaAkihiko",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Yonago_station_South_exit.jpg/1280px-Yonago_station_South_exit.jpg",
+        "width": 1280,
+        "height": 961,
+        "page": "https://commons.wikimedia.org/wiki/File:Yonago_station_South_exit.jpg",
+        "caption": "米子駅南口",
+        "artist": "Keeteria",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/%E7%B1%B3%E5%AD%90%E9%A7%85%E9%A7%85%E8%88%8E.jpg/1280px-%E7%B1%B3%E5%AD%90%E9%A7%85%E9%A7%85%E8%88%8E.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:%E7%B1%B3%E5%AD%90%E9%A7%85%E9%A7%85%E8%88%8E.jpg",
+        "caption": "​2023年供用開始の米子駅新駅舎",
+        "artist": "You19994",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Yonago_Station01bs4592.jpg/1280px-Yonago_Station01bs4592.jpg",
+        "width": 1280,
+        "height": 852,
+        "page": "https://commons.wikimedia.org/wiki/File:Yonago_Station01bs4592.jpg",
+        "caption": "米子駅, 鳥取県米子市",
+        "artist": "663highland",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Yonago_Station02n4592.jpg/1280px-Yonago_Station02n4592.jpg",
+        "width": 1280,
+        "height": 852,
+        "page": "https://commons.wikimedia.org/wiki/File:Yonago_Station02n4592.jpg",
+        "caption": "米子駅, 鳥取県倉吉市",
+        "artist": "663highland",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Yonago_Station06n4592.jpg/1280px-Yonago_Station06n4592.jpg",
+        "width": 1280,
+        "height": 852,
+        "page": "https://commons.wikimedia.org/wiki/File:Yonago_Station06n4592.jpg",
+        "caption": "米子駅, 鳥取県米子市",
+        "artist": "663highland",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5"
+      }
+    ]
+  },
+  "sendai-kagoshima": {
+    "article": "川内駅 (鹿児島県)",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/JR_Sendai_Station_Kagoshima_ac_%281%29.jpg/1280px-JR_Sendai_Station_Kagoshima_ac_%281%29.jpg",
+        "width": 1280,
+        "height": 851,
+        "page": "https://commons.wikimedia.org/wiki/File:JR_Sendai_Station_Kagoshima_ac_(1).jpg",
+        "caption": "鹿児島県薩摩川内市にあるJR・肥薩おれんじ鉄道川内駅。",
+        "artist": "Asturio Cantabrio",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Kagoshima_Airport_Road_at_Sendai_Station.JPG/1280px-Kagoshima_Airport_Road_at_Sendai_Station.JPG",
+        "width": 1280,
+        "height": 717,
+        "page": "https://commons.wikimedia.org/wiki/File:Kagoshima_Airport_Road_at_Sendai_Station.JPG",
+        "caption": "主要地方道川内加治木線（鹿児島県道42号）。川内駅方面を撮影。川内停車場線（県道332号）も写されている。File:Kagoshima Pref Road 42",
+        "artist": "ja:User:Sanjo",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Sendai_Station_%28Before_it_rebuilds_it%29_Kagoshima%2CJAPAN.jpg/1280px-Sendai_Station_%28Before_it_rebuilds_it%29_Kagoshima%2CJAPAN.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Sendai_Station_(Before_it_rebuilds_it)_Kagoshima,JAPAN.jpg",
+        "caption": "鹿児島県川内市（現・薩摩川内市）にある川内駅（九州新幹線開業前日の様子）。",
+        "artist": "日本語版ウィキペディアのSi-take.さん(しいたけ)",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Sendairyuti.JPG/1280px-Sendairyuti.JPG",
+        "width": 1280,
+        "height": 852,
+        "page": "https://commons.wikimedia.org/wiki/File:Sendairyuti.JPG",
+        "caption": "出水方に設置されているJRの留置線。",
+        "artist": "Gala8357",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      }
+    ]
+  },
+  "nakatsu": {
+    "article": "中津駅 (大分県)",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Nakatsu_Station_20170430-3.jpg/1280px-Nakatsu_Station_20170430-3.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Nakatsu_Station_20170430-3.jpg",
+        "caption": "中津駅(大分県)北口",
+        "artist": "そらみみ (Soramimi)",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Kyushu_Railway_-_Nakatsu_Station_-_01.JPG/1280px-Kyushu_Railway_-_Nakatsu_Station_-_01.JPG",
+        "width": 1280,
+        "height": 856,
+        "page": "https://commons.wikimedia.org/wiki/File:Kyushu_Railway_-_Nakatsu_Station_-_01.JPG",
+        "caption": "",
+        "artist": "JKT-c",
+        "license": "CC BY 3.0",
+        "license_url": "https://creativecommons.org/licenses/by/3.0"
+      }
+    ]
+  },
+  "okaido": {
+    "article": "大街道停留場",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Ichiban-cho_Street_%28Matsuyama_City%29.JPG/1280px-Ichiban-cho_Street_%28Matsuyama_City%29.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Ichiban-cho_Street_(Matsuyama_City).JPG",
+        "caption": "松山市のメインストリートである一番町通り JAPAN",
+        "artist": "Jyo81",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Matsuyamashi080602.JPG/1280px-Matsuyamashi080602.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Matsuyamashi080602.JPG",
+        "caption": "松山市内",
+        "artist": "Taitaiyaki",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/%E4%BC%8A%E4%BA%88%E9%89%84%E9%81%93%EF%BC%88%E5%B7%A6%EF%BC%89%E3%81%A8%E6%9D%BE%E5%B1%B1%E9%9B%BB%E8%BB%8C%EF%BC%88%E5%8F%B3%EF%BC%89%E3%81%AE%E4%B8%80%E7%95%AA%E7%94%BA%E9%A7%85.jpg/1280px-%E4%BC%8A%E4%BA%88%E9%89%84%E9%81%93%EF%BC%88%E5%B7%A6%EF%BC%89%E3%81%A8%E6%9D%BE%E5%B1%B1%E9%9B%BB%E8%BB%8C%EF%BC%88%E5%8F%B3%EF%BC%89%E3%81%AE%E4%B8%80%E7%95%AA%E7%94%BA%E9%A7%85.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:%E4%BC%8A%E4%BA%88%E9%89%84%E9%81%93%EF%BC%88%E5%B7%A6%EF%BC%89%E3%81%A8%E6%9D%BE%E5%B1%B1%E9%9B%BB%E8%BB%8C%EF%BC%88%E5%8F%B3%EF%BC%89%E3%81%AE%E4%B8%80%E7%95%AA%E7%94%BA%E9%A7%85.jpg",
+        "caption": "伊予鉄道（左）と松山電軌（右）の一番町駅",
+        "artist": "不明Unknown author",
+        "license": "Public domain",
+        "license_url": null
+      }
+    ]
+  },
+  "izumoshi": {
+    "article": "出雲市駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Dentetsu-Izumoshi-STA_Entrance.jpg/1280px-Dentetsu-Izumoshi-STA_Entrance.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:Dentetsu-Izumoshi-STA_Entrance.jpg",
+        "caption": "一畑電車・電鉄出雲市駅の駅舎入口",
+        "artist": "MaedaAkihiko",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/150322_Izumoshi_Station_Izumo_Shimane_pref_Japan01s5.jpg/1280px-150322_Izumoshi_Station_Izumo_Shimane_pref_Japan01s5.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:150322_Izumoshi_Station_Izumo_Shimane_pref_Japan01s5.jpg",
+        "caption": "出雲市駅。 所在地は島根県出雲市。",
+        "artist": "663highland",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Izumoshi_station02s4592.jpg/1280px-Izumoshi_station02s4592.jpg",
+        "width": 1280,
+        "height": 852,
+        "page": "https://commons.wikimedia.org/wiki/File:Izumoshi_station02s4592.jpg",
+        "caption": "​出雲市駅, 島根県出雲市",
+        "artist": "663highland",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5"
+      }
+    ]
+  },
+  "harimayabashi": {
+    "article": "はりまや橋停留場",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Tosa-den_dentetsu-terminal-building-mae_sta03s3200.jpg/1280px-Tosa-den_dentetsu-terminal-building-mae_sta03s3200.jpg",
+        "width": 1280,
+        "height": 857,
+        "page": "https://commons.wikimedia.org/wiki/File:Tosa-den_dentetsu-terminal-building-mae_sta03s3200.jpg",
+        "caption": "",
+        "artist": "663highland",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Tosa-den_harimayabashi_sta_ino02n3872.jpg/1280px-Tosa-den_harimayabashi_sta_ino02n3872.jpg",
+        "width": 1280,
+        "height": 857,
+        "page": "https://commons.wikimedia.org/wiki/File:Tosa-den_harimayabashi_sta_ino02n3872.jpg",
+        "caption": "",
+        "artist": "663highland",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5"
+      }
+    ]
+  },
+  "omagari": {
+    "article": "大曲駅 (秋田県)",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/JR_East_%C5%8Cmagari_Station_East_Exit_in_Daisen_City%2C_Akita_Pref.jpg/1280px-JR_East_%C5%8Cmagari_Station_East_Exit_in_Daisen_City%2C_Akita_Pref.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:JR_East_%C5%8Cmagari_Station_East_Exit_in_Daisen_City,_Akita_Pref.jpg",
+        "caption": "JR東日本・大曲駅の東口",
+        "artist": "Mister0124",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Omagari_Station_20230729.jpg/1280px-Omagari_Station_20230729.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:Omagari_Station_20230729.jpg",
+        "caption": "秋田新幹線・奥羽本線・田沢湖線大曲駅",
+        "artist": "掬茶",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    ]
+  },
+  "sabae": {
+    "article": "鯖江駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Sabae_station_2025.jpg/1280px-Sabae_station_2025.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:Sabae_station_2025.jpg",
+        "caption": "ハピラインふくい鯖江駅駅舎",
+        "artist": "ワリマリ",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Sabae-STA_Overpass.jpg/1280px-Sabae-STA_Overpass.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:Sabae-STA_Overpass.jpg",
+        "caption": "JR西日本・鯖江駅の跨線橋内観",
+        "artist": "MaedaAkihiko",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    ]
+  },
+  "gomen": {
+    "article": "後免駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/ja/thumb/9/92/Nankoku_Gomen_Station_1.JPG/1280px-Nankoku_Gomen_Station_1.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:Nankoku_Gomen_Station_1.JPG",
+        "caption": "JR四国後免駅（高知県南国市）",
+        "artist": "京浜にけ",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0"
+      }
+    ]
+  },
+  "minami-miyazaki": {
+    "article": "南宮崎駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/JRK_Minami-Miyazaki-STA.jpg/1280px-JRK_Minami-Miyazaki-STA.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:JRK_Minami-Miyazaki-STA.jpg",
+        "caption": "JR九州・南宮崎駅の駅舎外観",
+        "artist": "MaedaAkihiko",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Miyako_City_mall_2016.JPG/1280px-Miyako_City_mall_2016.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Miyako_City_mall_2016.JPG",
+        "caption": "宮交シティ外観（2016年） ラウンドワン宮崎店の駐車場から撮影。",
+        "artist": "ja:User:Sanjo",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Street_view_from_Minami-Miyazaki_Station.jpg/1280px-Street_view_from_Minami-Miyazaki_Station.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Street_view_from_Minami-Miyazaki_Station.jpg",
+        "caption": "南宮崎駅より望む駅前の宮崎県道347号",
+        "artist": "そらみみ",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/JR_Kyushu_Miyazaki_branch.jpg/1280px-JR_Kyushu_Miyazaki_branch.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:JR_Kyushu_Miyazaki_branch.jpg",
+        "caption": "九州旅客鉄道宮崎支社（宮崎県宮崎市）",
+        "artist": "運動会プロテインパワー",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Ooyodogawa_River.jpg/1280px-Ooyodogawa_River.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Ooyodogawa_River.jpg",
+        "caption": "Ooyodogawa-river runs through Miyazaki city in Japan. (宮崎市市内を流れる大淀川。)",
+        "artist": "Ray_go",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      }
+    ]
+  },
+  "kurayoshi": {
+    "article": "倉吉駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Kurayoshi_Station%2C_ekisha.jpg/1280px-Kurayoshi_Station%2C_ekisha.jpg",
+        "width": 1280,
+        "height": 842,
+        "page": "https://commons.wikimedia.org/wiki/File:Kurayoshi_Station,_ekisha.jpg",
+        "caption": "倉吉駅 駅舎",
+        "artist": "Saigen Jiro",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Kurayoshi_Station%2C_north_entrance.jpg/1280px-Kurayoshi_Station%2C_north_entrance.jpg",
+        "width": 1280,
+        "height": 840,
+        "page": "https://commons.wikimedia.org/wiki/File:Kurayoshi_Station,_north_entrance.jpg",
+        "caption": "倉吉駅 北口駅舎",
+        "artist": "Saigen Jiro",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Kurayoshi_Station_Temporary_Building.jpg/1280px-Kurayoshi_Station_Temporary_Building.jpg",
+        "width": 1280,
+        "height": 849,
+        "page": "https://commons.wikimedia.org/wiki/File:Kurayoshi_Station_Temporary_Building.jpg",
+        "caption": "倉吉駅橋上駅舎化の工事期間中に使用されていた仮駅舎",
+        "artist": "Flow in edgewise",
+        "license": "CC BY 3.0",
+        "license_url": "https://creativecommons.org/licenses/by/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Kurayoshi_Station_exterior_2020-01-26.jpg/1280px-Kurayoshi_Station_exterior_2020-01-26.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Kurayoshi_Station_exterior_2020-01-26.jpg",
+        "caption": "",
+        "artist": "Tzuhsun Hsu",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Kurayoshi_sta06n4592.jpg/1280px-Kurayoshi_sta06n4592.jpg",
+        "width": 1280,
+        "height": 852,
+        "page": "https://commons.wikimedia.org/wiki/File:Kurayoshi_sta06n4592.jpg",
+        "caption": "倉吉駅前の交番, 鳥取県倉吉市",
+        "artist": "663highland",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Tottori_Prefectural_Road_Route_263_Kurayoshi_station_line.JPG/1280px-Tottori_Prefectural_Road_Route_263_Kurayoshi_station_line.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Tottori_Prefectural_Road_Route_263_Kurayoshi_station_line.JPG",
+        "caption": "鳥取県道263号倉吉停車場線（倉吉駅前で撮影）。",
+        "artist": "Twilight2640",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    ]
+  },
+  "hyugashi": {
+    "article": "日向市駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Hyugashi_Station_west_entrance.jpg/1280px-Hyugashi_Station_west_entrance.jpg",
+        "width": 1280,
+        "height": 640,
+        "page": "https://commons.wikimedia.org/wiki/File:Hyugashi_Station_west_entrance.jpg",
+        "caption": "日豊本線日向市駅西口",
+        "artist": "PekePON (talk)",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hyugashista.JPG/1280px-Hyugashista.JPG",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:Hyugashista.JPG",
+        "caption": "日向市駅駅舎(Japan-Miyazaki-Hyugashi sta.)",
+        "artist": "特急にちりん",
+        "license": "Public domain",
+        "license_url": null
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Hy%C5%ABgashi_station_Hinatazaka46.jpg/1280px-Hy%C5%ABgashi_station_Hinatazaka46.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:Hy%C5%ABgashi_station_Hinatazaka46.jpg",
+        "caption": "期間限定で日向坂46駅となった駅舎。",
+        "artist": "Waserin12",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      }
+    ]
+  },
+  "shozui": {
+    "article": "勝瑞駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/%E5%8B%9D%E7%91%9E%E9%A7%85_%E9%A7%85%E8%88%8E%282026%E5%B9%B49%E6%9C%885%E6%97%A5%E6%92%AE%E5%BD%B1%EF%BC%89.jpg/1280px-%E5%8B%9D%E7%91%9E%E9%A7%85_%E9%A7%85%E8%88%8E%282026%E5%B9%B49%E6%9C%885%E6%97%A5%E6%92%AE%E5%BD%B1%EF%BC%89.jpg",
+        "width": 1280,
+        "height": 964,
+        "page": "https://commons.wikimedia.org/wiki/File:%E5%8B%9D%E7%91%9E%E9%A7%85_%E9%A7%85%E8%88%8E(2026%E5%B9%B49%E6%9C%885%E6%97%A5%E6%92%AE%E5%BD%B1%EF%BC%89.jpg",
+        "caption": "勝瑞駅 駅舎(2026年9月5日撮影）",
+        "artist": "ShutetsuTrain",
+        "license": "CC BY 4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/JR-Syozui-pf-1.jpg/1280px-JR-Syozui-pf-1.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:JR-Syozui-pf-1.jpg",
+        "caption": "勝瑞駅",
+        "artist": "計記録",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/JR-Syozui-pf-2.jpg/1280px-JR-Syozui-pf-2.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:JR-Syozui-pf-2.jpg",
+        "caption": "勝瑞駅",
+        "artist": "計記録",
+        "license": "CC BY-SA 3.0",
+        "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    ]
+  },
+  "anan": {
+    "article": "阿南駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Anan_station_street.JPG/1280px-Anan_station_street.JPG",
+        "width": 1280,
+        "height": 722,
+        "page": "https://commons.wikimedia.org/wiki/File:Anan_station_street.JPG",
+        "caption": "徳島県阿南市の阿南駅前",
+        "artist": "Sunport1216",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/%E9%98%BF%E5%8D%97%E9%A7%85_%E9%A7%85%E8%88%8E%282026%E5%B9%B49%E6%9C%885%E6%97%A5%E6%92%AE%E5%BD%B1%EF%BC%89.jpg/1280px-%E9%98%BF%E5%8D%97%E9%A7%85_%E9%A7%85%E8%88%8E%282026%E5%B9%B49%E6%9C%885%E6%97%A5%E6%92%AE%E5%BD%B1%EF%BC%89.jpg",
+        "width": 1280,
+        "height": 960,
+        "page": "https://commons.wikimedia.org/wiki/File:%E9%98%BF%E5%8D%97%E9%A7%85_%E9%A7%85%E8%88%8E(2026%E5%B9%B49%E6%9C%885%E6%97%A5%E6%92%AE%E5%BD%B1%EF%BC%89.jpg",
+        "caption": "阿南駅 駅舎(2026年9月5日撮影）",
+        "artist": "ShutetsuTrain",
+        "license": "CC BY 4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Anan_Station_2021-07-31%281%29_as.jpg/1280px-Anan_Station_2021-07-31%281%29_as.jpg",
+        "width": 1280,
+        "height": 854,
+        "page": "https://commons.wikimedia.org/wiki/File:Anan_Station_2021-07-31(1)_as.jpg",
+        "caption": "阿南商工会館・阿南駅、2021年7月31日撮影。",
+        "artist": "Araisyohei",
+        "license": "CC BY 4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0"
+      }
+    ]
+  },
+  "ugo-honjo": {
+    "article": "羽後本荘駅",
+    "photos": [
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Otemon_square_of_Honjo_Park.jpg/1280px-Otemon_square_of_Honjo_Park.jpg",
+        "width": 1280,
+        "height": 725,
+        "page": "https://commons.wikimedia.org/wiki/File:Otemon_square_of_Honjo_Park.jpg",
+        "caption": "本荘公園 大手門広場（秋田県由利本荘市）",
+        "artist": "掬茶",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Ugo-Honj%C5%8D_Station_East_Exit_in_Yurihonjo_City%2C_Akita_Pref.jpg/1280px-Ugo-Honj%C5%8D_Station_East_Exit_in_Yurihonjo_City%2C_Akita_Pref.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:Ugo-Honj%C5%8D_Station_East_Exit_in_Yurihonjo_City,_Akita_Pref.jpg",
+        "caption": "羽後本荘駅の東口",
+        "artist": "Mister0124",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Ugo-Honj%C5%8D_Station_West_Exit_in_Yurihonjo_City%2C_Akita_Pref.jpg/1280px-Ugo-Honj%C5%8D_Station_West_Exit_in_Yurihonjo_City%2C_Akita_Pref.jpg",
+        "width": 1280,
+        "height": 853,
+        "page": "https://commons.wikimedia.org/wiki/File:Ugo-Honj%C5%8D_Station_West_Exit_in_Yurihonjo_City,_Akita_Pref.jpg",
+        "caption": "羽後本荘駅の西口",
+        "artist": "Mister0124",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/View_from_Ugo-Honjo_Station.jpg/1280px-View_from_Ugo-Honjo_Station.jpg",
+        "width": 1280,
+        "height": 720,
+        "page": "https://commons.wikimedia.org/wiki/File:View_from_Ugo-Honjo_Station.jpg",
+        "caption": "羽後本荘駅舎から西口方向の眺め",
+        "artist": "掬茶",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/AEON_Town_Honjo_chuo.jpg/1280px-AEON_Town_Honjo_chuo.jpg",
+        "width": 1280,
+        "height": 725,
+        "page": "https://commons.wikimedia.org/wiki/File:AEON_Town_Honjo_chuo.jpg",
+        "caption": "イオンタウン本荘中央。かつてのジャスコ本荘店の後裔となる店舗である。近接してかつてはジョイフルシティ本荘店があった。",
+        "artist": "掬茶",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Akita_Bank_382-Honjo-higashi_branch.jpg/1280px-Akita_Bank_382-Honjo-higashi_branch.jpg",
+        "width": 1280,
+        "height": 725,
+        "page": "https://commons.wikimedia.org/wiki/File:Akita_Bank_382-Honjo-higashi_branch.jpg",
+        "caption": "秋田銀行本荘東支店",
+        "artist": "掬茶",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    ]
+  },
+  "nogi": {
+    "article": "乃木駅",
+    "photos": []
   }
 }

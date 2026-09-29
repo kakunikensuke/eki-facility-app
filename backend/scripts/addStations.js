@@ -13,7 +13,9 @@
  * 都道府県: 国土地理院の逆ジオコーダ（座標 → 市区町村コード）
  *
  * 実行:
- *   node backend/scripts/addStations.js <S12のGeoJSON> [--min 10000] [--cache <フォルダ>] [--write]
+ *   node backend/scripts/addStations.js <S12のGeoJSON> [--min 10000] [--pref-min 3] [--cache <フォルダ>] [--write]
+ * --pref-min を付けると、掲載駅がその数に満たない都道府県に、県内で乗降客数の多い駅を足して数をそろえる
+ * （2026-09-30追加。1〜2駅の県には都道府県ページを作らないため。既存駅から800m以内の駅は同じ場所なので選ばない）。
  * --write を付けないときは stations.json を書き換えず、足す予定の駅を <cache>/station-candidates.json に出す。
  * Wikidataと逆ジオコーダの結果は --cache（既定: D:/ClaudeData/eki）に保存し、2回目以降は読み直さない。
  *
@@ -27,7 +29,7 @@ const path = require("path");
 const args = process.argv.slice(2);
 const s12Path = args[0];
 if (!s12Path || s12Path.startsWith("--")) {
-  console.error("使い方: node backend/scripts/addStations.js <S12のGeoJSON> [--min 10000] [--cache <フォルダ>] [--write]");
+  console.error("使い方: node backend/scripts/addStations.js <S12のGeoJSON> [--min 10000] [--pref-min 3] [--cache <フォルダ>] [--write]");
   process.exit(1);
 }
 const opt = (name, fallback) => {
@@ -37,6 +39,7 @@ const opt = (name, fallback) => {
 const MIN_DAILY = Number(opt("--min", 10000));
 const CACHE_DIR = opt("--cache", "D:/ClaudeData/eki");
 const WRITE = args.includes("--write");
+const PREF_MIN = Number(opt("--pref-min", 0));
 
 const STATIONS_PATH = path.join(__dirname, "..", "data", "stations.json");
 const UA = "kakuni-lab-eki/1.0 (https://eki.kakuni-lab.com)";
@@ -46,6 +49,11 @@ const SAME_NAME_KM = 0.6;
 const SAME_PLACE_KM = 0.2;
 // Wikidataの項目と合わせる距離（S12の座標はホームの線の端なので、駅舎の点とは数百mずれる）
 const WIKIDATA_MATCH_KM = 0.8;
+// --pref-min で足す駅は、既存の駅やほかに足す駅からこれ以上離れたものに限る（徒歩10分圏がほぼ重なる駅は中身も同じになる）
+const PREF_MIN_APART_KM = 0.8;
+// --pref-min で候補を探す範囲（県庁所在地の駅からの距離）と、1県あたり逆ジオコーダに問い合わせる上限
+const PREF_MIN_RADIUS_KM = 150;
+const PREF_MIN_LOOKUPS = 400;
 
 // 県庁所在地の代表駅。乗降客数が少なくても全都道府県を載せるために入れる。
 // 同じ名前の駅が他県にもある（福島・山口など）ので、おおよその位置で選ぶ
@@ -104,9 +112,10 @@ function normalize(name) {
     .normalize("NFKC")
     .replace(/[（(].*?[）)]/g, "")
     .replace(/[・･\s]/g, "")
-    .replace(/駅$/, "")
+    .replace(/(駅|停留場)$/, "")
     .replace(/ヶ/g, "ケ")
-    .replace(/ヵ/g, "カ");
+    .replace(/ヵ/g, "カ")
+    .replace(/祗/g, "祇");
 }
 
 // 既存の掲載名「東急 渋谷駅」「京王府中駅」「Osaka Metro 江坂駅」→ 比べる名前の候補
@@ -164,9 +173,17 @@ function loadS12Stations() {
 
 // --- Wikidata --------------------------------------------------------------------
 async function loadWikidata() {
-  const rows = await cached("wikidata-jp-stations.json", async () => {
+  const rows = await sparqlRows("wikidata-jp-stations.json", "Q55488");
+  // 路面電車の停留場（2026-09-30追加）。Wikidataでは駅と別の分類
+  const tramRows = await sparqlRows("wikidata-jp-tramstops.json", "Q2175765");
+  rows.results.bindings.push(...tramRows.results.bindings);
+  return itemsFromRows(rows);
+}
+
+async function sparqlRows(file, klass) {
+  return cached(file, async () => {
     const query = `SELECT ?item ?ja ?en ?kana ?loc ?article WHERE {
-      ?item wdt:P31/wdt:P279* wd:Q55488 ; wdt:P17 wd:Q17 ; wdt:P625 ?loc .
+      ?item wdt:P31/wdt:P279* wd:${klass} ; wdt:P17 wd:Q17 ; wdt:P625 ?loc .
       OPTIONAL { ?item rdfs:label ?ja FILTER(LANG(?ja)="ja") }
       OPTIONAL { ?item rdfs:label ?en FILTER(LANG(?en)="en") }
       OPTIONAL { ?item wdt:P1814 ?kana }
@@ -178,6 +195,9 @@ async function loadWikidata() {
     if (!res.ok) throw new Error(`Wikidata ${res.status}`);
     return res.json();
   });
+}
+
+function itemsFromRows(rows) {
   const items = new Map();
   for (const b of rows.results.bindings) {
     const id = b.item.value.split("/").pop();
@@ -187,7 +207,7 @@ async function loadWikidata() {
       items.set(id, {
         id,
         ja: b.ja.value,
-        key: normalize(b.ja.value),
+        key: normalize(b.ja.value.replace(WIKIDATA_LABEL_PREFIX, "")),
         en: b.en?.value ?? null,
         kana: b.kana?.value ?? null,
         lon: Number(m[1]),
@@ -199,7 +219,21 @@ async function loadWikidata() {
   return [...items.values()];
 }
 
+// Wikidataのラベルに事業者名が付いている駅（「阪急電鉄西院駅」）
+const WIKIDATA_LABEL_PREFIX = /^阪急電鉄/;
+// 名前か座標が合わず自動では見つからない駅の項目（S12の駅名 → Wikidataの項目）。
+// s12Coords: Wikidataの座標がずれている（立花駅は神戸市内、大野城駅は約1km西を指している）ので、S12の座標を使う
+const WIKIDATA_OVERRIDES = {
+  立花: { id: "Q1038095", s12Coords: true },
+  大野城: { id: "Q5359644", s12Coords: true },
+};
+
 function matchWikidata(station, items) {
+  const override = WIKIDATA_OVERRIDES[station.name];
+  if (override) {
+    const w = items.find((x) => x.id === override.id);
+    return w && override.s12Coords ? { ...w, lat: station.lat, lon: station.lon } : w ?? null;
+  }
   return (
     items
       .filter((w) => w.key === station.key)
@@ -252,7 +286,7 @@ function kanaOf(w) {
   const kana = raw
     .replace(/[\s・]/g, "")
     .replace(/[\u30a1-\u30f6]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60))
-    .replace(/えき$/, "");
+    .replace(/(えき|ていりゅうじょう)$/, "");
   return /^[\u3041-\u309fー]+$/.test(kana) ? kana : null;
 }
 
@@ -306,6 +340,38 @@ async function main() {
     if (hit) {
       if (!picked.has(hit.s)) picked.set(hit.s, "capital");
     } else missingCapitals.push(name);
+  }
+
+  // 駅の少ない都道府県に、県内で乗降客数の多い駅を足す（--pref-min）
+  if (PREF_MIN > 0) {
+    const geo = await cached("gsi-muni.json", async () => ({}));
+    const counts = new Map();
+    for (const e of existing) counts.set(e.prefecture, (counts.get(e.prefecture) ?? 0) + 1);
+    const chosen = [...existing];
+    for (let pi = 0; pi < PREFECTURES.length; pi++) {
+      const need = PREF_MIN - (counts.get(PREFECTURES[pi]) ?? 0);
+      if (need <= 0) continue;
+      const [, lat, lon] = CAPITALS[pi];
+      // その県の県庁所在地が近い方から3番目までに入る駅に絞る（徳島県は150km圏内の上位が関西の駅で埋まった）
+      const nearCapital = (s) =>
+        CAPITALS.map(([, la, lo]) => distanceKm(s, { lat: la, lon: lo }))
+          .sort((a, b) => a - b)
+          .indexOf(distanceKm(s, { lat, lon })) < 3;
+      const pool = s12.filter(
+        (s) => s.total > 0 && !picked.has(s) && distanceKm(s, { lat, lon }) <= PREF_MIN_RADIUS_KM && nearCapital(s)
+      );
+      const got = [];
+      for (const s of pool.slice(0, PREF_MIN_LOOKUPS)) {
+        if (chosen.some((c) => distanceKm(c, s) < PREF_MIN_APART_KM)) continue;
+        if ((await prefectureOf(s.lat, s.lon, geo)) !== pi) continue;
+        picked.set(s, "pref-min");
+        chosen.push(s);
+        got.push(`${s.name}（${s.total}人）`);
+        if (got.length >= need) break;
+      }
+      console.log(`  ${PREFECTURES[pi]}: ${need}駅足りない → ${got.join("、") || "候補なし"}`);
+    }
+    fs.writeFileSync(path.join(CACHE_DIR, "gsi-muni.json"), JSON.stringify(geo));
   }
 
   // 既に載っている駅を除く
@@ -383,13 +449,16 @@ async function main() {
   const nameCount = new Map();
   const bump = (name) => nameCount.set(name, (nameCount.get(name) ?? 0) + 1);
   existing.forEach((e) => bump(e.name_ja));
-  added.forEach((a) => bump(a.s.name.replace(/[（(].*?[）)]$/, "") + "駅"));
+  const suffixOf = (a) => (a.w.ja.endsWith("停留場") ? "停留場" : "駅");
+  added.forEach((a) => bump(a.s.name.replace(/[（(].*?[）)]$/, "") + suffixOf(a)));
 
   const usedSlugs = new Set(existing.map((e) => e.slug));
   const out = [];
   for (const a of added.sort((x, y) => y.s.total - x.s.total)) {
-    const baseName = a.s.name + "駅";
-    const plainName = a.s.name.replace(/[（(].*?[）)]$/, "") + "駅";
+    // S12の「下祗園」は「下祇園」が正しい表記
+    a.s.name = a.s.name.replace(/祗/g, "祇");
+    const baseName = a.s.name + suffixOf(a);
+    const plainName = a.s.name.replace(/[（(].*?[）)]$/, "") + suffixOf(a);
     const pref = PREFECTURES[a.prefIndex];
     const qualifier = a.w.article.match(/\s*\((.+)\)$/)?.[1] ?? pref;
     const name_ja = nameCount.get(plainName) > 1 ? `${plainName}（${qualifier}）` : baseName;

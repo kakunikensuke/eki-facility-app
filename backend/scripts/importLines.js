@@ -301,7 +301,8 @@ function distanceKm(a, b) {
 }
 
 // 全角・半角の揺れ（「･」と「・」など）もそろえる
-const normalize = (name) => name.normalize("NFKC").replace(/ヶ/g, "ケ").replace(/ヵ/g, "カ");
+// 「祗」と「祇」も同じ字とみなす（S12は「下祗園」、駅名は「下祇園」）
+const normalize = (name) => name.normalize("NFKC").replace(/ヶ/g, "ケ").replace(/ヵ/g, "カ").replace(/祗/g, "祇");
 
 // このサイトの駅名とS12の駅名が違う実在の駅（S12側の表記）
 const NAME_ALIASES = { 関西国際空港: "関西空港", 大阪国際空港: "大阪空港", なんば: "難波" };
@@ -312,7 +313,7 @@ function parseName(fullName) {
   const nameJa = fullName.replace(/（[^）]*）$/, "");
   const lastSpace = nameJa.lastIndexOf(" ");
   let prefix = lastSpace > 0 ? nameJa.slice(0, lastSpace) : null;
-  const base = nameJa.slice(lastSpace + 1).replace(/駅$/, "");
+  const base = nameJa.slice(lastSpace + 1).replace(/(駅|停留場)$/, "");
   const names = [base];
   if (NAME_ALIASES[base]) names.push(NAME_ALIASES[base]);
   for (const p of Object.keys(PREFIX_OPERATOR)) {

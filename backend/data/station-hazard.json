@@ -48277,6 +48277,682 @@
         "share_pct": 9,
         "special_share_pct": 2.8
       }
+    },
+    "tachibana": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 100,
+        "deep_share_pct": 0.6,
+        "max": "3to5"
+      },
+      "hightide": {
+        "at_station": "05to3",
+        "share_pct": 99.1,
+        "deep_share_pct": 33.8,
+        "max": "gte5"
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "saiin": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "lt05",
+        "share_pct": 94,
+        "deep_share_pct": 0.1,
+        "max": "3to5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "onojo": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": null,
+        "share_pct": 7,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "hatchobori-hiroshima": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "3to5",
+        "share_pct": 95.9,
+        "deep_share_pct": 91,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": "gte5",
+        "share_pct": 94,
+        "deep_share_pct": 93.7,
+        "max": "gte5"
+      },
+      "tsunami": {
+        "at_station": "05to3",
+        "share_pct": 85.9,
+        "deep_share_pct": 0.3,
+        "max": "3to5"
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "shimo-gion": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "gte5",
+        "share_pct": 97.9,
+        "deep_share_pct": 96.7,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": "05to3",
+        "share_pct": 85.8,
+        "deep_share_pct": 0.4,
+        "max": "3to5"
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 4.5,
+        "special_share_pct": 0.3
+      }
+    },
+    "hashimoto-wakayama": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": null,
+        "share_pct": 21.1,
+        "deep_share_pct": 12,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 13.7,
+        "special_share_pct": 0.3
+      }
+    },
+    "shin-takaoka": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 99.4,
+        "deep_share_pct": 33.9,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "sasebo": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": null,
+        "share_pct": 2.3,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 7.9,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 12.8,
+        "special_share_pct": 0.8
+      }
+    },
+    "kami-kumamoto": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 52.8,
+        "deep_share_pct": 13.3,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 6.6,
+        "special_share_pct": 0.9
+      }
+    },
+    "kiyama": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": null,
+        "share_pct": 39.4,
+        "deep_share_pct": 0.4,
+        "max": "3to5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0.6,
+        "special_share_pct": 0
+      }
+    },
+    "yonago": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 86.7,
+        "deep_share_pct": 2.5,
+        "max": "3to5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 9,
+        "special_share_pct": 2.3
+      }
+    },
+    "sendai-kagoshima": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 68,
+        "deep_share_pct": 31.4,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 3.5,
+        "special_share_pct": 1
+      }
+    },
+    "nakatsu": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 100,
+        "deep_share_pct": 9,
+        "max": "3to5"
+      },
+      "hightide": {
+        "at_station": "05to3",
+        "share_pct": 96.5,
+        "deep_share_pct": 26.1,
+        "max": "gte5"
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "okaido": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 76,
+        "deep_share_pct": 0.8,
+        "max": "3to5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 8.9,
+        "special_share_pct": 4.4
+      }
+    },
+    "izumoshi": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "lt05",
+        "share_pct": 82.6,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0.5,
+        "special_share_pct": 0.3
+      }
+    },
+    "harimayabashi": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 89.7,
+        "deep_share_pct": 0.9,
+        "max": "3to5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": "05to3",
+        "share_pct": 87.5,
+        "deep_share_pct": 1,
+        "max": "gte5"
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "omagari": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "lt05",
+        "share_pct": 89.8,
+        "deep_share_pct": 9.8,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "sabae": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": null,
+        "share_pct": 82.1,
+        "deep_share_pct": 17.7,
+        "max": "3to5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 2.4,
+        "special_share_pct": 0.8
+      }
+    },
+    "gomen": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": null,
+        "share_pct": 40.2,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 2.9,
+        "special_share_pct": 0.3
+      }
+    },
+    "minami-miyazaki": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": null,
+        "share_pct": 73.8,
+        "deep_share_pct": 0.1,
+        "max": "3to5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 26.2,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 15.9,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "kurayoshi": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "3to5",
+        "share_pct": 65.2,
+        "deep_share_pct": 60.4,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 12,
+        "special_share_pct": 0.8
+      }
+    },
+    "hyugashi": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": null,
+        "share_pct": 3.6,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 12.5,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "tsunami": {
+        "at_station": "05to3",
+        "share_pct": 79.2,
+        "deep_share_pct": 12.2,
+        "max": "gte5"
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 2.1,
+        "special_share_pct": 0.3
+      }
+    },
+    "shozui": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 87.3,
+        "deep_share_pct": 75.3,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 73,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "tsunami": {
+        "at_station": "lt05",
+        "share_pct": 75.4,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "anan": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 73.7,
+        "deep_share_pct": 7.5,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 15.1,
+        "deep_share_pct": 0.1,
+        "max": "3to5"
+      },
+      "tsunami": {
+        "at_station": "05to3",
+        "share_pct": 69.3,
+        "deep_share_pct": 0.1,
+        "max": "3to5"
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 6.4,
+        "special_share_pct": 1.5
+      }
+    },
+    "ugo-honjo": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "05to3",
+        "share_pct": 91.7,
+        "deep_share_pct": 18.1,
+        "max": "gte5"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 17.3,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0,
+        "special_share_pct": 0
+      }
+    },
+    "nogi": {
+      "radius_m": 800,
+      "flood": {
+        "at_station": "lt05",
+        "share_pct": 30.7,
+        "deep_share_pct": 0,
+        "max": "05to3"
+      },
+      "hightide": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "tsunami": {
+        "at_station": null,
+        "share_pct": 0,
+        "deep_share_pct": 0,
+        "max": null
+      },
+      "landslide": {
+        "at_station": null,
+        "share_pct": 0.9,
+        "special_share_pct": 0.1
+      }
     }
   }
 }
