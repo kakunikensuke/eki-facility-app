@@ -8,2401 +8,2401 @@
    "area": "豊島区",
    "level": "municipality",
    "yen_per_m2": 2864,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shinjuku": {
    "code": "13104",
    "area": "新宿区",
    "level": "municipality",
    "yen_per_m2": 3486,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shibuya": {
    "code": "13113",
    "area": "渋谷区",
    "level": "municipality",
    "yen_per_m2": 3622,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyo": {
-   "code": "13102",
-   "area": "中央区",
+   "code": "13101",
+   "area": "千代田区",
    "level": "municipality",
-   "yen_per_m2": 3698,
-   "muni_source": "l01"
+   "yen_per_m2": 3807,
+   "muni_source": "gsi"
   },
   "shinagawa": {
    "code": "13103",
    "area": "港区",
    "level": "municipality",
    "yen_per_m2": 4504,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ueno": {
    "code": "13106",
    "area": "台東区",
    "level": "municipality",
    "yen_per_m2": 2943,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yokohama": {
    "code": "14103",
    "area": "横浜市 西区",
    "level": "municipality",
    "yen_per_m2": 2524,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "omiya": {
    "code": "11103",
    "area": "さいたま市 大宮区",
    "level": "municipality",
    "yen_per_m2": 1798,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shimbashi": {
    "code": "13103",
    "area": "港区",
    "level": "municipality",
    "yen_per_m2": 4504,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "akihabara": {
    "code": "13101",
    "area": "千代田区",
    "level": "municipality",
    "yen_per_m2": 3807,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kita-senju": {
    "code": "13121",
    "area": "足立区",
    "level": "municipality",
    "yen_per_m2": 2073,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kawasaki": {
-   "code": "14131",
-   "area": "川崎市 川崎区",
+   "code": "14132",
+   "area": "川崎市 幸区",
    "level": "municipality",
-   "yen_per_m2": 2296,
-   "muni_source": "l01"
+   "yen_per_m2": 2380,
+   "muni_source": "gsi"
   },
   "takadanobaba": {
    "code": "13104",
    "area": "新宿区",
    "level": "municipality",
    "yen_per_m2": 3486,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tachikawa": {
    "code": "13202",
    "area": "立川市",
    "level": "municipality",
    "yen_per_m2": 1887,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaki": {
    "code": "13109",
    "area": "品川区",
    "level": "municipality",
    "yen_per_m2": 3109,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hamamatsucho": {
    "code": "13103",
    "area": "港区",
    "level": "municipality",
    "yen_per_m2": 4504,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nakano": {
    "code": "13114",
    "area": "中野区",
    "level": "municipality",
    "yen_per_m2": 2775,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kichijoji": {
    "code": "13203",
    "area": "武蔵野市",
    "level": "municipality",
    "yen_per_m2": 2664,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yurakucho": {
-   "code": "13102",
-   "area": "中央区",
+   "code": "13101",
+   "area": "千代田区",
    "level": "municipality",
-   "yen_per_m2": 3698,
-   "muni_source": "l01"
+   "yen_per_m2": 3807,
+   "muni_source": "gsi"
   },
   "ebisu": {
    "code": "13113",
    "area": "渋谷区",
    "level": "municipality",
    "yen_per_m2": 3622,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tamachi": {
    "code": "13103",
    "area": "港区",
    "level": "municipality",
    "yen_per_m2": 4504,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kamata": {
    "code": "13111",
    "area": "大田区",
    "level": "municipality",
    "yen_per_m2": 2513,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kashiwa": {
    "code": "12217",
    "area": "柏市",
    "level": "municipality",
    "yen_per_m2": 1573,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "musashi-kosugi": {
    "code": "14133",
    "area": "川崎市 中原区",
    "level": "municipality",
    "yen_per_m2": 2516,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "gotanda": {
    "code": "13109",
    "area": "品川区",
    "level": "municipality",
    "yen_per_m2": 3109,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nippori": {
    "code": "13118",
    "area": "荒川区",
    "level": "municipality",
    "yen_per_m2": 2510,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "chiba": {
    "code": "12101",
    "area": "千葉市 中央区",
    "level": "municipality",
    "yen_per_m2": 1719,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "fujisawa": {
    "code": "14205",
    "area": "藤沢市",
    "level": "municipality",
    "yen_per_m2": 1804,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kokubunji": {
    "code": "13214",
    "area": "国分寺市",
    "level": "municipality",
    "yen_per_m2": 2037,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "totsuka": {
    "code": "14110",
    "area": "横浜市 戸塚区",
    "level": "municipality",
    "yen_per_m2": 1807,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "machida": {
    "code": "13209",
    "area": "町田市",
    "level": "municipality",
    "yen_per_m2": 1676,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "akabane": {
    "code": "13117",
    "area": "北区",
    "level": "municipality",
    "yen_per_m2": 2557,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "meguro": {
    "code": "13109",
    "area": "品川区",
    "level": "municipality",
    "yen_per_m2": 3109,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sendai": {
    "code": "04101",
    "area": "仙台市 青葉区",
    "level": "municipality",
    "yen_per_m2": 1536,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ofuna": {
-   "code": "14204",
-   "area": "鎌倉市",
+   "code": "14115",
+   "area": "横浜市 栄区",
    "level": "municipality",
-   "yen_per_m2": 1885,
-   "muni_source": "l01"
+   "yen_per_m2": 1786,
+   "muni_source": "gsi"
   },
   "urawa": {
    "code": "11107",
    "area": "さいたま市 浦和区",
    "level": "municipality",
    "yen_per_m2": 2054,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kanda": {
    "code": "13101",
    "area": "千代田区",
    "level": "municipality",
    "yen_per_m2": 3807,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "matsudo": {
    "code": "12207",
    "area": "松戸市",
    "level": "municipality",
    "yen_per_m2": 1509,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nishi-nippori": {
    "code": "13118",
    "area": "荒川区",
    "level": "municipality",
    "yen_per_m2": 2510,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tsudanuma": {
-   "code": "12204",
-   "area": "船橋市",
+   "code": "12216",
+   "area": "習志野市",
    "level": "municipality",
-   "yen_per_m2": 1836,
-   "muni_source": "l01"
+   "yen_per_m2": 1669,
+   "muni_source": "gsi"
   },
   "yotsuya": {
-   "code": "13104",
-   "area": "新宿区",
+   "code": "13101",
+   "area": "千代田区",
    "level": "municipality",
-   "yen_per_m2": 3486,
-   "muni_source": "l01"
+   "yen_per_m2": 3807,
+   "muni_source": "gsi"
   },
   "ochanomizu": {
    "code": "13101",
    "area": "千代田区",
    "level": "municipality",
    "yen_per_m2": 3807,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "oimachi": {
    "code": "13109",
    "area": "品川区",
    "level": "municipality",
    "yen_per_m2": 3109,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "mitaka": {
-   "code": "13204",
-   "area": "三鷹市",
+   "code": "13203",
+   "area": "武蔵野市",
    "level": "municipality",
-   "yen_per_m2": 2298,
-   "muni_source": "l01"
+   "yen_per_m2": 2664,
+   "muni_source": "gsi"
   },
   "omori": {
    "code": "13111",
    "area": "大田区",
    "level": "municipality",
    "yen_per_m2": 2513,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ogikubo": {
    "code": "13115",
    "area": "杉並区",
    "level": "municipality",
    "yen_per_m2": 2662,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "maihama": {
    "code": "12227",
    "area": "浦安市",
    "level": "municipality",
    "yen_per_m2": 2174,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "musashi-mizonokuchi": {
    "code": "14134",
    "area": "川崎市 高津区",
    "level": "municipality",
    "yen_per_m2": 2318,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "noborito": {
    "code": "14135",
    "area": "川崎市 多摩区",
    "level": "municipality",
    "yen_per_m2": 1934,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hachioji": {
    "code": "13201",
    "area": "八王子市",
    "level": "municipality",
    "yen_per_m2": 1670,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kawaguchi": {
    "code": "11203",
    "area": "川口市",
    "level": "municipality",
    "yen_per_m2": 1792,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-koiwa": {
    "code": "13122",
    "area": "葛飾区",
    "level": "municipality",
    "yen_per_m2": 1930,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sakuragicho": {
    "code": "14104",
    "area": "横浜市 中区",
    "level": "municipality",
    "yen_per_m2": 2654,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tsurumi": {
    "code": "14101",
    "area": "横浜市 鶴見区",
    "level": "municipality",
    "yen_per_m2": 2138,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "suidobashi": {
    "code": "13101",
    "area": "千代田区",
    "level": "municipality",
    "yen_per_m2": 3807,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "iidabashi": {
-   "code": "13104",
-   "area": "新宿区",
+   "code": "13101",
+   "area": "千代田区",
    "level": "municipality",
-   "yen_per_m2": 3486,
-   "muni_source": "l01"
+   "yen_per_m2": 3807,
+   "muni_source": "gsi"
   },
   "harajuku": {
    "code": "13113",
    "area": "渋谷区",
    "level": "municipality",
    "yen_per_m2": 3622,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sugamo": {
    "code": "13116",
    "area": "豊島区",
    "level": "municipality",
    "yen_per_m2": 2864,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "musashi-sakai": {
    "code": "13203",
    "area": "武蔵野市",
    "level": "municipality",
    "yen_per_m2": 2664,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "okachimachi": {
    "code": "13106",
    "area": "台東区",
    "level": "municipality",
    "yen_per_m2": 2943,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hashimoto": {
    "code": "14151",
    "area": "相模原市 緑区",
    "level": "municipality",
    "yen_per_m2": 1443,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "oji": {
    "code": "13117",
    "area": "北区",
    "level": "municipality",
    "yen_per_m2": 2557,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kaihin-makuhari": {
    "code": "12106",
    "area": "千葉市 美浜区",
    "level": "municipality",
    "yen_per_m2": 1674,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "musashi-koganei": {
    "code": "13210",
    "area": "小金井市",
    "level": "municipality",
    "yen_per_m2": 2189,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hiratsuka": {
    "code": "14203",
    "area": "平塚市",
    "level": "municipality",
    "yen_per_m2": 1450,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yoyogi": {
    "code": "13113",
    "area": "渋谷区",
    "level": "municipality",
    "yen_per_m2": 3622,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ichikawa": {
    "code": "12203",
    "area": "市川市",
    "level": "municipality",
    "yen_per_m2": 1867,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tsujido": {
    "code": "14205",
    "area": "藤沢市",
    "level": "municipality",
    "yen_per_m2": 1804,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nagatsuta": {
    "code": "14113",
    "area": "横浜市 緑区",
    "level": "municipality",
    "yen_per_m2": 1761,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "warabi": {
    "code": "11223",
    "area": "蕨市",
    "level": "municipality",
    "yen_per_m2": 1838,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "minami-urawa": {
    "code": "11108",
    "area": "さいたま市 南区",
    "level": "municipality",
    "yen_per_m2": 1806,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "motoyawata": {
    "code": "12203",
    "area": "市川市",
    "level": "municipality",
    "yen_per_m2": 1867,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kameido": {
    "code": "13108",
    "area": "江東区",
    "level": "municipality",
    "yen_per_m2": 2881,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nishi-kawaguchi": {
    "code": "11203",
    "area": "川口市",
    "level": "municipality",
    "yen_per_m2": 1792,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "otsuka": {
    "code": "13116",
    "area": "豊島区",
    "level": "municipality",
    "yen_per_m2": 2864,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "saitama-shintoshin": {
    "code": "11105",
    "area": "さいたま市 中央区",
    "level": "municipality",
    "yen_per_m2": 1874,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kannai": {
    "code": "14104",
    "area": "横浜市 中区",
    "level": "municipality",
    "yen_per_m2": 2654,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "chigasaki": {
    "code": "14207",
    "area": "茅ヶ崎市",
    "level": "municipality",
    "yen_per_m2": 1557,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-totsuka": {
    "code": "14110",
    "area": "横浜市 戸塚区",
    "level": "municipality",
    "yen_per_m2": 1807,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-urayasu": {
    "code": "12227",
    "area": "浦安市",
    "level": "municipality",
    "yen_per_m2": 2174,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ichigaya": {
    "code": "13101",
    "area": "千代田区",
    "level": "municipality",
    "yen_per_m2": 3807,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "musashi-urawa": {
    "code": "11108",
    "area": "さいたま市 南区",
    "level": "municipality",
    "yen_per_m2": 1806,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "asakusabashi": {
    "code": "13106",
    "area": "台東区",
    "level": "municipality",
    "yen_per_m2": 2943,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kanamachi": {
    "code": "13122",
    "area": "葛飾区",
    "level": "municipality",
    "yen_per_m2": 1930,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kunitachi": {
    "code": "13215",
    "area": "国立市",
    "level": "municipality",
    "yen_per_m2": 1999,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kita-urawa": {
    "code": "11107",
    "area": "さいたま市 浦和区",
    "level": "municipality",
    "yen_per_m2": 2054,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "koenji": {
    "code": "13115",
    "area": "杉並区",
    "level": "municipality",
    "yen_per_m2": 2662,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "inage": {
    "code": "12103",
    "area": "千葉市 稲毛区",
    "level": "municipality",
    "yen_per_m2": 1437,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "komagome": {
-   "code": "13117",
-   "area": "北区",
+   "code": "13116",
+   "area": "豊島区",
    "level": "municipality",
-   "yen_per_m2": 2557,
-   "muni_source": "l01"
+   "yen_per_m2": 2864,
+   "muni_source": "gsi"
   },
   "nishi-ogikubo": {
    "code": "13115",
    "area": "杉並区",
    "level": "municipality",
    "yen_per_m2": 2662,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "takanawa-gateway": {
    "code": "13103",
    "area": "港区",
    "level": "municipality",
    "yen_per_m2": 4504,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shinanomachi": {
    "code": "13104",
    "area": "新宿区",
    "level": "municipality",
    "yen_per_m2": 3486,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ryogoku": {
    "code": "13107",
    "area": "墨田区",
    "level": "municipality",
    "yen_per_m2": 2810,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nishi-funabashi": {
    "code": "12204",
    "area": "船橋市",
    "level": "municipality",
    "yen_per_m2": 1836,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "uguisudani": {
    "code": "13106",
    "area": "台東区",
    "level": "municipality",
    "yen_per_m2": 2943,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "mejiro": {
    "code": "13116",
    "area": "豊島区",
    "level": "municipality",
    "yen_per_m2": 2864,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tabata": {
    "code": "13117",
    "area": "北区",
    "level": "municipality",
    "yen_per_m2": 2557,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sendagaya": {
    "code": "13113",
    "area": "渋谷区",
    "level": "municipality",
    "yen_per_m2": 3622,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-nakano": {
    "code": "13114",
    "area": "中野区",
    "level": "municipality",
    "yen_per_m2": 2775,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "itabashi": {
-   "code": "13119",
-   "area": "板橋区",
+   "code": "13117",
+   "area": "北区",
    "level": "municipality",
-   "yen_per_m2": 2328,
-   "muni_source": "l01"
+   "yen_per_m2": 2557,
+   "muni_source": "gsi"
   },
   "kamakura": {
    "code": "14204",
    "area": "鎌倉市",
    "level": "municipality",
    "yen_per_m2": 1885,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "atami": {
    "code": "22205",
    "area": "熱海市",
    "level": "municipality",
    "yen_per_m2": 1403,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hatchobori": {
    "code": "13102",
    "area": "中央区",
    "level": "municipality",
    "yen_per_m2": 3698,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "asagaya": {
    "code": "13115",
    "area": "杉並区",
    "level": "municipality",
    "yen_per_m2": 2662,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "etchujima": {
    "code": "13108",
    "area": "江東区",
    "level": "municipality",
    "yen_per_m2": 2881,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "utsunomiya": {
    "code": "09201",
    "area": "宇都宮市",
    "level": "municipality",
    "yen_per_m2": 1249,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hodogaya": {
    "code": "14106",
    "area": "横浜市 保土ケ谷区",
    "level": "municipality",
    "yen_per_m2": 1957,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hirai": {
    "code": "13123",
    "area": "江戸川区",
    "level": "municipality",
    "yen_per_m2": 2042,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "makuhari": {
    "code": "12102",
    "area": "千葉市 花見川区",
    "level": "municipality",
    "yen_per_m2": 1591,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kamoi": {
    "code": "14113",
    "area": "横浜市 緑区",
    "level": "municipality",
    "yen_per_m2": 1761,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-kemigawa": {
    "code": "12102",
    "area": "千葉市 花見川区",
    "level": "municipality",
    "yen_per_m2": 1591,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "oyama": {
    "code": "09208",
    "area": "小山市",
    "level": "municipality",
    "yen_per_m2": 1159,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "otsuki": {
    "code": "19206",
    "area": "大月市",
    "level": "municipality",
    "yen_per_m2": 1079,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "fuchu-hommachi": {
    "code": "13206",
    "area": "府中市",
    "level": "municipality",
    "yen_per_m2": 2109,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-kawasaki": {
    "code": "14132",
    "area": "川崎市 幸区",
    "level": "municipality",
    "yen_per_m2": 2380,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "haijima": {
-   "code": "13207",
-   "area": "昭島市",
+   "code": "13218",
+   "area": "福生市",
    "level": "municipality",
-   "yen_per_m2": 1574,
-   "muni_source": "l01"
+   "yen_per_m2": 1409,
+   "muni_source": "gsi"
   },
   "nishi-fuchu": {
    "code": "13206",
    "area": "府中市",
    "level": "municipality",
    "yen_per_m2": 2109,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kawabe": {
    "code": "13205",
    "area": "青梅市",
    "level": "municipality",
    "yen_per_m2": 1342,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kita-akabane": {
    "code": "13117",
    "area": "北区",
    "level": "municipality",
    "yen_per_m2": 2557,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nishi-tachikawa": {
-   "code": "13207",
-   "area": "昭島市",
+   "code": "13202",
+   "area": "立川市",
    "level": "municipality",
-   "yen_per_m2": 1574,
-   "muni_source": "l01"
+   "yen_per_m2": 1887,
+   "muni_source": "gsi"
   },
   "hino": {
    "code": "13212",
    "area": "日野市",
    "level": "municipality",
    "yen_per_m2": 1724,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-koganei": {
    "code": "13210",
    "area": "小金井市",
    "level": "municipality",
    "yen_per_m2": 2189,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "toyoda": {
    "code": "13212",
    "area": "日野市",
    "level": "municipality",
    "yen_per_m2": 1724,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "odawara": {
    "code": "14206",
    "area": "小田原市",
    "level": "municipality",
    "yen_per_m2": 1275,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "niiza": {
    "code": "11230",
    "area": "新座市",
    "level": "municipality",
    "yen_per_m2": 1660,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nishi-hachioji": {
    "code": "13201",
    "area": "八王子市",
    "level": "municipality",
    "yen_per_m2": 1670,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ukima-funado": {
-   "code": "13119",
-   "area": "板橋区",
+   "code": "13117",
+   "area": "北区",
    "level": "municipality",
-   "yen_per_m2": 2328,
-   "muni_source": "l01"
+   "yen_per_m2": 2557,
+   "muni_source": "gsi"
   },
   "shin-nihombashi": {
    "code": "13102",
    "area": "中央区",
    "level": "municipality",
    "yen_per_m2": 3698,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "isogo": {
    "code": "14107",
    "area": "横浜市 磯子区",
    "level": "municipality",
    "yen_per_m2": 1760,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hasuda": {
    "code": "11238",
    "area": "蓮田市",
    "level": "municipality",
    "yen_per_m2": 1178,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "mikawashima": {
    "code": "13118",
    "area": "荒川区",
    "level": "municipality",
    "yen_per_m2": 2510,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "inagi-naganuma": {
    "code": "13225",
    "area": "稲城市",
    "level": "municipality",
    "yen_per_m2": 1818,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-jujo": {
    "code": "13117",
    "area": "北区",
    "level": "municipality",
    "yen_per_m2": 2557,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "minami-tama": {
    "code": "13225",
    "area": "稲城市",
    "level": "municipality",
    "yen_per_m2": 1818,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kita-toda": {
    "code": "11224",
    "area": "戸田市",
    "level": "municipality",
    "yen_per_m2": 1830,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nishi-kokubunji": {
    "code": "13214",
    "area": "国分寺市",
    "level": "municipality",
    "yen_per_m2": 2037,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kita-fuchu": {
    "code": "13206",
    "area": "府中市",
    "level": "municipality",
    "yen_per_m2": 2109,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "naka-urawa": {
    "code": "11108",
    "area": "さいたま市 南区",
    "level": "municipality",
    "yen_per_m2": 1806,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-kodaira": {
    "code": "13211",
    "area": "小平市",
    "level": "municipality",
    "yen_per_m2": 1830,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "musashi-nakahara": {
    "code": "14133",
    "area": "川崎市 中原区",
    "level": "municipality",
    "yen_per_m2": 2516,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "konandai": {
    "code": "14111",
    "area": "横浜市 港南区",
    "level": "municipality",
    "yen_per_m2": 1820,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "negishi": {
    "code": "14107",
    "area": "横浜市 磯子区",
    "level": "municipality",
    "yen_per_m2": 1760,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yugawara": {
    "code": "14384",
    "area": "湯河原町",
    "level": "municipality",
    "yen_per_m2": 1052,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kikuna": {
    "code": "14109",
    "area": "横浜市 港北区",
    "level": "municipality",
    "yen_per_m2": 2251,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyo-monorail-haneda-airport-terminal-3": {
    "code": "13111",
    "area": "大田区",
    "level": "municipality",
    "yen_per_m2": 2513,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyo-monorail-haneda-airport-terminal-1": {
    "code": "13111",
    "area": "大田区",
    "level": "municipality",
    "yen_per_m2": 2513,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyo-monorail-haneda-airport-terminal-2": {
    "code": "13111",
    "area": "大田区",
    "level": "municipality",
    "yen_per_m2": 2513,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kawagoe": {
    "code": "11201",
    "area": "川越市",
    "level": "municipality",
    "yen_per_m2": 1464,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nishi-chiba": {
    "code": "12101",
    "area": "千葉市 中央区",
    "level": "municipality",
    "yen_per_m2": 1719,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "musashi-itsukaichi": {
    "code": "13228",
    "area": "あきる野市",
    "level": "municipality",
    "yen_per_m2": 1273,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yanokuchi": {
    "code": "13225",
    "area": "稲城市",
    "level": "municipality",
    "yen_per_m2": 1818,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "toda-koen": {
    "code": "11224",
    "area": "戸田市",
    "level": "municipality",
    "yen_per_m2": 1830,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yono": {
    "code": "11107",
    "area": "さいたま市 浦和区",
    "level": "municipality",
    "yen_per_m2": 2054,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kofu": {
    "code": "19201",
    "area": "甲府市",
    "level": "municipality",
    "yen_per_m2": 1155,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yokodai": {
    "code": "14107",
    "area": "横浜市 磯子区",
    "level": "municipality",
    "yen_per_m2": 1760,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hongodai": {
    "code": "14115",
    "area": "横浜市 栄区",
    "level": "municipality",
    "yen_per_m2": 1786,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shimosa-nakayama": {
    "code": "12204",
    "area": "船橋市",
    "level": "municipality",
    "yen_per_m2": 1836,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kita-yono": {
    "code": "11105",
    "area": "さいたま市 中央区",
    "level": "municipality",
    "yen_per_m2": 1874,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "oiso": {
    "code": "14341",
    "area": "大磯町",
    "level": "municipality",
    "yen_per_m2": 1261,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ninomiya": {
    "code": "14342",
    "area": "二宮町",
    "level": "municipality",
    "yen_per_m2": 1152,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ishikawacho": {
    "code": "14104",
    "area": "横浜市 中区",
    "level": "municipality",
    "yen_per_m2": 2654,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yono-hommachi": {
    "code": "11105",
    "area": "さいたま市 中央区",
    "level": "municipality",
    "yen_per_m2": 1874,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokaichiba": {
    "code": "14113",
    "area": "横浜市 緑区",
    "level": "municipality",
    "yen_per_m2": 1761,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kobuchi": {
    "code": "14153",
    "area": "相模原市 南区",
    "level": "municipality",
    "yen_per_m2": 1649,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "fuchinobe": {
    "code": "14152",
    "area": "相模原市 中央区",
    "level": "municipality",
    "yen_per_m2": 1604,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "naruse": {
    "code": "13209",
    "area": "町田市",
    "level": "municipality",
    "yen_per_m2": 1676,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keio-seiseki-sakuragaoka": {
    "code": "13224",
    "area": "多摩市",
    "level": "municipality",
    "yen_per_m2": 1800,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keio-fuchu": {
    "code": "13206",
    "area": "府中市",
    "level": "municipality",
    "yen_per_m2": 2109,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keio-hachimanyama": {
-   "code": "13115",
-   "area": "杉並区",
+   "code": "13112",
+   "area": "世田谷区",
    "level": "municipality",
-   "yen_per_m2": 2662,
-   "muni_source": "l01"
+   "yen_per_m2": 2672,
+   "muni_source": "gsi"
   },
   "keio-chofu": {
    "code": "13208",
    "area": "調布市",
    "level": "municipality",
    "yen_per_m2": 2323,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keio-shinjuku": {
    "code": "13104",
    "area": "新宿区",
    "level": "municipality",
    "yen_per_m2": 3486,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kameari": {
    "code": "13122",
    "area": "葛飾区",
    "level": "municipality",
    "yen_per_m2": 1930,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "minami-yono": {
    "code": "11105",
    "area": "さいたま市 中央区",
    "level": "municipality",
    "yen_per_m2": 1874,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "enzan": {
    "code": "19213",
    "area": "甲州市",
    "level": "municipality",
    "yen_per_m2": 1068,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "minami-senju": {
    "code": "13118",
    "area": "荒川区",
    "level": "municipality",
    "yen_per_m2": 2510,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-matsudo": {
    "code": "12207",
    "area": "松戸市",
    "level": "municipality",
    "yen_per_m2": 1509,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-koyasu": {
    "code": "14102",
    "area": "横浜市 神奈川区",
    "level": "municipality",
    "yen_per_m2": 2217,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kozu": {
    "code": "14206",
    "area": "小田原市",
    "level": "municipality",
    "yen_per_m2": 1275,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "okubo": {
    "code": "13104",
    "area": "新宿区",
    "level": "municipality",
    "yen_per_m2": 3486,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yako": {
    "code": "14101",
    "area": "横浜市 鶴見区",
    "level": "municipality",
    "yen_per_m2": 2138,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-omiya": {
    "code": "11104",
    "area": "さいたま市 見沼区",
    "level": "municipality",
    "yen_per_m2": 1415,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kuki": {
    "code": "11232",
    "area": "久喜市",
    "level": "municipality",
    "yen_per_m2": 1228,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-tokorozawa": {
    "code": "11208",
    "area": "所沢市",
    "level": "municipality",
    "yen_per_m2": 1568,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kobuchizawa": {
    "code": "19209",
    "area": "北杜市",
    "level": "municipality",
    "yen_per_m2": 871,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-funabashi": {
    "code": "12204",
    "area": "船橋市",
    "level": "municipality",
    "yen_per_m2": 1836,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yamanashi-shi": {
    "code": "19205",
    "area": "山梨市",
    "level": "municipality",
    "yen_per_m2": 1015,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ito": {
    "code": "22208",
    "area": "伊東市",
    "level": "municipality",
    "yen_per_m2": 1118,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "toro": {
    "code": "11102",
    "area": "さいたま市 北区",
    "level": "municipality",
    "yen_per_m2": 1611,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "oguchi": {
    "code": "14102",
    "area": "横浜市 神奈川区",
    "level": "municipality",
    "yen_per_m2": 2217,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nakayama": {
    "code": "14113",
    "area": "横浜市 緑区",
    "level": "municipality",
    "yen_per_m2": 1761,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "minami-funabashi": {
    "code": "12204",
    "area": "船橋市",
    "level": "municipality",
    "yen_per_m2": 1836,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "bakurocho": {
    "code": "13102",
    "area": "中央区",
    "level": "municipality",
    "yen_per_m2": 3698,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "mobara": {
    "code": "12210",
    "area": "茂原市",
    "level": "municipality",
    "yen_per_m2": 969,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "goi": {
    "code": "12219",
    "area": "市原市",
    "level": "municipality",
    "yen_per_m2": 1169,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "narita": {
    "code": "12211",
    "area": "成田市",
    "level": "municipality",
    "yen_per_m2": 1478,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kita-kamakura": {
    "code": "14204",
    "area": "鎌倉市",
    "level": "municipality",
    "yen_per_m2": 1885,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keihan-hirakata-shi": {
    "code": "27210",
    "area": "枚方市",
    "level": "municipality",
    "yen_per_m2": 1317,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keihan-nakanoshima": {
-   "code": "27103",
-   "area": "大阪市 福島区",
+   "code": "27127",
+   "area": "大阪市 北区",
    "level": "municipality",
-   "yen_per_m2": 2081,
-   "muni_source": "l01"
+   "yen_per_m2": 2305,
+   "muni_source": "gsi"
   },
   "keihan-kyobashi": {
    "code": "27102",
    "area": "大阪市 都島区",
    "level": "municipality",
    "yen_per_m2": 1984,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keihan-kitahama": {
    "code": "27128",
    "area": "大阪市 中央区",
    "level": "municipality",
    "yen_per_m2": 2205,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keihan-temmabashi": {
    "code": "27128",
    "area": "大阪市 中央区",
    "level": "municipality",
    "yen_per_m2": 2205,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "mito": {
    "code": "08201",
    "area": "水戸市",
    "level": "municipality",
    "yen_per_m2": 1211,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kyoto": {
    "code": "26106",
    "area": "京都市 下京区",
    "level": "municipality",
    "yen_per_m2": 2061,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "jujo": {
    "code": "13117",
    "area": "北区",
    "level": "municipality",
    "yen_per_m2": 2557,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "okutama": {
-   "code": "13205",
-   "area": "青梅市",
-   "level": "municipality",
-   "yen_per_m2": 1342,
-   "muni_source": "l01"
+   "code": "13000",
+   "area": "東京都",
+   "level": "prefecture",
+   "yen_per_m2": 2565,
+   "muni_source": "gsi"
   },
   "kinomiya": {
    "code": "22205",
    "area": "熱海市",
    "level": "municipality",
    "yen_per_m2": 1403,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nasushiobara": {
    "code": "09213",
    "area": "那須塩原市",
    "level": "municipality",
    "yen_per_m2": 990,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-narashino": {
    "code": "12216",
    "area": "習志野市",
    "level": "municipality",
    "yen_per_m2": 1669,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nikko": {
    "code": "09206",
    "area": "日光市",
    "level": "municipality",
    "yen_per_m2": 923,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "toride": {
    "code": "08217",
    "area": "取手市",
    "level": "municipality",
    "yen_per_m2": 1115,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kuroiso": {
    "code": "09213",
    "area": "那須塩原市",
    "level": "municipality",
    "yen_per_m2": 990,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "takasaki": {
    "code": "10202",
    "area": "高崎市",
    "level": "municipality",
    "yen_per_m2": 1164,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kaminakazato": {
    "code": "13117",
    "area": "北区",
    "level": "municipality",
    "yen_per_m2": 2557,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "katsuta": {
    "code": "08221",
    "area": "ひたちなか市",
    "level": "municipality",
    "yen_per_m2": 1185,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "makuharihongo": {
    "code": "12102",
    "area": "千葉市 花見川区",
    "level": "municipality",
    "yen_per_m2": 1591,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kozukue": {
    "code": "14109",
    "area": "横浜市 港北区",
    "level": "municipality",
    "yen_per_m2": 2251,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "koga": {
    "code": "08204",
    "area": "古河市",
    "level": "municipality",
    "yen_per_m2": 1018,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-yokohama": {
    "code": "14109",
    "area": "横浜市 港北区",
    "level": "municipality",
    "yen_per_m2": 2251,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "manazuru": {
    "code": "14000",
    "area": "神奈川県",
    "level": "prefecture",
    "yen_per_m2": 1868,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-aomori": {
    "code": "02201",
    "area": "青森市",
    "level": "municipality",
    "yen_per_m2": 971,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "koriyama": {
    "code": "07203",
    "area": "郡山市",
    "level": "municipality",
    "yen_per_m2": 1222,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "fukushima": {
    "code": "07201",
    "area": "福島市",
    "level": "municipality",
    "yen_per_m2": 1137,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "koshigaya-laketown": {
    "code": "11222",
    "area": "越谷市",
    "level": "municipality",
    "yen_per_m2": 1466,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-osaka": {
    "code": "27123",
    "area": "大阪市 淀川区",
    "level": "municipality",
    "yen_per_m2": 1885,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nishi-oi": {
    "code": "13109",
    "area": "品川区",
    "level": "municipality",
    "yen_per_m2": 3109,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyu-shibuya": {
    "code": "13113",
    "area": "渋谷区",
    "level": "municipality",
    "yen_per_m2": 3622,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyu-musashi-kosugi": {
    "code": "14133",
    "area": "川崎市 中原区",
    "level": "municipality",
    "yen_per_m2": 2516,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kemigawahama": {
    "code": "12106",
    "area": "千葉市 美浜区",
    "level": "municipality",
    "yen_per_m2": 1674,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "inagekaigan": {
    "code": "12106",
    "area": "千葉市 美浜区",
    "level": "municipality",
    "yen_per_m2": 1674,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyu-komazawa-university": {
    "code": "13112",
    "area": "世田谷区",
    "level": "municipality",
    "yen_per_m2": 2672,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "toda": {
    "code": "11224",
    "area": "戸田市",
    "level": "municipality",
    "yen_per_m2": 1830,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sawara": {
    "code": "12236",
    "area": "香取市",
    "level": "municipality",
    "yen_per_m2": 1012,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "takao": {
    "code": "13201",
    "area": "八王子市",
    "level": "municipality",
    "yen_per_m2": 1670,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hachioji-minamino": {
    "code": "13201",
    "area": "八王子市",
    "level": "municipality",
    "yen_per_m2": 1670,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-urawa": {
    "code": "11109",
    "area": "さいたま市 緑区",
    "level": "municipality",
    "yen_per_m2": 1432,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "funabashi-hoten": {
    "code": "12204",
    "area": "船橋市",
    "level": "municipality",
    "yen_per_m2": 1836,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ushiku": {
    "code": "08219",
    "area": "牛久市",
    "level": "municipality",
    "yen_per_m2": 1223,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ryugasaki-shi": {
    "code": "08208",
    "area": "龍ケ崎市",
    "level": "municipality",
    "yen_per_m2": 1030,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-matsudo": {
    "code": "12207",
    "area": "松戸市",
    "level": "municipality",
    "yen_per_m2": 1509,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyu-o-okayama": {
-   "code": "13110",
-   "area": "目黒区",
+   "code": "13111",
+   "area": "大田区",
    "level": "municipality",
-   "yen_per_m2": 3298,
-   "muni_source": "l01"
+   "yen_per_m2": 2513,
+   "muni_source": "gsi"
   },
   "minami-kashiwa": {
    "code": "12217",
    "area": "柏市",
    "level": "municipality",
    "yen_per_m2": 1573,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ishibashi": {
    "code": "09216",
    "area": "下野市",
    "level": "municipality",
    "yen_per_m2": 1146,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keihan-sanjo": {
-   "code": "26104",
-   "area": "京都市 中京区",
+   "code": "26105",
+   "area": "京都市 東山区",
    "level": "municipality",
-   "yen_per_m2": 2131,
-   "muni_source": "l01"
+   "yen_per_m2": 1772,
+   "muni_source": "gsi"
   },
   "keihan-demachiyanagi": {
    "code": "26103",
    "area": "京都市 左京区",
    "level": "municipality",
    "yen_per_m2": 1949,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keihan-gion-shijo": {
    "code": "26105",
    "area": "京都市 東山区",
    "level": "municipality",
    "yen_per_m2": 1772,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "keihan-shichijo": {
    "code": "26105",
    "area": "京都市 東山区",
    "level": "municipality",
    "yen_per_m2": 1772,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nagano": {
    "code": "20201",
    "area": "長野市",
    "level": "municipality",
    "yen_per_m2": 1161,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "misato": {
    "code": "11237",
    "area": "三郷市",
    "level": "municipality",
    "yen_per_m2": 1441,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "soga": {
    "code": "12101",
    "area": "千葉市 中央区",
    "level": "municipality",
    "yen_per_m2": 1719,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "okegawa": {
    "code": "11231",
    "area": "桶川市",
    "level": "municipality",
    "yen_per_m2": 1134,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kita-kashiwa": {
    "code": "12217",
    "area": "柏市",
    "level": "municipality",
    "yen_per_m2": 1573,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hakata": {
    "code": "40132",
    "area": "福岡市 博多区",
    "level": "municipality",
    "yen_per_m2": 1622,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kashimada": {
    "code": "14132",
    "area": "川崎市 幸区",
    "level": "municipality",
    "yen_per_m2": 2380,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ichikawa-shiohama": {
    "code": "12203",
    "area": "市川市",
    "level": "municipality",
    "yen_per_m2": 1867,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "niigata": {
    "code": "15103",
    "area": "新潟市 中央区",
    "level": "municipality",
    "yen_per_m2": 1307,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sapporo": {
    "code": "01102",
    "area": "札幌市 北区",
    "level": "municipality",
    "yen_per_m2": 1198,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sapporo-city-subway-odori": {
    "code": "01101",
    "area": "札幌市 中央区",
    "level": "municipality",
    "yen_per_m2": 1427,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sapporo-city-subway-sapporo": {
    "code": "01101",
    "area": "札幌市 中央区",
    "level": "municipality",
    "yen_per_m2": 1427,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-okubo": {
    "code": "13104",
    "area": "新宿区",
    "level": "municipality",
    "yen_per_m2": 3486,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "fukaya": {
    "code": "11218",
    "area": "深谷市",
    "level": "municipality",
    "yen_per_m2": 1053,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shin-akitsu": {
    "code": "13213",
    "area": "東村山市",
    "level": "municipality",
    "yen_per_m2": 1695,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kitamoto": {
    "code": "11233",
    "area": "北本市",
    "level": "municipality",
    "yen_per_m2": 1209,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kumagaya": {
    "code": "11202",
    "area": "熊谷市",
    "level": "municipality",
    "yen_per_m2": 1093,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yokosuka": {
    "code": "14201",
    "area": "横須賀市",
    "level": "municipality",
    "yen_per_m2": 1421,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yoshikawa": {
    "code": "11243",
    "area": "吉川市",
    "level": "municipality",
    "yen_per_m2": 1505,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "miyahara": {
    "code": "11102",
    "area": "さいたま市 北区",
    "level": "municipality",
    "yen_per_m2": 1611,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "konosu": {
    "code": "11217",
    "area": "鴻巣市",
    "level": "municipality",
    "yen_per_m2": 1143,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "anegasaki": {
    "code": "12219",
    "area": "市原市",
    "level": "municipality",
    "yen_per_m2": 1169,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "morioka": {
    "code": "03201",
    "area": "盛岡市",
    "level": "municipality",
    "yen_per_m2": 1184,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kamonomiya": {
    "code": "14206",
    "area": "小田原市",
    "level": "municipality",
    "yen_per_m2": 1275,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sakura": {
    "code": "12212",
    "area": "佐倉市",
    "level": "municipality",
    "yen_per_m2": 1212,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-washinomiya": {
    "code": "11232",
    "area": "久喜市",
    "level": "municipality",
    "yen_per_m2": 1228,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tsuga": {
    "code": "12104",
    "area": "千葉市 若葉区",
    "level": "municipality",
    "yen_per_m2": 1277,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yumoto": {
    "code": "07204",
    "area": "いわき市",
    "level": "municipality",
    "yen_per_m2": 1072,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "musashi-shinjo": {
    "code": "14133",
    "area": "川崎市 中原区",
    "level": "municipality",
    "yen_per_m2": 2516,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yonezawa": {
    "code": "06202",
    "area": "米沢市",
    "level": "municipality",
    "yen_per_m2": 1039,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kansai-international-airport": {
    "code": "27000",
    "area": "大阪府",
    "level": "prefecture",
    "yen_per_m2": 1574,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-international-airport": {
-   "code": "27203",
-   "area": "豊中市",
+   "code": "28207",
+   "area": "伊丹市",
    "level": "municipality",
-   "yen_per_m2": 1600,
-   "muni_source": "l01"
+   "yen_per_m2": 1369,
+   "muni_source": "gsi"
   },
   "osaka-metro-esaka": {
    "code": "27205",
    "area": "吹田市",
    "level": "municipality",
    "yen_per_m2": 1724,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-higashi-mikuni": {
    "code": "27123",
    "area": "大阪市 淀川区",
    "level": "municipality",
    "yen_per_m2": 1885,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-umeda": {
    "code": "27127",
    "area": "大阪市 北区",
    "level": "municipality",
    "yen_per_m2": 2305,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-tennoji": {
-   "code": "27119",
-   "area": "大阪市 阿倍野区",
+   "code": "27109",
+   "area": "大阪市 天王寺区",
    "level": "municipality",
-   "yen_per_m2": 1726,
-   "muni_source": "l01"
+   "yen_per_m2": 1944,
+   "muni_source": "gsi"
   },
   "osaka-metro-shinsaibashi": {
    "code": "27128",
    "area": "大阪市 中央区",
    "level": "municipality",
    "yen_per_m2": 2205,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ichinoseki": {
    "code": "03209",
    "area": "一関市",
    "level": "municipality",
    "yen_per_m2": 942,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yamagata": {
    "code": "06201",
    "area": "山形市",
    "level": "municipality",
    "yen_per_m2": 1220,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "echigoyuzawa": {
    "code": "15000",
    "area": "新潟県",
    "level": "prefecture",
    "yen_per_m2": 1103,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-higashiumeda": {
    "code": "27127",
    "area": "大阪市 北区",
    "level": "municipality",
    "yen_per_m2": 2305,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-takaita": {
    "code": "27227",
    "area": "東大阪市",
    "level": "municipality",
    "yen_per_m2": 1406,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metrotenjimbashisuji-6-chome": {
    "code": "27127",
    "area": "大阪市 北区",
    "level": "municipality",
    "yen_per_m2": 2305,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-shin-osaka": {
    "code": "27123",
    "area": "大阪市 淀川区",
    "level": "municipality",
    "yen_per_m2": 1885,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-nagai": {
-   "code": "27120",
-   "area": "大阪市 住吉区",
+   "code": "27121",
+   "area": "大阪市 東住吉区",
    "level": "municipality",
-   "yen_per_m2": 1579,
-   "muni_source": "l01"
+   "yen_per_m2": 1462,
+   "muni_source": "gsi"
   },
   "osaka-metro-deto": {
    "code": "27126",
    "area": "大阪市 平野区",
    "level": "municipality",
    "yen_per_m2": 1421,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-kireuriwari": {
    "code": "27126",
    "area": "大阪市 平野区",
    "level": "municipality",
    "yen_per_m2": 1421,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hankyu-osaka-umeda": {
    "code": "27127",
    "area": "大阪市 北区",
    "level": "municipality",
    "yen_per_m2": 2305,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "railway-museum": {
-   "code": "11102",
-   "area": "さいたま市 北区",
+   "code": "11103",
+   "area": "さいたま市 大宮区",
    "level": "municipality",
-   "yen_per_m2": 1611,
-   "muni_source": "l01"
+   "yen_per_m2": 1798,
+   "muni_source": "gsi"
   },
   "ishioka": {
    "code": "08205",
    "area": "石岡市",
    "level": "municipality",
    "yen_per_m2": 986,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tsuchiura": {
    "code": "08203",
    "area": "土浦市",
    "level": "municipality",
    "yen_per_m2": 1140,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "maebashi": {
    "code": "10201",
    "area": "前橋市",
    "level": "municipality",
    "yen_per_m2": 1081,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "zushi": {
    "code": "14208",
    "area": "逗子市",
    "level": "municipality",
    "yen_per_m2": 1690,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-kanagawa": {
    "code": "14102",
    "area": "横浜市 神奈川区",
    "level": "municipality",
    "yen_per_m2": 2217,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-kawaguchi": {
    "code": "11203",
    "area": "川口市",
    "level": "municipality",
    "yen_per_m2": 1792,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yokohama-municipal-subway-kannai": {
    "code": "14104",
    "area": "横浜市 中区",
    "level": "municipality",
    "yen_per_m2": 2654,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yokohama-municipal-subway-shin-yokohama": {
    "code": "14109",
    "area": "横浜市 港北区",
    "level": "municipality",
    "yen_per_m2": 2251,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tsuruoka": {
    "code": "06203",
    "area": "鶴岡市",
    "level": "municipality",
    "yen_per_m2": 925,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sakata": {
    "code": "06204",
    "area": "酒田市",
    "level": "municipality",
    "yen_per_m2": 946,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "murakami": {
    "code": "15212",
    "area": "村上市",
    "level": "municipality",
    "yen_per_m2": 759,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ajiro": {
    "code": "22205",
    "area": "熱海市",
    "level": "municipality",
    "yen_per_m2": 1403,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "katsunuma-budokyo": {
    "code": "19213",
    "area": "甲州市",
    "level": "municipality",
    "yen_per_m2": 1068,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sagamiko": {
    "code": "14151",
    "area": "相模原市 緑区",
    "level": "municipality",
    "yen_per_m2": 1443,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-yao-minami": {
-   "code": "27126",
-   "area": "大阪市 平野区",
+   "code": "27212",
+   "area": "八尾市",
    "level": "municipality",
-   "yen_per_m2": 1421,
-   "muni_source": "l01"
+   "yen_per_m2": 1292,
+   "muni_source": "gsi"
   },
   "osaka-metro-nagahara": {
    "code": "27126",
    "area": "大阪市 平野区",
    "level": "municipality",
    "yen_per_m2": 1421,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-osaka-business-park": {
-   "code": "27102",
-   "area": "大阪市 都島区",
+   "code": "27128",
+   "area": "大阪市 中央区",
    "level": "municipality",
-   "yen_per_m2": 1984,
-   "muni_source": "l01"
+   "yen_per_m2": 2205,
+   "muni_source": "gsi"
   },
   "osaka-metro-namba": {
    "code": "27128",
    "area": "大阪市 中央区",
    "level": "municipality",
    "yen_per_m2": 2205,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-nakazakicho": {
    "code": "27127",
    "area": "大阪市 北区",
    "level": "municipality",
    "yen_per_m2": 2305,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-ogimachi": {
    "code": "27127",
    "area": "大阪市 北区",
    "level": "municipality",
    "yen_per_m2": 2305,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-nakatsu": {
    "code": "27127",
    "area": "大阪市 北区",
    "level": "municipality",
    "yen_per_m2": 2305,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "chibaminato": {
    "code": "12101",
    "area": "千葉市 中央区",
    "level": "municipality",
    "yen_per_m2": 1719,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "akigawa": {
    "code": "13228",
    "area": "あきる野市",
    "level": "municipality",
    "yen_per_m2": 1273,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yamadera": {
-   "code": "06210",
-   "area": "天童市",
+   "code": "06201",
+   "area": "山形市",
    "level": "municipality",
-   "yen_per_m2": 1046,
-   "muni_source": "l01"
+   "yen_per_m2": 1220,
+   "muni_source": "gsi"
   },
   "osaka-metro-gamoyonchome": {
    "code": "27118",
    "area": "大阪市 城東区",
    "level": "municipality",
    "yen_per_m2": 1580,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osakametroimafukutsurumieki": {
    "code": "27124",
    "area": "大阪市 鶴見区",
    "level": "municipality",
    "yen_per_m2": 1579,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-dobutsuen-mae": {
-   "code": "27111",
-   "area": "大阪市 浪速区",
+   "code": "27122",
+   "area": "大阪市 西成区",
    "level": "municipality",
-   "yen_per_m2": 2182,
-   "muni_source": "l01"
+   "yen_per_m2": 1756,
+   "muni_source": "gsi"
   },
   "osaka-metro-hirano": {
    "code": "27126",
    "area": "大阪市 平野区",
    "level": "municipality",
    "yen_per_m2": 1421,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-fuminosato": {
    "code": "27119",
    "area": "大阪市 阿倍野区",
    "level": "municipality",
    "yen_per_m2": 1726,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-hommachi": {
    "code": "27128",
    "area": "大阪市 中央区",
    "level": "municipality",
    "yen_per_m2": 2205,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-kyobashi": {
    "code": "27102",
    "area": "大阪市 都島区",
    "level": "municipality",
    "yen_per_m2": 1984,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ome": {
    "code": "13205",
    "area": "青梅市",
    "level": "municipality",
    "yen_per_m2": 1342,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyu-sangen-jaya": {
    "code": "13112",
    "area": "世田谷区",
    "level": "municipality",
    "yen_per_m2": 2672,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "toke": {
    "code": "12105",
    "area": "千葉市 緑区",
    "level": "municipality",
    "yen_per_m2": 1242,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyu-den-en-chofu": {
    "code": "13111",
    "area": "大田区",
    "level": "municipality",
    "yen_per_m2": 2513,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hanamaki": {
    "code": "03205",
    "area": "花巻市",
    "level": "municipality",
    "yen_per_m2": 894,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "same": {
    "code": "02203",
    "area": "八戸市",
    "level": "municipality",
    "yen_per_m2": 969,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "honhachinohe": {
    "code": "02203",
    "area": "八戸市",
    "level": "municipality",
    "yen_per_m2": 969,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hachinohe": {
    "code": "02203",
    "area": "八戸市",
    "level": "municipality",
    "yen_per_m2": 969,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shinsugita": {
    "code": "14107",
    "area": "横浜市 磯子区",
    "level": "municipality",
    "yen_per_m2": 1760,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "akita": {
    "code": "05201",
    "area": "秋田市",
    "level": "municipality",
    "yen_per_m2": 1081,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "hiraizumi": {
    "code": "03000",
    "area": "岩手県",
    "level": "prefecture",
    "yen_per_m2": 1043,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-yotsubashi": {
    "code": "27106",
    "area": "大阪市 西区",
    "level": "municipality",
    "yen_per_m2": 2104,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-nagahoribashi": {
    "code": "27128",
    "area": "大阪市 中央区",
    "level": "municipality",
    "yen_per_m2": 2205,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "osaka-metro-abeno": {
    "code": "27119",
    "area": "大阪市 阿倍野区",
    "level": "municipality",
    "yen_per_m2": 1726,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shinmisato": {
    "code": "11237",
    "area": "三郷市",
    "level": "municipality",
    "yen_per_m2": 1441,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "tokyu-tama-plaza": {
    "code": "14117",
    "area": "横浜市 青葉区",
    "level": "municipality",
    "yen_per_m2": 1844,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "sagamihara": {
    "code": "14152",
    "area": "相模原市 中央区",
    "level": "municipality",
    "yen_per_m2": 1604,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "nagoya": {
    "code": "23105",
@@ -2423,7 +2423,7 @@
    "area": "墨田区",
    "level": "municipality",
    "yen_per_m2": 2810,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kanayama": {
    "code": "23106",
@@ -2696,7 +2696,7 @@
    "area": "横浜市 青葉区",
    "level": "municipality",
    "yen_per_m2": 1844,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "minami-nagareyama": {
    "code": "12220",
@@ -2794,7 +2794,7 @@
    "area": "朝霞市",
    "level": "municipality",
    "yen_per_m2": 1783,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kasumigaseki": {
    "code": "13101",
@@ -3004,7 +3004,7 @@
    "area": "港区",
    "level": "municipality",
    "yen_per_m2": 4504,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "fushimi": {
    "code": "23106",
@@ -3326,7 +3326,7 @@
    "area": "練馬区",
    "level": "municipality",
    "yen_per_m2": 2236,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "machiya": {
    "code": "13118",
@@ -3406,11 +3406,11 @@
    "muni_source": "gsi"
   },
   "akitsu": {
-   "code": "13213",
-   "area": "東村山市",
+   "code": "13221",
+   "area": "清瀬市",
    "level": "municipality",
-   "yen_per_m2": 1695,
-   "muni_source": "l01"
+   "yen_per_m2": 1575,
+   "muni_source": "gsi"
   },
   "shin-sapporo": {
    "code": "01108",
@@ -3830,7 +3830,7 @@
    "area": "渋谷区",
    "level": "municipality",
    "yen_per_m2": 3622,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "motosumiyoshi": {
    "code": "14133",
@@ -4026,7 +4026,7 @@
    "area": "江戸川区",
    "level": "municipality",
    "yen_per_m2": 2042,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "chikatetsu-akatsuka": {
    "code": "13120",
@@ -4355,7 +4355,7 @@
    "area": "越谷市",
    "level": "municipality",
    "yen_per_m2": 1466,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kozoji": {
    "code": "23206",
@@ -5216,7 +5216,7 @@
    "area": "練馬区",
    "level": "municipality",
    "yen_per_m2": 2236,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "katsura": {
    "code": "26111",
@@ -5636,14 +5636,14 @@
    "area": "さいたま市 岩槻区",
    "level": "municipality",
    "yen_per_m2": 1288,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "momodani": {
-   "code": "27116",
-   "area": "大阪市 生野区",
+   "code": "27109",
+   "area": "大阪市 天王寺区",
    "level": "municipality",
-   "yen_per_m2": 1521,
-   "muni_source": "l01"
+   "yen_per_m2": 1944,
+   "muni_source": "gsi"
   },
   "myodani": {
    "code": "28107",
@@ -5790,7 +5790,7 @@
    "area": "八尾市",
    "level": "municipality",
    "yen_per_m2": 1292,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "otsu": {
    "code": "25201",
@@ -6084,7 +6084,7 @@
    "area": "川崎市 多摩区",
    "level": "municipality",
    "yen_per_m2": 1934,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "ojima": {
    "code": "13108",
@@ -6518,7 +6518,7 @@
    "area": "新宿区",
    "level": "municipality",
    "yen_per_m2": 3486,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "orio": {
    "code": "40109",
@@ -7274,14 +7274,14 @@
    "area": "さいたま市 西区",
    "level": "municipality",
    "yen_per_m2": 1461,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "motohasunuma": {
    "code": "13119",
    "area": "板橋区",
    "level": "municipality",
    "yen_per_m2": 2328,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "yaenosato": {
    "code": "27227",
@@ -7498,7 +7498,7 @@
    "area": "加古川市",
    "level": "municipality",
    "yen_per_m2": 1173,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "shibusawa": {
    "code": "14211",
@@ -8149,7 +8149,7 @@
    "area": "札幌市 白石区",
    "level": "municipality",
    "yen_per_m2": 1185,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "funabashi-nichidaimae": {
    "code": "12204",
@@ -8163,7 +8163,7 @@
    "area": "京都市 伏見区",
    "level": "municipality",
    "yen_per_m2": 1473,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashi-kishiwada": {
    "code": "27202",
@@ -8499,7 +8499,7 @@
    "area": "吹田市",
    "level": "municipality",
    "yen_per_m2": 1724,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "higashiyama": {
    "code": "26105",
@@ -8884,7 +8884,7 @@
    "area": "千歳市",
    "level": "municipality",
    "yen_per_m2": 1076,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "owada": {
    "code": "11104",
@@ -8898,7 +8898,7 @@
    "area": "長崎市",
    "level": "municipality",
    "yen_per_m2": 1268,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "motomachi-hokkaido": {
    "code": "01103",
@@ -10557,7 +10557,7 @@
    "area": "江東区",
    "level": "municipality",
    "yen_per_m2": 2881,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kami-kitazawa": {
    "code": "13112",
@@ -10648,7 +10648,7 @@
    "area": "狛江市",
    "level": "municipality",
    "yen_per_m2": 2188,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "wadamachi": {
    "code": "14106",
@@ -12797,7 +12797,7 @@
    "area": "大田区",
    "level": "municipality",
    "yen_per_m2": 2513,
-   "muni_source": "l01"
+   "muni_source": "gsi"
   },
   "kadoma-minami": {
    "code": "27223",
