@@ -25,9 +25,15 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
 import {
+  LIFE_ARTICLES,
+  LINE_HUBS_NOTE,
+  PEOPLE_METRICS,
+  PEOPLE_SOURCE,
   categoryReachText,
+  childcareText,
   concentrationText,
   formatManYen,
+  formatPeopleValue,
   landText,
   lineRankText,
   localRankHeading,
@@ -35,6 +41,9 @@ import {
   nearbyFacilityRows,
   nearbySummaryText,
   nearestComparisonText,
+  peopleHeading,
+  peopleMetricSub,
+  peopleSummaryText,
   photoCredit,
   photoSourceText,
   prefRankText,
@@ -364,12 +373,45 @@ function stationPage(station) {
       <ul>${HAZARD_NOTES.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>
       <p>${esc(HAZARD_SOURCE)}</p>`
     : "";
+  // 同じ路線の大きな駅（StationPage.jsx と同じ。2026-09-30追加）
+  const hubsHtml =
+    b.line_hubs.length > 0
+      ? `<h3>同じ路線の大きな駅</h3>
+      <dl>${b.line_hubs
+        .map(
+          (e) =>
+            `<dt>${esc(e.name)}</dt><dd>${e.hubs.map((h) => `${link(`/${h.slug}`, h.name)}（約${esc(h.km)}km）`).join("・")}</dd>`
+        )
+        .join("")}</dl>
+      <p>${esc(LINE_HUBS_NOTE)}</p>`
+      : "";
   const linesHtml =
     b.lines.length > 0
       ? `<h2>${esc(station.name_ja)}が乗っている路線</h2>
       <p>路線ごとに、このサイトで扱っている駅を住みやすさの順に並べています。</p>
-      <ul>${b.lines.map((l) => `<li>${link(`/line/${l.slug}`, l.name)}</li>`).join("")}</ul>`
+      <ul>${b.lines.map((l) => `<li>${link(`/line/${l.slug}`, l.name)}</li>`).join("")}</ul>
+      ${hubsHtml}`
       : "";
+
+  // 駅のある市区町村に住んでいる人（StationPage.jsx と同じ文言関数。2026-09-30追加）
+  const pe = b.people;
+  const peopleHtml = pe
+    ? `<h2>${esc(peopleHeading(pe))}</h2>
+      <p>${esc(peopleSummaryText(station.name_ja, pe))}</p>
+      <ul>${PEOPLE_METRICS.map(
+        (m) =>
+          `<li><strong>${esc(m.label)}: ${esc(formatPeopleValue(m, pe[m.key]))}</strong>（${esc(m.of)}・${esc(peopleMetricSub(m, pe))}）</li>`
+      ).join("")}${
+        pe.childcare
+          ? `<li><strong>保育園などの待機児童（2026年4月）: ${esc(pe.childcare.waiting)}人</strong>（${esc(pe.childcare.area)}・申込み${esc(
+              pe.childcare.applicants.toLocaleString("ja-JP")
+            )}人）</li>`
+          : ""
+      }</ul>
+      <p>${esc(childcareText(pe))}</p>
+      <p>暮らし方別の選び方: ${LIFE_ARTICLES.map((x) => link(`/article/${x.slug}`, x.label)).join("・")}</p>
+      <p>人口と世帯は${esc(pe.census_year)}年の国勢調査の値で、駅の周りだけでなく市区町村（政令市は区）全体の数字です。${esc(PEOPLE_SOURCE)}</p>`
+    : "";
 
   // 駅から近い施設（名前つき）と、県内・路線内の順位（StationPage.jsx と同じ文言関数。2026-09-30追加）
   const nearbyRows = nearbyFacilityRows(b.nearby_facilities);
@@ -492,6 +534,7 @@ function stationPage(station) {
       ${nearbyFacilitiesHtml}
       ${localHtml}
       ${publicHtml}
+      ${peopleHtml}
       ${hazardHtml}
       ${linesHtml}
       ${readHtml}

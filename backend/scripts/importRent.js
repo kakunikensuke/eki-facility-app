@@ -25,7 +25,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { readSheetRows, rentByCode } = require("./rentTable");
+const { readSheetRows, rentByCode, designatedCityOf } = require("./rentTable");
 
 const STATIONS_PATH = path.join(__dirname, "..", "data", "stations.json");
 const OUTPUT_PATH = path.join(__dirname, "..", "data", "station-rent.json");
@@ -130,10 +130,10 @@ async function main() {
     if (!code) continue;
     const prefCode = `${code.slice(0, 2)}000`;
     // 政令市の区が表に無いとき（浜松市は2024年に区を再編し、2023年の統計の区と合わない）は市全体の値
-    const cityCode = `${code.slice(0, 4)}0`;
+    const cityCode = designatedCityOf(code, (c) => rents.get(c)?.name.endsWith("市"));
     const hit =
       (rents.has(code) && { code, level: "municipality" }) ||
-      (code[2] === "1" && cityCode !== code && rents.get(cityCode)?.name.endsWith("市") && { code: cityCode, level: "city" }) ||
+      (cityCode && { code: cityCode, level: "city" }) ||
       (rents.has(prefCode) && { code: prefCode, level: "prefecture" });
     if (!hit) continue;
     const r = rents.get(hit.code);

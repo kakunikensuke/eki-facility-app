@@ -324,3 +324,130 @@ export function rentText(rent) {
     "駅からの距離・築年数・設備で家賃は大きく変わるので、実際の物件の家賃は不動産サイトで確かめてください。"
   );
 }
+
+// --- 駅のある市区町村に住んでいる人（2026-09-30追加。国勢調査2020年・保育所等の待機児童2026年4月） ---------
+// people は scripts/stationBundle.js の people（backend/scripts/importCensus.js の値＋全掲載駅の中での位置 pctl）
+
+// 画面のカードと静的HTMLの一覧に出す項目。sign は増減率のように符号を付けて出すもの
+export const PEOPLE_METRICS = [
+  { key: "single_pct", label: "一人暮らしの世帯", of: "世帯のうち" },
+  { key: "young_pct", label: "20〜39歳の人", of: "人口のうち" },
+  { key: "kids_pct", label: "子ども（18歳未満）のいる世帯", of: "世帯のうち" },
+  { key: "senior_pct", label: "65歳以上の人", of: "人口のうち" },
+  { key: "pop_change_pct", label: "人口の増減（2015→2020年）", of: "5年間で", sign: true },
+];
+// 街のようすを言葉にするのは、全掲載駅の中で多い方の4分の1に入り、かつ全国の値の1.1倍以上のときだけ。
+// 掲載駅は都市に偏っているので、駅の中の位置だけで決めると地方の平均的な町が「子育て世帯が多い」になり、
+// 本文の「全国平均並み」と食い違う（2026-09-30、敦賀駅で確認）
+const PEOPLE_HIGH_PCTL = 75;
+const PEOPLE_HIGH_RATIO = 1.1;
+
+export const PEOPLE_SOURCE =
+  "出典: 総務省「令和2年国勢調査 人口等基本集計」（e-Stat）、こども家庭庁「保育所等関連状況取りまとめ（令和8年4月1日）」を加工して作成";
+
+export function formatPeopleValue(metric, value) {
+  if (value === null || value === undefined) return "—";
+  return `${metric.sign && value > 0 ? "+" : ""}${value}%`;
+}
+
+// 全国の値と比べた言葉。割合の大きさが項目で違うので、差ではなく比で分ける
+function compareWord(value, base) {
+  const r = value / base;
+  if (r >= 1.3) return "全国平均を大きく上回ります";
+  if (r >= 1.1) return "全国平均より多めです";
+  if (r > 0.9) return "全国平均並みです";
+  if (r > 0.7) return "全国平均より少なめです";
+  return "全国平均を大きく下回ります";
+}
+
+/** 数字から言える街のようす（PEOPLE_HIGH_PCTL・PEOPLE_HIGH_RATIO を満たすものだけ）。当てはまらなければ空 */
+export function peopleTypes(people) {
+  if (!people) return [];
+  const high = (k) =>
+    people.pctl[k] !== null && people.pctl[k] > PEOPLE_HIGH_PCTL && people[k] >= people.national[k] * PEOPLE_HIGH_RATIO;
+  const types = [];
+  if (high("single_pct") && high("young_pct")) types.push("若い一人暮らしの人が多い街");
+  else if (high("single_pct")) types.push("一人暮らしの世帯が多い街");
+  else if (high("young_pct")) types.push("20〜30代の多い街");
+  if (high("kids_pct")) types.push("子育て世帯が多い街");
+  if (high("senior_pct")) types.push("高齢の人が多い街");
+  // 増減率は全国がマイナスなので比ではなく、多い方の4分の1で1%以上増えたときにする
+  if (people.pctl.pop_change_pct > PEOPLE_HIGH_PCTL && people.pop_change_pct >= 1) types.push("人口が増えている街");
+  return types;
+}
+
+/** 「〇〇区に住んでいる人」欄の見出し */
+export function peopleHeading(people) {
+  return `${people.area}に住んでいる人`;
+}
+
+/** 住んでいる人の要約（1段落）。全国平均との比較と、全掲載駅の中での位置から言葉を選ぶ */
+export function peopleSummaryText(stationName, people) {
+  if (!people) return "";
+  const n = people.national;
+  const where =
+    people.level === "city"
+      ? `${stationName}のある区の値が${people.census_year}年の国勢調査に無いため、${people.area}全体の値です。${people.area}は`
+      : `${people.area}（${stationName}のある市区町村）は、`;
+  const s = [
+    `${where}一人暮らしの世帯が${people.single_pct}%で、${compareWord(people.single_pct, n.single_pct)}（全国${n.single_pct}%）。`,
+    `20〜39歳の人は${people.young_pct}%（全国${n.young_pct}%）、65歳以上は${people.senior_pct}%（全国${n.senior_pct}%）です。`,
+    `子ども（18歳未満）のいる世帯は${people.kids_pct}%で、${compareWord(people.kids_pct, n.kids_pct)}（全国${n.kids_pct}%）。`,
+  ];
+  const c = people.pop_change_pct;
+  if (c !== null) {
+    s.push(
+      c >= 0.5
+        ? `人口は2015年からの5年間で${c}%増えました（全国は${n.pop_change_pct}%）。`
+        : c <= -0.5
+          ? `人口は2015年からの5年間で${-c}%減りました（全国は${n.pop_change_pct}%）。`
+          : "人口は2015年からの5年間でほぼ横ばいです。"
+    );
+  }
+  const types = peopleTypes(people);
+  s.push(
+    types.length > 0
+      ? `全国の掲載${people.of}駅と比べると、${types.join("・")}です。`
+      : `全国の掲載${people.of}駅と比べると、世帯や年齢の構成に目立った偏りはありません。`
+  );
+  return s.join("");
+}
+
+/** カードの下の小さい字（全国・都道府県の値） */
+export function peopleMetricSub(metric, people) {
+  const pref = people.pref_values?.[metric.key];
+  const nat = people.national?.[metric.key];
+  const parts = [];
+  if (nat !== undefined && nat !== null) parts.push(`全国${formatPeopleValue(metric, nat)}`);
+  if (pref !== undefined && pref !== null) parts.push(`${people.prefecture}${formatPeopleValue(metric, pref)}`);
+  return parts.join("・");
+}
+
+/** 保育園などの待機児童の説明。政令市の区の駅は市全体の値になることも書く */
+export function childcareText(people) {
+  const c = people?.childcare;
+  if (!c) return "";
+  const date = "2026年4月1日";
+  const cityNote = c.area !== people.area ? `（区ごとの値は公表されていないため、${c.area}全体の値）` : "";
+  const sum = people.childcare_summary;
+  const s = [`${c.area}の保育所・認定こども園などの待機児童は、${date}時点で${c.waiting}人です${cityNote}。申し込んだ子どもは${c.applicants.toLocaleString("ja-JP")}人でした。`];
+  if (c.waiting > 0 && sum) {
+    s.push(`全国${sum.municipalities.toLocaleString("ja-JP")}市区町村のうち待機児童がいるのは${sum.with_waiting}市区町村だけなので、入りにくい方の地域です。`);
+  }
+  if (c.specific_only > 0) {
+    s.push(`このほか、特定の園だけを希望して入園を待っている子どもが${c.specific_only.toLocaleString("ja-JP")}人いて、この人数は待機児童に数えられていません。待機児童が少なくても、希望の園に入れるとは限りません。`);
+  }
+  return s.join("");
+}
+
+// 暮らし方別の駅の選び方の記事（scripts/contentDocs.js の articleSingleLife など）
+export const LIFE_ARTICLES = [
+  { slug: "single-life", label: "一人暮らしの駅の選び方" },
+  { slug: "family-life", label: "子育て世帯の駅の選び方" },
+  { slug: "senior-life", label: "シニアの駅の選び方" },
+];
+
+// --- 同じ路線の大きな駅（2026-09-30追加。scripts/stationBundle.js の line_hubs） -----------------------------
+export const LINE_HUBS_NOTE =
+  "路線ごとに、このサイトで扱っている駅のうち乗降客数の多い駅を3駅まで載せています。距離は駅どうしの直線距離です。路線は正式な路線名でまとめているため、運転系統によっては途中で乗り換えが必要なことがあります。";
+

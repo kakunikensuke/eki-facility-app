@@ -11,9 +11,15 @@ import { findNearbyStations, formatDistance } from "../nearbyStations";
 import { prefecturePath } from "../stationSearch";
 import { stationTitle, stationDescription } from "../pageMeta";
 import {
+  LIFE_ARTICLES,
+  LINE_HUBS_NOTE,
+  PEOPLE_METRICS,
+  PEOPLE_SOURCE,
   categoryReachText,
+  childcareText,
   concentrationText,
   formatManYen,
+  formatPeopleValue,
   landCheapPct,
   landText,
   lineRankText,
@@ -22,6 +28,9 @@ import {
   nearbyFacilityRows,
   nearbySummaryText,
   nearestComparisonText,
+  peopleHeading,
+  peopleMetricSub,
+  peopleSummaryText,
   photoCredit,
   photoSourceText,
   prefRankText,
@@ -290,6 +299,45 @@ export default function StationPage({ stations }) {
               </section>
             )}
 
+            {data.people && (
+              <section className="block">
+                <h2 className="block-title">{peopleHeading(data.people)}</h2>
+                <p className="lead-text">{peopleSummaryText(station.name_ja, data.people)}</p>
+                <div className="fact-grid">
+                  {PEOPLE_METRICS.map((metric) => (
+                    <article className="fact" key={metric.key}>
+                      <h3 className="fact-label">{metric.label}</h3>
+                      <p className="fact-value">{formatPeopleValue(metric, data.people[metric.key])}</p>
+                      <p className="fact-sub">
+                        {metric.of}・{peopleMetricSub(metric, data.people)}
+                      </p>
+                    </article>
+                  ))}
+                  {data.people.childcare && (
+                    <article className="fact">
+                      <h3 className="fact-label">保育園などの待機児童（2026年4月）</h3>
+                      <p className="fact-value">
+                        {data.people.childcare.waiting}
+                        <small>人</small>
+                      </p>
+                      <p className="fact-sub">{data.people.childcare.area}・申込み{data.people.childcare.applicants.toLocaleString("ja-JP")}人</p>
+                    </article>
+                  )}
+                </div>
+                <p className="body-text">{childcareText(data.people)}</p>
+                <div className="chips">
+                  {LIFE_ARTICLES.map((x) => (
+                    <Link className="chip" key={x.slug} to={`/article/${x.slug}`}>
+                      {x.label}
+                    </Link>
+                  ))}
+                </div>
+                <p className="note-text">
+                  人口と世帯は{data.people.census_year}年の国勢調査の値で、駅の周りだけでなく市区町村（政令市は区）全体の数字です。{PEOPLE_SOURCE}
+                </p>
+              </section>
+            )}
+
             {data.hazard && (
               <section className="block">
                 <h2 className="block-title">災害リスク（ハザードマップの想定）</h2>
@@ -330,6 +378,27 @@ export default function StationPage({ stations }) {
                     </Link>
                   ))}
                 </div>
+                {data.line_hubs?.length > 0 && (
+                  <>
+                    <h3 className="sub-title">同じ路線の大きな駅</h3>
+                    <dl className="nearby-list hub-list">
+                      {data.line_hubs.map((entry) => (
+                        <div key={entry.slug}>
+                          <dt>{entry.name}</dt>
+                          <dd>
+                            {entry.hubs.map((h, i) => (
+                              <span key={h.slug}>
+                                {i > 0 && "・"}
+                                <Link to={`/${h.slug}`}>{h.name}</Link>（約{h.km}km）
+                              </span>
+                            ))}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <p className="note-text">{LINE_HUBS_NOTE}</p>
+                  </>
+                )}
               </section>
             )}
 

@@ -610,6 +610,7 @@ function prefPage(pref, rows, ctx) {
 
   blocks.push(...purposeSection(pref, rows, ctx));
   blocks.push(...rentValueSection(`${pref}内`, rows));
+  blocks.push(...peopleSection(pref, rows));
   blocks.push(...dailyNeedsSection(pref, rows, ctx));
   blocks.push(...hazardSection(pref, rows));
   blocks.push(...domainTopSection(`${pref}内`, rows));
@@ -1755,7 +1756,492 @@ function articleRent(ctx) {
   };
 }
 
+// --- 住んでいる人・暮らし方別の記事（2026-09-30追加） ------------------------------------------------
+// 人口と世帯は駅のある市区町村（政令市は区）の国勢調査2020年の値、待機児童は市区町村（政令市は市全体）の2026年4月の値。
+// 同じ市区町村の駅は同じ値になるので、市区町村ごとの表では1行にまとめる
+const PEOPLE_NOTE =
+  "人口と世帯は総務省「令和2年国勢調査」の市区町村（政令市は区）の値、待機児童はこども家庭庁「保育所等関連状況取りまとめ（令和8年4月1日）」の市区町村（政令市は市全体）の値です。駅の周りだけの数字ではなく、同じ市区町村の駅は同じ値になります。";
+const PEOPLE_SOURCE_NOTE =
+  "出典: 総務省「令和2年国勢調査 人口等基本集計」（e-Stat）、こども家庭庁「保育所等関連状況取りまとめ（令和8年4月1日）」を加工して作成";
+const peopleOf = (b) => b.people ?? null;
+const waitingOf = (b) => b.people?.childcare?.waiting ?? null;
+const pctText = (v) => (v === null || v === undefined ? "—" : `${fmt1(v)}%`);
+const signedPct = (v) => (v === null || v === undefined ? "—" : `${signed(v)}%`);
+const domainScore = (b, key) => T(b).domains[key].score;
+// 駅の地点がどれかの災害の想定区域に入っているか
+const hazardAtStation = (b) => Boolean(b.hazard) && HAZARD_KINDS.some((k) => b.hazard[k.key].at_station);
+
+// 駅の集まりを「駅のある市区町村」ごとにまとめる
+function groupAreas(list) {
+  const areas = new Map();
+  for (const b of list) {
+    const key = `${b.prefecture}${b.people.area}`;
+    if (!areas.has(key)) areas.set(key, { area: b.people.area, pref: b.prefecture, people: b.people, stations: [] });
+    areas.get(key).stations.push(b);
+  }
+  return [...areas.values()];
+}
+const areaStations = (x, limit = 3) =>
+  x.stations.slice(0, limit).map(stationLink).join("、") + (x.stations.length > limit ? ` ほか${x.stations.length - limit}駅` : "");
+
+// 値の小さい順に4等分した表の行（範囲・駅数と、各グループの中央値など）
+function quartileRows(list, value, columns) {
+  return quartiles(list, value).map((g, i) => [
+    `${["少ない", "やや少ない", "やや多い", "多い"][i]}（${fmt1(value(g[0]))}〜${fmt1(value(g[g.length - 1]))}%）`,
+    { text: `${g.length}駅`, num: true },
+    ...columns.map((c) => ({ text: c(g), num: true })),
+  ]);
+}
+const medianOf = (g, f) => median(g.map(f).filter((v) => v !== null && v !== undefined));
+// 多い方の4分の1と少ない方の4分の1を比べた言葉（「高く」「低く」「ほぼ同じ」）
+function contrastWord(high, low, { unit = "", tolerance = 0.05 } = {}) {
+  const rel = low === 0 ? (high === 0 ? 0 : 1) : (high - low) / Math.abs(low);
+  if (Math.abs(rel) < tolerance) return `ほぼ同じに（${fmt1(high)}${unit}と${fmt1(low)}${unit}）`;
+  return `${rel > 0 ? "高く" : "低く"}（${fmt1(high)}${unit}と${fmt1(low)}${unit}）`;
+}
+
+// 都道府県ページ: 掲載駅のある市区町村に住んでいる人
+const PEOPLE_AREA_LIMIT = 20;
+function peopleSection(pref, rows) {
+  const list = rows.filter(peopleOf);
+  if (list.length === 0) return [];
+  const areas = groupAreas(list).sort((x, y) => y.stations.length - x.stations.length || y.people.population - x.people.population);
+  const pv = list[0].people.pref_values;
+  const nat = list[0].people.national;
+  const blocks = [h2(`${pref}の駅のある市区町村に住んでいる人`)];
+  const s = [];
+  if (pv) {
+    s.push(
+      `${pref}全体では、一人暮らしの世帯が${pv.single_pct}%（全国${nat.single_pct}%）、子ども（18歳未満）のいる世帯が${pv.kids_pct}%（全国${nat.kids_pct}%）、` +
+        `65歳以上の人が${pv.senior_pct}%（全国${nat.senior_pct}%）で、人口は2015年からの5年間で${signed(pv.pop_change_pct)}%（全国${signed(nat.pop_change_pct)}%）でした（2020年の国勢調査）。`
+    );
+  }
+  if (areas.length >= 2) {
+    const by = (k) => [...areas].sort((x, y) => y.people[k] - x.people[k])[0];
+    const single = by("single_pct");
+    const kids = by("kids_pct");
+    const senior = by("senior_pct");
+    s.push(
+      `掲載駅のある${areas.length}の市区町村のうち、一人暮らしの世帯の割合が最も高いのは${single.area}（${single.people.single_pct}%）、` +
+        `子どものいる世帯の割合が最も高いのは${kids.area}（${kids.people.kids_pct}%）、65歳以上の割合が最も高いのは${senior.area}（${senior.people.senior_pct}%）です。`
+    );
+  }
+  blocks.push(p(s.join("")));
+  const shown = areas.slice(0, PEOPLE_AREA_LIMIT);
+  blocks.push(
+    table(
+      ["市区町村", "一人暮らしの世帯", "20〜39歳", "子どものいる世帯", "65歳以上", "人口の増減（5年）", "掲載駅"],
+      shown.map((x) => [
+        x.area,
+        { text: pctText(x.people.single_pct), num: true },
+        { text: pctText(x.people.young_pct), num: true },
+        { text: pctText(x.people.kids_pct), num: true },
+        { text: pctText(x.people.senior_pct), num: true },
+        { text: signedPct(x.people.pop_change_pct), num: true },
+        { html: areaStations(x) },
+      ])
+    )
+  );
+  if (areas.length > shown.length) blocks.push(note(`表は掲載駅の多い順に${shown.length}の市区町村を載せています。`));
+
+  // 待機児童（政令市は市全体の値なので、区の駅をまとめて1つに数える）
+  const care = new Map();
+  for (const b of list) {
+    const c = b.people.childcare;
+    if (c && !care.has(c.area)) care.set(c.area, c);
+  }
+  const waiting = [...care.values()].filter((c) => c.waiting > 0).sort((x, y) => y.waiting - x.waiting);
+  blocks.push(
+    p(
+      waiting.length > 0
+        ? `保育所などの待機児童（2026年4月1日）がいるのは、掲載駅のある${care.size}の市区町村（政令市は市全体で1つ）のうち${waiting
+            .map((c) => `${c.area}（${c.waiting}人）`)
+            .join("・")}です。ほかは0人でした。`
+        : `掲載駅のある${care.size}の市区町村（政令市は市全体で1つ）の保育所などの待機児童は、2026年4月1日時点ですべて0人でした。`
+    )
+  );
+  blocks.push(note(PEOPLE_NOTE));
+  return blocks;
+}
+
+const LIFE_LIST_LIMIT = 30;
+const LIFE_ARTICLE_LINKS = [
+  ["single-life", "一人暮らし"],
+  ["family-life", "子育て世帯"],
+  ["senior-life", "シニア"],
+];
+// 暮らし方別の記事どうしを結ぶ段落
+function otherLifeArticles(self) {
+  return p(
+    "ほかの暮らし方の記事: ",
+    {
+      html: LIFE_ARTICLE_LINKS.filter(([slug]) => slug !== self)
+        .map(([slug, label]) => a(`/article/${slug}`, `${label}の駅の選び方`))
+        .join("・"),
+    }
+  );
+}
+const dailyFull = (b) => dailyCount(b) === DAILY_KEYS.length;
+const fullShareOf = (g) => `${pct(g.filter(dailyFull).length, g.length)}%`;
+
+// 記事: 一人暮らしの駅の選び方
+function articleSingleLife(ctx) {
+  const { national } = ctx;
+  const list = ctx.B.filter((b) => peopleOf(b) && rentOf(b) && hasNearby(b));
+  const n = list.length;
+  const nat = list[0].people.national;
+  const medRent = median(list.map(rentOf));
+  const q = quartiles(list, (b) => b.people.single_pct);
+  const hi = q[3];
+  const lo = q[0];
+  const rentWord = contrastWord(medianOf(hi, rentOf) / 10000, medianOf(lo, rentOf) / 10000, { unit: "万円" });
+  const totalWord = contrastWord(medianOf(hi, (b) => T(b).total), medianOf(lo, (b) => T(b).total), { unit: "点" });
+  const fullHi = hi.filter(dailyFull).length / hi.length;
+  const fullLo = lo.filter(dailyFull).length / lo.length;
+
+  const blocks = [
+    p(
+      `一人暮らしの部屋を探すときに気になるのは、家賃と、駅の近くで毎日の用事が済むかどうかです。全国${n}駅について、駅のある市区町村の一人暮らしの世帯の割合（2020年の国勢調査）と、家賃の目安・駅前の施設・住みやすさ駅前スコアを並べ、どんな駅が一人暮らしに向くかをデータで確かめました。`
+    ),
+    h2("一人暮らしの世帯が多い街と少ない街の違い"),
+    p(`駅のある市区町村の一人暮らしの世帯の割合で、全国${n}駅を4つに分けました。全国の割合は${nat.single_pct}%です。`),
+    table(
+      ["一人暮らしの世帯の割合", "駅数", "家賃の目安（中央値）", "総合点（中央値）", `駅前${NEAR_M}m以内に日常の5種類がそろう駅`, "20〜39歳の割合（中央値）"],
+      quartileRows(list, (b) => b.people.single_pct, [
+        (g) => `月${formatManYen(medianOf(g, rentOf))}`,
+        (g) => fmt1(medianOf(g, (b) => T(b).total)),
+        fullShareOf,
+        (g) => `${fmt1(medianOf(g, (b) => b.people.young_pct))}%`,
+      ])
+    ),
+    p(
+      `一人暮らしの世帯が多い4分の1の駅は、少ない4分の1の駅と比べて、家賃の目安が${rentWord}、総合点が${totalWord}なっています。` +
+        `駅前（直線${NEAR_M}m以内）に${DAILY_LABELS}の5種類がそろう駅の割合は、多い方が${fmt1(fullHi * 100)}%、少ない方が${fmt1(fullLo * 100)}%です。` +
+        (fullHi > fullLo
+          ? "一人暮らしが多い街ほど駅前で用事が済みやすい一方で、家賃は高くなりがちです。"
+          : "一人暮らしが多い街だからといって、駅前で用事が済みやすいとは限りません。")
+    ),
+  ];
+
+  // 候補: 家賃の目安が全国の中央値以下・駅前で5種類がそろう・一人暮らしの世帯が全国の割合以上
+  const picks = dedupeColocated(
+    list
+      .filter((b) => rentOf(b) <= medRent && dailyFull(b) && b.people.single_pct >= nat.single_pct)
+      .sort((x, y) => T(y).total - T(x).total),
+    LIFE_LIST_LIMIT
+  );
+  const pickRow = (b) => [
+    { href: `/${b.slug}`, text: b.name_ja },
+    { href: `/pref/${prefectureSlug(b.prefecture)}`, text: b.prefecture },
+    { text: `月${formatManYen(rentOf(b))}`, num: true },
+    { text: pctText(b.people.single_pct), num: true },
+    { text: fmt1(T(b).total), num: true },
+  ];
+  blocks.push(
+    h2("家賃を抑えて、駅前で用事が済む駅"),
+    p(
+      `次の3つを満たす駅を、総合点の高い順に並べました（${picks.length}駅）。①家賃の目安（1K）が全国の掲載駅の中央値（月${formatManYen(medRent)}）以下、` +
+        `②駅から直線${NEAR_M}m以内に${DAILY_LABELS}がそろう、③駅のある市区町村の一人暮らしの世帯が全国の割合（${nat.single_pct}%）以上。` +
+        "③は、同じように一人で暮らす人が多い街かどうかの目安です。"
+    ),
+    table(["駅", "都道府県", "家賃の目安（1K）", "一人暮らしの世帯", "総合点"], picks.map(pickRow))
+  );
+  const pickPrefs = tally(picks, (b) => b.prefecture).slice(0, 3);
+  if (pickPrefs.length > 0) {
+    blocks.push(p(`この一覧に多いのは${pickPrefs.map(([pref, c]) => `${pref}（${c}駅）`).join("・")}です。`));
+  }
+
+  // 便利さを優先して家賃を抑える: 総合点が上位4分の1の駅のうち、家賃の目安が安い順
+  const cheapTop = dedupeColocated(
+    list.filter((b) => T(b).total >= national.q75 && b.people.single_pct >= nat.single_pct).sort((x, y) => rentOf(x) - rentOf(y)),
+    15
+  );
+  blocks.push(
+    h2("総合点が上位4分の1の駅を、家賃の目安が安い順に"),
+    p(
+      `総合点が全国の上位4分の1（${fmt1(national.q75)}点以上）で、一人暮らしの世帯が全国の割合以上の駅を、家賃の目安が安い順に${cheapTop.length}駅並べました。` +
+        "駅の周りの便利さを優先しつつ、家賃をできるだけ抑えたいときの候補です。"
+    ),
+    table(["駅", "都道府県", "家賃の目安（1K）", "一人暮らしの世帯", "総合点"], cheapTop.map(pickRow))
+  );
+
+  const H = list.filter((b) => b.hazard);
+  blocks.push(
+    h2("一人暮らしの駅選びで確かめたいこと"),
+    ul([
+      `家賃: 全国の掲載駅の家賃の目安（1K）の中央値は月${formatManYen(medRent)}です。駅ページの「家賃の目安」で、その駅の市区町村が全国のどのあたりかが分かります。`,
+      `駅前の施設: 駅から直線${NEAR_M}m以内に${DAILY_LABELS}の5種類がそろう駅は、全国で${fullShareOf(list)}です。駅ページの「駅から近い施設」で、足りない施設までの距離が分かります。`,
+      `水害: 駅の地点が洪水の浸水想定区域に入っている駅は${pct(H.filter((b) => b.hazard.flood.at_station).length, H.length)}%あります。1階の部屋を選ぶときは、駅ページの「災害リスク」を確かめてください。`,
+      "夜の帰り道の明るさや人通りは、このサイトのデータでは分かりません。部屋を決める前に、夜の時間帯に実際に歩いてみるのが確実です。",
+    ])
+  );
+  blocks.push(otherLifeArticles("single-life"));
+  blocks.push(
+    readingNotes([
+      PEOPLE_NOTE,
+      `家賃の目安は、総務省「令和5年住宅・土地統計調査」の市区町村別の民営借家の1m²あたり家賃に${RENT_ROOM_M2}m²と都道府県ごとの倍率（${rentFactorRange}）を掛けたもので、駅ごとの相場ではありません。`,
+      ...COMMON_NOTES,
+    ]),
+    note(PEOPLE_SOURCE_NOTE),
+    note("出典: 総務省「令和5年住宅・土地統計調査」（e-Stat）を加工して作成"),
+    note(PUBLIC_SOURCE)
+  );
+  return {
+    slug: "single-life",
+    heading: "一人暮らしの駅の選び方",
+    title: `一人暮らしに向く駅は？｜家賃・駅前の施設・単身世帯の多さで全国${n}駅を比較`,
+    description: `一人暮らしの世帯の割合（国勢調査）、家賃の目安、駅前の施設で全国${n}駅を比較。家賃が中央値以下で駅前に日常の5種類がそろい、一人暮らしの世帯が多い駅は${picks.length}駅。`,
+    summary: `家賃が中央値（月${formatManYen(medRent)}）以下で、駅前に日常の5種類がそろい、一人暮らしの世帯が多い駅は${picks.length}駅。`,
+    html: blocks.join(""),
+  };
+}
+
+// 記事: 子育て世帯の駅の選び方
+function articleFamilyLife(ctx) {
+  const list = ctx.B.filter((b) => peopleOf(b) && b.people.childcare);
+  const n = list.length;
+  const nat = list[0].people.national;
+  const sum = list[0].people.childcare_summary;
+  const familyQ75 = list.map((b) => domainScore(b, "family")).sort((x, y) => x - y)[Math.floor(n * 0.75)];
+
+  // 待機児童（市区町村ごと。政令市は市全体）
+  const care = new Map();
+  for (const b of list) {
+    const c = b.people.childcare;
+    const key = `${b.prefecture}${c.area}`;
+    if (!care.has(key)) care.set(key, { ...c, pref: b.prefecture, stations: [] });
+    care.get(key).stations.push(b);
+  }
+  const careList = [...care.values()];
+  const withWaiting = careList.filter((c) => c.waiting > 0).sort((x, y) => y.waiting - x.waiting);
+  const stationsWaiting = list.filter((b) => waitingOf(b) > 0).length;
+  const specificTotal = careList.reduce((t, c) => t + c.specific_only, 0);
+  const waitingTotal = careList.reduce((t, c) => t + c.waiting, 0);
+  const WAITING_TABLE_LIMIT = 15;
+
+  const blocks = [
+    p(
+      `子どものいる世帯が住む駅を選ぶときは、保育園に入れるか、子育てに使う施設が近くにあるか、水害の心配はどうかが気になります。全国${n}駅について、駅のある市区町村の子どものいる世帯の割合（2020年の国勢調査）と保育所などの待機児童（2026年4月）を、駅の周りの施設や災害の想定と並べました。`
+    ),
+    h2("待機児童のいる市区町村の駅"),
+    p(
+      `全国${sum.municipalities.toLocaleString("ja-JP")}市区町村のうち、2026年4月1日時点で待機児童がいたのは${sum.with_waiting}市区町村（全国で${sum.total_waiting.toLocaleString("ja-JP")}人）です。` +
+        `掲載駅のある${careList.length}の市区町村（政令市は市全体で1つ）では${withWaiting.length}か所に計${waitingTotal.toLocaleString("ja-JP")}人いて、` +
+        `その市区町村にある駅は${n}駅中${stationsWaiting}駅（${pct(stationsWaiting, n)}%）です。`
+    ),
+  ];
+  if (withWaiting.length > 0) {
+    blocks.push(
+      table(
+        ["市区町村", "待機児童", "申し込んだ子ども", "特定の園だけを希望", "掲載駅"],
+        withWaiting.slice(0, WAITING_TABLE_LIMIT).map((c) => [
+          `${c.area}（${c.pref}）`,
+          { text: `${c.waiting}人`, num: true },
+          { text: `${c.applicants.toLocaleString("ja-JP")}人`, num: true },
+          { text: `${c.specific_only.toLocaleString("ja-JP")}人`, num: true },
+          { html: areaStations(c) },
+        ])
+      ),
+      note(`待機児童の多い順に${Math.min(WAITING_TABLE_LIMIT, withWaiting.length)}か所を載せています。`)
+    );
+  }
+  blocks.push(
+    p(
+      `待機児童が0人でも、特定の園だけを希望して入園を待っている子どもは待機児童に数えられません。掲載駅のある市区町村では、その人数が合わせて${specificTotal.toLocaleString("ja-JP")}人います。` +
+        "希望の園がある場合は、市区町村の窓口で園ごとの空き状況を確かめてください。"
+    )
+  );
+
+  // 子どものいる世帯の割合で4つに分ける
+  const q = quartiles(list, (b) => b.people.kids_pct);
+  const floodShare = (g) => {
+    const h = g.filter((b) => b.hazard);
+    return h.length ? `${pct(h.filter((b) => b.hazard.flood.at_station).length, h.length)}%` : "—";
+  };
+  const famWord = contrastWord(medianOf(q[3], (b) => domainScore(b, "family")), medianOf(q[0], (b) => domainScore(b, "family")), { unit: "点" });
+  const rentWord = contrastWord(medianOf(q[3], rentOf) / 10000, medianOf(q[0], rentOf) / 10000, { unit: "万円" });
+  const totalWord = contrastWord(medianOf(q[3], (b) => T(b).total), medianOf(q[0], (b) => T(b).total), { unit: "点" });
+  blocks.push(
+    h2("子どものいる世帯が多い街の駅の特徴"),
+    p(`駅のある市区町村の子ども（18歳未満）のいる世帯の割合で、全国${n}駅を4つに分けました。全国の割合は${nat.kids_pct}%です。`),
+    table(
+      ["子どものいる世帯の割合", "駅数", "子育て・教育の点（中央値）", "総合点（中央値）", "家賃の目安（中央値）", "駅の地点が洪水の想定区域"],
+      quartileRows(list, (b) => b.people.kids_pct, [
+        (g) => fmt1(medianOf(g, (b) => domainScore(b, "family"))),
+        (g) => fmt1(medianOf(g, (b) => T(b).total)),
+        (g) => `月${formatManYen(medianOf(g, rentOf))}`,
+        floodShare,
+      ])
+    ),
+    p(
+      `子どものいる世帯が多い4分の1の駅は、少ない4分の1の駅と比べて、子育て・教育の点（保育園・幼稚園、学校、図書館の数から出した点）が${famWord}、` +
+        `総合点が${totalWord}、家賃の目安が${rentWord}なっています。` +
+        `点数は駅から徒歩${WALK}分圏の施設だけで出しているので、駅から離れた住宅地の施設は数に入っていません。住まいが駅から遠くなるなら、駅ページで徒歩15分・20分の段階も見てください。`
+    )
+  );
+
+  // 候補: 待機児童0人・子育て・教育の点が上位4分の1・子どものいる世帯が全国の割合以上・駅の地点がどの災害の想定区域にも入らない
+  const picks = dedupeColocated(
+    list
+      .filter(
+        (b) =>
+          waitingOf(b) === 0 &&
+          domainScore(b, "family") >= familyQ75 &&
+          b.people.kids_pct >= nat.kids_pct &&
+          b.hazard &&
+          !hazardAtStation(b)
+      )
+      .sort((x, y) => domainScore(y, "family") - domainScore(x, "family") || T(y).total - T(x).total),
+    LIFE_LIST_LIMIT
+  );
+  blocks.push(
+    h2("保育園に入りやすく、子育ての施設が近い駅"),
+    p(
+      `次の4つを満たす駅を、子育て・教育の点の高い順に並べました（${picks.length}駅）。①駅のある市区町村の待機児童が0人（2026年4月）、` +
+        `②子育て・教育の点が全国の掲載駅の上位4分の1（${fmt1(familyQ75)}点以上）、③子どものいる世帯が全国の割合（${nat.kids_pct}%）以上、` +
+        "④駅の地点が洪水・高潮・津波・土砂災害のどの想定区域にも入っていない。"
+    ),
+    table(
+      ["駅", "都道府県", "子育て・教育の点", "子どものいる世帯", "家賃の目安（1K）", "総合点"],
+      picks.map((b) => [
+        { href: `/${b.slug}`, text: b.name_ja },
+        { href: `/pref/${prefectureSlug(b.prefecture)}`, text: b.prefecture },
+        { text: fmt1(domainScore(b, "family")), num: true },
+        { text: pctText(b.people.kids_pct), num: true },
+        { text: rentOf(b) ? `月${formatManYen(rentOf(b))}` : "—", num: true },
+        { text: fmt1(T(b).total), num: true },
+      ])
+    )
+  );
+  const pickPrefs = tally(picks, (b) => b.prefecture).slice(0, 3);
+  if (pickPrefs.length > 0) {
+    blocks.push(p(`この一覧に多いのは${pickPrefs.map(([pref, c]) => `${pref}（${c}駅）`).join("・")}です。`));
+  }
+  blocks.push(
+    h2("子育て世帯の駅選びで確かめたいこと"),
+    ul([
+      "保育園: 駅ページの「住んでいる人」に、その市区町村の待機児童と、特定の園だけを希望して待っている子どもの数を載せています。政令市は区ごとの値が無いため市全体の値です。",
+      "施設: 駅ページの「6分野の評価」の子育て・教育で、保育園・幼稚園、学校、図書館の数を徒歩5〜20分の4段階で確かめられます。",
+      "水害: 駅ページの「災害リスク」で、駅から徒歩10分圏の浸水想定区域の割合が分かります。子どもの通う園や学校の場所もハザードマップで確かめると安心です。",
+      `広さと家賃: このサイトの家賃の目安は1K（${RENT_ROOM_M2}m²）の広さです。家族向けの広い部屋の家賃は、目安よりかなり高くなります。`,
+    ])
+  );
+  blocks.push(otherLifeArticles("family-life"));
+  blocks.push(readingNotes([PEOPLE_NOTE, ...COMMON_NOTES]), note(PEOPLE_SOURCE_NOTE), note(PUBLIC_SOURCE));
+  return {
+    slug: "family-life",
+    heading: "子育て世帯の駅の選び方",
+    title: `子育てしやすい駅は？｜待機児童・子育ての施設・災害の想定で全国${n}駅を比較`,
+    description: `待機児童（2026年4月）、子どものいる世帯の割合（国勢調査）、子育て・教育の施設、災害の想定で全国${n}駅を比較。待機児童0人で子育ての施設が近い駅は${picks.length}駅。`,
+    summary: `待機児童のいる市区町村の駅は${stationsWaiting}駅。待機児童0人・子育ての点が上位4分の1・災害の想定区域外の駅は${picks.length}駅。`,
+    html: blocks.join(""),
+  };
+}
+
+// 記事: シニアの駅の選び方
+// 大都市圏の外の候補を別に出すときに除く都府県
+const METRO_PREFS = new Set(["東京都", "神奈川県", "埼玉県", "千葉県", "大阪府", "京都府", "兵庫県", "愛知県"]);
+function articleSeniorLife(ctx) {
+  const list = ctx.B.filter((b) => peopleOf(b) && hasNearby(b));
+  const n = list.length;
+  const nat = list[0].people.national;
+  const medicalQ75 = list.map((b) => domainScore(b, "medical")).sort((x, y) => x - y)[Math.floor(n * 0.75)];
+  const hospitalNear = (g) => `${pct(g.filter((b) => (nearestOf(b, "hospital") ?? Infinity) <= NEAR_M).length, g.length)}%`;
+  const q = quartiles(list, (b) => b.people.senior_pct);
+  const medWord = contrastWord(medianOf(q[3], (b) => domainScore(b, "medical")), medianOf(q[0], (b) => domainScore(b, "medical")), { unit: "点" });
+  const fullHi = q[3].filter(dailyFull).length / q[3].length;
+  const fullLo = q[0].filter(dailyFull).length / q[0].length;
+
+  const blocks = [
+    p(
+      `年を重ねてからの住まいは、車がなくても歩いて病院や買い物に行けるかどうかが大切になります。全国${n}駅について、駅のある市区町村の65歳以上の人の割合（2020年の国勢調査）と、駅から歩いて行ける病院・スーパーなどの距離、医療の点、災害の想定を並べました。`
+    ),
+    h2("65歳以上の人が多い街の駅の特徴"),
+    p(`駅のある市区町村の65歳以上の人の割合で、全国${n}駅を4つに分けました。全国の割合は${nat.senior_pct}%です。`),
+    table(
+      ["65歳以上の割合", "駅数", "医療の点（中央値）", `駅前${NEAR_M}m以内に病院・クリニック`, `駅前${NEAR_M}m以内に日常の5種類`, "総合点（中央値）"],
+      quartileRows(list, (b) => b.people.senior_pct, [
+        (g) => fmt1(medianOf(g, (b) => domainScore(b, "medical"))),
+        hospitalNear,
+        fullShareOf,
+        (g) => fmt1(medianOf(g, (b) => T(b).total)),
+      ])
+    ),
+    p(
+      `65歳以上の人が多い4分の1の駅は、少ない4分の1の駅と比べて、医療の点（病院・クリニック、歯科、調剤薬局の数から出した点）が${medWord}なっています。` +
+        `駅前に日常の5種類がそろう駅の割合は、多い方が${fmt1(fullHi * 100)}%、少ない方が${fmt1(fullLo * 100)}%です。` +
+        (fullHi < fullLo
+          ? "高齢の人が多い街ほど、駅前で用事を済ませにくい傾向があります。住み替えを考えるなら、駅の周りに施設がまとまっている駅を選ぶと、歩いて暮らしやすくなります。"
+          : "高齢の人が多い街でも、駅前の施設のそろい方は少ない街と変わりません。")
+    ),
+  ];
+
+  // 候補: 駅前で5種類がそろう・医療の点が上位4分の1・駅の地点がどの想定区域にも入らない
+  const safe = (b) => b.hazard && !hazardAtStation(b);
+  const picks = dedupeColocated(
+    list
+      .filter((b) => dailyFull(b) && domainScore(b, "medical") >= medicalQ75 && safe(b))
+      .sort((x, y) => domainScore(y, "medical") - domainScore(x, "medical") || T(y).total - T(x).total),
+    LIFE_LIST_LIMIT
+  );
+  const pickRow = (b) => [
+    { href: `/${b.slug}`, text: b.name_ja },
+    { href: `/pref/${prefectureSlug(b.prefecture)}`, text: b.prefecture },
+    { text: fmt1(domainScore(b, "medical")), num: true },
+    { text: `約${formatMeters(nearestOf(b, "hospital"))}`, num: true },
+    { text: `約${formatMeters(nearestOf(b, "supermarket"))}`, num: true },
+    { text: pctText(b.people.senior_pct), num: true },
+  ];
+  const head = ["駅", "都道府県", "医療の点", "最も近い病院・クリニック", "最も近いスーパー", "65歳以上の割合"];
+  blocks.push(
+    h2("歩いて通院と買い物ができ、災害の想定区域の外にある駅"),
+    p(
+      `次の3つを満たす駅を、医療の点の高い順に並べました（${picks.length}駅）。①駅から直線${NEAR_M}m以内に${DAILY_LABELS}がそろう、` +
+        `②医療の点が全国の掲載駅の上位4分の1（${fmt1(medicalQ75)}点以上）、③駅の地点が洪水・高潮・津波・土砂災害のどの想定区域にも入っていない。`
+    ),
+    table(head, picks.map(pickRow))
+  );
+  const local = dedupeColocated(
+    list
+      .filter((b) => !METRO_PREFS.has(b.prefecture) && dailyFull(b) && safe(b))
+      .sort((x, y) => domainScore(y, "medical") - domainScore(x, "medical") || T(y).total - T(x).total),
+    15
+  );
+  if (local.length > 0) {
+    blocks.push(
+      h2("大都市圏の外で、歩いて暮らしやすい駅"),
+      p(
+        `東京・神奈川・埼玉・千葉・大阪・京都・兵庫・愛知以外の駅で、①と③を満たす駅を医療の点の高い順に${local.length}駅並べました。` +
+          "住み慣れた地域を離れずに、駅の近くへ住み替えるときの参考になります。"
+      ),
+      table(head, local.map(pickRow))
+    );
+  }
+  const H = list.filter((b) => b.hazard);
+  blocks.push(
+    h2("シニアの駅選びで確かめたいこと"),
+    ul([
+      `歩いて行ける距離: 駅ページの「駅から近い施設」に、スーパー・病院・薬局などの名前と駅からの距離を載せています。駅前（直線${NEAR_M}m以内）に病院・クリニックがある駅は全国で${hospitalNear(list)}です。`,
+      `災害: 駅の地点がどれかの災害の想定区域に入っている駅は${pct(H.filter(hazardAtStation).length, H.length)}%です。避難に時間がかかることも考えて、駅ページの「災害リスク」を確かめてください。`,
+      "坂道と段差: 地形の起伏や駅のエレベーターの有無は、このサイトのデータでは分かりません。実際に歩いて確かめてください。",
+    ])
+  );
+  blocks.push(otherLifeArticles("senior-life"));
+  blocks.push(readingNotes([PEOPLE_NOTE, ...COMMON_NOTES]), note(PEOPLE_SOURCE_NOTE), note(PUBLIC_SOURCE));
+  return {
+    slug: "senior-life",
+    heading: "シニアの駅の選び方",
+    title: `歩いて暮らせる駅は？｜病院・スーパーまでの距離と災害の想定で全国${n}駅を比較`,
+    description: `駅から病院・スーパーまでの距離、医療の点、災害の想定、65歳以上の人の割合（国勢調査）で全国${n}駅を比較。駅前で用事が済み、災害の想定区域の外にある駅を一覧にしました。`,
+    summary: `駅前に日常の5種類がそろい、医療の点が上位4分の1で、駅の地点が災害の想定区域の外にある駅は${picks.length}駅。`,
+    html: blocks.join(""),
+  };
+}
+
 const ARTICLES = [
+  articleSingleLife,
+  articleFamilyLife,
+  articleSeniorLife,
   articleCheapAndConvenient,
   articleRidership,
   articleWalkRange,

@@ -1452,3 +1452,21 @@ body {
     gap: 2px;
   }
 }
+
+/* 同じ路線の大きな駅（2026-09-30追加）。路線名が長いので左の列を広げる */
+.sub-title {
+  margin: 22px 0 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.nearby-list.hub-list > div {
+  grid-template-columns: 13em 1fr;
+}
+
+@media (max-width: 480px) {
+  .nearby-list.hub-list > div {
+    grid-template-columns: 1fr;
+  }
+}

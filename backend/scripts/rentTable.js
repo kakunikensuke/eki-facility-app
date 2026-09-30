@@ -1,6 +1,7 @@
 /**
  * 住宅・土地統計調査の表（e-Stat の xlsx）を標準ライブラリだけで読む（2026-09-30追加）。
- * importRent.js（駅ごとの家賃の目安）と calibrateRent.js（都道府県ごとの補正倍率）が使う。
+ * importRent.js（駅ごとの家賃の目安）と calibrateRent.js（都道府県ごとの補正倍率）、
+ * importCensus.js（国勢調査・保育所等の表）が使う。
  */
 
 const fs = require("fs");
@@ -35,14 +36,16 @@ function unzip(buf) {
 const unescapeXml = (s) =>
   s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, "&");
 
-function readSheetRows(xlsx) {
+// sheetNo: 何枚目のシートか（1から）
+function readSheetRows(xlsx, sheetNo = 1) {
   const files = unzip(fs.readFileSync(xlsx));
   const shared = [];
   const ss = files.get("xl/sharedStrings.xml")?.toString("utf8") ?? "";
   for (const si of ss.match(/<si>[\s\S]*?<\/si>/g) ?? []) {
-    shared.push(unescapeXml([...si.matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map((m) => m[1]).join("")));
+    // 読み仮名（ルビ、<rPh>）は文字列に含めない
+    shared.push(unescapeXml([...si.replace(/<rPh[\s\S]*?<\/rPh>/g, "").matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map((m) => m[1]).join("")));
   }
-  const sheet = files.get("xl/worksheets/sheet1.xml").toString("utf8");
+  const sheet = files.get(`xl/worksheets/sheet${sheetNo}.xml`).toString("utf8");
   const colIndex = (ref) => [...ref.match(/^[A-Z]+/)[0]].reduce((n, ch) => n * 26 + ch.charCodeAt(0) - 64, 0) - 1;
   const rows = [];
   for (const row of sheet.match(/<row[^>]*>[\s\S]*?<\/row>/g) ?? []) {
@@ -79,4 +82,16 @@ function rentByCode(rows) {
   return out;
 }
 
-module.exports = { readSheetRows, rentByCode };
+// --- 政令市の区 → 市全体のコード ----------------------------------------------------------
+// 政令市のコードは「都道府県2桁＋1＋2桁」で末尾0（札幌市01100、川崎市14130、浜松市22130など）、区はその後ろに続く番号。
+// isCity(code) は表にその市全体の行があるか（名前が「市」で終わるか）。区でなければ null
+function designatedCityOf(code, isCity) {
+  if (code[2] !== "1") return null;
+  for (let c = Number(code); c >= Number(code.slice(0, 3) + "00"); c--) {
+    const candidate = String(c).padStart(5, "0");
+    if (candidate !== code && candidate.endsWith("0") && isCity(candidate)) return candidate;
+  }
+  return null;
+}
+
+module.exports = { readSheetRows, rentByCode, designatedCityOf };

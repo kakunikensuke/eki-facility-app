@@ -7,7 +7,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
-import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
+import { distanceKm, findNearbyStations, formatDistance } from "../src/nearbyStations.js";
 import { DOMAINS, ITEMS } from "../src/livabilityDefs.js";
 import { RENT_MARKET_FACTOR, RENT_ROOM_M2 } from "../src/stationProfileText.js";
 
@@ -48,6 +48,8 @@ export function loadData() {
     stationRent: readJson("station-rent.json", { stations: {} }),
     // 家賃の目安を募集家賃の水準に直す都道府県ごとの倍率（backend/scripts/calibrateRent.js）
     rentFactors: readJson("rent-factors.json", { factors: {} }),
+    // 市区町村の人口の構成と待機児童（backend/scripts/importCensus.js。国勢調査・こども家庭庁。2026-09-30追加）
+    stationPeople: readJson("station-people.json", { stations: {} }),
   };
 }
 
@@ -81,6 +83,7 @@ export function buildAll({
   stationNearby,
   stationRent,
   rentFactors,
+  stationPeople,
 }) {
   assertDefsInSync();
 
@@ -89,6 +92,7 @@ export function buildAll({
   const similarBySlug = buildSimilarMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
   const defaultScores = scoredByTier[DEFAULT_WALK_MINUTES];
   const rentBySlug = buildRentMap(stationRent, rentFactors, stations);
+  const peopleBySlug = buildPeopleMap(stationPeople, stations);
 
   const bundles = new Map();
   for (const station of stations) {
@@ -141,6 +145,7 @@ export function buildAll({
       tiers,
       public: publicBySlug[station.slug] ?? { land: null, ridership: null },
       rent: rentBySlug.get(station.slug) ?? null,
+      people: peopleBySlug.get(station.slug) ?? null,
       photos: stationPhotos[station.slug]?.photos ?? [],
       // 写真を載せているWikipedia記事の題名（出典の表示に使う）
       photo_article: stationPhotos[station.slug]?.article ?? null,
@@ -162,6 +167,7 @@ export function buildAll({
   }
 
   addLocalRanks(bundles, stationLines);
+  addLineHubs(bundles, stationLines);
 
   // 条件検索・トップの目的別ランキング用の全駅表（/api/station-matrix.json）。
   // 容量を抑えるため、施設の軒数（c）と分野の点（d）は ITEMS / DOMAINS の順の配列で持つ
@@ -290,4 +296,71 @@ function buildRentMap(stationRent, rentFactors, stations) {
     });
   }
   return map;
+}
+
+// 駅のある市区町村に住んでいる人（2026-09-30追加）。国勢調査の割合に、全掲載駅の中での位置（その値以下の駅の割合、%）を付ける。
+// 位置は「若い一人暮らしが多い街」などの言葉を選ぶのに使う（src/stationProfileText.js の peopleTypes）
+export const PEOPLE_KEYS = ["single_pct", "young_pct", "kids_pct", "senior_pct", "pop_change_pct"];
+function buildPeopleMap(stationPeople, stations) {
+  const slugs = new Set(stations.map((s) => s.slug));
+  const entries = Object.entries(stationPeople?.stations ?? {}).filter(([slug]) => slugs.has(slug));
+  const sorted = Object.fromEntries(
+    PEOPLE_KEYS.map((k) => [k, entries.map(([, v]) => v[k]).filter((v) => v !== null).sort((a, b) => a - b)])
+  );
+  const atMostPct = (k, v) => {
+    const values = sorted[k];
+    let lo = 0;
+    let hi = values.length;
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      if (values[mid] <= v) lo = mid + 1;
+      else hi = mid;
+    }
+    return Math.round((lo / values.length) * 100);
+  };
+  const prefOf = new Map(stations.map((s) => [s.slug, s.prefecture]));
+  const map = new Map();
+  for (const [slug, v] of entries) {
+    map.set(slug, {
+      ...v,
+      prefecture: prefOf.get(slug),
+      pref_values: stationPeople.prefectures?.[prefOf.get(slug)] ?? null,
+      national: stationPeople.national,
+      pctl: Object.fromEntries(PEOPLE_KEYS.map((k) => [k, v[k] === null ? null : atMostPct(k, v[k])])),
+      of: entries.length,
+      census_year: stationPeople.census_year,
+      childcare_date: stationPeople.childcare_date,
+      childcare_summary: stationPeople.childcare_summary,
+    });
+  }
+  return map;
+}
+
+// 同じ路線の大きな駅（2026-09-30追加）。路線ごとに、乗降客数の多い順に自分以外の駅を LINE_HUB_LIMIT 駅まで。
+// 路線は正式な路線名でまとめているので（東北本線に京浜東北線・宇都宮線が入るなど）、「乗り換えなしで行ける」とは書かない
+const LINE_HUB_LIMIT = 3;
+function addLineHubs(bundles, stationLines) {
+  const riderOf = (b) => b.public.ridership?.daily ?? 0;
+  const byLine = new Map(
+    (stationLines?.lines ?? []).map((l) => [
+      l.slug,
+      l.stations
+        .map((slug) => bundles.get(slug))
+        .filter((b) => b && riderOf(b) > 0)
+        .sort((x, y) => riderOf(y) - riderOf(x)),
+    ])
+  );
+  for (const b of bundles.values()) {
+    b.line_hubs = b.lines
+      .map((l) => {
+        const members = byLine.get(l.slug) ?? [];
+        // 同じ場所の別事業者の駅（「大阪駅」と「梅田駅」など、400m以内）は大きな駅に数えない
+        const hubs = members
+          .filter((h) => h !== b && distanceKm(h, b) > 0.4)
+          .slice(0, LINE_HUB_LIMIT)
+          .map((h) => ({ slug: h.slug, name: h.name_ja, daily: riderOf(h), km: Math.round(distanceKm(h, b) * 10) / 10 }));
+        return hubs.length > 0 ? { slug: l.slug, name: l.name, hubs } : null;
+      })
+      .filter(Boolean);
+  }
 }
