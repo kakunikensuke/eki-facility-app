@@ -46,6 +46,8 @@ export function loadData() {
     stationNearby: readJson("station-nearby.json", { stations: {} }),
     // 市区町村の家賃水準（backend/scripts/importRent.js。住宅・土地統計調査。2026-09-30追加）
     stationRent: readJson("station-rent.json", { stations: {} }),
+    // 家賃の目安を募集家賃の水準に直す都道府県ごとの倍率（backend/scripts/calibrateRent.js）
+    rentFactors: readJson("rent-factors.json", { factors: {} }),
   };
 }
 
@@ -78,6 +80,7 @@ export function buildAll({
   stationLines,
   stationNearby,
   stationRent,
+  rentFactors,
 }) {
   assertDefsInSync();
 
@@ -85,7 +88,7 @@ export function buildAll({
   const publicBySlug = livability.publicRanks(stationPublic.stations || {});
   const similarBySlug = buildSimilarMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
   const defaultScores = scoredByTier[DEFAULT_WALK_MINUTES];
-  const rentBySlug = buildRentMap(stationRent);
+  const rentBySlug = buildRentMap(stationRent, rentFactors, stations);
 
   const bundles = new Map();
   for (const station of stations) {
@@ -249,9 +252,14 @@ function addLocalRanks(bundles, stationLines) {
 
 // 家賃の目安（2026-09-30追加）。市区町村の民営借家の1m²当たり家賃を1Kの広さ（RENT_ROOM_M2）に直し、
 // 全掲載駅の中で安い方から何%の位置かを付ける。駅ごとの相場ではなく市区町村の平均であることは画面の文で必ず書く
-function buildRentMap(stationRent) {
-  const entries = Object.entries(stationRent?.stations ?? {});
-  const values = entries.map(([, r]) => r.yen_per_m2).sort((a, b) => a - b);
+function buildRentMap(stationRent, rentFactors, stations) {
+  const prefOf = new Map(stations.map((s) => [s.slug, s.prefecture]));
+  // 都道府県ごとの倍率（無ければ全国一律の RENT_MARKET_FACTOR）
+  const factorOf = (slug) => rentFactors?.factors?.[prefOf.get(slug)] ?? RENT_MARKET_FACTOR;
+  const monthlyOf = (slug, r) => Math.round((r.yen_per_m2 * RENT_ROOM_M2 * factorOf(slug)) / 100) * 100;
+  const entries = Object.entries(stationRent?.stations ?? {}).filter(([slug]) => prefOf.has(slug));
+  // 安い方から何%かは、倍率を掛けた後の目安で並べる（都道府県で倍率が違うため）
+  const values = entries.map(([slug, r]) => monthlyOf(slug, r)).sort((a, b) => a - b);
   const atMost = (v) => {
     let lo = 0;
     let hi = values.length;
@@ -270,12 +278,13 @@ function buildRentMap(stationRent) {
       yen_per_m2: r.yen_per_m2,
       // 1Kの広さに直した統計そのままの月の家賃と、募集家賃の水準に直した目安（100円単位）
       stock_monthly: Math.round((r.yen_per_m2 * RENT_ROOM_M2) / 100) * 100,
-      monthly: Math.round((r.yen_per_m2 * RENT_ROOM_M2 * RENT_MARKET_FACTOR) / 100) * 100,
-      factor: RENT_MARKET_FACTOR,
+      monthly: monthlyOf(slug, r),
+      factor: factorOf(slug),
+      prefecture: prefOf.get(slug),
       room_m2: RENT_ROOM_M2,
       national_yen_per_m2: stationRent.national_yen_per_m2,
       // 全掲載駅を安い順に並べたときの位置（この値以下の駅の割合、%）
-      cheap_pct: Math.round((atMost(r.yen_per_m2) / values.length) * 100),
+      cheap_pct: Math.round((atMost(monthlyOf(slug, r)) / values.length) * 100),
       of: values.length,
       year: stationRent.survey_year,
     });

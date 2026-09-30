@@ -276,7 +276,9 @@ export function photoSourceText(article, source) {
 
 // 家賃の目安に使う1Kの広さ（m²）。scripts/stationBundle.js と contentDocs.js も使う
 export const RENT_ROOM_M2 = 25;
-// 統計（今貸されている借家全体の平均・2023年）を、募集中の物件の家賃の水準に直す倍率（2026-09-30に検証して決めた）。
+// 統計（今貸されている借家全体の平均・2023年）を、募集中の物件の家賃の水準に直す倍率の全国一律の値（2026-09-30に検証して決めた）。
+// 同日、都道府県ごとの倍率（backend/data/rent-factors.json、backend/scripts/calibrateRent.js）に切り替えたので、
+// これは倍率の無い都道府県のときの控えとしてだけ使う。
 // アットホームの全国13エリアの平均募集家賃（2026年7月、30m²以下、マンションとアパートの平均）と、
 // 同じ地域の統計×25m²を比べると、比は1.29〜1.81・中央値1.52。一定倍率で平均誤差8.2%（1つ抜き検証9.4%）、
 // 地価のように曲線で合わせても8.0%（同9.7%）で良くならないので、分かりやすい一定倍率1.5にした。
@@ -317,7 +319,7 @@ export function rentText(rent) {
   return (
     `${where}の民営の賃貸住宅の家賃は、平均で1m²あたり${rent.yen_per_m2.toLocaleString("ja-JP")}円です（${rent.year}年の住宅・土地統計調査）。` +
     `1Kの広さの目安の${rent.room_m2}m²に直すと月${formatManYen(rent.stock_monthly)}ですが、これは古い物件も含めた今の借家全体の平均で、募集中の物件より低く出ます。` +
-    `大都市13エリアの募集家賃と比べると平均で約${rent.factor}倍の差があったため、その分を掛けた月${formatManYen(rent.monthly)}を募集家賃の目安としています（13エリアでの誤差は平均8%ほど）。` +
+    `その差を補うため、${rent.prefecture}の倍率（${rent.factor}倍）を掛けた月${formatManYen(rent.monthly)}を募集家賃の目安としています。倍率は大都市13エリアの募集家賃と都道府県ごとの成約家賃から出したもので、13エリアでの誤差は平均8%ほどです。` +
     `全国の掲載駅の中では安い方から${rent.cheap_pct}%の位置（${priceLevelLabel(rent.cheap_pct)}）です。` +
     "駅からの距離・築年数・設備で家賃は大きく変わるので、実際の物件の家賃は不動産サイトで確かめてください。"
   );

@@ -18,7 +18,7 @@ import {
   presetWeights,
   searchStations,
 } from "../src/stationSearch.js";
-import { DAILY_KEYS, NEAR_M, RENT_CALIBRATION_NOTE, RENT_MARKET_FACTOR, RENT_ROOM_M2, formatManYen, formatMeters } from "../src/stationProfileText.js";
+import { DAILY_KEYS, NEAR_M, RENT_CALIBRATION_NOTE, RENT_ROOM_M2, formatManYen, formatMeters } from "../src/stationProfileText.js";
 
 const WALK = 10; // サイトの既定の段階（徒歩10分）
 const PUBLIC_SOURCE =
@@ -141,6 +141,8 @@ const landOf = (b) => b.public.land?.median_yen_per_m2 ?? null;
 const riderOf = (b) => b.public.ridership?.daily ?? null;
 // 家賃の目安（市区町村の民営借家の1m²当たり家賃 × 1Kの広さ。scripts/stationBundle.js の rent）
 const rentOf = (b) => b.rent?.monthly ?? null;
+// 家賃の目安に掛けた都道府県ごとの倍率の幅（「1.38〜1.74倍」）。buildDocs が全駅から出す
+let rentFactorRange = "";
 
 function strongestDomain(tier) {
   return DOMAINS.map((d) => ({ key: d.key, score: tier.domains[d.key].score })).sort((x, y) => y.score - x.score)[0];
@@ -173,7 +175,7 @@ function rankingSection(name, rows) {
       })
     ),
     note(
-      `家賃の目安は駅のある市区町村の民営の賃貸住宅の1m²あたり家賃（住宅・土地統計調査）を${RENT_ROOM_M2}m²に直し、募集家賃の水準に合わせて${RENT_MARKET_FACTOR}倍したもので、駅ごとの相場ではありません。地価は駅から徒歩20分以内にある住宅地の地価公示の中央値、乗降客数は同じ場所の全事業者の合計です。`
+      `家賃の目安は駅のある市区町村の民営の賃貸住宅の1m²あたり家賃（住宅・土地統計調査）を${RENT_ROOM_M2}m²に直し、募集家賃の水準に合わせて都道府県ごとの倍率（${rentFactorRange}）を掛けたもので、駅ごとの相場ではありません。地価は駅から徒歩20分以内にある住宅地の地価公示の中央値、乗降客数は同じ場所の全事業者の合計です。`
     ),
   ];
 }
@@ -464,7 +466,7 @@ function rentValueSection(scope, rows) {
         `${domainLabel(strongestDomain(T(b)).key)} ${fmt1(strongestDomain(T(b)).score)}`,
       ])
     ),
-    note(`家賃の目安は市区町村の平均（統計）を募集家賃の水準に合わせて${RENT_MARKET_FACTOR}倍したもので、同じ市区町村の駅は同じ値です。駅からの距離や築年数で実際の家賃は大きく変わります。`),
+    note(`家賃の目安は市区町村の平均（統計）を募集家賃の水準に合わせて都道府県ごとの倍率（${rentFactorRange}）を掛けたもので、同じ市区町村の駅は同じ値です。駅からの距離や築年数で実際の家賃は大きく変わります。`),
   ];
 }
 
@@ -1666,7 +1668,7 @@ function articleRent(ctx) {
   );
   const blocks = [
     p(
-      `全国${n}駅について、駅のある市区町村の家賃の目安（民営の賃貸住宅の1m²あたり家賃を1Kの広さの${RENT_ROOM_M2}m²に直し、募集家賃の水準に合わせて${RENT_MARKET_FACTOR}倍したもの）と、住みやすさ駅前スコア（徒歩${WALK}分圏内）を並べました。` +
+      `全国${n}駅について、駅のある市区町村の家賃の目安（民営の賃貸住宅の1m²あたり家賃を1Kの広さの${RENT_ROOM_M2}m²に直し、募集家賃の水準に合わせて都道府県ごとの倍率（${rentFactorRange}）を掛けたもの）と、住みやすさ駅前スコア（徒歩${WALK}分圏内）を並べました。` +
         "「家賃が安いのに駅の周りがそろっている駅」を探すための記事です。"
     ),
     h2("家賃の目安の帯ごとの駅"),
@@ -1734,8 +1736,8 @@ function articleRent(ctx) {
 
   blocks.push(
     readingNotes([
-      `家賃の目安は、総務省「令和5年住宅・土地統計調査」の市区町村別の民営借家の延べ面積1m²あたり家賃（家賃0円を除く平均）に${RENT_ROOM_M2}m²と${RENT_MARKET_FACTOR}を掛けたものです。駅ごとの相場ではなく、同じ市区町村の駅は同じ値になります。`,
-      `統計は古い物件も含めた今の借家全体の平均（2023年）で、募集中の物件より低く出ます。${RENT_CALIBRATION_NOTE}では平均で約${RENT_MARKET_FACTOR}倍の差（1.3〜1.8倍）があったので、その分を掛けています。13エリアでの誤差は平均8%ほどですが、大都市以外では確かめられていません。`,
+      `家賃の目安は、総務省「令和5年住宅・土地統計調査」の市区町村別の民営借家の延べ面積1m²あたり家賃（家賃0円を除く平均）に${RENT_ROOM_M2}m²と都道府県ごとの倍率（${rentFactorRange}）を掛けたものです。駅ごとの相場ではなく、同じ市区町村の駅は同じ値になります。`,
+      `統計は古い物件も含めた今の借家全体の平均（2023年）で、募集中の物件より低く出ます。その差を補う倍率は、${RENT_CALIBRATION_NOTE}（全体の差の大きさ）と、全国賃貸管理ビジネス協会「全国家賃動向」の都道府県別の成約家賃（都道府県ごとの差の違い）から出しています。13エリアでの誤差は平均8%ほどです。地方の倍率は成約家賃から出したもので、募集家賃では確かめられていません。`,
       "人口の少ない町村で統計に値が無い駅は、都道府県全体の値を使っています（その駅はこの記事の市区町村の表に含めていません）。",
       ...COMMON_NOTES,
     ]),
@@ -1809,6 +1811,8 @@ export function buildDocs(bundles, stationLines, matrix = null) {
   const allLines = stationLines.lines
     .map((l) => ({ ...l, stations: l.stations.filter((s) => bundles.has(s)) }))
     .filter((l) => l.stations.length >= 5);
+  const factors = all.map((b) => b.rent?.factor).filter(Boolean);
+  rentFactorRange = factors.length > 0 ? `${Math.min(...factors)}〜${Math.max(...factors)}倍` : "";
   // 暮らし方別の上位駅は条件検索（/search）と同じ表・同じ計算で出す
   const table = matrix ? buildTierTable(matrix, WALK) : null;
   const ctx = { bundles, B, national, allLines, table };
