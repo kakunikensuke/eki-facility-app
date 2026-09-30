@@ -13,6 +13,8 @@ import { stationTitle, stationDescription } from "../pageMeta";
 import {
   categoryReachText,
   concentrationText,
+  formatManYen,
+  landCheapPct,
   landText,
   lineRankText,
   localRankHeading,
@@ -23,6 +25,8 @@ import {
   photoCredit,
   photoSourceText,
   prefRankText,
+  priceLevelLabel,
+  rentText,
   ridershipText,
   similarLead,
   similarStationText,
@@ -238,10 +242,22 @@ export default function StationPage({ stations }) {
               </section>
             )}
 
-            {(data.public.land || data.public.ridership) && (
+            {(data.rent || data.public.land || data.public.ridership) && (
               <section className="block">
                 <h2 className="block-title">暮らしのコストと駅の規模</h2>
                 <div className="fact-grid">
+                  {data.rent && (
+                    <article className="fact">
+                      <h3 className="fact-label">家賃の目安（1K・{data.rent.room_m2}m²）</h3>
+                      <p className="fact-value">
+                        月{formatManYen(data.rent.monthly)}
+                      </p>
+                      <p className="fact-sub">
+                        {data.rent.area}の平均・{priceLevelLabel(data.rent.cheap_pct)}（安い方から{data.rent.cheap_pct}%）
+                      </p>
+                      <p className="fact-text">{rentText(data.rent)}</p>
+                    </article>
+                  )}
                   {data.public.land && (
                     <article className="fact">
                       <h3 className="fact-label">住宅地の地価（中央値）</h3>
@@ -251,7 +267,8 @@ export default function StationPage({ stations }) {
                       </p>
                       <p className="fact-sub">
                         前年比 {data.public.land.change_pct > 0 ? "+" : ""}
-                        {data.public.land.change_pct}%・高い方から{data.public.land.rank_high}番目
+                        {data.public.land.change_pct}%・{priceLevelLabel(landCheapPct(data.public.land))}（安い方から
+                        {landCheapPct(data.public.land)}%）
                       </p>
                       <p className="fact-text">{landText(data.public.land)}</p>
                     </article>
@@ -268,7 +285,7 @@ export default function StationPage({ stations }) {
                   )}
                 </div>
                 <p className="note-text">
-                  出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）を加工して作成
+                  出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）、総務省「令和5年住宅・土地統計調査」（家賃）を加工して作成
                 </p>
               </section>
             )}

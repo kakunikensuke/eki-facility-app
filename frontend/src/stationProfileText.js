@@ -109,8 +109,8 @@ export function landText(land) {
       : `前年から${land.change_pct > 0 ? "+" : ""}${land.change_pct}%です`;
   return (
     `${range}にある住宅地の公示地価（${land.points}地点）の中央値は、1m²あたり${formatYenPerM2(land.median_yen_per_m2)}で、` +
-    `対応駅${land.of}駅の中で高い方から${land.rank_high}番目です（${land.year}年1月1日時点、${change}）。` +
-    `家賃の相場そのものではありませんが、同じ広さの部屋の家賃の高さの目安になります。`
+    `対応駅${land.of}駅の中では安い方から${landCheapPct(land)}%の位置（${priceLevelLabel(landCheapPct(land))}）です（${land.year}年1月1日時点、${change}）。` +
+    `土地の値段なので、家賃の目安とあわせて見てください。`
   );
 }
 
@@ -272,4 +272,44 @@ export function photoSourceText(article, source) {
     return `この駅の写真が見つからなかったため、駅のある${article}の写真（Wikipedia日本語版の「${article}」の記事に掲載されているもの。Wikimedia Commons）を載せています。駅そのものの写真ではありません。`;
   }
   return `写真はWikipedia日本語版の「${article}」の記事に掲載されているもの（Wikimedia Commons）です。`;
+}
+
+// 家賃の目安に使う1Kの広さ（m²）。scripts/stationBundle.js と contentDocs.js も使う
+export const RENT_ROOM_M2 = 25;
+
+// 「全国の掲載駅の中で安い方から◯%」を5段階の言葉にする（地価・家賃で共通。2026-09-30追加）
+export function priceLevelLabel(cheapPct) {
+  if (cheapPct <= 20) return "とても安い";
+  if (cheapPct <= 40) return "安い";
+  if (cheapPct <= 60) return "ふつう";
+  if (cheapPct <= 80) return "高い";
+  return "とても高い";
+}
+
+/** 地価の、全国の掲載駅の中での位置（安い方から◯%） */
+export function landCheapPct(land) {
+  return Math.round(((land.of - land.rank_high + 1) / land.of) * 100);
+}
+
+export function formatManYen(yen) {
+  const man = yen / 10000;
+  return `${man >= 10 ? man.toFixed(1).replace(/\.0$/, "") : man.toFixed(1)}万円`;
+}
+
+/**
+ * 家賃の目安の説明。rent は scripts/stationBundle.js の rent（市区町村の民営借家の1m²当たり家賃）。
+ * 駅ごとの相場ではないこと・募集中の物件より低めに出ることを必ず書く
+ */
+export function rentText(rent) {
+  if (!rent) return "";
+  const where =
+    rent.level === "prefecture"
+      ? `駅のある市区町村の値が統計に無いため、${rent.area}全体の値を使っています。${rent.area}`
+      : rent.area;
+  return (
+    `${where}の民営の賃貸住宅の家賃は、平均で1m²あたり${rent.yen_per_m2.toLocaleString("ja-JP")}円です（${rent.year}年の住宅・土地統計調査）。` +
+    `1Kの広さの目安の${rent.room_m2}m²に直すと月${formatManYen(rent.monthly)}で、全国の掲載駅の中では安い方から${rent.cheap_pct}%の位置（${priceLevelLabel(rent.cheap_pct)}）です。` +
+    `全国平均は1m²あたり${rent.national_yen_per_m2.toLocaleString("ja-JP")}円（${rent.room_m2}m²で月${formatManYen(Math.round((rent.national_yen_per_m2 * rent.room_m2) / 100) * 100)}）です。` +
+    "古い物件も含めた今の借家全体の平均なので、募集中の新しい物件や駅に近い物件の家賃は、これより高いことが多いです。"
+  );
 }

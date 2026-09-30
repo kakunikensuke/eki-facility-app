@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
 import { DOMAINS, ITEMS } from "../src/livabilityDefs.js";
+import { RENT_ROOM_M2 } from "../src/stationProfileText.js";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -43,6 +44,8 @@ export function loadData() {
     stationLines: readJson("station-lines.json", { lines: [], station_lines: {} }),
     // 駅から近い施設の名前（backend/scripts/buildNearbyFacilities.js。2026-09-30追加）
     stationNearby: readJson("station-nearby.json", { stations: {} }),
+    // 市区町村の家賃水準（backend/scripts/importRent.js。住宅・土地統計調査。2026-09-30追加）
+    stationRent: readJson("station-rent.json", { stations: {} }),
   };
 }
 
@@ -74,6 +77,7 @@ export function buildAll({
   stationHazard,
   stationLines,
   stationNearby,
+  stationRent,
 }) {
   assertDefsInSync();
 
@@ -81,6 +85,7 @@ export function buildAll({
   const publicBySlug = livability.publicRanks(stationPublic.stations || {});
   const similarBySlug = buildSimilarMap(stations, facilityCounts, DEFAULT_WALK_MINUTES);
   const defaultScores = scoredByTier[DEFAULT_WALK_MINUTES];
+  const rentBySlug = buildRentMap(stationRent);
 
   const bundles = new Map();
   for (const station of stations) {
@@ -132,6 +137,7 @@ export function buildAll({
       walk_minutes: walkMinutes,
       tiers,
       public: publicBySlug[station.slug] ?? { land: null, ridership: null },
+      rent: rentBySlug.get(station.slug) ?? null,
       photos: stationPhotos[station.slug]?.photos ?? [],
       // 写真を載せているWikipedia記事の題名（出典の表示に使う）
       photo_article: stationPhotos[station.slug]?.article ?? null,
@@ -239,4 +245,38 @@ function addLocalRanks(bundles, stationLines) {
       })
       .filter(Boolean);
   }
+}
+
+// 家賃の目安（2026-09-30追加）。市区町村の民営借家の1m²当たり家賃を1Kの広さ（RENT_ROOM_M2）に直し、
+// 全掲載駅の中で安い方から何%の位置かを付ける。駅ごとの相場ではなく市区町村の平均であることは画面の文で必ず書く
+function buildRentMap(stationRent) {
+  const entries = Object.entries(stationRent?.stations ?? {});
+  const values = entries.map(([, r]) => r.yen_per_m2).sort((a, b) => a - b);
+  const atMost = (v) => {
+    let lo = 0;
+    let hi = values.length;
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      if (values[mid] <= v) lo = mid + 1;
+      else hi = mid;
+    }
+    return lo;
+  };
+  const map = new Map();
+  for (const [slug, r] of entries) {
+    map.set(slug, {
+      area: r.area,
+      level: r.level,
+      yen_per_m2: r.yen_per_m2,
+      // 1Kの広さに直した月の家賃（100円単位）
+      monthly: Math.round((r.yen_per_m2 * RENT_ROOM_M2) / 100) * 100,
+      room_m2: RENT_ROOM_M2,
+      national_yen_per_m2: stationRent.national_yen_per_m2,
+      // 全掲載駅を安い順に並べたときの位置（この値以下の駅の割合、%）
+      cheap_pct: Math.round((atMost(r.yen_per_m2) / values.length) * 100),
+      of: values.length,
+      year: stationRent.survey_year,
+    });
+  }
+  return map;
 }

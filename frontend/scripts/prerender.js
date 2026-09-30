@@ -27,6 +27,7 @@ import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
 import {
   categoryReachText,
   concentrationText,
+  formatManYen,
   landText,
   lineRankText,
   localRankHeading,
@@ -37,6 +38,8 @@ import {
   photoCredit,
   photoSourceText,
   prefRankText,
+  priceLevelLabel,
+  rentText,
   ridershipText,
   similarLead,
   similarStationText,
@@ -337,13 +340,14 @@ function stationPage(station) {
   ).join("");
 
   const publicHtml =
-    b.public.land || b.public.ridership
+    b.rent || b.public.land || b.public.ridership
       ? `<h2>暮らしのコストと駅の規模</h2>
-      ${[landText(b.public.land), ridershipText(b.public.ridership)]
+      ${b.rent ? `<p><strong>家賃の目安（1K・${esc(b.rent.room_m2)}m²）: 月${esc(formatManYen(b.rent.monthly))}</strong>（${esc(b.rent.area)}の平均・${esc(priceLevelLabel(b.rent.cheap_pct))}）</p>` : ""}
+      ${[rentText(b.rent), landText(b.public.land), ridershipText(b.public.ridership)]
         .filter(Boolean)
         .map((t) => `<p>${esc(t)}</p>`)
         .join("")}
-      <p>出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）を加工して作成</p>`
+      <p>出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）、総務省「令和5年住宅・土地統計調査」（家賃）を加工して作成</p>`
       : "";
 
   // 災害リスク（StationPage.jsx と同じ文言関数）

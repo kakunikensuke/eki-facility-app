@@ -18,7 +18,7 @@ import {
   presetWeights,
   searchStations,
 } from "../src/stationSearch.js";
-import { DAILY_KEYS, NEAR_M, formatMeters } from "../src/stationProfileText.js";
+import { DAILY_KEYS, NEAR_M, RENT_ROOM_M2, formatManYen, formatMeters } from "../src/stationProfileText.js";
 
 const WALK = 10; // サイトの既定の段階（徒歩10分）
 const PUBLIC_SOURCE =
@@ -139,6 +139,8 @@ const domainLabel = (key) => DOMAINS.find((d) => d.key === key).label;
 const T = (b) => b.tiers[WALK];
 const landOf = (b) => b.public.land?.median_yen_per_m2 ?? null;
 const riderOf = (b) => b.public.ridership?.daily ?? null;
+// 家賃の目安（市区町村の民営借家の1m²当たり家賃 × 1Kの広さ。scripts/stationBundle.js の rent）
+const rentOf = (b) => b.rent?.monthly ?? null;
 
 function strongestDomain(tier) {
   return DOMAINS.map((d) => ({ key: d.key, score: tier.domains[d.key].score })).sort((x, y) => y.score - x.score)[0];
@@ -154,7 +156,7 @@ function rankingSection(name, rows) {
   return [
     h2(`${name}の駅ランキング（徒歩${WALK}分圏内）`),
     table(
-      ["順位", "駅", "総合点", "全国順位", "いちばん高い分野", "住宅地の地価", "1日の乗降客数"],
+      ["順位", "駅", "総合点", "全国順位", "いちばん高い分野", "家賃の目安（1K）", "住宅地の地価", "1日の乗降客数"],
       rows.map((b, i) => {
         const t = T(b);
         const s = strongestDomain(t);
@@ -164,12 +166,15 @@ function rankingSection(name, rows) {
           { text: fmt1(t.total), num: true },
           { text: `${t.rank}位`, num: true },
           `${domainLabel(s.key)} ${fmt1(s.score)}`,
+          rentOf(b) ? { text: `月${formatManYen(rentOf(b))}`, num: true } : null,
           landOf(b) ? { text: `${formatYenPerM2(landOf(b))}/m²`, num: true } : null,
           riderOf(b) ? { text: formatPeople(riderOf(b)), num: true } : null,
         ];
       })
     ),
-    note("地価は駅から徒歩20分以内にある住宅地の地価公示の中央値、乗降客数は同じ場所の全事業者の合計です。"),
+    note(
+      `家賃の目安は駅のある市区町村の民営の賃貸住宅の1m²あたり家賃（住宅・土地統計調査）を${RENT_ROOM_M2}m²に直したもので、駅ごとの相場ではありません。地価は駅から徒歩20分以内にある住宅地の地価公示の中央値、乗降客数は同じ場所の全事業者の合計です。`
+    ),
   ];
 }
 
@@ -430,6 +435,39 @@ function dailyNeedsSection(scope, rows, ctx) {
   return blocks;
 }
 
+// --- 家賃の目安の割に住みやすい駅（2026-09-30追加）。家賃の目安は市区町村単位なので、同じ市区町村の駅は同じ値になる
+const RENT_VALUE_LIMIT = 5;
+function rentValueSection(scope, rows) {
+  const list = rows.filter(rentOf);
+  const monthlies = [...new Set(list.map(rentOf))];
+  if (list.length < 5 || monthlies.length < 2) return [];
+  const med = median(list.map(rentOf));
+  const picks = list
+    .filter((b) => rentOf(b) <= med)
+    .sort((x, y) => T(y).total - T(x).total)
+    .slice(0, RENT_VALUE_LIMIT);
+  const cheapest = [...list].sort((x, y) => rentOf(x) - rentOf(y))[0];
+  const priciest = [...list].sort((x, y) => rentOf(y) - rentOf(x))[0];
+  return [
+    h2(`家賃の目安の割に住みやすい駅（${scope}）`),
+    p(
+      `${scope}の駅の家賃の目安（1K・${RENT_ROOM_M2}m²）は、最も安い${cheapest.rent.area}の月${formatManYen(rentOf(cheapest))}から、` +
+        `最も高い${priciest.rent.area}の月${formatManYen(rentOf(priciest))}まで開きがあり、中央値は月${formatManYen(med)}です。` +
+        `家賃の目安が中央値以下の駅のうち、総合点の高い${picks.length}駅は次のとおりです。`
+    ),
+    table(
+      ["駅", "家賃の目安（1K）", "総合点", "いちばん高い分野"],
+      picks.map((b) => [
+        { href: `/${b.slug}`, text: b.name_ja },
+        { text: `月${formatManYen(rentOf(b))}（${b.rent.area}）`, num: true },
+        { text: fmt1(T(b).total), num: true },
+        `${domainLabel(strongestDomain(T(b)).key)} ${fmt1(strongestDomain(T(b)).score)}`,
+      ])
+    ),
+    note("家賃の目安は市区町村の平均（古い物件も含む今の借家全体）なので、同じ市区町村の駅は同じ値です。募集中の物件の家賃はこれより高いことが多いです。"),
+  ];
+}
+
 // --- 暮らし方別の上位駅（2026-09-30追加）。条件検索（/search）と同じ並べ方で、その条件の検索画面へつなぐ
 function purposeSection(pref, rows, ctx) {
   const { table: tierTable } = ctx;
@@ -569,6 +607,7 @@ function prefPage(pref, rows, ctx) {
   );
 
   blocks.push(...purposeSection(pref, rows, ctx));
+  blocks.push(...rentValueSection(`${pref}内`, rows));
   blocks.push(...dailyNeedsSection(pref, rows, ctx));
   blocks.push(...hazardSection(pref, rows));
   blocks.push(...domainTopSection(`${pref}内`, rows));
@@ -1596,6 +1635,124 @@ function articleCapitals(ctx) {
   };
 }
 
+// --- 記事: 家賃の目安と住みやすさ（2026-09-30追加） --------------------------------------
+
+const RENT_BANDS = [
+  [0, 30000],
+  [30000, 40000],
+  [40000, 50000],
+  [50000, 60000],
+  [60000, 80000],
+  [80000, Infinity],
+];
+const RENT_LIST_LIMIT = 30;
+
+function articleRent(ctx) {
+  const list = ctx.B.filter(rentOf);
+  const n = list.length;
+  const totals = list.map((b) => T(b).total).sort((x, y) => x - y);
+  const q90 = totals[Math.floor(totals.length * 0.9)];
+  const medRent = median(list.map(rentOf));
+  const bandLabel = ([lo, hi]) =>
+    hi === Infinity ? `月${formatManYen(lo)}以上` : lo === 0 ? `月${formatManYen(hi)}未満` : `月${formatManYen(lo)}〜${formatManYen(hi)}未満`;
+  const bands = RENT_BANDS.map((band) => {
+    const g = list.filter((b) => rentOf(b) >= band[0] && rentOf(b) < band[1]);
+    return { band, g, top: [...g].sort((x, y) => T(y).total - T(x).total)[0] };
+  }).filter((x) => x.g.length > 0);
+
+  const r = spearman(
+    list.map(rentOf),
+    list.map((b) => T(b).total)
+  );
+  const blocks = [
+    p(
+      `全国${n}駅について、駅のある市区町村の家賃の目安（民営の賃貸住宅の1m²あたり家賃を1Kの広さの${RENT_ROOM_M2}m²に直したもの）と、住みやすさ駅前スコア（徒歩${WALK}分圏内）を並べました。` +
+        "「家賃が安いのに駅の周りがそろっている駅」を探すための記事です。"
+    ),
+    h2("家賃の目安の帯ごとの駅"),
+    table(
+      ["家賃の目安（1K）", "駅数", "総合点の中央値", "総合点が最も高い駅"],
+      bands.map(({ band, g, top }) => [
+        bandLabel(band),
+        { text: `${g.length}駅`, num: true },
+        { text: fmt1(median(g.map((b) => T(b).total))), num: true },
+        { html: `${stationLink(top)}（${esc(top.prefecture)}・${esc(fmt1(T(top).total))}点）` },
+      ])
+    ),
+    p(
+      `家賃の目安と総合点の順位相関は${fmtR(r)}（${correlationWords(r)}）です。` +
+        (r >= 0.4
+          ? "家賃の高い地域ほど、駅の周りの施設もそろっている傾向がはっきりしています。裏返すと、家賃の安い地域で点の高い駅は数が限られます。"
+          : "家賃の高さと駅の周りの施設のそろい方は、思ったほど一致しません。家賃の安い地域にも点の高い駅があります。")
+    ),
+  ];
+
+  const bargains = dedupeColocated(
+    list.filter((b) => rentOf(b) <= medRent && T(b).total >= q90).sort((x, y) => T(y).total - T(x).total),
+    RENT_LIST_LIMIT
+  );
+  blocks.push(
+    h2(`家賃の目安が全国の中央値（月${formatManYen(medRent)}）以下で、総合点が上位10%の駅`),
+    p(`総合点が上位10%（${fmt1(q90)}点以上）の駅のうち、家賃の目安が全国の掲載駅の中央値以下の駅です（${bargains.length}駅）。`),
+    table(
+      ["駅", "都道府県", "家賃の目安（1K）", "総合点", "いちばん高い分野"],
+      bargains.map((b) => [
+        { href: `/${b.slug}`, text: b.name_ja },
+        { href: `/pref/${prefectureSlug(b.prefecture)}`, text: b.prefecture },
+        { text: `月${formatManYen(rentOf(b))}`, num: true },
+        { text: fmt1(T(b).total), num: true },
+        `${domainLabel(strongestDomain(T(b)).key)} ${fmt1(strongestDomain(T(b)).score)}`,
+      ])
+    )
+  );
+  const bargainPrefs = tally(bargains, (b) => b.prefecture).slice(0, 3);
+  if (bargainPrefs.length > 0) {
+    blocks.push(
+      p(`この一覧に多いのは${bargainPrefs.map(([pref, c]) => `${pref}（${c}駅）`).join("・")}です。`)
+    );
+  }
+
+  // 市区町村ごとの家賃の目安（掲載駅のある市区町村）
+  const areas = new Map();
+  for (const b of list) {
+    const key = `${b.prefecture}${b.rent.area}`;
+    if (!areas.has(key)) areas.set(key, { pref: b.prefecture, area: b.rent.area, level: b.rent.level, monthly: rentOf(b), stations: [] });
+    areas.get(key).stations.push(b);
+  }
+  const areaList = [...areas.values()].filter((x) => x.level === "municipality").sort((x, y) => y.monthly - x.monthly);
+  const areaRow = (x) => [
+    `${x.area}（${x.pref}）`,
+    { text: `月${formatManYen(x.monthly)}`, num: true },
+    { html: x.stations.slice(0, 3).map(stationLink).join("、") + (x.stations.length > 3 ? ` ほか${x.stations.length - 3}駅` : "") },
+  ];
+  blocks.push(
+    h2("家賃の目安が高い市区町村・安い市区町村"),
+    p(`掲載駅のある${areaList.length}の市区町村のうち、家賃の目安が高い順と安い順にそれぞれ10ずつです。`),
+    table(["市区町村", "家賃の目安（1K）", "掲載駅"], areaList.slice(0, 10).map(areaRow)),
+    table(["市区町村", "家賃の目安（1K）", "掲載駅"], [...areaList].reverse().slice(0, 10).map(areaRow))
+  );
+
+  blocks.push(
+    readingNotes([
+      `家賃の目安は、総務省「令和5年住宅・土地統計調査」の市区町村別の民営借家の延べ面積1m²あたり家賃（家賃0円を除く平均）に${RENT_ROOM_M2}m²を掛けたものです。駅ごとの相場ではなく、同じ市区町村の駅は同じ値になります。`,
+      "古い物件も含めた今の借家全体の平均なので、募集中の新しい物件や駅に近い物件の家賃は、これより高いことが多いです。広い部屋ほど1m²あたりの家賃は下がるため、1Kの実際の家賃はこの目安より高めになります。",
+      "人口の少ない町村で統計に値が無い駅は、都道府県全体の値を使っています（その駅はこの記事の市区町村の表に含めていません）。",
+      ...COMMON_NOTES,
+    ]),
+    note("出典: 総務省「令和5年住宅・土地統計調査」（e-Stat）を加工して作成"),
+    note(PUBLIC_SOURCE)
+  );
+
+  return {
+    slug: "rent-and-livability",
+    heading: "家賃の目安と住みやすさ",
+    title: `家賃の割に住みやすい駅は？｜全国${n}駅の家賃の目安と住みやすさを比較`,
+    description: `全国${n}駅の家賃の目安（1K・${RENT_ROOM_M2}m²換算、住宅・土地統計調査）と住みやすさ駅前スコアを比較。家賃が全国の中央値以下で総合点が上位10%の駅は${bargains.length}駅。`,
+    summary: `家賃の目安と総合点の順位相関は${fmtR(r)}。家賃が中央値（月${formatManYen(medRent)}）以下で総合点が上位10%の駅は${bargains.length}駅。`,
+    html: blocks.join(""),
+  };
+}
+
 const ARTICLES = [
   articleCheapAndConvenient,
   articleRidership,
@@ -1606,6 +1763,7 @@ const ARTICLES = [
   articleLandChange,
   articleDailyNeeds,
   articleCapitals,
+  articleRent,
 ];
 
 function articlesIndex(articles) {
