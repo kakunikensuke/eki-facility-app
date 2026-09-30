@@ -18,7 +18,7 @@ import {
   presetWeights,
   searchStations,
 } from "../src/stationSearch.js";
-import { DAILY_KEYS, NEAR_M, RENT_ROOM_M2, formatManYen, formatMeters } from "../src/stationProfileText.js";
+import { DAILY_KEYS, NEAR_M, RENT_CALIBRATION_NOTE, RENT_MARKET_FACTOR, RENT_ROOM_M2, formatManYen, formatMeters } from "../src/stationProfileText.js";
 
 const WALK = 10; // サイトの既定の段階（徒歩10分）
 const PUBLIC_SOURCE =
@@ -173,7 +173,7 @@ function rankingSection(name, rows) {
       })
     ),
     note(
-      `家賃の目安は駅のある市区町村の民営の賃貸住宅の1m²あたり家賃（住宅・土地統計調査）を${RENT_ROOM_M2}m²に直したもので、駅ごとの相場ではありません。地価は駅から徒歩20分以内にある住宅地の地価公示の中央値、乗降客数は同じ場所の全事業者の合計です。`
+      `家賃の目安は駅のある市区町村の民営の賃貸住宅の1m²あたり家賃（住宅・土地統計調査）を${RENT_ROOM_M2}m²に直し、募集家賃の水準に合わせて${RENT_MARKET_FACTOR}倍したもので、駅ごとの相場ではありません。地価は駅から徒歩20分以内にある住宅地の地価公示の中央値、乗降客数は同じ場所の全事業者の合計です。`
     ),
   ];
 }
@@ -464,7 +464,7 @@ function rentValueSection(scope, rows) {
         `${domainLabel(strongestDomain(T(b)).key)} ${fmt1(strongestDomain(T(b)).score)}`,
       ])
     ),
-    note("家賃の目安は市区町村の平均（古い物件も含む今の借家全体）なので、同じ市区町村の駅は同じ値です。募集中の物件の家賃はこれより高いことが多いです。"),
+    note(`家賃の目安は市区町村の平均（統計）を募集家賃の水準に合わせて${RENT_MARKET_FACTOR}倍したもので、同じ市区町村の駅は同じ値です。駅からの距離や築年数で実際の家賃は大きく変わります。`),
   ];
 }
 
@@ -1638,12 +1638,12 @@ function articleCapitals(ctx) {
 // --- 記事: 家賃の目安と住みやすさ（2026-09-30追加） --------------------------------------
 
 const RENT_BANDS = [
-  [0, 30000],
-  [30000, 40000],
-  [40000, 50000],
+  [0, 50000],
   [50000, 60000],
-  [60000, 80000],
-  [80000, Infinity],
+  [60000, 70000],
+  [70000, 90000],
+  [90000, 120000],
+  [120000, Infinity],
 ];
 const RENT_LIST_LIMIT = 30;
 
@@ -1666,7 +1666,7 @@ function articleRent(ctx) {
   );
   const blocks = [
     p(
-      `全国${n}駅について、駅のある市区町村の家賃の目安（民営の賃貸住宅の1m²あたり家賃を1Kの広さの${RENT_ROOM_M2}m²に直したもの）と、住みやすさ駅前スコア（徒歩${WALK}分圏内）を並べました。` +
+      `全国${n}駅について、駅のある市区町村の家賃の目安（民営の賃貸住宅の1m²あたり家賃を1Kの広さの${RENT_ROOM_M2}m²に直し、募集家賃の水準に合わせて${RENT_MARKET_FACTOR}倍したもの）と、住みやすさ駅前スコア（徒歩${WALK}分圏内）を並べました。` +
         "「家賃が安いのに駅の周りがそろっている駅」を探すための記事です。"
     ),
     h2("家賃の目安の帯ごとの駅"),
@@ -1734,8 +1734,8 @@ function articleRent(ctx) {
 
   blocks.push(
     readingNotes([
-      `家賃の目安は、総務省「令和5年住宅・土地統計調査」の市区町村別の民営借家の延べ面積1m²あたり家賃（家賃0円を除く平均）に${RENT_ROOM_M2}m²を掛けたものです。駅ごとの相場ではなく、同じ市区町村の駅は同じ値になります。`,
-      "古い物件も含めた今の借家全体の平均なので、募集中の新しい物件や駅に近い物件の家賃は、これより高いことが多いです。広い部屋ほど1m²あたりの家賃は下がるため、1Kの実際の家賃はこの目安より高めになります。",
+      `家賃の目安は、総務省「令和5年住宅・土地統計調査」の市区町村別の民営借家の延べ面積1m²あたり家賃（家賃0円を除く平均）に${RENT_ROOM_M2}m²と${RENT_MARKET_FACTOR}を掛けたものです。駅ごとの相場ではなく、同じ市区町村の駅は同じ値になります。`,
+      `統計は古い物件も含めた今の借家全体の平均（2023年）で、募集中の物件より低く出ます。${RENT_CALIBRATION_NOTE}では平均で約${RENT_MARKET_FACTOR}倍の差（1.3〜1.8倍）があったので、その分を掛けています。13エリアでの誤差は平均8%ほどですが、大都市以外では確かめられていません。`,
       "人口の少ない町村で統計に値が無い駅は、都道府県全体の値を使っています（その駅はこの記事の市区町村の表に含めていません）。",
       ...COMMON_NOTES,
     ]),

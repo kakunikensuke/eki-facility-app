@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
 import { DOMAINS, ITEMS } from "../src/livabilityDefs.js";
-import { RENT_ROOM_M2 } from "../src/stationProfileText.js";
+import { RENT_MARKET_FACTOR, RENT_ROOM_M2 } from "../src/stationProfileText.js";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -268,8 +268,10 @@ function buildRentMap(stationRent) {
       area: r.area,
       level: r.level,
       yen_per_m2: r.yen_per_m2,
-      // 1Kの広さに直した月の家賃（100円単位）
-      monthly: Math.round((r.yen_per_m2 * RENT_ROOM_M2) / 100) * 100,
+      // 1Kの広さに直した統計そのままの月の家賃と、募集家賃の水準に直した目安（100円単位）
+      stock_monthly: Math.round((r.yen_per_m2 * RENT_ROOM_M2) / 100) * 100,
+      monthly: Math.round((r.yen_per_m2 * RENT_ROOM_M2 * RENT_MARKET_FACTOR) / 100) * 100,
+      factor: RENT_MARKET_FACTOR,
       room_m2: RENT_ROOM_M2,
       national_yen_per_m2: stationRent.national_yen_per_m2,
       // 全掲載駅を安い順に並べたときの位置（この値以下の駅の割合、%）
