@@ -190,7 +190,7 @@ function siteFooterHtml(currentPath) {
     `<nav aria-label="サイト内リンク"><p>${links}</p></nav>` +
     // ODbLライセンスの要求により全ページに出典表示が必要（CLAUDE.md参照）
     `<p>店舗数の集計には <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> のデータを利用しています（地図データ: © OpenStreetMap contributors／ODbLライセンス）。</p>` +
-    `<p>${esc(SITE_NAME)} — 運営: kakuni-lab</p>` +
+    `<p>${esc(SITE_NAME)}（運営: kakuni-lab）</p>` +
     `</footer>`
   );
 }
