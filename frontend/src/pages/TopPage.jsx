@@ -71,7 +71,7 @@ export default function TopPage({ stations }) {
       if (usedPrefs.has(s.prefecture) || usedSrcs.has(photo.src)) continue;
       usedPrefs.add(s.prefecture);
       usedSrcs.add(photo.src);
-      picked.push({ ...photo, caption: photo.caption ? `${s.name_ja} — ${photo.caption}` : s.name_ja });
+      picked.push({ ...photo, caption: photo.caption ? `${s.name_ja}（${photo.caption}）` : s.name_ja });
       if (picked.length >= FEATURED_COUNT) break;
     }
     return picked;

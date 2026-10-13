@@ -36,7 +36,7 @@ export default function Footer() {
         </a>{" "}
         のデータを利用しています（地図データ: © OpenStreetMap contributors／ODbLライセンス）。
       </p>
-      <p className="app-footer-note">{SITE_NAME} — 運営: kakuni-lab</p>
+      <p className="app-footer-note">{SITE_NAME}（運営: kakuni-lab）</p>
     </footer>
   );
 }

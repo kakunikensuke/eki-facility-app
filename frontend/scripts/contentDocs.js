@@ -353,7 +353,7 @@ function hazardSection(name, rows) {
   blocks.push(
     note(
       (limited
-        ? `表は区域のかかる割合が大きい${listed.length}駅だけを載せています。ほかの駅は各駅のページをご覧ください。`
+        ? `表は区域のかかる割合が大きい${listed.length}駅だけを載せています。ほかの駅は各駅のページで確かめられます。`
         : "") + `数字は徒歩${WALK}分圏（半径800m）のうち区域がかかっている割合です。${HAZARD_NOTES.join("")}`
     )
   );
@@ -497,7 +497,7 @@ function purposeSection(pref, rows, ctx) {
         html:
           `<b>${esc(preset.label)}</b>（${esc(preset.lead)}）: ` +
           top.map((r) => `${a(`/${r.station.slug}`, r.station.name_ja)}（${esc(fmt1(r.fit))}）`).join("、") +
-          ` — ${a(`/search?preset=${preset.key}&pref=${encodeURIComponent(pref)}`, "この条件で探す")}`,
+          `（${a(`/search?preset=${preset.key}&pref=${encodeURIComponent(pref)}`, "この条件で探す")}）`,
       }))
     ),
   ];
@@ -1249,10 +1249,10 @@ function articleDomainBalance(ctx) {
       `総合点が上位4分の1（${fmt1(national.q75)}点以上）の${topQ.length}駅で、いちばん低い分野を数えると、${weakTop
         .map(([k, c]) => `${domainLabel(k)}${c}駅`)
         .join("、")}でした。` +
-        `便利な駅でも、${domainLabel(weakTop[0][0])}は他の分野ほどそろっていないことが多いと分かります。`
+        `便利な駅でも、${domainLabel(weakTop[0][0])}は他の分野ほどそろっていない駅が多くなっています。`
     ),
     h2("総合点が高く、分野の偏りが小さい駅"),
-    p("総合点が上位4分の1の駅のうち、6分野の差が小さい駅です。暮らし方を問わず使いやすい駅と言えます。"),
+    p("総合点が上位4分の1の駅のうち、6分野の差が小さい駅です。どんな暮らし方でも使いやすい駅です。"),
     table(
       ["駅", "都道府県", "総合点", "最も低い分野", "差"],
       balanced.map((b) =>
