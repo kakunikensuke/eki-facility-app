@@ -1,21 +1,23 @@
 /**
- * 駅のある市区町村に「どんな人が住んでいるか」を、国勢調査（2020年）と保育所等の待機児童の調査（2026年4月）から取り込み、
+ * 駅のある市区町村に「どんな人が住んでいるか」を、国勢調査（2025年。2026-11-06に2020年から更新）と保育所等の待機児童の調査（2026年4月）から取り込み、
  * backend/data/station-people.json に書く（2026-09-30追加）。
  *
  * なぜ要るか: 駅ページの中身は施設・地価・家賃・災害で、「若い一人暮らしが多い街か、子育て世帯が多い街か」が
  * 分からなかった。どちらも国の統計で、市区町村（政令市は区）ごとに無料でそろう。
  *
  * 使う表（e-Stat の file-download?statInfId=<ID>&fileKind=0 で取れる xlsx。<国勢調査のフォルダ>/<ID>.xlsx に置く）:
- *   000032142402 令和2年国勢調査 人口等基本集計 第1-1表（人口、2015年の人口（組替）、5年間の人口増減率）
- *   000032142410 同 第2-7表（年齢5歳階級別人口、65歳以上の割合、平均年齢）
- *   000032142492 同 第8-1表（一般世帯数、世帯人員が1人の世帯、18歳未満・6歳未満の世帯員のいる世帯）
+ *   000040506423 令和7年国勢調査 人口等基本集計 第1-1表（人口、2020年の人口（組替）、5年間の人口増減率）
+ *   000040506431 同 第2-7表（年齢5歳階級別人口、65歳以上の割合、平均年齢）
+ *   000040506453 同 第8-1表（一般世帯数、世帯人員が1人の世帯、18歳未満・6歳未満の世帯員のいる世帯）
  * 待機児童: こども家庭庁「保育所等関連状況取りまとめ（令和8年4月1日）」の（参考）定員・申込者の状況（xlsx）の
  *   「申込者の状況」シート。市区町村ごと（政令市は市全体）。
  *   https://www.cfa.go.jp/policies/hoiku/torimatome/r8
  *
  * 駅 → 市区町村: importRent.js が保存した国土地理院の逆ジオコーダの結果（D:/ClaudeData/eki の gsi-muni*.json）を使う。
  * 先に importRent.js を流しておくこと（結果が無い駅があれば止まる）。
- * 表に無いとき（浜松市は2024年に区を再編し、2020年の区と合わない）は市全体の値を使う（level: city）。
+ * 列の並びは2020年の表（000032142402・000032142410・000032142492）と同じ。5年後の調査で更新するときも、
+ * 先に同じ市の行を並べて列がずれていないか確かめること。
+ * 表に無いとき（政令市の区の再編などで区が表と合わない）は市全体の値を使う（level: city）。
  *
  * 実行:
  *   node backend/scripts/importCensus.js <国勢調査のフォルダ> <保育所等の定員・申込者の状況のxlsx> [--cache <フォルダ>]
@@ -27,12 +29,13 @@ const { readSheetRows, designatedCityOf } = require("./rentTable");
 
 const STATIONS_PATH = path.join(__dirname, "..", "data", "stations.json");
 const OUTPUT_PATH = path.join(__dirname, "..", "data", "station-people.json");
-const TABLE_POPULATION = "000032142402";
-const TABLE_AGE = "000032142410";
-const TABLE_HOUSEHOLD = "000032142492";
+const CENSUS_YEAR = 2025;
+const TABLE_POPULATION = "000040506423";
+const TABLE_AGE = "000040506431";
+const TABLE_HOUSEHOLD = "000040506453";
 const HOIKU_SHEET = 2; // 「申込者の状況」
 const SOURCES = [
-  "総務省「令和2年国勢調査 人口等基本集計」第1-1表・第2-7表・第8-1表（e-Stat）",
+  "総務省「令和7年国勢調査 人口等基本集計」第1-1表・第2-7表・第8-1表（e-Stat）",
   "こども家庭庁「保育所等関連状況取りまとめ（令和8年4月1日）」",
 ];
 
@@ -55,7 +58,7 @@ function readPopulation(rows) {
   for (const r of rows) {
     const code = r[5];
     if (!/^\d{5}$/.test(code ?? "") || r[0] === "9" || out.has(code)) continue;
-    out.set(code, { name: stripNo(r[6]), population: num(r[7]), population_2015: num(r[10]) });
+    out.set(code, { name: stripNo(r[6]), population: num(r[7]), population_prev: num(r[10]) });
   }
   return out;
 }
@@ -133,7 +136,7 @@ function main() {
     if (!p || !a || !h?.households) return null;
     return {
       population: p.population,
-      pop_change_pct: p.population_2015 ? Math.round((p.population / p.population_2015 - 1) * 1000) / 10 : null,
+      pop_change_pct: p.population_prev ? Math.round((p.population / p.population_prev - 1) * 1000) / 10 : null,
       young_pct: a.young_pct,
       senior_pct: a.senior_pct,
       avg_age: a.avg_age,
@@ -200,7 +203,7 @@ function main() {
     JSON.stringify(
       {
         sources: SOURCES,
-        census_year: 2020,
+        census_year: CENSUS_YEAR,
         childcare_date: "2026-04-01",
         // 全国で待機児童のいる市区町村の数（駅ページの「入りにくい方か」の説明に使う）
         childcare_summary: {

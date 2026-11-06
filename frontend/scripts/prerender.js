@@ -75,6 +75,7 @@ import {
 } from "../src/hazardText.js";
 import {
   CONTENT_SECTIONS,
+  FAVORITES_META,
   SITE_NAME,
   topTitle,
   topDescription,
@@ -193,6 +194,10 @@ function siteFooterHtml(currentPath) {
   );
 }
 
+// index.html の AdSense のタグ（async の script 1つ）
+const ADSENSE_TAG = /\s*<script\s+async\s+src="https:\/\/pagead2\.googlesyndication\.com[^"]*"[^>]*>\s*<\/script>/;
+if (!ADSENSE_TAG.test(TEMPLATE)) throw new Error("index.html に AdSense のタグが見つかりません（ADSENSE_TAG を直すこと）");
+
 function renderPage(page) {
   let html = TEMPLATE;
   // テンプレート（index.html）が持つ既定のtitle/descriptionはページ固有のものに差し替える
@@ -200,6 +205,10 @@ function renderPage(page) {
   html = html.replace(/\s*<meta\s+name="description"[\s\S]*?\/>/, "");
   html = html.replace("</head>", `${metaTags(page)}\n  </head>`);
   html = html.replace('<div id="root"></div>', `<div id="root">${page.body}</div>`);
+  // 検索に出さないページ（送信完了・お気に入り・404）には広告のタグを入れない。
+  // Google パブリッシャー ポリシーは、お礼・終了・エラーのような行き止まりのページに広告を置かないよう求めている
+  // （https://support.google.com/publisherpolicies/answer/11112688。2026-11-06）
+  if (page.noindex) html = html.replace(ADSENSE_TAG, "");
   return html;
 }
 
@@ -700,6 +709,26 @@ for (const p of STATIC_PAGES) {
   if (!p.noindex) sitemapPaths.push(p.path);
 }
 
+// お気に入り（中身はブラウザの localStorage 次第なので静的HTMLは案内だけ。検索に出さない）と、
+// 存在しないURLの 404 ページ。404.html があると Cloudflare Pages は知らないURLに 404 を返す
+// （無いと index.html を 200 で返していて、どんなURLでもページがあるように見えていた。2026-11-06）
+writePage({
+  title: FAVORITES_META.title,
+  description: FAVORITES_META.description,
+  canonicalPath: "/favorites",
+  noindex: true,
+  body: `<main><h1>お気に入り駅</h1><p>${esc(FAVORITES_META.description)}お気に入りはこのブラウザの中にだけ保存されます。</p><p>${link("/", "駅の一覧から探す")}</p></main>
+    ${siteFooterHtml("/favorites")}`,
+});
+writePage({
+  title: `ページが見つかりません｜${SITE_NAME}`,
+  description: "お探しのページは見つかりませんでした。駅名や都道府県から探し直せます。",
+  canonicalPath: "/404",
+  noindex: true,
+  body: `<main><h1>ページが見つかりません</h1><p>URLが変わったか、ページが無くなった可能性があります。</p><p>${link("/", "駅の一覧")} ／ ${link("/prefectures", "都道府県から探す")} ／ ${link("/search", "条件で駅を探す")}</p></main>
+    ${siteFooterHtml("/404")}`,
+});
+
 // 路線ページ・記事とその一覧（scripts/contentDocs.js）
 for (const doc of DOCS) {
   const breadcrumb = [{ "@type": "ListItem", position: 1, name: SITE_NAME, item: `${SITE_URL}/` }];
@@ -757,6 +786,9 @@ function verifyOutput() {
 
     const currentPath = file === "index.html" ? "/" : `/${file.replace(/.html$/, "")}`;
 
+    if (html.includes('name="robots" content="noindex') && html.includes("adsbygoogle")) {
+      errors.push(`${file}: 検索に出さないページに広告のタグが入っている`);
+    }
     if (!html.includes("<footer>")) {
       errors.push(`${file}: 共通フッターが出力されていない`);
       continue;
@@ -783,7 +815,7 @@ function verifyOutput() {
   }
 
   // 路線ページ・記事の一覧が無ければ、データ（station-lines.json）の読み込みに失敗している
-  for (const required of ["lines.html", "articles.html", "prefectures.html"]) {
+  for (const required of ["lines.html", "articles.html", "prefectures.html", "404.html", "favorites.html"]) {
     if (!files.includes(required)) errors.push(`${required} が生成されていない`);
   }
 

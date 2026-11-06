@@ -275,7 +275,7 @@ export const RENT_ROOM_M2 = 25;
 // 検証の元データと手順: D:/ClaudeData/estat/calib.js（CLAUDE.md「家賃の目安」）
 export const RENT_MARKET_FACTOR = 1.5;
 // 検証に使った募集家賃の出どころ（画面の注記に出す）
-export const RENT_CALIBRATION_NOTE = "アットホーム「全国主要都市の賃貸マンション・アパート募集家賃動向」（2026年7月、30m²以下）の13エリアとの比較";
+export const RENT_CALIBRATION_NOTE = "アットホーム「全国主要都市の賃貸マンション・アパート募集家賃動向」（2026年9月、30m²以下）の13エリアとの比較";
 
 // 「全国の掲載駅の中で安い方から◯%」を5段階の言葉にする（地価・家賃で共通。2026-09-30追加）
 export function priceLevelLabel(cheapPct) {
@@ -313,7 +313,7 @@ export function rentText(rent) {
   );
 }
 
-// --- 駅のある市区町村に住んでいる人（2026-09-30追加。国勢調査2020年・保育所等の待機児童2026年4月） ---------
+// --- 駅のある市区町村に住んでいる人（2026-09-30追加。国勢調査（2025年。2026-11-06に2020年から更新）・保育所等の待機児童2026年4月） ---------
 // people は scripts/stationBundle.js の people（backend/scripts/importCensus.js の値＋全掲載駅の中での位置 pctl）
 
 // 画面のカードと静的HTMLの一覧に出す項目。sign は増減率のように符号を付けて出すもの
@@ -322,7 +322,7 @@ export const PEOPLE_METRICS = [
   { key: "young_pct", label: "20〜39歳の人", of: "人口のうち" },
   { key: "kids_pct", label: "子ども（18歳未満）のいる世帯", of: "世帯のうち" },
   { key: "senior_pct", label: "65歳以上の人", of: "人口のうち" },
-  { key: "pop_change_pct", label: "人口の増減（2015→2020年）", of: "5年間で", sign: true },
+  { key: "pop_change_pct", label: "人口の増減（2020→2025年）", of: "5年間で", sign: true },
 ];
 // 街のようすを言葉にするのは、全掲載駅の中で多い方の4分の1に入り、かつ全国の値の1.1倍以上のときだけ。
 // 掲載駅は都市に偏っているので、駅の中の位置だけで決めると地方の平均的な町が「子育て世帯が多い」になり、
@@ -334,7 +334,7 @@ const PEOPLE_HIGH_RATIO = 1.1;
 // 駅ページの本文の4割ほどがどの駅でも同じ文だった（2026-11-06、AdSense 5回目の不承認への対応）。
 // 数字の出し方と注意点は使い方のページ（/guide）にまとめ、ここからリンクする
 export const STATION_SOURCES =
-  "出典: 施設はOpenStreetMap、地価と乗降客数は国土数値情報（国土交通省、CC BY 4.0）、家賃は総務省「令和5年住宅・土地統計調査」、住んでいる人は総務省「令和2年国勢調査」、待機児童はこども家庭庁「保育所等関連状況取りまとめ（令和8年4月1日）」、災害リスクは「ハザードマップポータルサイト」のオープンデータ、地図は地理院タイルを加工して作成";
+  "出典: 施設はOpenStreetMap、地価と乗降客数は国土数値情報（国土交通省、CC BY 4.0）、家賃は総務省「令和5年住宅・土地統計調査」、住んでいる人は総務省「令和7年国勢調査」、待機児童はこども家庭庁「保育所等関連状況取りまとめ（令和8年4月1日）」、災害リスクは「ハザードマップポータルサイト」のオープンデータ、地図は地理院タイルを加工して作成";
 
 export function formatPeopleValue(metric, value) {
   if (value === null || value === undefined) return "—";
@@ -389,10 +389,10 @@ export function peopleSummaryText(stationName, people) {
   if (c !== null) {
     s.push(
       c >= 0.5
-        ? `人口は2015年からの5年間で${c}%増えました（全国は${n.pop_change_pct}%）。`
+        ? `人口は2020年からの5年間で${c}%増えました（全国は${n.pop_change_pct}%）。`
         : c <= -0.5
-          ? `人口は2015年からの5年間で${-c}%減りました（全国は${n.pop_change_pct}%）。`
-          : "人口は2015年からの5年間でほぼ横ばいです。"
+          ? `人口は2020年からの5年間で${-c}%減りました（全国は${n.pop_change_pct}%）。`
+          : "人口は2020年からの5年間でほぼ横ばいです。"
     );
   }
   const types = peopleTypes(people);
