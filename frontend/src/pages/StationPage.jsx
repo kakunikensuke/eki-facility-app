@@ -5,6 +5,7 @@ import BottomNav from "../components/BottomNav";
 import Footer from "../components/Footer";
 import PhotoHero from "../components/PhotoHero";
 import SiteHeader from "../components/SiteHeader";
+import StationMap from "../components/StationMap";
 import { toggleFavorite, useFavorites } from "../favorites";
 import { DOMAINS, MAX_TOTAL, formatPeople, formatYenPerM2, itemsOfDomain } from "../livabilityDefs";
 import { findNearbyStations, formatDistance } from "../nearbyStations";
@@ -12,9 +13,8 @@ import { prefecturePath } from "../stationSearch";
 import { stationTitle, stationDescription } from "../pageMeta";
 import {
   LIFE_ARTICLES,
-  LINE_HUBS_NOTE,
   PEOPLE_METRICS,
-  PEOPLE_SOURCE,
+  STATION_SOURCES,
   categoryReachText,
   childcareText,
   concentrationText,
@@ -24,7 +24,6 @@ import {
   landText,
   lineRankText,
   localRankHeading,
-  nearbyFacilitiesLead,
   nearbyFacilityRows,
   nearbySummaryText,
   nearestComparisonText,
@@ -37,20 +36,19 @@ import {
   priceLevelLabel,
   rentText,
   ridershipText,
-  similarLead,
   similarStationText,
   summaryText,
   topShare,
 } from "../stationProfileText";
 import {
   HAZARD_KINDS,
-  HAZARD_NOTES,
-  HAZARD_SOURCE,
+  HAZARD_NOTE_SHORT,
   hazardAtStationText,
   hazardKindText,
   hazardSummaryText,
 } from "../hazardText";
 import { useDocumentMeta } from "../useDocumentTitle";
+import { mapSummaryText } from "../stationMap";
 import NotFound from "./NotFound";
 
 // 駅ページ（2026-09-29に作り直し）。
@@ -176,10 +174,6 @@ export default function StationPage({ stations }) {
                 </div>
               </div>
               <p className="lead-text">{summaryText(station.name_ja, tier)}</p>
-              <p className="note-text">
-                駅から半径{tier.radius_m}m（徒歩1分=80m）以内の施設を数え、施設ごとに全国{tier.of}
-                駅の中での位置を出して、分野ごとに平均しています。総合点は6分野の点の平均です。
-              </p>
 
               <div className="domain-grid">
                 {DOMAINS.map((domain) => {
@@ -221,6 +215,14 @@ export default function StationPage({ stations }) {
               </div>
             </section>
 
+            {data.map_points?.length > 0 && (
+              <section className="block">
+                <h2 className="block-title">{station.name_ja}の周りの地図（徒歩10分）</h2>
+                <p className="lead-text">{mapSummaryText(station.name_ja, data.map_points)}</p>
+                <StationMap stationName={station.name_ja} lat={data.lat} lon={data.lon} rows={data.map_points} />
+              </section>
+            )}
+
             {nearbyRows.length > 0 && (
               <section className="block">
                 <h2 className="block-title">{station.name_ja}から近い施設</h2>
@@ -233,7 +235,6 @@ export default function StationPage({ stations }) {
                     </div>
                   ))}
                 </dl>
-                <p className="note-text">{nearbyFacilitiesLead()}</p>
               </section>
             )}
 
@@ -293,9 +294,6 @@ export default function StationPage({ stations }) {
                     </article>
                   )}
                 </div>
-                <p className="note-text">
-                  出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）、総務省「令和5年住宅・土地統計調査」（家賃）を加工して作成
-                </p>
               </section>
             )}
 
@@ -332,9 +330,6 @@ export default function StationPage({ stations }) {
                     </Link>
                   ))}
                 </div>
-                <p className="note-text">
-                  人口と世帯は{data.people.census_year}年の国勢調査の値で、駅の周りだけでなく市区町村（政令市は区）全体の数字です。{PEOPLE_SOURCE}
-                </p>
               </section>
             )}
 
@@ -353,24 +348,18 @@ export default function StationPage({ stations }) {
                           <small>%</small>
                         </p>
                         <p className="fact-sub">{hazardAtStationText(kind, h)}</p>
-                        <p className="fact-text">{hazardKindText(kind, h, data.hazard.radius_m)}</p>
+                        {h.share_pct > 0 && <p className="fact-text">{hazardKindText(kind, h, data.hazard.radius_m)}</p>}
                       </article>
                     );
                   })}
                 </div>
-                <ul className="note-list">
-                  {HAZARD_NOTES.map((note) => (
-                    <li key={note}>{note}</li>
-                  ))}
-                </ul>
-                <p className="note-text">{HAZARD_SOURCE}</p>
+                <p className="note-text">{HAZARD_NOTE_SHORT}</p>
               </section>
             )}
 
             {data.lines.length > 0 && (
               <section className="block">
                 <h2 className="block-title">{station.name_ja}が乗っている路線</h2>
-                <p className="note-text">路線ごとに、このサイトで扱っている駅を住みやすさの順に並べています。</p>
                 <div className="chips">
                   {data.lines.map((line) => (
                     <Link className="chip" key={line.slug} to={`/line/${line.slug}`}>
@@ -396,7 +385,6 @@ export default function StationPage({ stations }) {
                         </div>
                       ))}
                     </dl>
-                    <p className="note-text">{LINE_HUBS_NOTE}</p>
                   </>
                 )}
               </section>
@@ -416,7 +404,6 @@ export default function StationPage({ stations }) {
             {data.similar_stations.length > 0 && (
               <section className="block">
                 <h2 className="block-title">{station.name_ja}と施設の揃い方が似ている駅</h2>
-                <p className="note-text">{similarLead(data.default_walk_minutes)}</p>
                 <ul className="link-list">
                   {data.similar_stations.map((item) => (
                     <li key={item.slug}>
@@ -447,6 +434,9 @@ export default function StationPage({ stations }) {
 
             <section className="block block-quiet">
               <h2 className="block-title">データと写真について</h2>
+              <p className="note-text">
+                {STATION_SOURCES}。数字の出し方と注意点は<Link to="/guide">使い方とデータの見方</Link>にまとめています。
+              </p>
               <p className="note-text">
                 施設の数はOpenStreetMapのデータに基づく目安です（地図データ: ©{" "}
                 <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">

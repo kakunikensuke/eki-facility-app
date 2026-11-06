@@ -63,10 +63,6 @@ function distanceM(lat1, lon1, lat2, lon2) {
   return 2 * 6371000 * Math.asin(Math.sqrt(h));
 }
 
-function categoriesOf(tags) {
-  return LISTED.filter((name) => CATEGORY_TAGS[name].some(([k, v]) => tags[k] === v));
-}
-
 function labelOf(tags) {
   // 「大黒屋;」「伊予の湯治場;喜助の湯」のように複数の名前が「;」でつながっているものは最初の名前だけ使う
   const name = (tags.name ?? tags.brand ?? "").split(";")[0].replace(/\s+/g, " ").trim();
@@ -75,46 +71,57 @@ function labelOf(tags) {
   return name;
 }
 
-function main() {
-  const cachePath = process.argv[2];
-  if (!cachePath) {
-    console.error("使い方: node backend/scripts/buildNearbyFacilities.js <eki-elements-*.json>");
-    process.exit(1);
-  }
+// 施設の一時ファイルを読み、種類の分かる施設を0.01度の区画ごとに並べる（buildStationMap.js も使う）
+function loadFacilityGrid(cachePath, listed = LISTED) {
   const cache = JSON.parse(fs.readFileSync(cachePath, "utf-8"));
   if (cache.version !== 2) {
     console.error("施設の一時ファイルに名前が入っていません。countFacilitiesFromPbf.js を実行し直してください");
     process.exit(1);
   }
-  const stations = JSON.parse(fs.readFileSync(STATIONS_PATH, "utf-8"));
-
   const grid = new Map();
   for (const el of cache.elements) {
     const p = el.type === "node" ? el : el.center;
-    const cats = categoriesOf(el.tags);
+    const cats = listed.filter((name) => CATEGORY_TAGS[name].some(([k, v]) => el.tags[k] === v));
     if (cats.length === 0) continue;
     const item = { lat: p.lat, lon: p.lon, cats, name: labelOf(el.tags) };
     const key = `${Math.floor(p.lat / GRID_DEG)},${Math.floor(p.lon / GRID_DEG)}`;
     if (!grid.has(key)) grid.set(key, []);
     grid.get(key).push(item);
   }
+  return grid;
+}
+
+// 駅から maxM 以内の施設を近い順に返す（区画は前後2つずつ＝約2km四方を見る）
+function facilitiesNear(grid, s, maxM) {
+  const gy = Math.floor(s.lat / GRID_DEG);
+  const gx = Math.floor(s.lon / GRID_DEG);
+  const near = [];
+  for (let dy = -2; dy <= 2; dy++) {
+    for (let dx = -2; dx <= 2; dx++) {
+      for (const it of grid.get(`${gy + dy},${gx + dx}`) ?? []) {
+        const m = distanceM(s.lat, s.lon, it.lat, it.lon);
+        if (m <= maxM) near.push({ ...it, m });
+      }
+    }
+  }
+  return near.sort((a, b) => a.m - b.m);
+}
+
+function main() {
+  const cachePath = process.argv[2];
+  if (!cachePath) {
+    console.error("使い方: node backend/scripts/buildNearbyFacilities.js <eki-elements-*.json>");
+    process.exit(1);
+  }
+  const stations = JSON.parse(fs.readFileSync(STATIONS_PATH, "utf-8"));
+
+  const grid = loadFacilityGrid(cachePath);
 
   const out = {};
   let named = 0;
   let slots = 0;
   for (const s of stations) {
-    const gy = Math.floor(s.lat / GRID_DEG);
-    const gx = Math.floor(s.lon / GRID_DEG);
-    const near = [];
-    for (let dy = -2; dy <= 2; dy++) {
-      for (let dx = -2; dx <= 2; dx++) {
-        for (const it of grid.get(`${gy + dy},${gx + dx}`) ?? []) {
-          const m = distanceM(s.lat, s.lon, it.lat, it.lon);
-          if (m <= MAX_RADIUS_M) near.push({ ...it, m });
-        }
-      }
-    }
-    near.sort((a, b) => a.m - b.m);
+    const near = facilitiesNear(grid, s, MAX_RADIUS_M);
     const result = {};
     for (const cat of LISTED) {
       const all = near.filter((it) => it.cats.includes(cat));
@@ -154,4 +161,6 @@ function main() {
   );
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = { loadFacilityGrid, facilitiesNear, sameFacility };

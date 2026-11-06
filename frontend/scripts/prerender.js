@@ -26,9 +26,8 @@ import { fileURLToPath } from "url";
 import { findNearbyStations, formatDistance } from "../src/nearbyStations.js";
 import {
   LIFE_ARTICLES,
-  LINE_HUBS_NOTE,
   PEOPLE_METRICS,
-  PEOPLE_SOURCE,
+  STATION_SOURCES,
   categoryReachText,
   childcareText,
   concentrationText,
@@ -37,7 +36,6 @@ import {
   landText,
   lineRankText,
   localRankHeading,
-  nearbyFacilitiesLead,
   nearbyFacilityRows,
   nearbySummaryText,
   nearestComparisonText,
@@ -50,7 +48,6 @@ import {
   priceLevelLabel,
   rentText,
   ridershipText,
-  similarLead,
   similarStationText,
   summaryText,
   topShare,
@@ -71,8 +68,7 @@ import {
 } from "../src/content/pages.js";
 import {
   HAZARD_KINDS,
-  HAZARD_NOTES,
-  HAZARD_SOURCE,
+  HAZARD_NOTE_SHORT,
   hazardAtStationText,
   hazardKindText,
   hazardSummaryText,
@@ -98,6 +94,8 @@ import {
 // 採点・順位・公的データ・写真・似ている駅は、APIのJSONと同じ物をここで作って使う
 // （scripts/stationBundle.js。2026-09-29、画面と静的HTMLで中身がずれないよう1か所にまとめた）
 import { loadData, buildAll } from "./stationBundle.js";
+// 駅の周りの地図（画面の components/StationMap.jsx と同じ計算・同じクラス名）
+import { MAP_TILE_CREDIT, mapCounts, mapLayout, mapSummaryText } from "../src/stationMap.js";
 // 路線ページと記事。本文HTMLはここで作った物を画面（DocPage.jsx）も使う
 import { buildDocs } from "./contentDocs.js";
 
@@ -319,6 +317,25 @@ function topPage() {
   };
 }
 
+// 駅の周りの地図。JavaScript を実行しなくても見えるよう、地図の画像と印を % の位置で並べる
+function stationMapHtml(station, rows) {
+  const layout = mapLayout(station.lat, station.lon, rows);
+  const box = (l, t, w) => `left:${l}%;top:${t}%${w != null ? `;width:${w}%;height:${w}%` : ""}`;
+  return `<figure class="smap-figure">
+      <div class="smap" role="img" aria-label="${esc(station.name_ja)}から徒歩10分圏内の施設の地図">${layout.tiles
+        .map((t) => `<img class="smap-tile" src="${esc(t.src)}" alt="" loading="lazy" style="${box(t.left, t.top, t.size)}" />`)
+        .join("")}${layout.rings
+        .map((r) => `<span class="smap-ring" style="width:${r.size}%;height:${r.size}%"><em>${esc(r.label)}</em></span>`)
+        .join("")}<span class="smap-station" title="${esc(station.name_ja)}"></span>${layout.markers
+        .map((m) => `<span class="smap-dot" style="${box(m.left, m.top)};background:${m.color}" title="${esc(m.label)}"></span>`)
+        .join("")}</div>
+      <figcaption><ul class="smap-legend">${mapCounts(rows)
+        .map((c) => `<li><i style="background:${c.color}"></i>${esc(c.label)} ${c.n}</li>`)
+        .join("")}</ul>
+      <p class="smap-credit">地図: <a href="${MAP_TILE_CREDIT.href}" target="_blank" rel="noreferrer">${esc(MAP_TILE_CREDIT.text)}</a>／施設: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a></p></figcaption>
+    </figure>`;
+}
+
 function stationPage(station) {
   const b = bundles.get(station.slug);
   if (!b) return null;
@@ -356,7 +373,7 @@ function stationPage(station) {
         .filter(Boolean)
         .map((t) => `<p>${esc(t)}</p>`)
         .join("")}
-      <p>出典: 国土数値情報（地価公示データ・駅別乗降客数データ）国土交通省（CC BY 4.0）、総務省「令和5年住宅・土地統計調査」（家賃）を加工して作成</p>`
+`
       : "";
 
   // 災害リスク（StationPage.jsx と同じ文言関数）
@@ -368,10 +385,9 @@ function stationPage(station) {
         (kind) =>
           `<li><strong>${esc(kind.label)} ${esc(hz[kind.key].share_pct)}%</strong>（${esc(
             hazardAtStationText(kind, hz[kind.key])
-          )}）: ${esc(hazardKindText(kind, hz[kind.key], hz.radius_m))}</li>`
+          )}）${hz[kind.key].share_pct > 0 ? `: ${esc(hazardKindText(kind, hz[kind.key], hz.radius_m))}` : ""}</li>`
       ).join("")}</ul>
-      <ul>${HAZARD_NOTES.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>
-      <p>${esc(HAZARD_SOURCE)}</p>`
+      <p>${esc(HAZARD_NOTE_SHORT)}</p>`
     : "";
   // 同じ路線の大きな駅（StationPage.jsx と同じ。2026-09-30追加）
   const hubsHtml =
@@ -382,13 +398,11 @@ function stationPage(station) {
           (e) =>
             `<dt>${esc(e.name)}</dt><dd>${e.hubs.map((h) => `${link(`/${h.slug}`, h.name)}（約${esc(h.km)}km）`).join("・")}</dd>`
         )
-        .join("")}</dl>
-      <p>${esc(LINE_HUBS_NOTE)}</p>`
+        .join("")}</dl>`
       : "";
   const linesHtml =
     b.lines.length > 0
       ? `<h2>${esc(station.name_ja)}が乗っている路線</h2>
-      <p>路線ごとに、このサイトで扱っている駅を住みやすさの順に並べています。</p>
       <ul>${b.lines.map((l) => `<li>${link(`/line/${l.slug}`, l.name)}</li>`).join("")}</ul>
       ${hubsHtml}`
       : "";
@@ -409,8 +423,7 @@ function stationPage(station) {
           : ""
       }</ul>
       <p>${esc(childcareText(pe))}</p>
-      <p>暮らし方別の選び方: ${LIFE_ARTICLES.map((x) => link(`/article/${x.slug}`, x.label)).join("・")}</p>
-      <p>人口と世帯は${esc(pe.census_year)}年の国勢調査の値で、駅の周りだけでなく市区町村（政令市は区）全体の数字です。${esc(PEOPLE_SOURCE)}</p>`
+      <p>暮らし方別の選び方: ${LIFE_ARTICLES.map((x) => link(`/article/${x.slug}`, x.label)).join("・")}</p>`
     : "";
 
   // 駅から近い施設（名前つき）と、県内・路線内の順位（StationPage.jsx と同じ文言関数。2026-09-30追加）
@@ -419,8 +432,13 @@ function stationPage(station) {
     nearbyRows.length > 0
       ? `<h2>${esc(station.name_ja)}から近い施設</h2>
       <p>${esc(nearbySummaryText(station.name_ja, b.nearby_facilities))}</p>
-      <dl>${nearbyRows.map((r) => `<dt>${esc(r.label)}</dt><dd>${esc(r.text)}</dd>`).join("")}</dl>
-      <p>${esc(nearbyFacilitiesLead())}</p>`
+      <dl>${nearbyRows.map((r) => `<dt>${esc(r.label)}</dt><dd>${esc(r.text)}</dd>`).join("")}</dl>`
+      : "";
+  const mapHtml =
+    b.map_points.length > 0
+      ? `<h2>${esc(station.name_ja)}の周りの地図（徒歩10分）</h2>
+      <p>${esc(mapSummaryText(station.name_ja, b.map_points))}</p>
+      ${stationMapHtml(station, b.map_points)}`
       : "";
   const localTexts = [
     prefRankText(station.name_ja, b.pref_rank, b.default_walk_minutes),
@@ -446,7 +464,6 @@ function stationPage(station) {
   const similarHtml =
     b.similar_stations.length > 0
       ? `<h2>${esc(station.name_ja)}と施設の揃い方が似ている駅</h2>
-      <p>${esc(similarLead(b.default_walk_minutes))}</p>
       <ul>${b.similar_stations
         .map(
           (item) =>
@@ -519,9 +536,6 @@ function stationPage(station) {
       ${photoHtml}
       <p>${esc(summaryText(station.name_ja, main))}</p>
       <h2>6分野の評価（徒歩分数別）</h2>
-      <p>駅から半径${esc(main.radius_m)}m（徒歩1分=80m）以内の施設を数え、施設ごとに全国${esc(
-        main.of
-      )}駅の中での位置を出して、分野ごとに平均しています。総合点は6分野の点の平均です。</p>
       <table>
         <thead><tr><th></th>${head}</tr></thead>
         <tbody>${totalRow}${domainRows}</tbody>
@@ -531,6 +545,7 @@ function stationPage(station) {
         <thead><tr><th></th>${head}</tr></thead>
         <tbody>${itemRows}</tbody>
       </table>
+      ${mapHtml}
       ${nearbyFacilitiesHtml}
       ${localHtml}
       ${publicHtml}
@@ -541,7 +556,7 @@ function stationPage(station) {
       ${similarHtml}
       ${nearbyHtml}
       <h2>データと写真について</h2>
-      <p>施設の数はOpenStreetMapのデータに基づく目安です。実際の店舗数と異なる場合があります（更新: ${esc(
+      <p>${esc(STATION_SOURCES)}。数字の出し方と注意点は${link("/guide", "使い方とデータの見方")}にまとめています。施設の数はOpenStreetMapのデータに基づく目安です（更新: ${esc(
         b.updated_at
       )}）。</p>
       ${creditHtml}

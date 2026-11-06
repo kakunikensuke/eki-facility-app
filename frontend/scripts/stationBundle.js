@@ -50,6 +50,8 @@ export function loadData() {
     rentFactors: readJson("rent-factors.json", { factors: {} }),
     // 市区町村の人口の構成と待機児童（backend/scripts/importCensus.js。国勢調査・こども家庭庁。2026-09-30追加）
     stationPeople: readJson("station-people.json", { stations: {} }),
+    // 駅の周りの地図に置く施設の位置（backend/scripts/buildStationMap.js。2026-11-06追加）
+    stationMap: readJson("station-map.json", { stations: {} }),
   };
 }
 
@@ -84,6 +86,7 @@ export function buildAll({
   stationRent,
   rentFactors,
   stationPeople,
+  stationMap,
 }) {
   assertDefsInSync();
 
@@ -161,6 +164,8 @@ export function buildAll({
       })),
       similar_stations: similarBySlug.get(station.slug) ?? [],
       nearby_facilities: stationNearby?.stations?.[station.slug] ?? null,
+      // 駅の周りの地図（src/stationMap.js の mapLayout に station の lat/lon と一緒に渡す）
+      map_points: stationMap?.stations?.[station.slug] ?? [],
       updated_at: record.updated_at,
       source: record.source,
     });

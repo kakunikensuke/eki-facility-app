@@ -109,8 +109,7 @@ export function landText(land) {
       : `前年から${land.change_pct > 0 ? "+" : ""}${land.change_pct}%です`;
   return (
     `${range}にある住宅地の公示地価（${land.points}地点）の中央値は、1m²あたり${formatYenPerM2(land.median_yen_per_m2)}で、` +
-    `対応駅${land.of}駅の中では安い方から${landCheapPct(land)}%の位置（${priceLevelLabel(landCheapPct(land))}）です（${land.year}年1月1日時点、${change}）。` +
-    `土地の値段なので、家賃の目安とあわせて見てください。`
+    `対応駅${land.of}駅の中では安い方から${landCheapPct(land)}%の位置（${priceLevelLabel(landCheapPct(land))}）です（${land.year}年1月1日時点、${change}）。`
   );
 }
 
@@ -148,11 +147,6 @@ export function similarStationText(stationName, item) {
     );
   }
   return sentences.join("");
-}
-
-// 「似ている駅」の前置き（画面と静的HTMLで共通）
-export function similarLead(walkMinutes, minDistanceKm = 1.6) {
-  return `徒歩${walkMinutes}分圏内の${ITEMS.length}種類の施設の軒数の組み合わせが近い駅を、全国から選んでいます。集計範囲が重なる${minDistanceKm}km以内の駅は除いています。`;
 }
 
 /** 写真の帰属表示（CC BYの条件）。「撮影: 〇〇 / CC BY-SA 4.0」 */
@@ -200,10 +194,6 @@ export function formatMeters(m) {
 }
 
 /** 駅から近い施設の前置き（画面と静的HTMLで共通）。radiusM は buildNearbyFacilities.js の MAX_RADIUS_M */
-export function nearbyFacilitiesLead(radiusM = 1600) {
-  return `OpenStreetMapに名前が登録されている施設を、駅に近い順に最大3件載せています。距離は駅からの直線距離で、実際の道のりはこれより長くなります。徒歩${radiusM / 80}分圏（${formatMeters(radiusM)}）より遠い施設は載せていません。`;
-}
-
 /**
  * 日々の用事に使う施設がどこまで行けばあるか、を1段落で言う。
  * nearby は stationBundle.js の nearby_facilities（種類 → { nearest_m, named }）
@@ -318,10 +308,8 @@ export function rentText(rent) {
       : rent.area;
   return (
     `${where}の民営の賃貸住宅の家賃は、平均で1m²あたり${rent.yen_per_m2.toLocaleString("ja-JP")}円です（${rent.year}年の住宅・土地統計調査）。` +
-    `1Kの広さの目安の${rent.room_m2}m²に直すと月${formatManYen(rent.stock_monthly)}ですが、これは古い物件も含めた今の借家全体の平均で、募集中の物件より低く出ます。` +
-    `その差を補うため、${rent.prefecture}の倍率（${rent.factor}倍）を掛けた月${formatManYen(rent.monthly)}を募集家賃の目安としています。倍率は大都市13エリアの募集家賃と都道府県ごとの成約家賃から出したもので、13エリアでの誤差は平均8%ほどです。` +
-    `全国の掲載駅の中では安い方から${rent.cheap_pct}%の位置（${priceLevelLabel(rent.cheap_pct)}）です。` +
-    "駅からの距離・築年数・設備で家賃は大きく変わるので、実際の物件の家賃は不動産サイトで確かめてください。"
+    `${rent.room_m2}m²に直すと月${formatManYen(rent.stock_monthly)}で、古い物件も含めた平均なので募集中の物件より低めに出ます。` +
+    `${rent.prefecture}の倍率${rent.factor}倍を掛けた月${formatManYen(rent.monthly)}が募集家賃の目安で、全国の掲載駅の中では安い方から${rent.cheap_pct}%（${priceLevelLabel(rent.cheap_pct)}）です。`
   );
 }
 
@@ -342,8 +330,11 @@ export const PEOPLE_METRICS = [
 const PEOPLE_HIGH_PCTL = 75;
 const PEOPLE_HIGH_RATIO = 1.1;
 
-export const PEOPLE_SOURCE =
-  "出典: 総務省「令和2年国勢調査 人口等基本集計」（e-Stat）、こども家庭庁「保育所等関連状況取りまとめ（令和8年4月1日）」を加工して作成";
+// 駅ページの末尾に1回だけ出す出典。以前は欄ごとに出典と注意書きを繰り返していて、
+// 駅ページの本文の4割ほどがどの駅でも同じ文だった（2026-11-06、AdSense 5回目の不承認への対応）。
+// 数字の出し方と注意点は使い方のページ（/guide）にまとめ、ここからリンクする
+export const STATION_SOURCES =
+  "出典: 施設はOpenStreetMap、地価と乗降客数は国土数値情報（国土交通省、CC BY 4.0）、家賃は総務省「令和5年住宅・土地統計調査」、住んでいる人は総務省「令和2年国勢調査」、待機児童はこども家庭庁「保育所等関連状況取りまとめ（令和8年4月1日）」、災害リスクは「ハザードマップポータルサイト」のオープンデータ、地図は地理院タイルを加工して作成";
 
 export function formatPeopleValue(metric, value) {
   if (value === null || value === undefined) return "—";
@@ -435,7 +426,7 @@ export function childcareText(people) {
     s.push(`全国${sum.municipalities.toLocaleString("ja-JP")}市区町村のうち待機児童がいるのは${sum.with_waiting}市区町村だけなので、入りにくい方の地域です。`);
   }
   if (c.specific_only > 0) {
-    s.push(`このほか、特定の園だけを希望して入園を待っている子どもが${c.specific_only.toLocaleString("ja-JP")}人いて、この人数は待機児童に数えられていません。待機児童が少なくても、希望の園に入れるとは限りません。`);
+    s.push(`このほか、特定の園だけを希望して入園を待っている子どもが${c.specific_only.toLocaleString("ja-JP")}人いて、この人数は待機児童に数えられていません。`);
   }
   return s.join("");
 }
@@ -446,8 +437,4 @@ export const LIFE_ARTICLES = [
   { slug: "family-life", label: "子育て世帯の駅の選び方" },
   { slug: "senior-life", label: "シニアの駅の選び方" },
 ];
-
-// --- 同じ路線の大きな駅（2026-09-30追加。scripts/stationBundle.js の line_hubs） -----------------------------
-export const LINE_HUBS_NOTE =
-  "路線ごとに、このサイトで扱っている駅のうち乗降客数の多い駅を3駅まで載せています。距離は駅どうしの直線距離です。路線は正式な路線名でまとめているため、運転系統によっては途中で乗り換えが必要なことがあります。";
 

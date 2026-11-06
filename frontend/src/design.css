@@ -1470,3 +1470,114 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* 駅の周りの地図（2026-11-06。components/StationMap.jsx と prerender.js の stationMapHtml が同じクラスを使う）
+   地図の画像と印はすべて枠に対する % で置くので、幅に合わせて伸び縮みする */
+.smap-figure {
+  margin: 12px 0 0;
+}
+.smap {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #eceee9;
+}
+.smap-tile {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+.smap-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px dashed var(--accent);
+  border-radius: 50%;
+  background: rgba(15, 107, 88, 0.05);
+  pointer-events: none;
+}
+.smap-ring em {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  padding: 0 6px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  font-style: normal;
+  white-space: nowrap;
+}
+.smap-station {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  border: 3px solid #fff;
+  border-radius: 4px;
+  background: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+.smap-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+.smap-dot.is-picked {
+  z-index: 2;
+  transform: scale(1.5);
+  box-shadow: 0 0 0 3px rgba(21, 23, 28, 0.6);
+}
+.smap-picked {
+  min-height: 1.6em;
+  margin: 8px 0 0;
+  color: var(--ink);
+  font-size: 14px;
+}
+.smap-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+.smap-legend i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.smap-credit {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+.smap-credit a {
+  color: inherit;
+}
+
+/* 静的HTML（JavaScript を実行しないクローラが読む形）の駅の写真。幅1280pxのまま出て画面からはみ出していた */
+main figure img {
+  max-width: 100%;
+  height: auto;
+}
